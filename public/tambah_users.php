@@ -86,7 +86,7 @@ $stmt->bindParam(':password', $hashed_password);
             <option value="tidak aktif">Tidak Aktif</option>
         </select><br><br>
 
-        <label>Tanggal Daftar</label><br>
+        <label>Tanggal Dibuat</label><br>
         <input type="date" name="tanggal_daftar" required><br><br>
 
         <label>Username</label><br>

@@ -1,15 +1,13 @@
 <?php
+class Database {
 
-class Database
-{
     private $host = "localhost";
     private $db_name = "sistem_stt";
     private $username = "root";
     private $password = "";
-    private $conn;
+    public $conn;
 
-    public function connect()
-    {
+    public function getConnection() {
         $this->conn = null;
 
         try {
@@ -19,11 +17,10 @@ class Database
                 $this->password
             );
 
-            // Set error mode ke exception
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        } catch (PDOException $exception) {
-            echo "Koneksi database gagal: " . $exception->getMessage();
+        } catch(PDOException $exception) {
+            echo "Koneksi error: " . $exception->getMessage();
         }
 
         return $this->conn;
