@@ -1,14 +1,16 @@
 <?php
-require_once __DIR__ . '/../config/Database.php';
+require_once __DIR__ . '/../../config/Database.php';
 
 class PenggunaModel {
 
     private $conn;
     private $table = "pengguna";
 
-    // ===============================
-    // Constructor
-    // ===============================
+    private $allowedJabatan = [
+        'ketua','wakil','sekretaris 1','sekretaris 2',
+        'bendahara 1','bendahara 2','anggota'
+    ];
+
     public function __construct() {
         $database = new Database();
         $this->conn = $database->getConnection();
@@ -18,6 +20,7 @@ class PenggunaModel {
     // Ambil semua pengguna (tanpa password)
     // ===============================
     public function getAll() {
+
         $query = "SELECT 
                     id_pengguna,
                     nama_lengkap,
@@ -30,7 +33,7 @@ class PenggunaModel {
                     status,
                     tanggal_dibuat,
                     tanggal_diubah
-                  FROM " . $this->table . "
+                  FROM {$this->table}
                   ORDER BY id_pengguna DESC";
 
         $stmt = $this->conn->prepare($query);
@@ -43,6 +46,7 @@ class PenggunaModel {
     // Ambil pengguna berdasarkan ID
     // ===============================
     public function getById($id) {
+
         $query = "SELECT 
                     id_pengguna,
                     nama_lengkap,
@@ -55,29 +59,43 @@ class PenggunaModel {
                     status,
                     tanggal_dibuat,
                     tanggal_diubah
-                  FROM " . $this->table . "
+                  FROM {$this->table}
                   WHERE id_pengguna = :id";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id", $id);
-        $stmt->execute();
+        $stmt->execute([':id' => $id]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     // ===============================
-    // Ambil berdasarkan username (untuk login)
+    // Cek Username
     // ===============================
-    private function getByUsername($username) {
-        $query = "SELECT * FROM " . $this->table . "
-                  WHERE nama_pengguna = :username
+    public function usernameExists($nama_pengguna) {
+
+        $query = "SELECT id_pengguna FROM {$this->table}
+                  WHERE nama_pengguna = :nama_pengguna
                   LIMIT 1";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":username", $username);
-        $stmt->execute();
+        $stmt->execute([':nama_pengguna' => $nama_pengguna]);
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->rowCount() > 0;
+    }
+
+    // ===============================
+    // Cek Email
+    // ===============================
+    public function emailExists($email) {
+
+        $query = "SELECT id_pengguna FROM {$this->table}
+                  WHERE email = :email
+                  LIMIT 1";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([':email' => $email]);
+
+        return $stmt->rowCount() > 0;
     }
 
     // ===============================
@@ -85,11 +103,19 @@ class PenggunaModel {
     // ===============================
     public function create($data) {
 
-        if (empty($data['kata_sandi'])) {
+        if (
+            empty($data['kata_sandi']) ||
+            !in_array($data['jabatan'], $this->allowedJabatan)
+        ) {
             return false;
         }
 
-        $query = "INSERT INTO " . $this->table . "
+        if ($this->usernameExists($data['nama_pengguna']) ||
+            $this->emailExists($data['email'])) {
+            return false;
+        }
+
+        $query = "INSERT INTO {$this->table}
             (nama_lengkap, foto, email, no_hp, alamat, jabatan, nama_pengguna, kata_sandi, status)
             VALUES
             (:nama_lengkap, :foto, :email, :no_hp, :alamat, :jabatan, :nama_pengguna, :kata_sandi, :status)";
@@ -97,15 +123,15 @@ class PenggunaModel {
         $stmt = $this->conn->prepare($query);
 
         return $stmt->execute([
-            ':nama_lengkap' => $data['nama_lengkap'],
-            ':foto' => $data['foto'],
-            ':email' => $data['email'],
-            ':no_hp' => $data['no_hp'],
-            ':alamat' => $data['alamat'],
-            ':jabatan' => $data['jabatan'],
+            ':nama_lengkap'  => $data['nama_lengkap'],
+            ':foto'          => $data['foto'],
+            ':email'         => $data['email'],
+            ':no_hp'         => $data['no_hp'],
+            ':alamat'        => $data['alamat'],
+            ':jabatan'       => $data['jabatan'],
             ':nama_pengguna' => $data['nama_pengguna'],
-            ':kata_sandi' => password_hash($data['kata_sandi'], PASSWORD_DEFAULT),
-            ':status' => $data['status']
+            ':kata_sandi'    => password_hash($data['kata_sandi'], PASSWORD_DEFAULT),
+            ':status'        => $data['status']
         ]);
     }
 
@@ -114,43 +140,47 @@ class PenggunaModel {
     // ===============================
     public function update($id, $data) {
 
-        $query = "UPDATE " . $this->table . " SET
-            nama_lengkap = :nama_lengkap,
-            foto = :foto,
-            email = :email,
-            no_hp = :no_hp,
-            alamat = :alamat,
-            jabatan = :jabatan,
-            status = :status
-            WHERE id_pengguna = :id";
+        if (!in_array($data['jabatan'], $this->allowedJabatan)) {
+            return false;
+        }
+
+        $query = "UPDATE {$this->table} SET
+                    nama_lengkap = :nama_lengkap,
+                    foto = :foto,
+                    email = :email,
+                    no_hp = :no_hp,
+                    alamat = :alamat,
+                    jabatan = :jabatan,
+                    status = :status
+                  WHERE id_pengguna = :id";
 
         $stmt = $this->conn->prepare($query);
 
         return $stmt->execute([
             ':nama_lengkap' => $data['nama_lengkap'],
-            ':foto' => $data['foto'],
-            ':email' => $data['email'],
-            ':no_hp' => $data['no_hp'],
-            ':alamat' => $data['alamat'],
-            ':jabatan' => $data['jabatan'],
-            ':status' => $data['status'],
-            ':id' => $id
+            ':foto'         => $data['foto'],
+            ':email'        => $data['email'],
+            ':no_hp'        => $data['no_hp'],
+            ':alamat'       => $data['alamat'],
+            ':jabatan'      => $data['jabatan'],
+            ':status'       => $data['status'],
+            ':id'           => $id
         ]);
     }
 
     // ===============================
     // Update Password
     // ===============================
-    public function updatePassword($id, $password) {
+    public function updatePassword($id, $kata_sandi) {
 
-        $query = "UPDATE " . $this->table . "
-                  SET kata_sandi = :password
+        $query = "UPDATE {$this->table}
+                  SET kata_sandi = :kata_sandi
                   WHERE id_pengguna = :id";
 
         $stmt = $this->conn->prepare($query);
 
         return $stmt->execute([
-            ':password' => password_hash($password, PASSWORD_DEFAULT),
+            ':kata_sandi' => password_hash($kata_sandi, PASSWORD_DEFAULT),
             ':id' => $id
         ]);
     }
@@ -159,7 +189,8 @@ class PenggunaModel {
     // Hapus pengguna
     // ===============================
     public function delete($id) {
-        $query = "DELETE FROM " . $this->table . " 
+
+        $query = "DELETE FROM {$this->table}
                   WHERE id_pengguna = :id";
 
         $stmt = $this->conn->prepare($query);
@@ -168,21 +199,33 @@ class PenggunaModel {
     }
 
     // ===============================
-    // Verifikasi Login (cek status aktif)
+    // Verifikasi Login
     // ===============================
-    public function verifyLogin($username, $password) {
+    public function verifyLogin($nama_pengguna, $kata_sandi) {
 
-        $user = $this->getByUsername($username);
+        $query = "SELECT * FROM {$this->table}
+                  WHERE nama_pengguna = :nama_pengguna
+                  LIMIT 1";
 
-        if (
-            $user &&
-            $user['status'] === 'aktif' &&
-            password_verify($password, $user['kata_sandi'])
-        ) {
-            unset($user['kata_sandi']); // hapus password sebelum return
-            return $user;
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([':nama_pengguna' => $nama_pengguna]);
+
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$user) {
+            return false;
         }
 
-        return false;
+        if ($user['status'] !== 'aktif') {
+            return false;
+        }
+
+        if (!password_verify($kata_sandi, $user['kata_sandi'])) {
+            return false;
+        }
+
+        unset($user['kata_sandi']); // jangan kirim password ke session
+
+        return $user;
     }
 }

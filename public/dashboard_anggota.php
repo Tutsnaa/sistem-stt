@@ -1,13 +1,13 @@
 <?php
 session_start();
 
-// Cek login
-if (!isset($_SESSION['id_user']) || $_SESSION['role'] != 'Anggota') {
+// Cek login & jabatan anggota
+if (!isset($_SESSION['user']) || $_SESSION['user']['jabatan'] !== 'anggota') {
     header("Location: login.php");
     exit();
 }
 
-$username = $_SESSION['username'];
+$user = $_SESSION['user'];
 ?>
 
 <!DOCTYPE html>
@@ -18,10 +18,16 @@ $username = $_SESSION['username'];
 </head>
 
 <body>
-    <h2>Selamat Datang, <?= htmlspecialchars($username) ?> (Anggota)</h2>
+
+    <h2>
+        Selamat Datang,
+        <?= htmlspecialchars($user['nama_lengkap']) ?> (Anggota)
+    </h2>
+
     <form method="POST" action="logout.php">
-        <button type="submit" name="logout">Logout</button>
+        <button type="submit">Logout</button>
     </form>
+
 </body>
 
 </html>

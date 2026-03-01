@@ -3,7 +3,7 @@ session_start();
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
@@ -18,19 +18,21 @@ session_start();
 
         <?php
         if (isset($_SESSION['error'])) {
-            echo "<p class='error'>" . $_SESSION['error'] . "</p>";
+            echo "<p class='error'>" . htmlspecialchars($_SESSION['error']) . "</p>";
             unset($_SESSION['error']);
         }
         ?>
 
-        <form action="../src/controller/login_controller.php" method="POST">
-            <label>Username</label>
-            <input type="text" name="username" placeholder="Masukkan username" required>
+        <form action="../src/controller/AuthController.php" method="POST">
 
-            <label>Password</label>
-            <input type="password" name="password" placeholder="Masukkan password" required>
+            <label>Nama Pengguna</label>
+            <input type="text" name="nama_pengguna" placeholder="Masukkan nama pengguna" required>
+
+            <label>Kata Sandi</label>
+            <input type="password" name="kata_sandi" placeholder="Masukkan kata sandi" required>
 
             <button type="submit">Login</button>
+
         </form>
     </div>
 </body>
