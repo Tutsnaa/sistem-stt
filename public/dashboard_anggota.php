@@ -24,7 +24,7 @@ $user = $_SESSION['user'];
         <?= htmlspecialchars($user['nama_lengkap']) ?> (Anggota)
     </h2>
 
-    <form method="POST" action="logout.php">
+    <form method="POST" action="dashboard_umum.php">
         <button type="submit">Logout</button>
     </form>
 

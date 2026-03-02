@@ -25,7 +25,7 @@ $user = $_SESSION['user'];
         (<?= htmlspecialchars($user['jabatan']) ?>)
     </h2>
 
-    <form method="POST" action="login.php">
+    <form method="POST" action="dashboard_umum.php">
         <button type="submit">Logout</button>
     </form>
 

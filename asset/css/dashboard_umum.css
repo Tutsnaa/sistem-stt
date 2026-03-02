@@ -1,0 +1,161 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #f4f6f9;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: #ff9644;
+  color: white;
+}
+
+.navbar-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.login-btn {
+  background-color: white;
+  border: none;
+  padding: 8px 15px;
+  color: #ff9644;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.login-btn:hover {
+  background-color: #ffe5d0;
+}
+
+/* ================= CONTENT ================= */
+
+.container {
+  padding: 60px 40px;
+  text-align: center;
+}
+
+.container h1 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.card {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  display: inline-block;
+  max-width: 500px;
+}
+
+/* ================= OVERLAY ================= */
+
+.overlay {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  z-index: 998;
+}
+
+/* ================= LOGIN POPUP ================= */
+
+.login-container {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 30px;
+  width: 350px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  z-index: 999;
+}
+
+.login-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ff9644;
+}
+
+.login-container label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.login-container input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0 15px 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.login-container input:focus {
+  outline: none;
+  border-color: #ff9644;
+}
+
+/* Tombol login di popup */
+.login-container button {
+  width: 100%;
+  padding: 10px;
+  background-color: #ff9644;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.login-container button:hover {
+  background-color: #e67e22;
+}
+
+/* ================= CLOSE BUTTON ================= */
+
+.close-btn {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 22px;
+  cursor: pointer;
+  color: #999;
+}
+
+.close-btn:hover {
+  color: #ff9644;
+}
+
+/* ================= ERROR ================= */
+
+.error {
+  background-color: #ffe5e5;
+  color: #c0392b;
+  padding: 8px;
+  border-radius: 6px;
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
