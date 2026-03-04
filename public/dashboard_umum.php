@@ -8,10 +8,10 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <title>Dashboard Umum - Sekaa Truna Truni</title>
-    <link rel="stylesheet" href="../asset/css/dashboard_umum.css">
+    <link rel="stylesheet" href="../asset/css/Dashboard.css">
 </head>
 
-<body>
+<body class="body-bg">
 
     <!-- ================= NAVBAR ================= -->
     <div class="navbar">
@@ -25,16 +25,37 @@ session_start();
         </button>
     </div>
 
-
     <!-- ================= KONTEN UTAMA ================= -->
-    <div class="container">
-        <div class="card">
-            <h1>Selamat Datang</h1>
-            <p>Website Resmi Sekaa Truna Truni</p>
-            <p>Silakan login untuk mengakses dashboard anggota atau pengurus.</p>
-        </div>
-    </div>
+    <div class="hero-section">
+        <div class="hero-container">
 
+            <!-- KIRI : TEKS -->
+            <div class="hero-text">
+                <h1>Sekaa Truna Truni Putra Kencana</h1>
+                <h3>Media Informasi, Kegiatan, dan Administrasi Organisasi</h3>
+
+                <p>
+                    Sekaa Truna Truni Putra Kencana yang berlokasi di Banjar Kawan, Mas, Kabupaten Gianyar merupakan
+                    organisasi kepemudaan yang menjadi wadah untuk kebersamaan, kreativitas, dan pengabdian generasi
+                    muda di lingkungan banjar. Organisasi ini berperan aktif dalam kegiatan sosial, budaya, keagamaan,
+                    serta berbagai program yang mendukung pembangunan dan keharmonisan masyarakat.
+                </p>
+
+                <button class="btn-primary" onclick="openLogin()">
+                    Masuk ke Sistem
+                </button>
+            </div>
+
+            <!-- KANAN : GAMBAR -->
+            <div class="hero-image">
+                <div class="image-blob">
+                    <img src="../asset/img/Gambar.png" alt="Ilustrasi STT">
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 
     <!-- ================= OVERLAY (LATAR BELAKANG GELAP) ================= -->
     <div id="overlay" class="overlay" onclick="closeLogin()"></div>
