@@ -8,21 +8,34 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <title>Dashboard Umum - Sekaa Truna Truni</title>
-    <link rel="stylesheet" href="../asset/css/Dashboard.css">
+    <link rel="stylesheet" href="../asset/css/DashboardUmum.css?v=<?php echo time(); ?>">
 </head>
 
 <body class="body-bg">
 
     <!-- ================= NAVBAR ================= -->
     <div class="navbar">
+
         <div class="navbar-title">
             Sekaa Truna Truni
         </div>
 
-        <!-- Tombol untuk membuka popup login -->
-        <button class="login-btn" onclick="openLogin()">
-            Masuk
-        </button>
+        <!-- bagian kanan navbar -->
+        <div class="navbar-right">
+
+            <ul class="navbar-menu">
+                <li><a href="#">Kepengurusan</a></li>
+                <li><a href="#">Pengumuman</a></li>
+                <li><a href="#">Pengumuman</a></li>
+                <li><a href="#">Voting</a></li>
+            </ul>
+
+            <button class="login-btn" onclick="openLogin()">
+                Masuk
+            </button>
+
+        </div>
+
     </div>
 
     <!-- ================= KONTEN UTAMA ================= -->
@@ -49,7 +62,7 @@ session_start();
             <!-- KANAN : GAMBAR -->
             <div class="hero-image">
                 <div class="image-blob">
-                    <img src="../asset/img/Gambar.png" alt="Ilustrasi STT">
+                    <img src="../asset/img/Gambar2.jpeg" alt="Ilustrasi STT">
                 </div>
             </div>
 

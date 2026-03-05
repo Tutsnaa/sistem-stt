@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// Cek login & jabatan anggota
+// Cek login & pastikan sebagai anggota
 if (!isset($_SESSION['user']) || $_SESSION['user']['jabatan'] !== 'anggota') {
     header("Location: login.php");
     exit();
@@ -16,54 +16,63 @@ $user = $_SESSION['user'];
 <head>
     <meta charset="UTF-8">
     <title>Dashboard Anggota - STT</title>
-    <link rel="stylesheet" href="../asset/css/DashboardAnggota.css">
+    <link rel="stylesheet" href="../asset/css/DashboardAnggota.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../asset/css/navbar.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../asset/css/sidebar.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
-<body class="body-bg">
+<body>
 
     <!-- ================= NAVBAR ================= -->
     <div class="navbar">
+
         <div class="navbar-title">
             Sekaa Truna Truni
         </div>
 
         <div class="navbar-user">
-            <?= htmlspecialchars($user['nama_lengkap']) ?> (Anggota)
-
-            <form method="POST" action="dashboard_umum.php" style="display:inline;">
-                <button type="submit" class="logout-btn">Logout</button>
-            </form>
+            <img src="../asset/img/<?php echo $user['foto']; ?>" class="user-photo">
+            <span><?php echo $user['nama_lengkap']; ?></span>
         </div>
     </div>
 
-    <!-- ================= KONTEN UTAMA ================= -->
-    <div class="hero-section">
-        <div class="hero-container">
+    <!-- ================= LAYOUT ================= -->
+    <div class="dashboard-wrapper">
 
-            <!-- KIRI : TEKS -->
-            <div class="hero-text">
-                <h1>Selamat Datang, <?= htmlspecialchars($user['nama_lengkap']) ?></h1>
-                <h3>Dashboard Anggota Sekaa Truna Truni</h3>
+        <!-- ===== SIDEBAR ===== -->
+        <div class="sidebar">
 
-                <p>
-                    Anda dapat melihat informasi kegiatan terbaru, pengumuman organisasi,
-                    serta status administrasi Anda melalui dashboard ini.
-                    Tetap aktif berpartisipasi dalam setiap kegiatan Sekaa Truna Truni.
-                </p>
+            <div class="sidebar-menu">
+                <ul>
 
-                <a href="#" class="btn-primary">
-                    Lihat Kegiatan
-                </a>
+                    <li><a href="#" class="active">Dashboard</a></li>
+                    <li><a href="#">Profil</a></li>
+                    <li><a href="#">Kepengurusan</a></li>
+                    <li><a href="#">Pemasukan</a></li>
+                    <li><a href="#">Pengeluaran</a></li>
+                    <li><a href="#">Pengumuman</a></li>
+                    <li><a href="#">Voting</a></li>
+
+                </ul>
             </div>
 
-            <!-- KANAN : GAMBAR -->
-            <div class="hero-image">
-                <div class="image-blob">
-                    <img src="../asset/img/Gambar.png" alt="Ilustrasi STT">
-                </div>
-            </div>
+            <form method="POST" action="dashboard_umum.php" class="logout-form">
+                <button class="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
+            </form>
 
         </div>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <!-- <div class="main-content">
+
+            <h2>Dashboard Pengurus</h2>
+            <p>Selamat datang di sistem pengelolaan Sekaa Truna Truni.</p>
+
+        </div> -->
+
     </div>
 
 </body>

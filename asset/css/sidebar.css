@@ -1,0 +1,89 @@
+/* ================= SIDEBAR ================= */
+.sidebar {
+  position: fixed;
+  top: 70px;
+  left: 0;
+
+  width: 230px;
+  height: calc(100vh - 70px);
+
+  background: white;
+  border-right: 1px solid #eee;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* menu area */
+.sidebar-menu {
+  padding-top: 20px;
+}
+
+/* reset list */
+.sidebar ul {
+  list-style: none;
+}
+
+/* menu item */
+.sidebar ul li {
+  margin: 3px 0;
+}
+
+/* menu link */
+.sidebar ul li a {
+  display: block;
+
+  padding: 12px 20px;
+  margin: 6px 10px;
+
+  text-decoration: none;
+  color: #555;
+  font-size: 15px;
+
+  border: 1px solid transparent;
+  border-radius: 8px;
+
+  transition: 0.25s;
+}
+
+/* hover */
+.sidebar ul li a:hover {
+  border: 1px solid #ff9644;
+  color: #ff9644;
+  background: #fff7f0;
+}
+
+/* aktif */
+.sidebar ul li a.active {
+  background: #ff9644;
+  color: white;
+  border: 1px solid #ff9644;
+  font-weight: 600;
+}
+
+/* ================= LOGOUT ================= */
+
+.logout-form {
+  padding: 10px;
+}
+
+.logout-btn {
+  width: 100%;
+  border: none;
+  background: none;
+
+  padding: 12px 20px;
+
+  font-size: 15px;
+  color: #555;
+  text-align: left;
+  cursor: pointer;
+
+  border-radius: 8px;
+}
+
+.logout-btn:hover {
+  background: #fff5ec;
+  color: #ff9644;
+}
