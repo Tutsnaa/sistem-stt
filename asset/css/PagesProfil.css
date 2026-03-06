@@ -1,0 +1,40 @@
+/* ================= PROFIL PENGGUNA ================= */
+.profil-container h2 {
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.profil-card {
+  display: flex;
+  gap: 30px;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* Foto di sebelah kiri */
+.profil-foto img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* Data di kanan */
+.profil-data {
+  display: grid;
+  grid-template-columns: 150px 1fr; /* label | value */
+  row-gap: 15px;
+  column-gap: 20px;
+  align-items: center;
+}
+
+.data-label {
+  font-weight: bold;
+  color: #555;
+}
+
+.data-value {
+  color: #333;
+}

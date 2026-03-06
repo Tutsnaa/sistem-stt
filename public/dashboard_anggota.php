@@ -46,13 +46,22 @@ $user = $_SESSION['user'];
             <div class="sidebar-menu">
                 <ul>
 
-                    <li><a href="#" class="active">Dashboard</a></li>
+                    <li><a href="dashboard_pengurus.php?page=dashboard" class="active">Dashboard</a></li>
+                    <li><a href="dashboard_pengurus.php?page=profil">Profil</a></li>
+                    <li><a href="dashboard_pengurus.php?page=anggota">Data Anggota</a></li>
+                    <li><a href="dashboard_pengurus.php?page=kepengurusan">Kepengurusan</a></li>
+                    <li><a href="dashboard_pengurus.php?page=pemasukan">Pemasukan</a></li>
+                    <li><a href="dashboard_pengurus.php?page=pengeluaran">Pengeluaran</a></li>
+                    <li><a href="dashboard_pengurus.php?page=pengumuman">Pengumuman</a></li>
+                    <li><a href="dashboard_pengurus.php?page=voting">Voting</a></li>
+                    <li><a href="dashboard_pengurus.php?page=laporan">Laporan</a></li>
+                    <!-- <li><a href="#" class="active">Dashboard</a></li>
                     <li><a href="#">Profil</a></li>
                     <li><a href="#">Kepengurusan</a></li>
                     <li><a href="#">Pemasukan</a></li>
                     <li><a href="#">Pengeluaran</a></li>
                     <li><a href="#">Pengumuman</a></li>
-                    <li><a href="#">Voting</a></li>
+                    <li><a href="#">Voting</a></li> -->
 
                 </ul>
             </div>
@@ -66,12 +75,51 @@ $user = $_SESSION['user'];
         </div>
 
         <!-- ===== MAIN CONTENT ===== -->
-        <!-- <div class="main-content">
+        <div class="main-content">
 
-            <h2>Dashboard Pengurus</h2>
-            <p>Selamat datang di sistem pengelolaan Sekaa Truna Truni.</p>
+            <?php
+$page = $_GET['page'] ?? 'dashboard';
 
-        </div> -->
+switch ($page) {
+
+    case 'profil':
+        include '../src/pages/profil.php';
+        break;
+
+    case 'anggota':
+        include '../src/pages/anggota.php';
+        break;
+
+    case 'kepengurusan':
+        include '../src/pages/kepengurusan.php';
+        break;
+
+    case 'pemasukan':
+        include '../src/pages/pemasukan.php';
+        break;
+
+    case 'pengeluaran':
+        include '../src/pages/pengeluaran.php';
+        break;
+
+    case 'pengumuman':
+        include '../src/pages/pengumuman.php';
+        break;
+
+    case 'voting':
+        include '../src/pages/voting.php';
+        break;
+
+    case 'laporan':
+        include '../src/pages/laporan.php';
+        break;
+
+    default:
+        include '../src/pages/dashboard.php';
+}
+?>
+
+        </div>
 
     </div>
 

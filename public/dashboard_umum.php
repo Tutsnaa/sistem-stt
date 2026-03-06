@@ -26,7 +26,7 @@ session_start();
             <ul class="navbar-menu">
                 <li><a href="#">Kepengurusan</a></li>
                 <li><a href="#">Pengumuman</a></li>
-                <li><a href="#">Pengumuman</a></li>
+                <li><a href="#">Keuangan</a></li>
                 <li><a href="#">Voting</a></li>
             </ul>
 
