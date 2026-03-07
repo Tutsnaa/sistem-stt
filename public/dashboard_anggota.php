@@ -3,11 +3,13 @@ session_start();
 
 // Cek login & pastikan sebagai anggota
 if (!isset($_SESSION['user']) || $_SESSION['user']['jabatan'] !== 'anggota') {
-    header("Location: login.php");
+    header("Location: dashboard_umum.php");
     exit();
 }
 
 $user = $_SESSION['user'];
+$page = $_GET['page'] ?? 'dashboard';
+
 ?>
 
 <!DOCTYPE html>
@@ -16,9 +18,11 @@ $user = $_SESSION['user'];
 <head>
     <meta charset="UTF-8">
     <title>Dashboard Anggota - STT</title>
-    <link rel="stylesheet" href="../asset/css/DashboardAnggota.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../asset/css/DashboardPengurus.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/navbar.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/sidebar.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../asset/css/PagesDashboard.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../asset/css/PagesProfil.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
@@ -32,7 +36,7 @@ $user = $_SESSION['user'];
         </div>
 
         <div class="navbar-user">
-            <img src="../asset/img/<?php echo $user['foto']; ?>" class="user-photo">
+            <img src="../uploads/<?php echo $user['foto']; ?>" class="user-photo">
             <span><?php echo $user['nama_lengkap']; ?></span>
         </div>
     </div>
@@ -45,24 +49,68 @@ $user = $_SESSION['user'];
 
             <div class="sidebar-menu">
                 <ul>
+                    <li>
+                        <a href="dashboard_anggota.php?page=dashboard"
+                            class="<?php echo ($page == 'dashboard') ? 'active' : ''; ?>">
+                            Dashboard
+                        </a>
+                    </li>
 
-                    <li><a href="dashboard_pengurus.php?page=dashboard" class="active">Dashboard</a></li>
-                    <li><a href="dashboard_pengurus.php?page=profil">Profil</a></li>
-                    <li><a href="dashboard_pengurus.php?page=anggota">Data Anggota</a></li>
-                    <li><a href="dashboard_pengurus.php?page=kepengurusan">Kepengurusan</a></li>
-                    <li><a href="dashboard_pengurus.php?page=pemasukan">Pemasukan</a></li>
-                    <li><a href="dashboard_pengurus.php?page=pengeluaran">Pengeluaran</a></li>
-                    <li><a href="dashboard_pengurus.php?page=pengumuman">Pengumuman</a></li>
-                    <li><a href="dashboard_pengurus.php?page=voting">Voting</a></li>
-                    <li><a href="dashboard_pengurus.php?page=laporan">Laporan</a></li>
-                    <!-- <li><a href="#" class="active">Dashboard</a></li>
-                    <li><a href="#">Profil</a></li>
-                    <li><a href="#">Kepengurusan</a></li>
-                    <li><a href="#">Pemasukan</a></li>
-                    <li><a href="#">Pengeluaran</a></li>
-                    <li><a href="#">Pengumuman</a></li>
-                    <li><a href="#">Voting</a></li> -->
+                    <li>
+                        <a href="dashboard_anggota.php?page=profil"
+                            class="<?php echo ($page == 'profil') ? 'active' : ''; ?>">
+                            Profil
+                        </a>
+                    </li>
 
+                    <li>
+                        <a href="dashboard_anggota.php?page=anggota"
+                            class="<?php echo ($page == 'anggota') ? 'active' : ''; ?>">
+                            Data Anggota
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="dashboard_anggota.php?page=kepengurusan"
+                            class="<?php echo ($page == 'kepengurusan') ? 'active' : ''; ?>">
+                            Kepengurusan
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="dashboard_anggota.php?page=pemasukan"
+                            class="<?php echo ($page == 'pemasukan') ? 'active' : ''; ?>">
+                            Pemasukan
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="dashboard_anggota.php?page=pengeluaran"
+                            class="<?php echo ($page == 'pengeluaran') ? 'active' : ''; ?>">
+                            Pengeluaran
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="ddashboard_anggota.php?page=pengumuman"
+                            class="<?php echo ($page == 'pengumuman') ? 'active' : ''; ?>">
+                            Pengumuman
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="dashboard_anggota.php?page=voting"
+                            class="<?php echo ($page == 'voting') ? 'active' : ''; ?>">
+                            Voting
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="dashboard_anggota.php?page=laporan"
+                            class="<?php echo ($page == 'laporan') ? 'active' : ''; ?>">
+                            Laporan
+                        </a>
+                    </li>
                 </ul>
             </div>
 

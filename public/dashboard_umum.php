@@ -20,7 +20,6 @@ session_start();
             Sekaa Truna Truni
         </div>
 
-        <!-- bagian kanan navbar -->
         <div class="navbar-right">
 
             <ul class="navbar-menu">
@@ -38,82 +37,81 @@ session_start();
 
     </div>
 
-    <!-- ================= KONTEN UTAMA ================= -->
+    <!-- ================= HERO ================= -->
     <div class="hero-section">
         <div class="hero-container">
 
-            <!-- KIRI : TEKS -->
             <div class="hero-text">
+
                 <h1>Sekaa Truna Truni Putra Kencana</h1>
                 <h3>Media Informasi, Kegiatan, dan Administrasi Organisasi</h3>
 
                 <p>
-                    Sekaa Truna Truni Putra Kencana yang berlokasi di Banjar Kawan, Mas, Kabupaten Gianyar merupakan
-                    organisasi kepemudaan yang menjadi wadah untuk kebersamaan, kreativitas, dan pengabdian generasi
-                    muda di lingkungan banjar. Organisasi ini berperan aktif dalam kegiatan sosial, budaya, keagamaan,
-                    serta berbagai program yang mendukung pembangunan dan keharmonisan masyarakat.
+                    Sekaa Truna Truni Putra Kencana yang berlokasi di Banjar Kawan, Mas,
+                    Kabupaten Gianyar merupakan organisasi kepemudaan yang menjadi
+                    wadah kebersamaan dan kreativitas generasi muda.
                 </p>
 
                 <button class="btn-primary" onclick="openLogin()">
                     Masuk ke Sistem
                 </button>
+
             </div>
 
-            <!-- KANAN : GAMBAR -->
             <div class="hero-image">
                 <div class="image-blob">
-                    <img src="../asset/img/Gambar2.jpeg" alt="Ilustrasi STT">
+                    <img src="../asset/img/Gambar2.jpeg">
                 </div>
             </div>
 
         </div>
-
     </div>
 
-    <!-- ================= OVERLAY (LATAR BELAKANG GELAP) ================= -->
+    <!-- ================= OVERLAY ================= -->
     <div id="overlay" class="overlay" onclick="closeLogin()"></div>
-
 
     <!-- ================= POPUP LOGIN ================= -->
     <div id="loginPopup" class="login-container">
 
-        <!-- Tombol Tutup -->
         <span class="close-btn" onclick="closeLogin()">&times;</span>
 
         <h2>Masuk ke Sistem STT</h2>
 
         <?php
-        // Menampilkan pesan error jika ada
-        if (isset($_SESSION['error'])) {
-            echo "<p class='error'>" . htmlspecialchars($_SESSION['error']) . "</p>";
-            unset($_SESSION['error']);
-        }
-        ?>
+if(isset($_SESSION['error'])){
+echo "<p class='error'>".$_SESSION['error']."</p>";
+unset($_SESSION['error']);
 
-        <!-- Form Login -->
-        <form action="../src/controller/AuthController.php" method="POST">
+echo "<script>
+window.onload = function(){
+openLogin();
+}
+</script>";
+}
+?>
+
+        <!-- ================= FORM LOGIN ================= -->
+        <form action="../src/controllers/AuthController.php?action=login" method="POST">
 
             <label>Nama Pengguna</label>
-            <input type="text" name="nama_pengguna" placeholder="Masukkan nama pengguna" required>
+            <input type="text" name="nama_pengguna" required>
 
             <label>Kata Sandi</label>
-            <input type="password" name="kata_sandi" placeholder="Masukkan kata sandi" required>
+            <input type="password" name="kata_sandi" required>
 
             <button type="submit">Masuk</button>
 
         </form>
+
     </div>
 
-
-    <!-- ================= SCRIPT POPUP ================= -->
+    <!-- ================= SCRIPT ================= -->
     <script>
-    // Membuka popup login
     function openLogin() {
         document.getElementById("loginPopup").style.display = "block";
         document.getElementById("overlay").style.display = "block";
     }
 
-    // Menutup popup login
     function closeLogin() {
         document.getElementById("loginPopup").style.display = "none";
         document.getElementById("overlay").style.display = "none";

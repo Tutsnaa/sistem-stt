@@ -14,7 +14,7 @@ class KeuanganController {
 
         // Cek login
         if (!isset($_SESSION['user'])) {
-            header("Location: login.php");
+            header("Location: dashboard_umum.php");
             exit;
         }
 

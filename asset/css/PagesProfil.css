@@ -1,40 +1,101 @@
-/* ================= PROFIL PENGGUNA ================= */
-.profil-container h2 {
-  margin-bottom: 25px;
+/* ================= PROFIL ================= */
+.profil-container {
+  margin-left: 115px;
+  margin-top: 30px;
+  padding: 20px;
+  min-height: calc(100vh - 70px);
+  background: #f5f7fa;
+}
+
+/* BOX */
+.profil-box {
+  position: relative;
+}
+
+/* TITLE DI ATAS BORDER */
+.profil-title {
+  position: absolute;
+  top: -12px;
+  left: 20px;
+  background: white;
+  padding: 0 10px;
+  font-weight: 600;
   color: #333;
 }
 
+/* CARD */
 .profil-card {
   display: flex;
-  gap: 30px;
+  gap: 40px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 30px;
   background: white;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  align-items: flex-start; /* supaya foto dan data rata atas */
+  flex-wrap: wrap; /* responsif jika layar kecil */
 }
 
-/* Foto di sebelah kiri */
+/* FOTO */
+.profil-foto {
+  width: 210px;
+  height: 210px;
+  flex-shrink: 0;
+  position: relative;
+}
+
 .profil-foto img {
-  width: 200px;
-  height: 200px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
 }
 
-/* Data di kanan */
+/* DATA */
 .profil-data {
-  display: grid;
-  grid-template-columns: 150px 1fr; /* label | value */
-  row-gap: 15px;
-  column-gap: 20px;
+  flex: 1;
+  min-width: 250px; /* supaya tidak terlalu kecil di layar kecil */
+}
+
+/* DATA ITEM */
+.data-item {
+  display: flex;
   align-items: center;
+  margin-bottom: 12px;
 }
 
-.data-label {
-  font-weight: bold;
-  color: #555;
+.data-item span {
+  width: 140px; /* label tetap */
+  font-weight: 600;
 }
 
-.data-value {
-  color: #333;
+.data-item input {
+  flex: 1;
+  padding: 7px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* BUTTONS */
+.profil-action {
+  margin-top: 20px;
+}
+
+.btn-edit {
+  background: #ff9644;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.btn-simpan {
+  background: #2ecc71;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
 }
