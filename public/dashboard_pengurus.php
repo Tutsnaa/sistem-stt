@@ -11,6 +11,19 @@ $user = $_SESSION['user'];
 
 $page = $_GET['page'] ?? 'dashboard';
 
+
+// panggil model
+require_once __DIR__ . '/../src/models/PenggunaModel.php';
+
+$model = new PenggunaModel();
+
+// ambil kata pencarian
+$search = isset($_GET['search']) ? $_GET['search'] : null;
+
+// ambil data anggota
+$dataAnggota = $model->getAll($search);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -24,6 +37,7 @@ $page = $_GET['page'] ?? 'dashboard';
     <link rel="stylesheet" href="../asset/css/sidebar.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/PagesDashboard.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/PagesProfil.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../asset/css/PagesAnggota.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
