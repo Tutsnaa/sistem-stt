@@ -14,6 +14,9 @@
             <div class="profil-data">
                 <input type="hidden" name="id_pengguna" value="<?= $_SESSION['user']['id_pengguna'] ?>">
 
+                <!-- agar diubah dari profil -->
+                <input type="hidden" name="from" value="profil">
+
                 <div class="data-item">
                     <span>Nama Lengkap</span>
                     <input type="text" name="nama_lengkap" value="<?= $user['nama_lengkap']; ?>" readonly>

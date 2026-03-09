@@ -168,8 +168,12 @@ elseif ($action == "update") {
         $_SESSION['user']['foto'] = $data['foto'];
     }
 }
-        header("Location: ../../public/dashboard_pengurus.php?page=anggota");
-        exit;
+        if(isset($_POST['from']) && $_POST['from'] == "profil"){
+    header("Location: ../../public/dashboard_pengurus.php?page=profil");
+}else{
+    header("Location: ../../public/dashboard_pengurus.php?page=anggota");
+}
+exit;
 
     } else {
         echo "Update gagal";

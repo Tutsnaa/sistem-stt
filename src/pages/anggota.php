@@ -110,9 +110,11 @@
 
     </form>
 
+    <?php if($_SESSION['user']['jabatan'] == 'pengurus'){ ?>
     <button class="btn-tambah" onclick="openTambahModal()">
         + Tambah Anggota
     </button>
+    <?php } ?>
     <!-- =========================
          TABEL DATA ANGGOTA
     ========================== -->
@@ -129,8 +131,10 @@
                 <th>No HP</th>
                 <th>Alamat</th>
                 <th>Jabatan</th>
+                <?php if($_SESSION['user']['jabatan'] == 'pengurus'){ ?>
                 <th>Username</th>
                 <th>Aksi</th>
+                <?php } ?>
             </tr>
 
         </thead>
@@ -165,13 +169,16 @@
 
                 <td><?= htmlspecialchars($row['alamat']); ?></td>
 
+                <?php if($_SESSION['user']['jabatan'] == 'pengurus'){ ?>
                 <td style="text-align: center;"><?= htmlspecialchars($row['jabatan']); ?></td>
+                <?php } ?>
 
                 <td><?= htmlspecialchars($row['nama_pengguna']); ?></td>
 
+                <?php if($_SESSION['user']['jabatan'] == 'pengurus'){ ?>
                 <td>
-
                     <div class="aksi-btn">
+
                         <button class="btn-edit" data-id="<?= $row['id_pengguna']; ?>"
                             data-nama="<?= $row['nama_lengkap']; ?>" data-email="<?= $row['email']; ?>"
                             data-hp="<?= $row['no_hp']; ?>" data-alamat="<?= $row['alamat']; ?>"
@@ -181,14 +188,17 @@
 
                         </button>
 
-                        <button class="btn-hapus"
+                        <a class="btn-hapus"
                             href="../src/controllers/PenggunaController.php?action=delete&id=<?= $row['id_pengguna']; ?>"
                             onclick="return confirm('Yakin ingin menghapus anggota ini?')">
 
                             Hapus
 
-                        </button>
+                        </a>
+
                     </div>
+                </td>
+                <?php } ?>
 
                 </td>
 
@@ -228,29 +238,29 @@
             <form action="../src/controllers/PenggunaController.php?action=update" method="POST"
                 enctype="multipart/form-data">
 
-                <input type="hidden" name="id_pengguna" id="edit_id">
+                <input type="hidden" name="id_pengguna" id="edit_id" value="anggota">
 
                 <label>Nama Lengkap</label>
-                <input type="text" name="nama_lengkap" id="edit_nama">
+                <input type="text" name="nama_lengkap" id="edit_nama" value="anggota">
 
                 <label>Email</label>
-                <input type="email" name="email" id="edit_email">
+                <input type="email" name="email" id="edit_email" value="anggota">
 
                 <label>No HP</label>
-                <input type="text" name="no_hp" id="edit_hp">
+                <input type="text" name="no_hp" id="edit_hp" value="anggota">
 
                 <label>Alamat</label>
-                <input type="text" name="alamat" id="edit_alamat">
+                <input type="text" name="alamat" id="edit_alamat" value="anggota">
 
                 <label>Username</label>
-                <input type="text" name="nama_pengguna" id="edit_username">
+                <input type="text" name="nama_pengguna" id="edit_username" value="anggota">
 
                 <label>Password Baru</label>
-                <input type="password" name="kata_sandi">
+                <input type="password" name="kata_sandi" value="anggota">
                 <small>Kosongkan jika tidak ingin mengganti password</small>
 
                 <label>Foto Baru</label>
-                <input type="file" name="foto">
+                <input type="file" name="foto" value="anggota">
 
                 <br><br>
 

@@ -130,6 +130,7 @@ TOMBOL AKSI
 .btn-hapus {
   background: red;
   color: white;
+  text-decoration: none;
 }
 
 .btn-hapus:hover {

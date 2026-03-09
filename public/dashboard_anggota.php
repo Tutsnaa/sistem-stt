@@ -10,6 +10,18 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['jabatan'] !== 'anggota') {
 $user = $_SESSION['user'];
 $page = $_GET['page'] ?? 'dashboard';
 
+// panggil model untuk menampilkan data pengguna
+require_once __DIR__ . '/../src/models/PenggunaModel.php';
+
+$model = new PenggunaModel();
+
+// ambil kata pencarian
+$search = isset($_GET['search']) ? $_GET['search'] : null;
+
+// ambil data anggota
+$dataAnggota = $model->getAll($search);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -18,11 +30,12 @@ $page = $_GET['page'] ?? 'dashboard';
 <head>
     <meta charset="UTF-8">
     <title>Dashboard Anggota - STT</title>
-    <link rel="stylesheet" href="../asset/css/DashboardPengurus.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../asset/css/DashboardAnggota.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/navbar.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/sidebar.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/PagesDashboard.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/PagesProfil.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../asset/css/PagesAnggota.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
@@ -78,23 +91,9 @@ $page = $_GET['page'] ?? 'dashboard';
                     </li>
 
                     <li>
-                        <a href="dashboard_anggota.php?page=pemasukan"
-                            class="<?php echo ($page == 'pemasukan') ? 'active' : ''; ?>">
-                            Pemasukan
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="dashboard_anggota.php?page=pengeluaran"
-                            class="<?php echo ($page == 'pengeluaran') ? 'active' : ''; ?>">
-                            Pengeluaran
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="ddashboard_anggota.php?page=pengumuman"
-                            class="<?php echo ($page == 'pengumuman') ? 'active' : ''; ?>">
-                            Pengumuman
+                        <a href="dashboard_anggota.php?page=keuangan"
+                            class="<?php echo ($page == 'keuangan') ? 'active' : ''; ?>">
+                            Keuangan
                         </a>
                     </li>
 
@@ -102,13 +101,6 @@ $page = $_GET['page'] ?? 'dashboard';
                         <a href="dashboard_anggota.php?page=voting"
                             class="<?php echo ($page == 'voting') ? 'active' : ''; ?>">
                             Voting
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="dashboard_anggota.php?page=laporan"
-                            class="<?php echo ($page == 'laporan') ? 'active' : ''; ?>">
-                            Laporan
                         </a>
                     </li>
                 </ul>
@@ -143,11 +135,7 @@ switch ($page) {
         break;
 
     case 'pemasukan':
-        include '../src/pages/pemasukan.php';
-        break;
-
-    case 'pengeluaran':
-        include '../src/pages/pengeluaran.php';
+        include '../src/pages/keuangan.php';
         break;
 
     case 'pengumuman':
@@ -156,10 +144,6 @@ switch ($page) {
 
     case 'voting':
         include '../src/pages/voting.php';
-        break;
-
-    case 'laporan':
-        include '../src/pages/laporan.php';
         break;
 
     default:
