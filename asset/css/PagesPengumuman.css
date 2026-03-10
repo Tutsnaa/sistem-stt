@@ -1,0 +1,230 @@
+.pengumuman-wrapper {
+  margin-left: 115px;
+  margin-top: 30px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.pengumuman-title {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.pengumuman-actions {
+  text-align: right;
+  margin-bottom: 15px;
+}
+
+.btn-add {
+  padding: 8px 16px;
+  background: #4caf50;
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.btn-add:hover {
+  background: #45a049;
+}
+
+.pengumuman-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.pengumuman-table th,
+.pengumuman-table td {
+  padding: 12px 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.pengumuman-table th {
+  background: #f2f2f2;
+  color: #333;
+}
+
+.pengumuman-table td a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.btn-edit {
+  padding: 4px 10px;
+  background: #2196f3;
+  color: white;
+  border-radius: 4px;
+  margin-right: 5px;
+}
+
+.btn-edit:hover {
+  background: #0b7dda;
+}
+
+.btn-delete {
+  padding: 4px 10px;
+  background: #f44336;
+  color: white;
+  border-radius: 4px;
+}
+
+.btn-delete:hover {
+  background: #da190b;
+}
+
+/* ---------- Modal / Popup Tambah Pengumuman ---------- */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  display: none; /* default hidden */
+  animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  background-color: #fff;
+  width: 500px;
+  max-width: 90%;
+  border-radius: 12px;
+  padding: 30px 25px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  position: relative;
+  animation: slideDown 0.3s;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 22px;
+  color: #333;
+  text-align: center;
+}
+
+/* Tombol close × */
+.close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 26px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.close:hover {
+  color: #e74c3c;
+}
+
+/* Form table */
+.modal-content table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.modal-content td {
+  padding: 8px 5px;
+  vertical-align: top;
+}
+
+.modal-content input[type="text"],
+.modal-content textarea,
+.modal-content select,
+.modal-content input[type="file"] {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+  font-size: 14px;
+}
+
+.modal-content input[type="text"]:focus,
+.modal-content textarea:focus,
+.modal-content select:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 6px rgba(52, 152, 219, 0.3);
+}
+
+.modal-content textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Tombol simpan & batal */
+.modal-content .btn-save,
+.modal-content .btn-cancel {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-right: 10px;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.modal-content .btn-save {
+  background-color: #3498db;
+  color: #fff;
+}
+
+.modal-content .btn-save:hover {
+  background-color: #2980b9;
+}
+
+.modal-content .btn-cancel {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.modal-content .btn-cancel:hover {
+  background-color: #bdbdbd;
+}
+
+/* Responsif untuk layar kecil */
+@media (max-width: 600px) {
+  .modal-content {
+    width: 90%;
+    padding: 20px 15px;
+  }
+}
+
+form {
+  margin-bottom: 20px;
+}

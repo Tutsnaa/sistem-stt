@@ -31,6 +31,12 @@ $totalPemasukan = $keuanganModel->getTotalPemasukan();
 $totalPengeluaran = $keuanganModel->getTotalPengeluaran();
 $uangKas = $totalPemasukan - $totalPengeluaran;
 
+require_once __DIR__ . '/../src/models/PengumumanModel.php';
+
+$pengumumanModel = new PengumumanModel();
+$pengumuman = $pengumumanModel->getAllPengumuman();
+
+
 ?>
 
 <!DOCTYPE html>
@@ -46,6 +52,7 @@ $uangKas = $totalPemasukan - $totalPengeluaran;
     <link rel="stylesheet" href="../asset/css/PagesProfil.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/PagesAnggota.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/PagesKeuangan.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../asset/css/PagesPengumuman.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
@@ -76,6 +83,13 @@ $uangKas = $totalPemasukan - $totalPengeluaran;
                         <a href="dashboard_pengurus.php?page=dashboard"
                             class="<?php echo ($page == 'dashboard') ? 'active' : ''; ?>">
                             Dashboard
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="dashboard_pengurus.php?page=pengumuman"
+                            class="<?php echo ($page == 'pengumuman') ? 'active' : ''; ?>">
+                            Pengumuman
                         </a>
                     </li>
 
@@ -134,6 +148,10 @@ switch ($page) {
 
     case 'profil':
         include '../src/pages/profil.php';
+        break;
+
+    case 'profil':
+        include '../src/pages/pengumuman.php';
         break;
 
     case 'anggota':

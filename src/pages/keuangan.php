@@ -1,49 +1,52 @@
 <div class="page-content">
 
-    <!-- FORM TAMBAH DATA -->
-    <div class="form-keuangan">
+    <!-- POPUP FORM -->
+    <div id="popupForm" class="popup">
 
-        <h2>
-            Tambah Data
-        </h2>
+        <div class="popup-content">
 
-        <form action="../src/controllers/KeuanganController.php?action=simpan" method="POST"
-            enctype="multipart/form-data">
+            <span class="close-btn" onclick="closePopup()">&times;</span>
 
-            <input type="hidden" name="id_pengguna" value="<?= $user['id_pengguna']; ?>">
+            <h2>Tambah Data</h2>
 
-            <div class="form-group">
-                <label>Jenis</label>
-                <select name="jenis" required>
-                    <option value="">Pilih</option>
-                    <option value="pemasukan">Pemasukan</option>
-                    <option value="pengeluaran">Pengeluaran</option>
-                </select>
-            </div>
+            <form action="../src/controllers/KeuanganController.php?action=simpan" method="POST"
+                enctype="multipart/form-data">
 
-            <div class="form-group">
-                <label>Keterangan</label>
-                <textarea name="keterangan" required></textarea>
-            </div>
+                <input type="hidden" name="id_pengguna" value="<?= $user['id_pengguna']; ?>">
 
-            <div class="form-group">
-                <label>Jumlah</label>
-                <input type="number" name="jumlah" required>
-            </div>
+                <div class="form-group">
+                    <label>Jenis</label>
+                    <select name="jenis" required>
+                        <option value="">Pilih</option>
+                        <option value="pemasukan">Pemasukan</option>
+                        <option value="pengeluaran">Pengeluaran</option>
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <label>Upload Bukti</label>
-                <input type="file" name="file_bukti">
-            </div>
+                <div class="form-group">
+                    <label>Keterangan</label>
+                    <textarea name="keterangan" required></textarea>
+                </div>
 
-            <button type="submit" class="btn-save">
-                Simpan Data
-            </button>
+                <div class="form-group">
+                    <label>Jumlah</label>
+                    <input type="number" name="jumlah" required>
+                </div>
 
-        </form>
+                <div class="form-group">
+                    <label>Upload Bukti</label>
+                    <input type="file" name="file_bukti">
+                </div>
+
+                <button type="submit" class="btn-save">
+                    Simpan
+                </button>
+
+            </form>
+
+        </div>
 
     </div>
-
 
     <!-- TABEL DATA -->
     <div class="table-keuangan">
@@ -101,8 +104,15 @@ if(isset($_GET['edit'])){
             </div>
         </div>
 
+        <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
+        <button class="btn-tambah" onclick="openPopup()">
+            + Tambah Data
+        </button>
+        <?php } ?>
+
         <table>
             <h2>Data Keuangan</h2>
+
             <thead>
                 <tr>
                     <th>No</th>
@@ -111,7 +121,9 @@ if(isset($_GET['edit'])){
                     <th>Jumlah</th>
                     <th>Bukti</th>
                     <th>Tanggal</th>
+                    <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
                     <th>Aksi</th>
+                    <?php } ?>
                 </tr>
             </thead>
 
@@ -158,6 +170,7 @@ if(isset($_GET['edit'])){
                         <?= date('d-m-Y', strtotime($row['tanggal_dibuat'])); ?>
                     </td>
 
+                    <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
                     <td style="text-align: center;">
 
                         <button class="btn-ubah-keuangan" data-id="<?= $row['id_keuangan']; ?>"
@@ -173,6 +186,7 @@ if(isset($_GET['edit'])){
                         </a>
 
                     </td>
+                    <?php } ?>
 
                 </tr>
 
@@ -207,5 +221,13 @@ window.onclick = function(event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
+}
+
+function openPopup() {
+    document.getElementById("popupForm").style.display = "block";
+}
+
+function closePopup() {
+    document.getElementById("popupForm").style.display = "none";
 }
 </script>

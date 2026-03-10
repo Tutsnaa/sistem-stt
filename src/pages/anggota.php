@@ -110,11 +110,12 @@
 
     </form>
 
-    <?php if($_SESSION['user']['jabatan'] == 'pengurus'){ ?>
+    <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
     <button class="btn-tambah" onclick="openTambahModal()">
         + Tambah Anggota
     </button>
     <?php } ?>
+
     <!-- =========================
          TABEL DATA ANGGOTA
     ========================== -->
@@ -131,7 +132,7 @@
                 <th>No HP</th>
                 <th>Alamat</th>
                 <th>Jabatan</th>
-                <?php if($_SESSION['user']['jabatan'] == 'pengurus'){ ?>
+                <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
                 <th>Username</th>
                 <th>Aksi</th>
                 <?php } ?>
@@ -169,14 +170,13 @@
 
                 <td><?= htmlspecialchars($row['alamat']); ?></td>
 
-                <?php if($_SESSION['user']['jabatan'] == 'pengurus'){ ?>
                 <td style="text-align: center;"><?= htmlspecialchars($row['jabatan']); ?></td>
+
+                <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
+                <td><?= htmlspecialchars($row['nama_pengguna']); ?></td>
                 <?php } ?>
 
-                <td><?= htmlspecialchars($row['nama_pengguna']); ?></td>
-
-                <?php if($_SESSION['user']['jabatan'] == 'pengurus'){ ?>
-                <td>
+                <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?> <td>
                     <div class="aksi-btn">
 
                         <button class="btn-edit" data-id="<?= $row['id_pengguna']; ?>"

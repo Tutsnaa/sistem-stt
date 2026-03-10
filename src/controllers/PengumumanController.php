@@ -1,50 +1,75 @@
 <?php
+session_start();
 require_once __DIR__ . '/../models/PengumumanModel.php';
 
-class PengumumanController {
+$model = new PengumumanModel();
 
-    private $model;
+// Tentukan halaman dashboard berdasarkan login
+$userRole = $_SESSION['user']['jabatan'];
 
-    // ===============================
-    // Constructor
-    // ===============================
-    public function __construct() {
-        session_start();
-        $this->model = new PengumumanModel();
-    }
+// Daftar semua jabatan yang termasuk pengurus
+$pengurusRoles = ['ketua', 'wakil', 'sekretaris 1', 'sekretaris 2', 'bendahara 1', 'bendahara 2'];
 
-    // ===============================
-    // Tampilkan Semua Pengumuman
-    // ===============================
-    public function index() {
-        return $this->model->getAll();
-    }
+$dashboardPage = in_array($userRole, $pengurusRoles) 
+    ? '../../public/dashboard_pengurus.php?page=pengumuman'
+    : '../../public/dashboard_anggota.php?page=pengumuman';
 
-    // ===============================
-    // Tambah Pengumuman Baru
-    // ===============================
-    public function store() {
+// Ambil action dari URL
+$action = $_GET['action'] ?? '';
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+switch($action) {
+    case 'tambah':
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $file = $_FILES['file']['name'] ?? null;
+            if($file) {
+                move_uploaded_file($_FILES['file']['tmp_name'], __DIR__ . '/../../uploads/' . $file);
+            }
 
-            $data = $_POST;
-            $data['id_pengguna'] = $_SESSION['user']['id_pengguna'];
+            $data = [
+                'id_pengguna' => $_SESSION['user']['id_pengguna'],
+                'judul' => $_POST['judul'],
+                'isi' => $_POST['isi'],
+                'file' => $file,
+                'status' => $_POST['status']
+            ];
 
-            $this->model->create($data);
-
-            header("Location: pengumuman.php");
-            exit;
+            $model->tambahPengumuman($data);
+            header("Location: $dashboardPage");
+            exit();
         }
-    }
+        break;
 
-    // ===============================
-    // Hapus Pengumuman
-    // ===============================
-    public function delete($id) {
+    case 'update':
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id_pengumuman'];
+            $file = $_FILES['file']['name'] ?? $_POST['file_lama'];
+            if(isset($_FILES['file']) && $_FILES['file']['name'] != '') {
+                move_uploaded_file($_FILES['file']['tmp_name'], __DIR__ . '/../../uploads/' . $file);
+            }
 
-        $this->model->delete($id);
+            $data = [
+                'judul' => $_POST['judul'],
+                'isi' => $_POST['isi'],
+                'file' => $file,
+                'status' => $_POST['status']
+            ];
 
-        header("Location: pengumuman.php");
-        exit;
-    }
+            $model->updatePengumuman($id, $data);
+            header("Location: $dashboardPage");
+            exit();
+        }
+        break;
+
+    case 'hapus':
+        $id = $_GET['id'];
+        $model->hapusPengumuman($id);
+        header("Location: $dashboardPage");
+        exit();
+        break;
+
+    default:
+        // Jika action tidak dikenal, redirect ke dashboard sesuai user
+        header("Location: $dashboardPage");
+        exit();
+        break;
 }
