@@ -1,28 +1,22 @@
 <?php
-require_once __DIR__ . '/../config/Database.php';
+
+require_once __DIR__ . '/../../config/database.php';
 
 class KeuanganModel {
 
     private $conn;
     private $table = "keuangan";
 
-    // ===============================
-    // Constructor (Ambil koneksi DB)
-    // ===============================
-    public function __construct() {
+    public function __construct(){
+
         $database = new Database();
         $this->conn = $database->getConnection();
+
     }
 
-    // ===============================
-    // Ambil semua data keuangan
-    // ===============================
-    public function getAll() {
+    public function getAll(){
 
-        $query = "SELECT k.*, u.nama_lengkap 
-                  FROM " . $this->table . " k
-                  JOIN pengguna u ON k.id_pengguna = u.id_pengguna
-                  ORDER BY k.id_keuangan DESC";
+        $query = "SELECT * FROM " . $this->table . " ORDER BY tanggal_dibuat DESC";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -30,39 +24,91 @@ class KeuanganModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // ===============================
-    // Tambah data keuangan
-    // ===============================
-    public function create($data) {
+    public function insert($data){
 
-        $query = "INSERT INTO " . $this->table . "
-                  (jenis, keterangan, jumlah, file_bukti, id_pengguna)
-                  VALUES
-                  (:jenis, :keterangan, :jumlah, :file_bukti, :id_pengguna)";
+        $query = "INSERT INTO ".$this->table."
+        (id_pengguna, jenis, keterangan, jumlah, file_bukti)
+        VALUES
+        (:id_pengguna, :jenis, :keterangan, :jumlah, :file_bukti)";
 
         $stmt = $this->conn->prepare($query);
 
-        return $stmt->execute([
-            ':jenis' => $data['jenis'],
-            ':keterangan' => $data['keterangan'],
-            ':jumlah' => $data['jumlah'],
-            ':file_bukti' => $data['file_bukti'],
-            ':id_pengguna' => $data['id_pengguna']
-        ]);
+        $stmt->bindParam(":id_pengguna", $data['id_pengguna']);
+        $stmt->bindParam(":jenis", $data['jenis']);
+        $stmt->bindParam(":keterangan", $data['keterangan']);
+        $stmt->bindParam(":jumlah", $data['jumlah']);
+        $stmt->bindParam(":file_bukti", $data['file_bukti']);
+
+        return $stmt->execute();
     }
 
-    // ===============================
-    // Hapus data keuangan
-    // ===============================
-    public function delete($id) {
+    public function getById($id){
 
-        $query = "DELETE FROM " . $this->table . " 
-                  WHERE id_keuangan = :id";
+$query = "SELECT * FROM keuangan WHERE id_keuangan = :id";
 
-        $stmt = $this->conn->prepare($query);
+$stmt = $this->conn->prepare($query);
 
-        return $stmt->execute([
-            ':id' => $id
-        ]);
-    }
+$stmt->bindParam(":id",$id);
+
+$stmt->execute();
+
+return $stmt->fetch(PDO::FETCH_ASSOC);
+
+}
+
+public function update($data){
+
+$query = "UPDATE keuangan
+SET jenis=:jenis,
+keterangan=:keterangan,
+jumlah=:jumlah
+WHERE id_keuangan=:id";
+
+$stmt = $this->conn->prepare($query);
+
+$stmt->bindParam(":jenis",$data['jenis']);
+$stmt->bindParam(":keterangan",$data['keterangan']);
+$stmt->bindParam(":jumlah",$data['jumlah']);
+$stmt->bindParam(":id",$data['id_keuangan']);
+
+return $stmt->execute();
+
+}
+
+public function delete($id){
+
+$query = "DELETE FROM keuangan WHERE id_keuangan=:id";
+
+$stmt = $this->conn->prepare($query);
+
+$stmt->bindParam(":id",$id);
+
+return $stmt->execute();
+
+}
+
+public function getTotalPemasukan(){
+
+    $query = "SELECT SUM(jumlah) as total FROM keuangan WHERE jenis='pemasukan'";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $row['total'] ?? 0;
+}
+
+public function getTotalPengeluaran(){
+
+    $query = "SELECT SUM(jumlah) as total FROM keuangan WHERE jenis='pengeluaran'";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $row['total'] ?? 0;
+}
+
 }

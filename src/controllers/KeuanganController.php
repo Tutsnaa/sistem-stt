@@ -1,82 +1,63 @@
 <?php
+
+session_start();
+
 require_once __DIR__ . '/../models/KeuanganModel.php';
 
-class KeuanganController {
+$model = new KeuanganModel();
 
-    private $model;
+if(isset($_GET['action'])){
 
-    // ===============================
-    // Constructor (Session & Model)
-    // ===============================
-    public function __construct() {
+    if($_GET['action']=="simpan"){
 
-        session_start();
+        $fileName = null;
 
-        // Cek login
-        if (!isset($_SESSION['user'])) {
-            header("Location: dashboard_umum.php");
-            exit;
+        if(!empty($_FILES['file_bukti']['name'])){
+
+            $fileName = time()."_".$_FILES['file_bukti']['name'];
+
+            move_uploaded_file(
+                $_FILES['file_bukti']['tmp_name'],
+                "../../uploads/".$fileName
+            );
         }
 
-        $this->model = new KeuanganModel();
+        $data = [
+
+            'id_pengguna' => $_POST['id_pengguna'],
+            'jenis' => $_POST['jenis'],
+            'keterangan' => $_POST['keterangan'],
+            'jumlah' => $_POST['jumlah'],
+            'file_bukti' => $fileName
+
+        ];
+
+        $model->insert($data);
+
+        header("Location: ../../public/dashboard_pengurus.php?page=keuangan");
     }
 
-    // ===============================
-    // Tampilkan semua data
-    // ===============================
-    public function index() {
-        return $this->model->getAll();
-    }
+    if($_GET['action']=="update"){
 
-    // ===============================
-    // Simpan data keuangan baru
-    // ===============================
-    public function store() {
+$data = [
+'id_keuangan' => $_POST['id_keuangan'],
+'jenis' => $_POST['jenis'],
+'keterangan' => $_POST['keterangan'],
+'jumlah' => $_POST['jumlah']
+];
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+$model->update($data);
 
-            $data = $_POST;
+header("Location: ../../public/dashboard_pengurus.php?page=keuangan");
+}
 
-            // ===============================
-            // Upload file bukti
-            // ===============================
-            if (!empty($_FILES['file_bukti']['name'])) {
+if($_GET['action']=="hapus"){
 
-                $namaFile = time() . "_" . $_FILES['file_bukti']['name'];
-                $tmpFile = $_FILES['file_bukti']['tmp_name'];
-                $folder = "uploads/";
+$id = $_GET['id'];
 
-                // Buat folder jika belum ada
-                if (!is_dir($folder)) {
-                    mkdir($folder, 0777, true);
-                }
+$model->delete($id);
 
-                move_uploaded_file($tmpFile, $folder . $namaFile);
+header("Location: ../../public/dashboard_pengurus.php?page=keuangan");
+}
 
-                $data['file_bukti'] = $namaFile;
-
-            } else {
-                $data['file_bukti'] = null;
-            }
-
-            // Ambil ID pengguna dari session
-            $data['id_pengguna'] = $_SESSION['user']['id_pengguna'];
-
-            $this->model->create($data);
-
-            header("Location: keuangan.php");
-            exit;
-        }
-    }
-
-    // ===============================
-    // Hapus data keuangan
-    // ===============================
-    public function delete($id) {
-
-        $this->model->delete($id);
-
-        header("Location: keuangan.php");
-        exit;
-    }
 }

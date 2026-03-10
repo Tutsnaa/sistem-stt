@@ -23,6 +23,13 @@ $search = isset($_GET['search']) ? $_GET['search'] : null;
 // ambil data anggota
 $dataAnggota = $model->getAll($search);
 
+require_once __DIR__ . '/../src/models/KeuanganModel.php';
+
+$keuanganModel = new KeuanganModel();
+
+$totalPemasukan = $keuanganModel->getTotalPemasukan();
+$totalPengeluaran = $keuanganModel->getTotalPengeluaran();
+$uangKas = $totalPemasukan - $totalPengeluaran;
 
 ?>
 
@@ -38,6 +45,7 @@ $dataAnggota = $model->getAll($search);
     <link rel="stylesheet" href="../asset/css/PagesDashboard.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/PagesProfil.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/PagesAnggota.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../asset/css/PagesKeuangan.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
@@ -136,7 +144,7 @@ switch ($page) {
         include '../src/pages/kepengurusan.php';
         break;
 
-    case 'pemasukan':
+    case 'keuangan':
         include '../src/pages/keuangan.php';
         break;
 

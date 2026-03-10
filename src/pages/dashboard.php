@@ -10,7 +10,9 @@
             </div>
             <div class="card-text">
                 <h3>Pemasukan</h3>
-                <div class="card-amount">Rp 10.000</div>
+                <div class="card-amount">
+                    Rp <?= number_format($totalPemasukan,0,',','.'); ?>
+                </div>
             </div>
         </div>
 
@@ -21,7 +23,9 @@
             </div>
             <div class="card-text">
                 <h3>Pengeluaran</h3>
-                <div class="card-amount">Rp 5.000</div>
+                <div class="card-amount">
+                    Rp <?= number_format($totalPengeluaran,0,',','.'); ?>
+                </div>
             </div>
         </div>
 
@@ -32,7 +36,9 @@
             </div>
             <div class="card-text">
                 <h3>Uang Kas</h3>
-                <div class="card-amount">Rp 5.000</div>
+                <div class="card-amount">
+                    Rp <?= number_format($uangKas,0,',','.'); ?>
+                </div>
             </div>
         </div>
 

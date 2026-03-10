@@ -1,0 +1,179 @@
+/* ================= PAGE ================= */
+
+.page-content {
+  margin-left: 115px;
+  margin-top: 30px;
+  padding: 20px;
+  min-height: calc(100vh - 70px);
+  background: #f5f7fa;
+}
+
+.page-content h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* ================= FORM ================= */
+
+.form-keuangan {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.form-keuangan form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.form-group textarea {
+  resize: none;
+  height: 70px;
+}
+
+/* tombol */
+
+.btn-save {
+  grid-column: span 2;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background: #2c7be5;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-save:hover {
+  background: #1a68d1;
+}
+
+/* ================= TABLE ================= */
+
+.table-keuangan {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.table-keuangan table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-keuangan th {
+  background: #ff9644;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  font-weight: 600;
+  border-bottom: 1px solid #ddd;
+}
+
+.table-keuangan td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.table-keuangan tr:hover {
+  background: #f9f9f9;
+}
+
+/* ================= STATUS ================= */
+
+.status-pemasukan {
+  color: green;
+  font-weight: 600;
+}
+
+.status-pengeluaran {
+  color: red;
+  font-weight: 600;
+}
+
+/* ================= LINK BUKTI ================= */
+
+.table-keuangan a {
+  text-decoration: none;
+  color: #2c7be5;
+  font-weight: 500;
+}
+
+.table-keuangan a:hover {
+  text-decoration: underline;
+}
+
+/* ===============================
+TOMBOL AKSI
+=============================== */
+
+/* tombol edit dan hapus */
+.btn-ubah-keuangan,
+.btn-hapus-keuangan {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* edit */
+.btn-ubah-keuangan {
+  background: #f1c40f;
+  color: white;
+}
+
+.btn-ubah-keuangan:hover {
+  background: #c19d0e;
+}
+
+.btn-hapus-keuangan {
+  background: red;
+  color: white !important;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  text-decoration: none !important;
+  display: inline-block;
+}
+
+.btn-hapus-keuangan:visited {
+  color: white !important;
+}
+
+.btn-hapus-keuangan:hover {
+  background: darkred;
+  color: white !important;
+  text-decoration: none;
+}
+
+/* kolom keterangan tabel */
+.kolom-keterangan {
+  max-width: 250px; /* batas lebar kolom */
+  word-wrap: break-word; /* teks panjang turun ke bawah */
+  white-space: normal; /* izinkan teks turun baris */
+}
