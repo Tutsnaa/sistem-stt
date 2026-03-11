@@ -29,6 +29,15 @@ $totalPemasukan = $keuanganModel->getTotalPemasukan();
 $totalPengeluaran = $keuanganModel->getTotalPengeluaran();
 $uangKas = $totalPemasukan - $totalPengeluaran;
 
+require_once __DIR__ . '/../src/models/PengumumanModel.php';
+
+$pengumumanModel = new PengumumanModel();
+$dataPengumuman = $pengumumanModel->getAllPengumuman();
+
+?>
+
+<?php
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -36,19 +45,13 @@ $uangKas = $totalPemasukan - $totalPengeluaran;
 
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard Anggota - STT</title>
+    <title>Dashboard Umum - Sekaa Truna Truni</title>
     <link rel="stylesheet" href="../asset/css/DashboardAnggota.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="../asset/css/navbar.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="../asset/css/sidebar.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/PagesDashboard.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="../asset/css/PagesProfil.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="../asset/css/PagesAnggota.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="../asset/css/PagesKeuangan.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="../asset/css/PagesPengumuman.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../asset/css/navbar.css?v=<?php echo time(); ?>">
 </head>
 
-<body>
+<body class="body-bg">
 
     <!-- ================= NAVBAR ================= -->
     <div class="navbar">
@@ -57,124 +60,153 @@ $uangKas = $totalPemasukan - $totalPengeluaran;
             Sekaa Truna Truni
         </div>
 
+        <div class="navbar-right">
+
+            <ul class="navbar-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#pengumuman">Pengumuman</a></li>
+                <li><a href="#anggota">Anggota</a></li>
+                <li><a href="#keuangan">Keuangan</a></li>
+                <li><a href="#voting">Voting</a></li>
+            </ul>
+
+        </div>
         <div class="navbar-user">
             <img src="../uploads/<?php echo $user['foto']; ?>" class="user-photo">
             <span><?php echo $user['nama_lengkap']; ?></span>
-        </div>
-    </div>
-
-    <!-- ================= LAYOUT ================= -->
-    <div class="dashboard-wrapper">
-
-        <!-- ===== SIDEBAR ===== -->
-        <div class="sidebar">
-
-            <div class="sidebar-menu">
-                <ul>
-                    <li>
-                        <a href="dashboard_anggota.php?page=dashboard"
-                            class="<?php echo ($page == 'dashboard') ? 'active' : ''; ?>">
-                            Dashboard
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="dashboard_anggota.php?page=pengumuman"
-                            class="<?php echo ($page == 'pengumuman') ? 'active' : ''; ?>">
-                            Pengumuman
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="dashboard_anggota.php?page=profil"
-                            class="<?php echo ($page == 'profil') ? 'active' : ''; ?>">
-                            Profil
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="dashboard_anggota.php?page=anggota"
-                            class="<?php echo ($page == 'anggota') ? 'active' : ''; ?>">
-                            Data Anggota
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="dashboard_anggota.php?page=kepengurusan"
-                            class="<?php echo ($page == 'kepengurusan') ? 'active' : ''; ?>">
-                            Kepengurusan
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="dashboard_anggota.php?page=keuangan"
-                            class="<?php echo ($page == 'keuangan') ? 'active' : ''; ?>">
-                            Keuangan
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="dashboard_anggota.php?page=voting"
-                            class="<?php echo ($page == 'voting') ? 'active' : ''; ?>">
-                            Voting
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
             <form method="POST" action="dashboard_umum.php" class="logout-form">
                 <button class="logout-btn">
                     <i class="fa-solid fa-right-from-bracket"></i> Logout
                 </button>
             </form>
+        </div>
+    </div>
+
+
+    <!-- ================= HOME ================= -->
+    <div id="home" class="hero-section">
+        <div class="hero-container">
+
+            <div class="hero-text">
+
+                <h1>Sekaa Truna Truni Putra Kencana</h1>
+                <h3>Media Informasi, Kegiatan, dan Administrasi Organisasi</h3>
+
+                <p>
+                    Sekaa Truna Truni Putra Kencana yang berlokasi di Banjar Kawan, Mas,
+                    Kabupaten Gianyar merupakan organisasi kepemudaan yang menjadi
+                    wadah kebersamaan dan kreativitas generasi muda.
+                </p>
+
+            </div>
+
+            <div class="hero-image">
+                <div class="image-blob">
+                    <img src="../asset/img/Gambar2.jpeg">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ================= PENGUMUMAN ================= -->
+    <div id="pengumuman" class="section-pengumuman">
+
+        <h2>Pengumuman</h2>
+
+        <div class="pengumuman-list">
+
+            <?php if(!empty($dataPengumuman)): ?>
+            <?php foreach($dataPengumuman as $p): ?>
+
+            <?php if($p['status'] == 'tampil'): ?>
+
+            <div class="pengumuman-card">
+
+                <h3><?= htmlspecialchars($p['judul']) ?></h3>
+
+                <p>
+                    <?= nl2br(htmlspecialchars($p['isi'])) ?>
+                </p>
+
+                <?php if($p['file']): ?>
+                <a href="../uploads/<?= $p['file'] ?>" target="_blank">
+                    Download File
+                </a>
+                <?php endif; ?>
+
+                <small>
+                    Oleh: <?= $p['nama_lengkap'] ?> <br>
+                    <?= date('d M Y', strtotime($p['tanggal_dibuat'])) ?>
+                </small>
+
+            </div>
+
+            <?php endif; ?>
+
+            <?php endforeach; ?>
+            <?php else: ?>
+
+            <p>Tidak ada pengumuman.</p>
+
+            <?php endif; ?>
 
         </div>
 
-        <!-- ===== MAIN CONTENT ===== -->
-        <div class="main-content">
+    </div>
 
-            <?php
-$page = $_GET['page'] ?? 'dashboard';
 
-switch ($page) {
 
-    case 'profil':
-        include '../src/pages/profil.php';
-        break;
+    <!-- ================= OVERLAY ================= -->
+    <div id="overlay" class="overlay" onclick="closeLogin()"></div>
 
-    case 'profil':
-        include '../src/pages/pengumuman.php';
-        break;
+    <!-- ================= POPUP LOGIN ================= -->
+    <div id="loginPopup" class="login-container">
 
-    case 'anggota':
-        include '../src/pages/anggota.php';
-        break;
+        <span class="close-btn" onclick="closeLogin()">&times;</span>
 
-    case 'kepengurusan':
-        include '../src/pages/kepengurusan.php';
-        break;
+        <h2>Masuk ke Sistem STT</h2>
 
-    case 'keuangan':
-        include '../src/pages/keuangan.php';
-        break;
+        <?php
+if(isset($_SESSION['error'])){
+echo "<p class='error'>".$_SESSION['error']."</p>";
+unset($_SESSION['error']);
 
-    case 'pengumuman':
-        include '../src/pages/pengumuman.php';
-        break;
-
-    case 'voting':
-        include '../src/pages/voting.php';
-        break;
-
-    default:
-        include '../src/pages/dashboard.php';
+echo "<script>
+window.onload = function(){
+openLogin();
+}
+</script>";
 }
 ?>
 
-        </div>
+        <!-- ================= FORM LOGIN ================= -->
+        <form action="../src/controllers/AuthController.php?action=login" method="POST">
 
+            <label>Nama Pengguna</label>
+            <input type="text" name="nama_pengguna" required>
+
+            <label>Kata Sandi</label>
+            <input type="password" name="kata_sandi" required>
+
+            <button type="submit">Masuk</button>
+
+        </form>
 
     </div>
+
+    <!-- ================= SCRIPT ================= -->
+    <script>
+    function openLogin() {
+        document.getElementById("loginPopup").style.display = "block";
+        document.getElementById("overlay").style.display = "block";
+    }
+
+    function closeLogin() {
+        document.getElementById("loginPopup").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+    }
+    </script>
 
 </body>
 

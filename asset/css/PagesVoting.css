@@ -1,0 +1,171 @@
+/* ==============================
+   CSS Pages Voting
+============================== */
+
+/* Container utama halaman voting */
+.pages-voting-container {
+  margin-left: 115px;
+  margin-top: 30px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.pages-voting-container h2 {
+  margin-bottom: 10px;
+}
+
+.pages-voting-container table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.pages-voting-container table th,
+.pages-voting-container table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.pages-voting-container table th {
+  background-color: #f2f2f2;
+}
+
+.pages-voting-container button {
+  padding: 6px 12px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pages-voting-container button:hover {
+  background-color: #45a049;
+}
+
+/* =========================
+POPUP VOTING & KANDIDAT
+========================= */
+.pages-voting-popup,
+.pages-voting-modal {
+  display: none; /* hidden by default */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent bg */
+  justify-content: center;
+  align-items: center;
+}
+
+.pages-voting-popup .popup-content,
+.pages-voting-modal .modal-content {
+  background-color: #fff;
+  padding: 20px 30px;
+  border-radius: 8px;
+  position: relative;
+  width: 500px;
+  max-width: 90%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* =========================
+CLOSE BUTTON
+========================= */
+.popup-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.popup-close:hover {
+  color: #ff0000;
+}
+
+/* =========================
+FORM ELEMENTS
+========================= */
+.pages-voting-popup input[type="text"],
+.pages-voting-popup input[type="date"],
+.pages-voting-popup input[type="number"],
+.pages-voting-popup select,
+.pages-voting-popup textarea,
+.pages-voting-modal input[type="text"],
+.pages-voting-modal input[type="date"] {
+  width: 100%;
+  padding: 6px 10px;
+  margin: 6px 0 12px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.pages-voting-popup button,
+.pages-voting-modal button {
+  margin-top: 10px;
+}
+
+/* =========================
+TABLE ACTION LINKS
+========================= */
+.pages-voting-container a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.pages-voting-container a:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   CSS Khusus Tabel Rekap Suara Voting
+========================= */
+.pages-voting-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px 0;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pages-voting-table th,
+.pages-voting-table td {
+  border: 1px solid #ddd;
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.pages-voting-table th {
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+}
+
+.pages-voting-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.pages-voting-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.pages-voting-table td {
+  vertical-align: middle;
+}
+
+.pages-voting-table td:last-child {
+  text-align: center;
+}

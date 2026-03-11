@@ -1,3 +1,4 @@
+/* ================= WRAPPER ================= */
 .pengumuman-wrapper {
   margin-left: 115px;
   margin-top: 30px;
@@ -14,6 +15,7 @@
   color: #333;
 }
 
+/* ================= ACTION BUTTON ================= */
 .pengumuman-actions {
   text-align: right;
   margin-bottom: 15px;
@@ -32,6 +34,7 @@
   background: #45a049;
 }
 
+/* ================= TABLE ================= */
 .pengumuman-table table {
   width: 100%;
   border-collapse: collapse;
@@ -41,81 +44,101 @@
 .pengumuman-table td {
   padding: 12px 10px;
   border: 1px solid #ddd;
+}
+
+/* header tabel */
+.pengumuman-table thead th {
+  background: #ff9644;
+  color: #fff;
   text-align: center;
+  font-weight: 600;
 }
 
-.pengumuman-table th {
-  background: #f2f2f2;
-  color: #333;
+/* isi tabel */
+.pengumuman-table td {
+  text-align: left;
+  vertical-align: top;
+  word-wrap: break-word;
 }
 
+/* kolom isi pengumuman */
+.pengumuman-table td:nth-child(3) {
+  max-width: 300px;
+}
+
+/* hover tabel */
+.pengumuman-table tbody tr:hover {
+  background: #f9f9f9;
+}
+
+/* link file */
 .pengumuman-table td a {
-  text-decoration: none;
   color: #007bff;
+  text-decoration: none;
 }
 
-.btn-edit {
-  padding: 4px 10px;
-  background: #2196f3;
-  color: white;
+.pengumuman-table td a:hover {
+  text-decoration: underline;
+}
+
+/* ================= TOMBOL AKSI ================= */
+.aksi-btn {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-edit,
+.btn-hapus {
+  width: 70px;
+  padding: 6px 12px;
   border-radius: 4px;
-  margin-right: 5px;
+  font-size: 14px;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+}
+
+/* tombol edit */
+.btn-edit {
+  background: #f1c40f;
+  color: #fff;
 }
 
 .btn-edit:hover {
-  background: #0b7dda;
+  background: #c19d0e;
 }
 
-.btn-delete {
-  padding: 4px 10px;
-  background: #f44336;
+.aksi-btn a.btn-hapus {
+  background: red;
   color: white;
-  border-radius: 4px;
+  text-decoration: none;
 }
 
-.btn-delete:hover {
-  background: #da190b;
+.aksi-btn a.btn-hapus:hover {
+  background: darkred;
+  color: white;
+  text-decoration: none;
 }
 
-/* ---------- Modal / Popup Tambah Pengumuman ---------- */
+/* ================= MODAL ================= */
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  display: flex;
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  display: none; /* default hidden */
-  animation: fadeIn 0.3s;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.modal-content {
-  background-color: #fff;
-  width: 500px;
-  max-width: 90%;
-  border-radius: 12px;
-  padding: 30px 25px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-  position: relative;
-  animation: slideDown 0.3s;
-}
-
+/* animasi modal */
 @keyframes slideDown {
   from {
-    transform: translateY(-50px);
+    transform: translateY(-40px);
     opacity: 0;
   }
   to {
@@ -124,107 +147,82 @@
   }
 }
 
-.modal-content h3 {
-  margin-top: 0;
-  margin-bottom: 20px;
-  font-size: 22px;
-  color: #333;
-  text-align: center;
+.modal-content {
+  background: #fff;
+  width: 500px;
+  max-width: 90%;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  position: relative;
+  animation: slideDown 0.3s;
 }
 
-/* Tombol close × */
+.modal-content h3 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* tombol close */
 .close {
   position: absolute;
-  top: 15px;
   right: 20px;
+  top: 10px;
   font-size: 26px;
-  font-weight: bold;
-  color: #333;
   cursor: pointer;
-  transition: color 0.2s;
 }
 
 .close:hover {
   color: #e74c3c;
 }
 
-/* Form table */
+/* ================= FORM ================= */
 .modal-content table {
   width: 100%;
-  border-collapse: collapse;
 }
 
 .modal-content td {
   padding: 8px 5px;
-  vertical-align: top;
 }
 
-.modal-content input[type="text"],
+.modal-content input,
 .modal-content textarea,
-.modal-content select,
-.modal-content input[type="file"] {
+.modal-content select {
   width: 100%;
-  padding: 8px 12px;
+  padding: 8px 10px;
+  border-radius: 6px;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  outline: none;
-  transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
   font-size: 14px;
-}
-
-.modal-content input[type="text"]:focus,
-.modal-content textarea:focus,
-.modal-content select:focus {
-  border-color: #3498db;
-  box-shadow: 0 0 6px rgba(52, 152, 219, 0.3);
 }
 
 .modal-content textarea {
-  resize: vertical;
   min-height: 80px;
+  resize: vertical;
 }
 
-/* Tombol simpan & batal */
-.modal-content .btn-save,
-.modal-content .btn-cancel {
-  padding: 8px 20px;
+/* ================= BUTTON FORM ================= */
+.btn-save {
+  margin-top: 5px;
+  background: #2980b9;
+  color: white;
   border: none;
-  border-radius: 8px;
+  padding: 10px 16px;
+  border-radius: 5px;
   cursor: pointer;
-  font-weight: bold;
-  margin-right: 10px;
-  font-size: 14px;
-  transition: all 0.2s;
+  font-weight: 500;
 }
 
-.modal-content .btn-save {
-  background-color: #3498db;
-  color: #fff;
+.btn-save:hover {
+  background: #2980b9;
 }
 
-.modal-content .btn-save:hover {
-  background-color: #2980b9;
+.btn-cancel:hover {
+  background: #bdbdbd;
 }
 
-.modal-content .btn-cancel {
-  background-color: #e0e0e0;
-  color: #333;
-}
-
-.modal-content .btn-cancel:hover {
-  background-color: #bdbdbd;
-}
-
-/* Responsif untuk layar kecil */
+/* ================= RESPONSIVE ================= */
 @media (max-width: 600px) {
   .modal-content {
     width: 90%;
-    padding: 20px 15px;
   }
-}
-
-form {
-  margin-bottom: 20px;
 }

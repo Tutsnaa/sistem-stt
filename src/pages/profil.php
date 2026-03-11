@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="profil-action">
-                    <button type="button" class="btn-edit" onclick="editProfil()">Ubah Profil</button>
+                    <button type="button" class="btn-edit" onclick="editProfil()">Ubah</button>
                     <button type="submit" class="btn-simpan" id="btnSimpan" style="display:none;">Simpan</button>
                 </div>
             </div>

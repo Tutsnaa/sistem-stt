@@ -1,18 +1,16 @@
 <?php
 session_start();
 
-// Cek login & pastikan bukan anggota
-if (!isset($_SESSION['user']) || $_SESSION['user']['jabatan'] === 'anggota') {
+// Cek login & pastikan sebagai anggota
+if (!isset($_SESSION['user']) || $_SESSION['user']['jabatan'] !== 'anggota') {
     header("Location: dashboard_umum.php");
     exit();
 }
 
 $user = $_SESSION['user'];
-
 $page = $_GET['page'] ?? 'dashboard';
 
-
-// panggil model
+// panggil model untuk menampilkan data pengguna
 require_once __DIR__ . '/../src/models/PenggunaModel.php';
 
 $model = new PenggunaModel();
@@ -31,11 +29,6 @@ $totalPemasukan = $keuanganModel->getTotalPemasukan();
 $totalPengeluaran = $keuanganModel->getTotalPengeluaran();
 $uangKas = $totalPemasukan - $totalPengeluaran;
 
-require_once __DIR__ . '/../src/models/PengumumanModel.php';
-
-$pengumumanModel = new PengumumanModel();
-$pengumuman = $pengumumanModel->getAllPengumuman();
-
 ?>
 
 <!DOCTYPE html>
@@ -43,8 +36,8 @@ $pengumuman = $pengumumanModel->getAllPengumuman();
 
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard Pengurus - STT</title>
-    <link rel="stylesheet" href="../asset/css/DashboardPengurus.css?v=<?php echo time(); ?>">
+    <title>Dashboard Anggota - STT</title>
+    <link rel="stylesheet" href="../asset/css/DashboardAnggota.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/navbar.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/sidebar.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/PagesDashboard.css?v=<?php echo time(); ?>">
@@ -52,8 +45,6 @@ $pengumuman = $pengumumanModel->getAllPengumuman();
     <link rel="stylesheet" href="../asset/css/PagesAnggota.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/PagesKeuangan.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/PagesPengumuman.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="../asset/css/PagesVoting.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="../asset/css/PagesKepengurusan.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
@@ -81,49 +72,49 @@ $pengumuman = $pengumumanModel->getAllPengumuman();
             <div class="sidebar-menu">
                 <ul>
                     <li>
-                        <a href="dashboard_pengurus.php?page=dashboard"
+                        <a href="dashboard_anggota.php?page=dashboard"
                             class="<?php echo ($page == 'dashboard') ? 'active' : ''; ?>">
                             Dashboard
                         </a>
                     </li>
 
                     <li>
-                        <a href="dashboard_pengurus.php?page=pengumuman"
+                        <a href="dashboard_anggota.php?page=pengumuman"
                             class="<?php echo ($page == 'pengumuman') ? 'active' : ''; ?>">
                             Pengumuman
                         </a>
                     </li>
 
                     <li>
-                        <a href="dashboard_pengurus.php?page=profil"
+                        <a href="dashboard_anggota.php?page=profil"
                             class="<?php echo ($page == 'profil') ? 'active' : ''; ?>">
                             Profil
                         </a>
                     </li>
 
                     <li>
-                        <a href="dashboard_pengurus.php?page=anggota"
+                        <a href="dashboard_anggota.php?page=anggota"
                             class="<?php echo ($page == 'anggota') ? 'active' : ''; ?>">
                             Data Anggota
                         </a>
                     </li>
 
                     <li>
-                        <a href="dashboard_pengurus.php?page=kepengurusan"
+                        <a href="dashboard_anggota.php?page=kepengurusan"
                             class="<?php echo ($page == 'kepengurusan') ? 'active' : ''; ?>">
                             Kepengurusan
                         </a>
                     </li>
 
                     <li>
-                        <a href="dashboard_pengurus.php?page=keuangan"
+                        <a href="dashboard_anggota.php?page=keuangan"
                             class="<?php echo ($page == 'keuangan') ? 'active' : ''; ?>">
                             Keuangan
                         </a>
                     </li>
 
                     <li>
-                        <a href="dashboard_pengurus.php?page=voting"
+                        <a href="dashboard_anggota.php?page=voting"
                             class="<?php echo ($page == 'voting') ? 'active' : ''; ?>">
                             Voting
                         </a>
@@ -181,6 +172,7 @@ switch ($page) {
 ?>
 
         </div>
+
 
     </div>
 

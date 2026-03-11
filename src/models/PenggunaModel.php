@@ -151,4 +151,5 @@ public function verifyLogin($nama_pengguna, $kata_sandi)
 
     return false;
 }
+
 }
