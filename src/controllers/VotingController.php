@@ -48,49 +48,19 @@ try {
     exit;
 }
 
-if($action === "updateStatus"){
-    $id_voting = $_GET['id'] ?? null;
-    $status = $_GET['status'] ?? null;
 
-    if($id_voting && $status){
-        $votingModel->updateStatus($id_voting, $status);
 
-        if($status === 'selesai'){
-            $jabatanList = ['ketua','wakil','sekretaris 1','sekretaris 2','bendahara 1','bendahara 2'];
-            foreach($jabatanList as $jabatan){
-                $row = $votingModel->getPemenangByJabatan($id_voting, $jabatan);
-                if($row && isset($row['id_pengguna'])){
-                    if(!$kepengurusanModel->cek($row['id_pengguna'], $jabatan)){
-                        $masa_awal = $row['tanggal_tutup'];
-                        $masa_akhir = date('Y-m-d', strtotime('+1 year', strtotime($masa_awal)));
-                        $kepengurusanModel->tambah([
-                            'id_pengguna' => $row['id_pengguna'],
-                            'masa_awal_jabatan' => $masa_awal,
-                            'masa_akhir_jabatan' => $masa_akhir,
-                            'jabatan' => $jabatan
-                        ]);
-                    }
-                }
-            }
-        }
-    }
-
-    header("Location: ../../public/dashboard_pengurus.php?page=voting");
-    exit;
-}
-
-if($_GET['action'] == 'updateVoting') {
+// ================= UPDATE VOTING =================
+if($action == 'updateVoting') {
     $id = $_POST['id_voting'];
     $data = [
         'judul' => $_POST['judul'],
-    'periode' => $_POST['periode'],
-    'tanggal_buka' => $_POST['tanggal_buka'],
-    'tanggal_tutup' => $_POST['tanggal_tutup'],
-    'status' => $_POST['status']
+        'periode' => $_POST['periode'],
+        'tanggal_buka' => $_POST['tanggal_buka'],
+        'tanggal_tutup' => $_POST['tanggal_tutup'],
+        'status' => $_POST['status']
     ];
-    require_once __DIR__ . '/../models/VotingModel.php';
-    $model = new VotingModel();
-    $model->updateVoting($id, $data);
+    $votingModel->updateVoting($id, $data);
     header("Location: ../../public/dashboard_pengurus.php?page=voting");
     exit;
 }
