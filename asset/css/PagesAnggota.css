@@ -43,14 +43,6 @@ CARI DAN TOMBOL TAMBAH
   background: #1f6692;
 }
 
-.btn-reset {
-  padding: 8px 14px;
-  background: #f1c40f;
-  text-decoration: none;
-  border-radius: 4px;
-  color: white;
-}
-
 /* tombol tambah */
 .btn-tambah {
   float: right;
@@ -62,79 +54,133 @@ CARI DAN TOMBOL TAMBAH
   cursor: pointer;
 }
 
-.btn-tambah:hover {
-  background: #1e874b;
-}
-
 /* ===============================
 TABEL ANGGOTA
 =============================== */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 15px;
-}
+/* ================= ANGGOTA ================= */
 
-table thead {
+.search-box button {
+  padding: 10px 20px;
   background: #ff9644;
   color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-table th {
-  padding: 12px;
-  text-align: center;
+.search-box button:hover {
+  background: #df8139;
 }
 
-table td {
-  padding: 10px;
+.search-box .btn-reset {
+  padding: 10px 20px;
+  background: #aaa;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.search-box .btn-reset:hover {
+  background: #888;
+}
+
+.btn-tambah {
+  padding: 10px 20px;
+  background: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: 0.3s;
+}
+
+.btn-tambah:hover {
+  background: #27ae60;
+}
+
+table.anggota-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+table.anggota-table th,
+table.anggota-table td {
+  padding: 12px 15px;
+  text-align: left;
   border-bottom: 1px solid #eee;
 }
 
-table tbody tr:hover {
-  background: #f5f5f5;
+table.anggota-table th {
+  background: #ff9644;
+  color: white;
+  font-weight: 600;
 }
 
-/* ===============================
-TOMBOL AKSI
-=============================== */
+table.anggota-table tr:hover {
+  background: #f1f3f6;
+}
 
-/* kolom aksi */
+table.anggota-table td img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .aksi-btn {
   display: flex;
+  gap: 10px;
   justify-content: center;
-  align-items: center;
-  gap: 8px;
 }
 
-/* tombol edit dan hapus */
 .btn-edit,
 .btn-hapus {
   padding: 6px 12px;
+  border-radius: 6px;
   border: none;
-  border-radius: 4px;
-  font-size: 14px;
   cursor: pointer;
+  font-size: 14px;
+  text-decoration: none;
 }
 
-/* edit */
 .btn-edit {
   background: #f1c40f;
   color: white;
 }
 
 .btn-edit:hover {
-  background: #c19d0e;
+  background: #d4ac0d;
 }
 
-/* hapus */
 .btn-hapus {
-  background: red;
+  background: #e74c3c;
   color: white;
-  text-decoration: none;
 }
 
 .btn-hapus:hover {
-  background: darkred;
+  background: #c0392b;
+}
+
+/* Responsif untuk mobile */
+@media screen and (max-width: 768px) {
+  .search-box {
+    flex-direction: column;
+  }
+
+  table.anggota-table th,
+  table.anggota-table td {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .btn-tambah {
+    width: 100%;
+  }
 }
 
 /* ===============================

@@ -3,7 +3,7 @@
     <!-- =========================
      MODAL TAMBAH ANGGOTA
 ========================== -->
-
+    <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
     <div id="tambahModal" class="modal">
 
         <div class="modal-content">
@@ -87,231 +87,183 @@
         </div>
 
     </div>
-
-    <h2>Daftar Anggota</h2>
-    <!-- =========================
-         FORM PENCARIAN
-    ========================== -->
-
-    <form method="GET" action="dashboard_pengurus.php" class="search-box">
-
-        <!-- supaya tetap di halaman anggota -->
-        <input type="hidden" name="page" value="anggota">
-
-        <input type="text" name="search" placeholder="Cari nama anggota..."
-            value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
-
-        <button type="submit">Cari</button>
-
-        <!-- tombol kembali ke semua data -->
-        <a href="dashboard_pengurus.php?page=anggota" class="btn-reset">
-            Tampilkan Semua
-        </a>
-
-    </form>
-
-    <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
-    <button class="btn-tambah" onclick="openTambahModal()">
-        + Tambah Anggota
-    </button>
     <?php } ?>
 
-    <!-- =========================
-         TABEL DATA ANGGOTA
-    ========================== -->
+    <div id="anggota" class="section-anggota">
 
-    <table border="1" cellpadding="10" cellspacing="0" width="100%">
+        <h2>Daftar Anggota</h2>
 
-        <thead>
+        <!-- FORM PENCARIAN -->
+        <form method="GET" action="" class="search-box">
+            <input type="hidden" name="page" value="anggota">
+            <input type="text" name="search" placeholder="Cari nama anggota..."
+                value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
+            <button type="submit">Cari</button>
+            <a href="<?= ($_SESSION['user']['jabatan'] == 'anggota') 
+        ? 'dashboard_anggota.php?page=anggota' 
+        : 'dashboard_pengurus.php?page=anggota'; ?>" class="btn-reset">
+                Tampilkan Semua
+            </a>
+        </form>
+        <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
+        <button class="btn-tambah" onclick="openTambahModal()">+ Tambah Anggota</button>
+        <?php } ?>
 
-            <tr>
-                <th>No</th>
-                <th>Foto</th>
-                <th>Nama Lengkap</th>
-                <th>Email</th>
-                <th>No HP</th>
-                <th>Alamat</th>
-                <th>Jabatan</th>
-                <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
-                <th>Username</th>
-                <th>Aksi</th>
-                <?php } ?>
-            </tr>
-
-        </thead>
-
-        <tbody>
-
-            <?php
-        $no = 1;
-
-        if(!empty($dataAnggota)){
-            foreach($dataAnggota as $row){
-        ?>
-
-            <tr>
-
-                <td><?= $no++; ?></td>
-
-                <td style="text-align: center;">
-                    <?php if(!empty($row['foto'])){ ?>
-                    <img src="../uploads/<?= $row['foto']; ?>" width="50" height="50"
-                        style="border-radius:50%; object-fit:cover;">
-                    <?php } else { ?>
-                    <img src="../asset/img/default.png" width="50" height="50">
+        <!-- TABEL DATA ANGGOTA -->
+        <table class="anggota-table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Foto</th>
+                    <th>Nama Lengkap</th>
+                    <th>Email</th>
+                    <th>No HP</th>
+                    <th>Alamat</th>
+                    <th>Jabatan</th>
+                    <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
+                    <th>Username</th>
+                    <th>Aksi</th>
                     <?php } ?>
-                </td>
-
-                <td><?= htmlspecialchars($row['nama_lengkap']); ?></td>
-
-                <td><?= htmlspecialchars($row['email']); ?></td>
-
-                <td style="text-align: center;"><?= htmlspecialchars($row['no_hp']); ?></td>
-
-                <td><?= htmlspecialchars($row['alamat']); ?></td>
-
-                <td style="text-align: center;"><?= htmlspecialchars($row['jabatan']); ?></td>
-
-                <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
-                <td><?= htmlspecialchars($row['nama_pengguna']); ?></td>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+            $no = 1;
+            if(!empty($dataAnggota)){
+                foreach($dataAnggota as $row){
+            ?>
+                <tr>
+                    <td><?= $no++; ?></td>
+                    <td style="text-align: none;">
+                        <?php if(!empty($row['foto'])){ ?>
+                        <img src="../uploads/<?= $row['foto']; ?>" width="50" height="50">
+                        <?php } else { ?>
+                        <img src="../asset/img/default.png" width="50" height="50">
+                        <?php } ?>
+                    </td>
+                    <td><?= htmlspecialchars($row['nama_lengkap']); ?></td>
+                    <td><?= htmlspecialchars($row['email']); ?></td>
+                    <td style="text-align: center;"><?= htmlspecialchars($row['no_hp']); ?></td>
+                    <td><?= htmlspecialchars($row['alamat']); ?></td>
+                    <td style="text-align: center;"><?= htmlspecialchars($row['jabatan']); ?></td>
+                    <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
+                    <td><?= htmlspecialchars($row['nama_pengguna']); ?></td>
+                    <td>
+                        <div class="aksi-btn">
+                            <button class="btn-edit" data-id="<?= $row['id_pengguna']; ?>"
+                                data-nama="<?= $row['nama_lengkap']; ?>" data-email="<?= $row['email']; ?>"
+                                data-hp="<?= $row['no_hp']; ?>" data-alamat="<?= $row['alamat']; ?>"
+                                data-username="<?= $row['nama_pengguna']; ?>" onclick="openEditModal(this)">
+                                Ubah
+                            </button>
+                            <a class="btn-hapus"
+                                href="../src/controllers/PenggunaController.php?action=delete&id=<?= $row['id_pengguna']; ?>"
+                                onclick="return confirm('Yakin ingin menghapus anggota ini?')">Hapus</a>
+                        </div>
+                    </td>
+                    <?php } ?>
+                </tr>
+                <?php
+                }
+            }else{
+            ?>
+                <tr>
+                    <td colspan="9" align="center">Data anggota tidak ditemukan</td>
+                </tr>
                 <?php } ?>
+            </tbody>
+        </table>
 
-                <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?> <td>
-                    <div class="aksi-btn">
-
-                        <button class="btn-edit" data-id="<?= $row['id_pengguna']; ?>"
-                            data-nama="<?= $row['nama_lengkap']; ?>" data-email="<?= $row['email']; ?>"
-                            data-hp="<?= $row['no_hp']; ?>" data-alamat="<?= $row['alamat']; ?>"
-                            data-username="<?= $row['nama_pengguna']; ?>" onclick="openEditModal(this)">
-
-                            Ubah
-
-                        </button>
-
-                        <a class="btn-hapus"
-                            href="../src/controllers/PenggunaController.php?action=delete&id=<?= $row['id_pengguna']; ?>"
-                            onclick="return confirm('Yakin ingin menghapus anggota ini?')">
-
-                            Hapus
-
-                        </a>
-
-                    </div>
-                </td>
-                <?php } ?>
-
-                </td>
-
-            </tr>
-
-            <?php
-            }
-        }else{
-        ?>
-
-            <tr>
-                <td colspan="6" align="center">
-                    Data anggota tidak ditemukan
-                </td>
-            </tr>
-
-            <?php
-        }
-        ?>
-
-        </tbody>
-
-    </table>
-
-
-    <!-- =========================
+        <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
+        <!-- =========================
          FORM UBAH DATA ANGGOTA
     ========================== -->
-    <div id="editModal" class="modal">
+        <div id="editModal" class="modal">
 
-        <div class="modal-content">
+            <div class="modal-content">
 
-            <span class="close" onclick="closeModal()">&times;</span>
+                <span class="close" onclick="closeModal()">&times;</span>
 
-            <h3>Ubah Data Anggota</h3>
+                <h3>Ubah Data Anggota</h3>
 
-            <form action="../src/controllers/PenggunaController.php?action=update" method="POST"
-                enctype="multipart/form-data">
+                <form action="../src/controllers/PenggunaController.php?action=update" method="POST"
+                    enctype="multipart/form-data">
 
-                <input type="hidden" name="id_pengguna" id="edit_id" value="anggota">
+                    <input type="hidden" name="id_pengguna" id="edit_id" value="anggota">
 
-                <label>Nama Lengkap</label>
-                <input type="text" name="nama_lengkap" id="edit_nama" value="anggota">
+                    <label>Nama Lengkap</label>
+                    <input type="text" name="nama_lengkap" id="edit_nama" value="anggota">
 
-                <label>Email</label>
-                <input type="email" name="email" id="edit_email" value="anggota">
+                    <label>Email</label>
+                    <input type="email" name="email" id="edit_email" value="anggota">
 
-                <label>No HP</label>
-                <input type="text" name="no_hp" id="edit_hp" value="anggota">
+                    <label>No HP</label>
+                    <input type="text" name="no_hp" id="edit_hp" value="anggota">
 
-                <label>Alamat</label>
-                <input type="text" name="alamat" id="edit_alamat" value="anggota">
+                    <label>Alamat</label>
+                    <input type="text" name="alamat" id="edit_alamat" value="anggota">
 
-                <label>Username</label>
-                <input type="text" name="nama_pengguna" id="edit_username" value="anggota">
+                    <label>Username</label>
+                    <input type="text" name="nama_pengguna" id="edit_username" value="anggota">
 
-                <label>Password Baru</label>
-                <input type="password" name="kata_sandi" value="anggota">
-                <small>Kosongkan jika tidak ingin mengganti password</small>
+                    <label>Password Baru</label>
+                    <input type="password" name="kata_sandi" value="anggota">
+                    <small>Kosongkan jika tidak ingin mengganti password</small>
 
-                <label>Foto Baru</label>
-                <input type="file" name="foto" value="anggota">
+                    <label>Foto Baru</label>
+                    <input type="file" name="foto" value="anggota">
 
-                <br><br>
+                    <br><br>
 
-                <button type="submit" class="btn-save">Simpan</button>
+                    <button type="submit" class="btn-save">Simpan</button>
 
-            </form>
+                </form>
 
+            </div>
         </div>
+        <?php } ?>
+
     </div>
 
-</div>
+    <script>
+    function openEditModal(button) {
 
-<script>
-function openEditModal(button) {
+        document.getElementById("editModal").style.display = "block";
 
-    document.getElementById("editModal").style.display = "block";
+        document.getElementById("edit_id").value = button.dataset.id;
+        document.getElementById("edit_nama").value = button.dataset.nama;
+        document.getElementById("edit_email").value = button.dataset.email;
+        document.getElementById("edit_hp").value = button.dataset.hp;
+        document.getElementById("edit_alamat").value = button.dataset.alamat;
+        document.getElementById("edit_username").value = button.dataset.username;
 
-    document.getElementById("edit_id").value = button.dataset.id;
-    document.getElementById("edit_nama").value = button.dataset.nama;
-    document.getElementById("edit_email").value = button.dataset.email;
-    document.getElementById("edit_hp").value = button.dataset.hp;
-    document.getElementById("edit_alamat").value = button.dataset.alamat;
-    document.getElementById("edit_username").value = button.dataset.username;
-
-}
-
-function closeModal() {
-    document.getElementById("editModal").style.display = "none";
-}
-
-
-function openTambahModal() {
-    document.getElementById("tambahModal").style.display = "block";
-}
-
-function closeTambahModal() {
-    document.getElementById("tambahModal").style.display = "none";
-}
-
-window.onclick = function(event) {
-
-    let editModal = document.getElementById("editModal");
-    let tambahModal = document.getElementById("tambahModal");
-
-    if (event.target == editModal) {
-        editModal.style.display = "none";
     }
 
-    if (event.target == tambahModal) {
-        tambahModal.style.display = "none";
+    function closeModal() {
+        document.getElementById("editModal").style.display = "none";
     }
 
-}
-</script>
+
+    function openTambahModal() {
+        document.getElementById("tambahModal").style.display = "block";
+    }
+
+    function closeTambahModal() {
+        document.getElementById("tambahModal").style.display = "none";
+    }
+
+    window.onclick = function(event) {
+
+        let editModal = document.getElementById("editModal");
+        let tambahModal = document.getElementById("tambahModal");
+
+        if (event.target == editModal) {
+            editModal.style.display = "none";
+        }
+
+        if (event.target == tambahModal) {
+            tambahModal.style.display = "none";
+        }
+
+    }
+    </script>

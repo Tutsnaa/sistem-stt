@@ -104,12 +104,7 @@ $kepengurusan = $kepengurusanModel->getAll(); // Pastikan ada method getAll()
 
             <div class="sidebar-menu">
                 <ul>
-                    <li>
-                        <a href="dashboard_pengurus.php?page=dashboard"
-                            class="<?php echo ($page == 'dashboard') ? 'active' : ''; ?>">
-                            Dashboard
-                        </a>
-                    </li>
+                    <h3 class="menu-title">Dashboard</h3>
 
                     <li>
                         <a href="dashboard_pengurus.php?page=pengumuman"

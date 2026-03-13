@@ -1,8 +1,8 @@
 <div class="page-content">
 
     <!-- POPUP FORM -->
-    <div id="popupForm" class="popup">
 
+    <div id="popupForm" class="popup">
         <div class="popup-content">
 
             <span class="close-btn" onclick="closePopup()">&times;</span>
@@ -45,13 +45,15 @@
             </form>
 
         </div>
-
     </div>
+
+
 
     <!-- TABEL DATA -->
     <div class="table-keuangan">
 
         <!-- FORM EDIT -->
+        <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
         <?php
 $editData = null;
 
@@ -103,6 +105,7 @@ if(isset($_GET['edit'])){
 
             </div>
         </div>
+        <?php } ?>
 
         <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
         <button class="btn-tambah" onclick="openPopup()">

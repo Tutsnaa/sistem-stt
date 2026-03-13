@@ -13,6 +13,7 @@ $page = $_GET['page'] ?? 'dashboard';
 // panggil model untuk menampilkan data pengguna
 require_once __DIR__ . '/../src/models/PenggunaModel.php';
 
+
 $model = new PenggunaModel();
 
 // ambil kata pencarian
@@ -47,7 +48,8 @@ session_start();
     <meta charset="UTF-8">
     <title>Dashboard Umum - Sekaa Truna Truni</title>
     <link rel="stylesheet" href="../asset/css/DashboardAnggota.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="../asset/css/PagesDashboard.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../asset/css/PagesAnggotaRoleA.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../asset/css/PagesKeuanganRoleA.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/navbar.css?v=<?php echo time(); ?>">
 </head>
 
@@ -63,11 +65,27 @@ session_start();
         <div class="navbar-right">
 
             <ul class="navbar-menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#pengumuman">Pengumuman</a></li>
-                <li><a href="#anggota">Anggota</a></li>
-                <li><a href="#keuangan">Keuangan</a></li>
+                <li><a href="dashboard_anggota.php?page=home"
+                        class="<?php echo ($page == 'home' && !isset($_GET['section'])) ? 'active' : ''; ?>">
+                        Home
+                    </a></li>
+                <li><a href="dashboard_anggota.php?page=home&section=pengumuman#pengumuman"
+                        class="<?php echo (isset($_GET['section']) && $_GET['section'] == 'pengumuman') ? 'active' : ''; ?>">
+                        Pengumuman
+                    </a></li>
+                <li><a href="dashboard_anggota.php?page=anggota"
+                        class="<?php echo ($page == 'anggota') ? 'active' : ''; ?>">
+                        Data Anggota
+                    </a></li>
+                <li><a href="dashboard_anggota.php?page=keuangan"
+                        class="<?php echo ($page == 'keuangan') ? 'active' : ''; ?>">
+                        Keuangan
+                    </a></li>
                 <li><a href="#voting">Voting</a></li>
+                <li><a href="dashboard_anggota.php?page=home&section=kontak#kontak"
+                        class="<?php echo (isset($_GET['section']) && $_GET['section'] == 'kontak') ? 'active' : ''; ?>">
+                        Kontak
+                    </a></li>
             </ul>
 
         </div>
@@ -83,75 +101,49 @@ session_start();
     </div>
 
 
-    <!-- ================= HOME ================= -->
-    <div id="home" class="hero-section">
-        <div class="hero-container">
+    <div>
 
-            <div class="hero-text">
+        <?php
+$page = $_GET['page'] ?? 'home';
 
-                <h1>Sekaa Truna Truni Putra Kencana</h1>
-                <h3>Media Informasi, Kegiatan, dan Administrasi Organisasi</h3>
+switch ($page) {
 
-                <p>
-                    Sekaa Truna Truni Putra Kencana yang berlokasi di Banjar Kawan, Mas,
-                    Kabupaten Gianyar merupakan organisasi kepemudaan yang menjadi
-                    wadah kebersamaan dan kreativitas generasi muda.
-                </p>
+    case 'home':
+        include '../src/pages/home.php';
+        break;
 
-            </div>
+    case 'profil':
+        include '../src/pages/profil.php';
+        break;
 
-            <div class="hero-image">
-                <div class="image-blob">
-                    <img src="../asset/img/Gambar2.jpeg">
-                </div>
-            </div>
+    case 'profil':
+        include '../src/pages/pengumuman.php';
+        break;
 
-        </div>
-    </div>
+    case 'anggota':
+        include '../src/pages/anggota.php';
+        break;
 
-    <!-- ================= PENGUMUMAN ================= -->
-    <div id="pengumuman" class="section-pengumuman">
+    case 'kepengurusan':
+        include '../src/pages/kepengurusan.php';
+        break;
 
-        <h2>Pengumuman</h2>
+    case 'keuangan':
+        include '../src/pages/keuangan.php';
+        break;
 
-        <div class="pengumuman-list">
+    case 'pengumuman':
+        include '../src/pages/pengumuman.php';
+        break;
 
-            <?php if(!empty($dataPengumuman)): ?>
-            <?php foreach($dataPengumuman as $p): ?>
+    case 'voting':
+        include '../src/pages/voting.php';
+        break;
 
-            <?php if($p['status'] == 'tampil'): ?>
-
-            <div class="pengumuman-card">
-
-                <h3><?= htmlspecialchars($p['judul']) ?></h3>
-
-                <p>
-                    <?= nl2br(htmlspecialchars($p['isi'])) ?>
-                </p>
-
-                <?php if($p['file']): ?>
-                <a href="../uploads/<?= $p['file'] ?>" target="_blank">
-                    Download File
-                </a>
-                <?php endif; ?>
-
-                <small>
-                    Oleh: <?= $p['nama_lengkap'] ?> <br>
-                    <?= date('d M Y', strtotime($p['tanggal_dibuat'])) ?>
-                </small>
-
-            </div>
-
-            <?php endif; ?>
-
-            <?php endforeach; ?>
-            <?php else: ?>
-
-            <p>Tidak ada pengumuman.</p>
-
-            <?php endif; ?>
-
-        </div>
+    default:
+        include '../src/pages/dashboard.php';
+}
+?>
 
     </div>
 
@@ -168,17 +160,17 @@ session_start();
         <h2>Masuk ke Sistem STT</h2>
 
         <?php
-if(isset($_SESSION['error'])){
-echo "<p class='error'>".$_SESSION['error']."</p>";
-unset($_SESSION['error']);
+        if(isset($_SESSION['error'])){
+        echo "<p class='error'>".$_SESSION['error']."</p>";
+        unset($_SESSION['error']);
 
-echo "<script>
-window.onload = function(){
-openLogin();
-}
-</script>";
-}
-?>
+        echo "<script>
+        window.onload = function(){
+        openLogin();
+        }
+        </script>";
+        }
+        ?>
 
         <!-- ================= FORM LOGIN ================= -->
         <form action="../src/controllers/AuthController.php?action=login" method="POST">
