@@ -80,12 +80,15 @@ try {
 if($action == 'createVoting') {
 
     $data = [
-        'id_pengguna' => $_POST['id_pengguna'],
-        'judul' => $_POST['judul'],
-        'periode' => $_POST['periode'],
-        'tanggal_buka' => $_POST['tanggal_buka'],
-        'tanggal_tutup' => $_POST['tanggal_tutup']
-    ];
+    'id_pengguna' => $_POST['id_pengguna'],
+    'judul' => $_POST['judul'],
+    'masa_awal_jabatan' => $_POST['masa_awal_jabatan'],
+    'masa_akhir_jabatan' => $_POST['masa_akhir_jabatan'],
+    'periode' => $_POST['periode'],
+    'tanggal_buka' => $_POST['tanggal_buka'],
+    'tanggal_tutup' => $_POST['tanggal_tutup']
+    
+];
 
     $result = $votingModel->createVoting($data);
 
@@ -118,31 +121,42 @@ if($action == 'updateVoting') {
 function prosesPemenang($votingModel, $kepengurusanModel, $id_voting){
 
     $data = $votingModel->getPemenangPerJabatan($id_voting);
+    $voting = $votingModel->getVotingById($id_voting);
+
+    if(empty($data)){
+        die("DATA PEMENANG KOSONG");
+    }
 
     $pemenang = [];
 
     foreach($data as $row){
-
-        $jabatan = $row['jabatan'];
-
-        // ambil yang suara terbesar saja per jabatan
-        if(!isset($pemenang[$jabatan])){
-            $pemenang[$jabatan] = $row;
+        if(!isset($pemenang[$row['jabatan']])){
+            $pemenang[$row['jabatan']] = $row;
         }
     }
 
     foreach($pemenang as $row){
 
-        // INSERT ke kepengurusan
-        $kepengurusanModel->insertKepengurusan([
+        // 🔥 turunkan pengurus lama
+        $kepengurusanModel->turunkanPengurusLama(
+            $row['jabatan'],
+            $row['id_pengguna']
+        );
+
+        // 🔥 insert
+        $result = $kepengurusanModel->insertKepengurusan([
             'id_pengguna' => $row['id_pengguna'],
-            'masa_awal' => date('Y-m-d'),
-            'masa_akhir' => date('Y-m-d', strtotime('+1 year')),
+            'masa_awal' => $voting['masa_awal_jabatan'],
+            'masa_akhir' => $voting['masa_akhir_jabatan'],
             'jabatan' => $row['jabatan'],
             'id_voting' => $id_voting
         ]);
 
-        // UPDATE jabatan pengguna
+        if(!$result){
+            die("GAGAL INSERT KE KEPENGURUSAN");
+        }
+
+        // 🔥 update jabatan
         $kepengurusanModel->updateJabatanPengguna(
             $row['id_pengguna'],
             $row['jabatan']

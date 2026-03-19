@@ -9,7 +9,8 @@
                     <th>No</th>
                     <th>Nama</th>
                     <th>Jabatan</th>
-                    <th>Masa Jabatan</th>
+                    <th>Masa Awal Jabatan</th>
+                    <th>Masa Akhir Jabatan</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -19,8 +20,19 @@
                     <td><?= $no++ ?></td>
                     <td><?= htmlspecialchars($k['nama_lengkap']) ?></td>
                     <td><?= ucfirst($k['jabatan']) ?></td>
-                    <td><?= date('Y', strtotime($k['masa_awal_jabatan'])) ?> -
-                        <?= date('Y', strtotime($k['masa_akhir_jabatan'])) ?></td>
+                    <!-- 🔥 MASA AWAL -->
+                    <td>
+                        <?= !empty($k['masa_awal_jabatan']) 
+                                ? date('Y-m-d', strtotime($k['masa_awal_jabatan'])) 
+                                : '-' ?>
+                    </td>
+
+                    <!-- 🔥 MASA AKHIR -->
+                    <td>
+                        <?= !empty($k['masa_akhir_jabatan']) 
+                                ? date('Y-m-d', strtotime($k['masa_akhir_jabatan'])) 
+                                : '-' ?>
+                    </td>
                     <td>
                         <a href="../src/controllers/KepengurusanController.php?action=hapus&id=<?= $k['id_kepengurusan'] ?>"
                             class="btn-delete" onclick="return confirm('Hapus data kepengurusan ini?')">

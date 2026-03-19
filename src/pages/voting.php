@@ -10,6 +10,8 @@
             <tr>
                 <th>No</th>
                 <th>Judul Voting</th>
+                <th>Masa Awal Jabatan</th>
+                <th>Masa Akhir Jabatan</th>
                 <th>Periode</th>
                 <th>Tanggal Buka</th>
                 <th>Tanggal Tutup</th>
@@ -22,19 +24,32 @@
             <tr>
                 <td><?= $no++; ?></td>
                 <td><?= htmlspecialchars($row['judul']) ?></td>
+
+                <!-- AMAN DARI NULL -->
+                <td><?= $row['masa_awal_jabatan'] ? htmlspecialchars($row['masa_awal_jabatan']) : '-' ?></td>
+                <td><?= $row['masa_akhir_jabatan'] ? htmlspecialchars($row['masa_akhir_jabatan']) : '-' ?></td>
+
                 <td><?= htmlspecialchars($row['periode']) ?></td>
                 <td><?= htmlspecialchars($row['tanggal_buka']) ?></td>
                 <td><?= htmlspecialchars($row['tanggal_tutup']) ?></td>
                 <td><?= htmlspecialchars($row['status']) ?></td>
+
                 <td>
                     <button class="btn btn-ubah" data-id="<?= $row['id_voting'] ?>"
                         data-judul="<?= htmlspecialchars($row['judul']) ?>"
                         data-periode="<?= htmlspecialchars($row['periode']) ?>"
+                        data-masa_awal="<?= $row['masa_awal_jabatan'] ?>"
+                        data-masa_akhir="<?= $row['masa_akhir_jabatan'] ?>"
                         data-tanggal_buka="<?= date('Y-m-d', strtotime($row['tanggal_buka'])) ?>"
                         data-tanggal_tutup="<?= date('Y-m-d', strtotime($row['tanggal_tutup'])) ?>"
-                        data-status="<?= $row['status'] ?>">Ubah</button>
+                        data-status="<?= $row['status'] ?>">
+                        Ubah
+                    </button>
+
                     <a href="../src/controllers/VotingController.php?action=deleteVoting&id=<?= $row['id_voting'] ?>"
-                        onclick="return confirm('Yakin ingin menghapus voting?')">Hapus</a>
+                        onclick="return confirm('Yakin ingin menghapus voting?')">
+                        Hapus
+                    </a>
                 </td>
             </tr>
             <?php endforeach; ?>
@@ -133,6 +148,7 @@
     <div class="popup-content">
         <span class="popup-close">&times;</span>
         <h2>Edit Voting</h2>
+
         <form action="../src/controllers/VotingController.php?action=updateVoting" method="POST">
             <input type="hidden" name="id_voting" id="edit_id">
 
@@ -141,6 +157,13 @@
 
             <label>Periode</label>
             <input type="text" name="periode" id="edit_periode" required>
+
+            <!-- 🔥 TAMBAHAN -->
+            <label>Masa Awal Jabatan</label>
+            <input type="date" name="masa_awal_jabatan" id="edit_masa_awal" required>
+
+            <label>Masa Akhir Jabatan</label>
+            <input type="date" name="masa_akhir_jabatan" id="edit_masa_akhir" required>
 
             <label>Tanggal Buka</label>
             <input type="date" name="tanggal_buka" id="edit_tanggal_buka" required>
@@ -192,6 +215,10 @@
             <input type="hidden" name="id_pengguna" value="<?= $user['id_pengguna'] ?>">
             <label>Judul Voting</label>
             <input type="text" name="judul" required>
+            <label>Masa Awal Jabatan</label>
+            <input type="date" name="masa_awal_jabatan" required>
+            <label>Masa Akhir Jabatan</label>
+            <input type="date" name="masa_akhir_jabatan" required>
             <label>Periode</label>
             <input type="text" name="periode" required>
             <label>Tanggal Buka</label>
@@ -256,46 +283,6 @@
     </div>
 </div>
 
-<!-- ================= Style Popup ================= -->
-<!-- <style>
-.popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
-    display: none;
-}
-
-.popup-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    width: 400px;
-    max-width: 90%;
-    position: relative;
-}
-
-.popup-close {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-.popup-content input,
-.popup-content select,
-.popup-content textarea,
-.popup-content button {
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 6px;
-}
-</style> -->
 
 <!-- ================= Script Popup & Edit ================= -->
 <script>
@@ -321,6 +308,8 @@ document.querySelectorAll(".btn-ubah").forEach(btn => {
     btn.addEventListener("click", () => {
         document.getElementById("edit_id").value = btn.dataset.id;
         document.getElementById("edit_judul").value = btn.dataset.judul;
+        document.getElementById('edit_masa_awal').value = btn.dataset.masa_awal;
+        document.getElementById('edit_masa_akhir').value = btn.dataset.masa_akhir;
         document.getElementById("edit_periode").value = btn.dataset.periode;
         document.getElementById("edit_tanggal_buka").value = btn.dataset.tanggal_buka;
         document.getElementById("edit_tanggal_tutup").value = btn.dataset.tanggal_tutup;

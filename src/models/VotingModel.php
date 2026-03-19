@@ -30,12 +30,15 @@ class VotingModel {
     public function createVoting($data){
         try {
             if(empty($data['id_pengguna'])) throw new Exception("ID Pengguna kosong");
-            $query = "INSERT INTO voting (id_pengguna, judul, periode, tanggal_buka, tanggal_tutup, status)
-                      VALUES (?, ?, ?, ?, ?, ?)";
+            $query = "INSERT INTO voting 
+(id_pengguna, judul, masa_awal_jabatan, masa_akhir_jabatan, periode, tanggal_buka, tanggal_tutup, status)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $this->conn->prepare($query);
             $stmt->execute([
                 $data['id_pengguna'],
                 $data['judul'],
+                $data['masa_awal_jabatan'],
+                $data['masa_akhir_jabatan'],
                 $data['periode'],
                 $data['tanggal_buka'],
                 $data['tanggal_tutup'],
@@ -137,5 +140,11 @@ class VotingModel {
     ");
     $stmt->execute([$id_voting]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function getVotingById($id_voting){
+    $stmt = $this->conn->prepare("SELECT * FROM voting WHERE id_voting=?");
+    $stmt->execute([$id_voting]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 }

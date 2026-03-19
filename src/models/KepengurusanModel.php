@@ -80,5 +80,13 @@ public function updateJabatanPengguna($id_pengguna, $jabatan){
     return $stmt->execute([$jabatan, $id_pengguna]);
 }
 
+public function turunkanPengurusLama($jabatan, $id_pemenang){
+    $stmt = $this->conn->prepare("
+        UPDATE pengguna 
+        SET jabatan = 'anggota'
+        WHERE jabatan = ? AND id_pengguna != ?
+    ");
+    return $stmt->execute([$jabatan, $id_pemenang]);
+}
 
 }
