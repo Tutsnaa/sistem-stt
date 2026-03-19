@@ -140,8 +140,8 @@ switch ($page) {
         include '../src/pages/voting.php';
         break;
 
-    default:
-        include '../src/pages/dashboard.php';
+    // default:
+    //     include '../src/pages/dashboard.php';
 }
 ?>
 

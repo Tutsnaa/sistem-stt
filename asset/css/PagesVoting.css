@@ -2,7 +2,7 @@
    CSS Pages Voting
 ============================== */
 
-/* Container utama halaman voting */
+/* Container utama */
 .pages-voting-container {
   margin-left: 115px;
   margin-top: 30px;
@@ -16,120 +16,8 @@
   margin-bottom: 10px;
 }
 
-.pages-voting-container table {
-  border-collapse: collapse;
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-.pages-voting-container table th,
-.pages-voting-container table td {
-  border: 1px solid #ccc;
-  padding: 8px;
-  text-align: left;
-}
-
-.pages-voting-container table th {
-  background-color: #f2f2f2;
-}
-
-.pages-voting-container button {
-  padding: 6px 12px;
-  background-color: #4caf50;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.pages-voting-container button:hover {
-  background-color: #45a049;
-}
-
 /* =========================
-POPUP VOTING & KANDIDAT
-========================= */
-.pages-voting-popup,
-.pages-voting-modal {
-  display: none; /* hidden by default */
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent bg */
-  justify-content: center;
-  align-items: center;
-}
-
-.pages-voting-popup .popup-content,
-.pages-voting-modal .modal-content {
-  background-color: #fff;
-  padding: 20px 30px;
-  border-radius: 8px;
-  position: relative;
-  width: 500px;
-  max-width: 90%;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-/* =========================
-CLOSE BUTTON
-========================= */
-.popup-close {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-.popup-close:hover {
-  color: #ff0000;
-}
-
-/* =========================
-FORM ELEMENTS
-========================= */
-.pages-voting-popup input[type="text"],
-.pages-voting-popup input[type="date"],
-.pages-voting-popup input[type="number"],
-.pages-voting-popup select,
-.pages-voting-popup textarea,
-.pages-voting-modal input[type="text"],
-.pages-voting-modal input[type="date"] {
-  width: 100%;
-  padding: 6px 10px;
-  margin: 6px 0 12px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.pages-voting-popup button,
-.pages-voting-modal button {
-  margin-top: 10px;
-}
-
-/* =========================
-TABLE ACTION LINKS
-========================= */
-.pages-voting-container a {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.pages-voting-container a:hover {
-  text-decoration: underline;
-}
-
-/* =========================
-   CSS Khusus Tabel Rekap Suara Voting
+TABLE
 ========================= */
 .pages-voting-table {
   border-collapse: collapse;
@@ -149,7 +37,7 @@ TABLE ACTION LINKS
 }
 
 .pages-voting-table th {
-  background-color: #4caf50;
+  background-color: #ff9644;
   color: white;
   font-weight: bold;
 }
@@ -162,10 +50,142 @@ TABLE ACTION LINKS
   background-color: #f1f1f1;
 }
 
-.pages-voting-table td {
-  vertical-align: middle;
-}
-
 .pages-voting-table td:last-child {
   text-align: center;
+}
+
+/* =========================
+BUTTON BASE
+========================= */
+.btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 13px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+/* =========================
+TAMBAH (HIJAU)
+========================= */
+.btn-tambah {
+  background-color: #28a745;
+}
+
+.btn-tambah:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+/* =========================
+UBAH (OREN)
+========================= */
+.btn-ubah {
+  background-color: #f39c12;
+}
+
+.btn-ubah:hover {
+  background-color: #e67e22;
+  transform: scale(1.05);
+}
+
+/* =========================
+HAPUS (MERAH)
+========================= */
+.btn-hapus {
+  background-color: #dc3545;
+}
+
+.btn-hapus:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
+}
+
+/* =========================
+DISABLED
+========================= */
+.btn-disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* =========================
+LINK DALAM TABLE
+========================= */
+.pages-voting-container a {
+  text-decoration: none;
+}
+
+/* =========================
+POPUP
+========================= */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 90%;
+  position: relative;
+}
+
+/* =========================
+CLOSE BUTTON
+========================= */
+.popup-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.popup-close:hover {
+  color: red;
+}
+
+/* =========================
+FORM
+========================= */
+.popup-content input,
+.popup-content select,
+.popup-content textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.popup-content button {
+  margin-top: 10px;
+}
+
+/* =========================
+RESPONSIVE (OPSIONAL)
+========================= */
+@media (max-width: 768px) {
+  .pages-voting-container {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .popup-content {
+    width: 90%;
+  }
 }

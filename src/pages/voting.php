@@ -1,7 +1,7 @@
 <div class="pages-voting-container">
 
     <h2>Kelola Voting</h2>
-    <button onclick="openVotingPopup()">Tambah Voting</button>
+    <button class="btn-tambah" onclick="openVotingPopup()">Tambah Voting</button>
     <br><br>
 
     <!-- Tabel Voting -->
@@ -27,7 +27,7 @@
                 <td><?= htmlspecialchars($row['tanggal_tutup']) ?></td>
                 <td><?= htmlspecialchars($row['status']) ?></td>
                 <td>
-                    <button class="btn-edit" data-id="<?= $row['id_voting'] ?>"
+                    <button class="btn btn-ubah" data-id="<?= $row['id_voting'] ?>"
                         data-judul="<?= htmlspecialchars($row['judul']) ?>"
                         data-periode="<?= htmlspecialchars($row['periode']) ?>"
                         data-tanggal_buka="<?= date('Y-m-d', strtotime($row['tanggal_buka'])) ?>"
@@ -44,7 +44,7 @@
     <hr>
 
     <h2>Kelola Kandidat</h2>
-    <button onclick="openKandidatPopup()">Tambah Kandidat</button>
+    <button class="btn-tambah" onclick="openKandidatPopup()">Tambah Kandidat</button>
     <br><br>
 
     <!-- Tabel Kandidat -->
@@ -71,7 +71,7 @@
                 <td><?= htmlspecialchars($row['visi']) ?></td>
                 <td><?= htmlspecialchars($row['misi']) ?></td>
                 <td>
-                    <button class="btn-edit-kandidat" data-id="<?= $row['id_calon'] ?>"
+                    <button class="btn btn-ubah" data-id="<?= $row['id_calon'] ?>"
                         data-id_voting="<?= $row['id_voting'] ?>" data-id_pengguna="<?= $row['id_pengguna'] ?>"
                         data-jabatan="<?= htmlspecialchars($row['jabatan']) ?>"
                         data-no_paslon="<?= $row['no_paslon'] ?>" data-visi="<?= htmlspecialchars($row['visi']) ?>"
@@ -82,8 +82,16 @@
                         onclick="return confirm('Yakin ingin menghapus kandidat?')">Hapus</a>
                 </td>
                 <td>
+                    <?php if($row['status'] == 'dibuka'): ?>
                     <a href="../src/controllers/VotingController.php?action=vote&id_calon=<?= $row['id_calon'] ?>"
-                        onclick="return confirm('Yakin memilih kandidat ini?')">Vote</a>
+                        onclick="return confirm('Yakin memilih kandidat ini?')" class="btn btn-tambah">
+                        Vote
+                    </a>
+                    <?php else: ?>
+                    <button class="btn btn-hapus" disabled>
+                        Voting Ditutup
+                    </button>
+                    <?php endif; ?>
                 </td>
             </tr>
             <?php endforeach; ?>
@@ -249,7 +257,7 @@
 </div>
 
 <!-- ================= Style Popup ================= -->
-<style>
+<!-- <style>
 .popup {
     position: fixed;
     top: 0;
@@ -287,7 +295,7 @@
     margin-bottom: 10px;
     padding: 6px;
 }
-</style>
+</style> -->
 
 <!-- ================= Script Popup & Edit ================= -->
 <script>
@@ -309,7 +317,7 @@ function closeKandidatPopup() {
 
 // Edit Voting
 const modalEdit = document.getElementById("modalEdit");
-document.querySelectorAll(".btn-edit").forEach(btn => {
+document.querySelectorAll(".btn-ubah").forEach(btn => {
     btn.addEventListener("click", () => {
         document.getElementById("edit_id").value = btn.dataset.id;
         document.getElementById("edit_judul").value = btn.dataset.judul;

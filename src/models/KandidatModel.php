@@ -12,7 +12,8 @@ class KandidatModel {
     // ====================== CREATE KANDIDAT
     public function createKandidat($data){
         try {
-            $query = "INSERT INTO calon_kandidat (id_voting, id_pengguna, jabatan, no_paslon, visi, misi)
+            $query = "INSERT INTO calon_kandidat 
+                      (id_voting, id_pengguna, jabatan, no_paslon, visi, misi)
                       VALUES (?, ?, ?, ?, ?, ?)";
             $stmt = $this->conn->prepare($query);
             return $stmt->execute([
@@ -62,17 +63,23 @@ class KandidatModel {
         }
     }
 
-    // ====================== GET ALL KANDIDAT
+    // ====================== GET ALL KANDIDAT (FIXED)
     public function getAllKandidat(){
         try {
-            $query = "SELECT c.*, p.nama_lengkap, v.judul
+            $query = "SELECT 
+                        c.*, 
+                        p.nama_lengkap, 
+                        v.judul,
+                        v.status
                       FROM calon_kandidat c
                       JOIN pengguna p ON c.id_pengguna = p.id_pengguna
                       JOIN voting v ON c.id_voting = v.id_voting
                       ORDER BY c.id_calon DESC";
+
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
         } catch(PDOException $e){
             error_log("Get All Kandidat Error: " . $e->getMessage());
             return [];
