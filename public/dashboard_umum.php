@@ -1,5 +1,19 @@
 <?php
 session_start();
+$page = $_GET['page'] ?? 'home';
+require_once __DIR__ . '/../src/models/PengumumanModel.php';
+
+$pengumumanModel = new PengumumanModel();
+$dataPengumuman = $pengumumanModel->getAllPengumuman();
+
+require_once __DIR__ . '/../src/models/PenggunaModel.php';
+
+
+$model = new PenggunaModel();
+
+// ambil data anggota
+$dataAnggota = $model->getAll($search);
+
 ?>
 
 <!DOCTYPE html>
@@ -9,6 +23,7 @@ session_start();
     <meta charset="UTF-8">
     <title>Dashboard Umum - Sekaa Truna Truni</title>
     <link rel="stylesheet" href="../asset/css/DashboardUmum.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../asset/css/DashboardAnggota.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/PagesDashboard.css?v=<?php echo time(); ?>">
 </head>
 
@@ -24,10 +39,21 @@ session_start();
         <div class="navbar-right">
 
             <ul class="navbar-menu">
-                <li><a href="#">Kepengurusan</a></li>
-                <li><a href="#">Pengumuman</a></li>
-                <li><a href="#">Keuangan</a></li>
-                <li><a href="#">Voting</a></li>
+                <li><a href="dashboard_umum.php?page=home"
+                        class="<?php echo ($page == 'home' && !isset($_GET['section'])) ? 'active' : ''; ?>">
+                        Home
+                    </a></li>
+                <li><a href="dashboard_umum.php?page=home&section=pengumuman#pengumuman"
+                        class="<?php echo (isset($_GET['section']) && $_GET['section'] == 'pengumuman') ? 'active' : ''; ?>">
+                        Pengumuman
+                    </a></li>
+                <li><a onclick="openLogin()" href="#">Data Anggota</a></li>
+                <li><a onclick="openLogin()" href="#">Keuangan</a></li>
+                <li><a onclick="openLogin()" href="#">Voting</a></li>
+                <li><a href="dashboard_umum.php?page=home&section=kontak#kontak"
+                        class="<?php echo (isset($_GET['section']) && $_GET['section'] == 'kontak') ? 'active' : ''; ?>">
+                        Kontak
+                    </a></li>
             </ul>
 
             <button class="login-btn" onclick="openLogin()">
@@ -39,12 +65,12 @@ session_start();
     </div>
 
     <!-- ================= HERO ================= -->
-    <div class="hero-section">
+    <!-- <div class="hero-section">
         <div class="hero-container">
 
             <div class="hero-text">
 
-                <h1>Sekaa Truna Truni Putra Kencana</h1>
+                <h1>Sekaa Truna Truni Galuh Mantri</h1>
                 <h3>Media Informasi, Kegiatan, dan Administrasi Organisasi</h3>
 
                 <p>
@@ -61,86 +87,72 @@ session_start();
 
             <div class="hero-image">
                 <div class="image-blob">
-                    <img src="../asset/img/Gambar2.jpeg">
+                    <img src="../asset/img/LogoSTT.jpeg">
                 </div>
             </div>
 
         </div>
+    </div> -->
+
+
+    <div>
+
+        <?php
+$page = $_GET['page'] ?? 'home';
+
+switch ($page) {
+
+    case 'home':
+        include '../src/pages/home.php';
+        break;
+
+    case 'profil':
+        include '../src/pages/profil.php';
+        break;
+
+    case 'profil':
+        include '../src/pages/pengumuman.php';
+        break;
+
+    case 'anggota':
+        include '../src/pages/anggota.php';
+        break;
+
+    case 'kepengurusan':
+        include '../src/pages/kepengurusan.php';
+        break;
+
+    case 'keuangan':
+        include '../src/pages/keuangan.php';
+        break;
+
+    case 'pengumuman':
+        include '../src/pages/pengumuman.php';
+        break;
+
+    case 'voting':
+        include '../src/pages/voting.php';
+        break;
+
+    // default:
+    //     include '../src/pages/dashboard.php';
+}
+?>
+
     </div>
 
-    <!-- ===== STRUKTUR ORGANISASI ===== -->
-    <div class="struktur-wrapper">
 
-        <h2 class="struktur-title">Struktur Organisasi</h2>
+    <!-- ================= OVERLAY ================= -->
+    <div id="overlay" class="overlay" onclick="closeLogin()"></div>
 
-        <div class="org-container">
+    <!-- ================= POPUP LOGIN ================= -->
+    <div id="loginPopup" class="login-container">
 
-            <!-- Ketua -->
-            <div class="org-row center">
-                <div class="org-card">
-                    <img src="../asset/img/ketua.jpg" alt="Ketua">
-                    <h3>Nama Ketua</h3>
-                    <p>Ketua</p>
-                </div>
-            </div>
+        <span class="close-btn" onclick="closeLogin()">&times;</span>
 
-            <!-- Garis vertikal ke Wakil -->
-            <div class="org-line"></div>
+        <h2>Masuk ke Sistem STT</h2>
 
-            <!-- Wakil -->
-            <div class="org-row center">
-                <div class="org-card">
-                    <img src="../asset/img/ketua.jpg" alt="Wakil">
-                    <h3>Nama Wakil</h3>
-                    <p>Wakil Ketua</p>
-                </div>
-            </div>
-
-            <!-- Garis vertikal ke Sekretaris & Bendahara -->
-            <div class="org-line"></div>
-
-            <!-- Sekretaris & Bendahara -->
-            <div class="org-row">
-                <div class="org-card">
-                    <img src="../asset/img/ketua.jpg" alt="Sekretaris1">
-                    <h3>Sekretaris 1</h3>
-                    <p>Sekretaris</p>
-                </div>
-
-                <div class="org-card">
-                    <img src="../asset/img/ketua.jpg" alt="Sekretaris2">
-                    <h3>Sekretaris 2</h3>
-                    <p>Sekretaris</p>
-                </div>
-
-                <div class="org-card">
-                    <img src="../asset/img/ketua.jpg" alt="Bendahara1">
-                    <h3>Bendahara 1</h3>
-                    <p>Bendahara</p>
-                </div>
-
-                <div class="org-card">
-                    <img src="../asset/img/ketua.jpg" alt="Bendahara2">
-                    <h3>Bendahara 2</h3>
-                    <p>Bendahara</p>
-                </div>
-            </div>
-
-        </div>
-
-        </div>
-
-        <!-- ================= OVERLAY ================= -->
-        <div id="overlay" class="overlay" onclick="closeLogin()"></div>
-
-        <!-- ================= POPUP LOGIN ================= -->
-        <div id="loginPopup" class="login-container">
-
-            <span class="close-btn" onclick="closeLogin()">&times;</span>
-
-            <h2>Masuk ke Sistem STT</h2>
-
-            <?php
+        <?php
 if(isset($_SESSION['error'])){
 echo "<p class='error'>".$_SESSION['error']."</p>";
 unset($_SESSION['error']);
@@ -153,33 +165,33 @@ openLogin();
 }
 ?>
 
-            <!-- ================= FORM LOGIN ================= -->
-            <form action="../src/controllers/AuthController.php?action=login" method="POST">
+        <!-- ================= FORM LOGIN ================= -->
+        <form action="../src/controllers/AuthController.php?action=login" method="POST">
 
-                <label>Nama Pengguna</label>
-                <input type="text" name="nama_pengguna" required>
+            <label>Nama Pengguna</label>
+            <input type="text" name="nama_pengguna" required>
 
-                <label>Kata Sandi</label>
-                <input type="password" name="kata_sandi" required>
+            <label>Kata Sandi</label>
+            <input type="password" name="kata_sandi" required>
 
-                <button type="submit">Masuk</button>
+            <button type="submit">Masuk</button>
 
-            </form>
+        </form>
 
-        </div>
+    </div>
 
-        <!-- ================= SCRIPT ================= -->
-        <script>
-        function openLogin() {
-            document.getElementById("loginPopup").style.display = "block";
-            document.getElementById("overlay").style.display = "block";
-        }
+    <!-- ================= SCRIPT ================= -->
+    <script>
+    function openLogin() {
+        document.getElementById("loginPopup").style.display = "block";
+        document.getElementById("overlay").style.display = "block";
+    }
 
-        function closeLogin() {
-            document.getElementById("loginPopup").style.display = "none";
-            document.getElementById("overlay").style.display = "none";
-        }
-        </script>
+    function closeLogin() {
+        document.getElementById("loginPopup").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+    }
+    </script>
 
 </body>
 

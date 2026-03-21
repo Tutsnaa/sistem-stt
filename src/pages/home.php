@@ -4,7 +4,7 @@
 
         <div class="hero-text">
 
-            <h1>Sekaa Truna Truni Putra Kencana</h1>
+            <h1>Sekaa Truna Truni A</h1>
             <h3>Media Informasi, Kegiatan, dan Administrasi Organisasi</h3>
 
             <p>
@@ -17,7 +17,7 @@
 
         <div class="hero-image">
             <div class="image-blob">
-                <img src="../asset/img/Gambar2.jpeg">
+                <img src="../asset/img/gambar2.jpeg">
             </div>
         </div>
 
@@ -225,20 +225,21 @@ usort($pengurus, function($a, $b) use ($urutanJabatan) {
         <div class="footer-center">
             <h4>Menu</h4>
             <ul>
-                <li><a href="dashboard_anggota.php?page=home" class="<?php echo ($page == 'home') ? 'active' : ''; ?>">
+                <li><a href="dashboard_umum.php?page=home"
+                        class="<?php echo ($page == 'home' && !isset($_GET['section'])) ? 'active' : ''; ?>">
                         Home
                     </a></li>
-                <li><a href="#pengumuman">Pengumuman</a></li>
-                <li><a href="dashboard_anggota.php?page=anggota"
-                        class="<?php echo ($page == 'anggota') ? 'active' : ''; ?>">
-                        Data Anggota
+                <li><a href="dashboard_umum.php?page=home&section=pengumuman#pengumuman"
+                        class="<?php echo (isset($_GET['section']) && $_GET['section'] == 'pengumuman') ? 'active' : ''; ?>">
+                        Pengumuman
                     </a></li>
-                <li><a href="dashboard_anggota.php?page=keuangan"
-                        class="<?php echo ($page == 'keuangan') ? 'active' : ''; ?>">
-                        Keuangan
+                <li><a onclick="openLogin()" href="#">Data Anggota</a></li>
+                <li><a onclick="openLogin()" href="#">Keuangan</a></li>
+                <li><a onclick="openLogin()" href="#">Voting</a></li>
+                <li><a href="dashboard_umum.php?page=home&section=kontak#kontak"
+                        class="<?php echo (isset($_GET['section']) && $_GET['section'] == 'kontak') ? 'active' : ''; ?>">
+                        Kontak
                     </a></li>
-                <li><a href="#voting">Voting</a></li>
-                <li><a href="#kontak">Kontak</a></li>
             </ul>
         </div>
 

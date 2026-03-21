@@ -150,10 +150,13 @@
                     <td><?= htmlspecialchars($row['nama_pengguna']); ?></td>
                     <td>
                         <div class="aksi-btn">
-                            <button class="btn-edit" data-id="<?= $row['id_pengguna']; ?>"
-                                data-nama="<?= $row['nama_lengkap']; ?>" data-email="<?= $row['email']; ?>"
-                                data-hp="<?= $row['no_hp']; ?>" data-alamat="<?= $row['alamat']; ?>"
-                                data-username="<?= $row['nama_pengguna']; ?>" onclick="openEditModal(this)">
+                            <button class="btn-edit" data-id="<?= htmlspecialchars($row['id_pengguna']); ?>"
+                                data-nama="<?= htmlspecialchars($row['nama_lengkap']); ?>"
+                                data-email="<?= htmlspecialchars($row['email']); ?>"
+                                data-hp="<?= htmlspecialchars($row['no_hp']); ?>"
+                                data-alamat="<?= htmlspecialchars($row['alamat']); ?>"
+                                data-username="<?= htmlspecialchars($row['nama_pengguna']); ?>"
+                                data-foto="<?= htmlspecialchars($row['foto']); ?>" onclick="openEditModal(this)">
                                 Ubah
                             </button>
                             <a class="btn-hapus"
@@ -189,29 +192,32 @@
                 <form action="../src/controllers/PenggunaController.php?action=update" method="POST"
                     enctype="multipart/form-data">
 
-                    <input type="hidden" name="id_pengguna" id="edit_id" value="anggota">
+                    <input type="hidden" name="id_pengguna" id="edit_id">
 
                     <label>Nama Lengkap</label>
-                    <input type="text" name="nama_lengkap" id="edit_nama" value="anggota">
+                    <input type="text" name="nama_lengkap" id="edit_nama">
 
                     <label>Email</label>
-                    <input type="email" name="email" id="edit_email" value="anggota">
+                    <input type="email" name="email" id="edit_email">
 
                     <label>No HP</label>
-                    <input type="text" name="no_hp" id="edit_hp" value="anggota">
+                    <input type="text" name="no_hp" id="edit_hp">
 
                     <label>Alamat</label>
-                    <input type="text" name="alamat" id="edit_alamat" value="anggota">
+                    <input type="text" name="alamat" id="edit_alamat">
 
                     <label>Username</label>
-                    <input type="text" name="nama_pengguna" id="edit_username" value="anggota">
+                    <input type="text" name="nama_pengguna" id="edit_username">
 
                     <label>Password Baru</label>
-                    <input type="password" name="kata_sandi" value="anggota">
+                    <input type="password" name="kata_sandi">
                     <small>Kosongkan jika tidak ingin mengganti password</small>
 
+                    <!-- <label>Foto Saat Ini</label><br>
+                    <img id="preview_edit_foto" src="" width="120" style="margin-bottom:10px;"><br> -->
+
                     <label>Foto Baru</label>
-                    <input type="file" name="foto" value="anggota">
+                    <input type="file" name="foto_profil" id="edit_foto">
 
                     <br><br>
 
@@ -227,9 +233,9 @@
 
     <script>
     function openEditModal(button) {
+        console.log(button.dataset); // cek data masuk atau tidak
 
         document.getElementById("editModal").style.display = "block";
-
         document.getElementById("edit_id").value = button.dataset.id;
         document.getElementById("edit_nama").value = button.dataset.nama;
         document.getElementById("edit_email").value = button.dataset.email;
@@ -237,6 +243,8 @@
         document.getElementById("edit_alamat").value = button.dataset.alamat;
         document.getElementById("edit_username").value = button.dataset.username;
 
+        document.getElementById("preview_edit_foto").src =
+            "../uploads/" + button.dataset.foto;
     }
 
     function closeModal() {

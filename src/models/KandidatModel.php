@@ -68,13 +68,14 @@ class KandidatModel {
         try {
             $query = "SELECT 
                         c.*, 
-                        p.nama_lengkap, 
+                        p.nama_lengkap,
+                        p.foto, 
                         v.judul,
                         v.status
                       FROM calon_kandidat c
                       JOIN pengguna p ON c.id_pengguna = p.id_pengguna
                       JOIN voting v ON c.id_voting = v.id_voting
-                      ORDER BY c.id_calon DESC";
+                      ORDER BY c.id_calon ASC";
 
             $stmt = $this->conn->prepare($query);
             $stmt->execute();

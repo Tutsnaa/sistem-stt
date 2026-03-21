@@ -86,7 +86,7 @@
                 <td><?= htmlspecialchars($row['visi']) ?></td>
                 <td><?= htmlspecialchars($row['misi']) ?></td>
                 <td>
-                    <button class="btn btn-ubah" data-id="<?= $row['id_calon'] ?>"
+                    <button class="btn btn-ubah-kandidat" data-id="<?= $row['id_calon'] ?>"
                         data-id_voting="<?= $row['id_voting'] ?>" data-id_pengguna="<?= $row['id_pengguna'] ?>"
                         data-jabatan="<?= htmlspecialchars($row['jabatan']) ?>"
                         data-no_paslon="<?= $row['no_paslon'] ?>" data-visi="<?= htmlspecialchars($row['visi']) ?>"
@@ -330,7 +330,7 @@ window.onclick = (event) => {
 
 // Edit Kandidat
 const modalEditKandidat = document.getElementById("modalEditKandidat");
-document.querySelectorAll(".btn-edit-kandidat").forEach(btn => {
+document.querySelectorAll(".btn-ubah-kandidat").forEach(btn => {
     btn.addEventListener("click", () => {
         document.getElementById("editKandidat_id").value = btn.dataset.id;
         document.getElementById("editKandidat_id_voting").value = btn.dataset.id_voting;

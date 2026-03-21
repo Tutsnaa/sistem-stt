@@ -93,6 +93,15 @@ UBAH (OREN)
   transform: scale(1.05);
 }
 
+.btn-ubah-kandidat {
+  background-color: #f39c12;
+}
+
+.btn-ubah-kandidat:hover {
+  background-color: #e67e22;
+  transform: scale(1.05);
+}
+
 /* =========================
 HAPUS (MERAH)
 ========================= */

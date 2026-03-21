@@ -35,6 +35,18 @@ require_once __DIR__ . '/../src/models/PengumumanModel.php';
 $pengumumanModel = new PengumumanModel();
 $dataPengumuman = $pengumumanModel->getAllPengumuman();
 
+require_once __DIR__ . '/../src/models/VotingModel.php';
+require_once __DIR__ . '/../src/models/KandidatModel.php';
+
+$votingModel = new VotingModel();
+$kandidatModel = new KandidatModel();
+
+// Ambil semua voting
+$voting = $votingModel->getAllVoting();
+
+// Ambil semua kandidat
+$kandidat = $kandidatModel->getAllKandidat();
+
 ?>
 
 <?php
@@ -50,7 +62,9 @@ session_start();
     <link rel="stylesheet" href="../asset/css/DashboardAnggota.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/PagesAnggotaRoleA.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/PagesKeuanganRoleA.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../asset/css/PagesDashboard.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/navbar.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../asset/css/PagesProfilAnggota.css?v=<?php echo time(); ?>">
 </head>
 
 <body class="body-bg">
@@ -81,11 +95,21 @@ session_start();
                         class="<?php echo ($page == 'keuangan') ? 'active' : ''; ?>">
                         Keuangan
                     </a></li>
-                <li><a href="#voting">Voting</a></li>
+                <li><a href="dashboard_anggota.php?page=voting_anggota"
+                        class="<?php echo ($page == 'voting_anggota') ? 'active' : ''; ?>">
+                        voting
+                    </a></li>
                 <li><a href="dashboard_anggota.php?page=home&section=kontak#kontak"
                         class="<?php echo (isset($_GET['section']) && $_GET['section'] == 'kontak') ? 'active' : ''; ?>">
                         Kontak
                     </a></li>
+
+                <li>
+                    <a href="dashboard_anggota.php?page=profil"
+                        class="<?php echo ($page == 'profil') ? 'active' : ''; ?>">
+                        Profil
+                    </a>
+                </li>
             </ul>
 
         </div>
@@ -136,8 +160,8 @@ switch ($page) {
         include '../src/pages/pengumuman.php';
         break;
 
-    case 'voting':
-        include '../src/pages/voting.php';
+    case 'voting_anggota':
+        include '../src/pages/voting_anggota.php';
         break;
 
     // default:

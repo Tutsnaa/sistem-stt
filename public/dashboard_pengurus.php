@@ -10,7 +10,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['jabatan'] === 'anggota') {
 }
 
 $user = $_SESSION['user'];
-$page = $_GET['page'] ?? 'dashboard';
+$page = $_GET['page'] ?? 'home_pengurus';
 
 // ================================
 // LOAD MODEL PENGGUNA
@@ -107,9 +107,9 @@ $kepengurusan = $kepengurusanModel->getAll(); // Pastikan ada method getAll()
                     <!-- <h3 class="menu-title">Dashboard</h3> -->
 
                     <li>
-                        <a href="dashboard_pengurus.php?page=dashboard"
-                            class="<?php echo ($page == 'dashboard') ? 'active' : ''; ?>">
-                            Dashboard
+                        <a href="dashboard_pengurus.php?page=home_pengurus"
+                            class="<?php echo ($page == 'home_pengurus') ? 'active' : ''; ?>">
+                            Home
                         </a>
                     </li>
 
@@ -202,7 +202,7 @@ switch ($page) {
         break;
 
     default:
-        include '../src/pages/dashboard.php';
+        include '../src/pages/home_pengurus.php';
 }
 ?>
 
