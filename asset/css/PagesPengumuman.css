@@ -1,7 +1,7 @@
 /* ================= WRAPPER ================= */
 .pengumuman-wrapper {
   margin-left: 115px;
-  margin-top: 30px;
+  margin-top: 40px;
   padding: 20px;
   background: #fff;
   border-radius: 12px;
@@ -38,43 +38,69 @@
 .pengumuman-table table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 15px;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden; /* 🔥 penting untuk radius */
 }
 
-.pengumuman-table th,
-.pengumuman-table td {
-  padding: 12px 10px;
-  border: 1px solid #ddd;
-}
-
-/* header tabel */
+/* ===== HEADER ===== */
 .pengumuman-table thead th {
-  background: #ff9644;
+  background-color: #ff9644;
   color: #fff;
-  text-align: center;
   font-weight: 600;
+  padding: 12px;
+  font-size: 14px;
+  text-align: center;
 }
 
-/* isi tabel */
+/* 🔥 biar radius muncul */
+.pengumuman-table thead th:first-child {
+  border-top-left-radius: 10px;
+}
+
+.pengumuman-table thead th:last-child {
+  border-top-right-radius: 10px;
+}
+
+/* ===== ISI ===== */
 .pengumuman-table td {
-  text-align: left;
+  padding: 10px 12px;
+  font-size: 13px;
+  border-bottom: 1px solid #eee;
   vertical-align: top;
+}
+
+/* zebra row */
+.pengumuman-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* hover */
+.pengumuman-table tr:hover {
+  background-color: #f5f5f5;
+}
+
+/* ===== ALIGN KHUSUS ===== */
+.pengumuman-table td:nth-child(1),
+.pengumuman-table td:nth-child(4),
+.pengumuman-table td:nth-child(5),
+.pengumuman-table td:nth-child(6) {
+  text-align: center;
+}
+
+/* kolom isi panjang */
+.pengumuman-table td:nth-child(3) {
+  max-width: 300px;
   word-wrap: break-word;
 }
 
-/* kolom isi pengumuman */
-.pengumuman-table td:nth-child(3) {
-  max-width: 300px;
-}
-
-/* hover tabel */
-.pengumuman-table tbody tr:hover {
-  background: #f9f9f9;
-}
-
-/* link file */
+/* ===== LINK FILE ===== */
 .pengumuman-table td a {
   color: #007bff;
   text-decoration: none;
+  font-weight: 500;
 }
 
 .pengumuman-table td a:hover {
@@ -88,141 +114,33 @@
   gap: 8px;
 }
 
+/* tombol umum */
 .btn-edit,
 .btn-hapus {
-  width: 70px;
   padding: 6px 12px;
-  border-radius: 4px;
-  font-size: 14px;
-  text-align: center;
+  border-radius: 6px;
+  font-size: 13px;
   border: none;
   cursor: pointer;
+  text-decoration: none;
+  color: #fff;
+  display: inline-block;
 }
 
-/* tombol edit */
+/* edit */
 .btn-edit {
-  background: #f1c40f;
-  color: #fff;
+  background: #f39c12;
 }
 
 .btn-edit:hover {
-  background: #c19d0e;
+  background: #e67e22;
 }
 
-.aksi-btn a.btn-hapus {
-  background: red;
-  color: white;
-  text-decoration: none;
+/* hapus */
+.btn-hapus {
+  background: #dc3545;
 }
 
-.aksi-btn a.btn-hapus:hover {
-  background: darkred;
-  color: white;
-  text-decoration: none;
-}
-
-/* ================= MODAL ================= */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-/* animasi modal */
-@keyframes slideDown {
-  from {
-    transform: translateY(-40px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-.modal-content {
-  background: #fff;
-  width: 500px;
-  max-width: 90%;
-  border-radius: 12px;
-  padding: 25px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-  position: relative;
-  animation: slideDown 0.3s;
-}
-
-.modal-content h3 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-/* tombol close */
-.close {
-  position: absolute;
-  right: 20px;
-  top: 10px;
-  font-size: 26px;
-  cursor: pointer;
-}
-
-.close:hover {
-  color: #e74c3c;
-}
-
-/* ================= FORM ================= */
-.modal-content table {
-  width: 100%;
-}
-
-.modal-content td {
-  padding: 8px 5px;
-}
-
-.modal-content input,
-.modal-content textarea,
-.modal-content select {
-  width: 100%;
-  padding: 8px 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-}
-
-.modal-content textarea {
-  min-height: 80px;
-  resize: vertical;
-}
-
-/* ================= BUTTON FORM ================= */
-.btn-save {
-  margin-top: 5px;
-  background: #2980b9;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: 500;
-}
-
-.btn-save:hover {
-  background: #2980b9;
-}
-
-.btn-cancel:hover {
-  background: #bdbdbd;
-}
-
-/* ================= RESPONSIVE ================= */
-@media (max-width: 600px) {
-  .modal-content {
-    width: 90%;
-  }
+.btn-hapus:hover {
+  background: #c82333;
 }

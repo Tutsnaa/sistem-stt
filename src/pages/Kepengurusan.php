@@ -17,18 +17,18 @@
             <tbody>
                 <?php $no = 1; foreach($kepengurusan as $k): ?>
                 <tr>
-                    <td><?= $no++ ?></td>
+                    <td class="text-center"><?= $no++ ?></td>
                     <td><?= htmlspecialchars($k['nama_lengkap']) ?></td>
-                    <td><?= ucfirst($k['jabatan']) ?></td>
+                    <td class="text-center"><?= ucfirst($k['jabatan']) ?></td>
                     <!-- 🔥 MASA AWAL -->
-                    <td>
+                    <td class="text-center">
                         <?= !empty($k['masa_awal_jabatan']) 
                                 ? date('Y-m-d', strtotime($k['masa_awal_jabatan'])) 
                                 : '-' ?>
                     </td>
 
                     <!-- 🔥 MASA AKHIR -->
-                    <td>
+                    <td class="text-center">
                         <?= !empty($k['masa_akhir_jabatan']) 
                                 ? date('Y-m-d', strtotime($k['masa_akhir_jabatan'])) 
                                 : '-' ?>

@@ -1,29 +1,46 @@
 <div class="pengumuman-wrapper">
 
+    <!-- ================= JUDUL HALAMAN ================= -->
     <h2 class="pengumuman-title">Daftar Pengumuman</h2>
 
-    <!-- Tombol Tambah Pengumuman -->
+
+    <!-- ================= TOMBOL TAMBAH ================= -->
     <div class="pengumuman-actions">
         <button id="btnTambah" class="btn-add">+ Tambah Pengumuman</button>
     </div>
 
-    <!-- Modal Popup Tambah Pengumuman -->
+
+    <!-- ================= MODAL TAMBAH ================= -->
     <div id="modalTambah" class="modal" style="display:none;">
         <div class="modal-content">
+
+            <!-- tombol close -->
             <span class="close">&times;</span>
+
             <h3>Tambah Pengumuman</h3>
+
+            <!-- form tambah -->
             <form action="../src/controllers/PengumumanController.php?action=tambah" method="POST"
                 enctype="multipart/form-data">
+
                 <table>
+                    <!-- Judul -->
                     <tr>
                         <td>Judul</td>
-                        <td><input type="text" name="judul" required placeholder="Masukkan judul pengumuman"></td>
-                    </tr>
-                    <tr>
-                        <td>Isi</td>
-                        <td><textarea name="isi" rows="5" required placeholder="Masukkan isi pengumuman"></textarea>
+                        <td>
+                            <input type="text" name="judul" required placeholder="Masukkan judul pengumuman">
                         </td>
                     </tr>
+
+                    <!-- Isi -->
+                    <tr>
+                        <td>Isi</td>
+                        <td>
+                            <textarea name="isi" rows="5" required placeholder="Masukkan isi pengumuman"></textarea>
+                        </td>
+                    </tr>
+
+                    <!-- Status -->
                     <tr>
                         <td>Status</td>
                         <td>
@@ -33,10 +50,16 @@
                             </select>
                         </td>
                     </tr>
+
+                    <!-- Upload file -->
                     <tr>
                         <td>File (opsional)</td>
-                        <td><input type="file" name="file" accept=".pdf,.doc,.docx,.jpg,.png"></td>
+                        <td>
+                            <input type="file" name="file" accept=".pdf,.doc,.docx,.jpg,.png">
+                        </td>
                     </tr>
+
+                    <!-- Tombol simpan -->
                     <tr>
                         <td></td>
                         <td>
@@ -44,13 +67,18 @@
                         </td>
                     </tr>
                 </table>
+
             </form>
+
         </div>
     </div>
 
-    <!-- Tabel Pengumuman -->
-    <div class="pengumuman-table" style="margin-top:20px;">
+
+    <!-- ================= TABEL DATA ================= -->
+    <div class="pengumuman-table">
         <table>
+
+            <!-- HEADER -->
             <thead>
                 <tr>
                     <th>No</th>
@@ -61,13 +89,25 @@
                     <th>Aksi</th>
                 </tr>
             </thead>
+
+            <!-- BODY -->
             <tbody>
+
                 <?php if(!empty($pengumuman)): ?>
                 <?php $no = 1; foreach($pengumuman as $p): ?>
+
                 <tr>
+
+                    <!-- Nomor -->
                     <td><?= $no++; ?></td>
+
+                    <!-- Judul -->
                     <td><?= htmlspecialchars($p['judul']); ?></td>
+
+                    <!-- Isi -->
                     <td><?= nl2br(htmlspecialchars($p['isi'])); ?></td>
+
+                    <!-- File -->
                     <td>
                         <?php if($p['file']): ?>
                         <a href="../uploads/<?= $p['file']; ?>" target="_blank">Download</a>
@@ -75,63 +115,87 @@
                         -
                         <?php endif; ?>
                     </td>
+
+                    <!-- Status -->
                     <td><?= ucfirst($p['status']); ?></td>
+
+                    <!-- Aksi -->
                     <td>
                         <div class="aksi-btn">
+
+                            <!-- tombol edit -->
                             <button class="btn-edit" onclick="openEditModal(
-'<?= $p['id_pengumuman']; ?>',
-'<?= htmlspecialchars($p['judul'], ENT_QUOTES); ?>',
-'<?= htmlspecialchars($p['isi'], ENT_QUOTES); ?>',
-'<?= $p['status']; ?>',
-'<?= $p['file']; ?>'
-)">
+                                        '<?= $p['id_pengumuman']; ?>',
+                                        '<?= htmlspecialchars($p['judul'], ENT_QUOTES); ?>',
+                                        '<?= htmlspecialchars($p['isi'], ENT_QUOTES); ?>',
+                                        '<?= $p['status']; ?>',
+                                        '<?= $p['file']; ?>'
+                                    )">
                                 Ubah
                             </button>
+
+                            <!-- tombol hapus -->
                             <a href="../src/controllers/PengumumanController.php?action=hapus&id=<?= $p['id_pengumuman']; ?>"
-                                class="btn-hapus" onclick="return confirm('Hapus pengumuman ini?')">Hapus</a>
+                                class="btn-hapus" onclick="return confirm('Hapus pengumuman ini?')">
+                                Hapus
+                            </a>
+
                         </div>
                     </td>
+
                 </tr>
+
                 <?php endforeach; ?>
+
                 <?php else: ?>
+
+                <!-- jika kosong -->
                 <tr>
-                    <td colspan="8" style="text-align:center;">Belum ada pengumuman</td>
+                    <td colspan="6" style="text-align:center;">
+                        Belum ada pengumuman
+                    </td>
                 </tr>
+
                 <?php endif; ?>
+
             </tbody>
+
         </table>
     </div>
 
-    <!-- Modal Edit Pengumuman -->
+
+    <!-- ================= MODAL EDIT ================= -->
     <div id="modalEdit" class="modal">
         <div class="modal-content">
 
+            <!-- tombol close -->
             <span class="close" onclick="closeEditModal()">&times;</span>
 
             <h3>Ubah Pengumuman</h3>
 
+            <!-- form edit -->
             <form action="../src/controllers/PengumumanController.php?action=update" method="POST"
                 enctype="multipart/form-data">
 
+                <!-- hidden -->
                 <input type="hidden" name="id_pengumuman" id="edit_id">
                 <input type="hidden" name="file_lama" id="edit_file_lama">
 
                 <table>
 
+                    <!-- Judul -->
                     <tr>
                         <td>Judul</td>
-                        <td>
-                            <input type="text" name="judul" id="edit_judul" required>
-                        </td>
+                        <td><input type="text" name="judul" id="edit_judul" required></td>
                     </tr>
 
+                    <!-- Isi -->
                     <tr>
                         <td>Isi</td>
-                        <td>
-                            <textarea name="isi" id="edit_isi" rows="5" required></textarea>
-                        </td>
+                        <td><textarea name="isi" id="edit_isi" rows="5" required></textarea></td>
                     </tr>
 
+                    <!-- Status -->
                     <tr>
                         <td>Status</td>
                         <td>
@@ -142,13 +206,13 @@
                         </td>
                     </tr>
 
+                    <!-- Upload baru -->
                     <tr>
                         <td>Ganti File</td>
-                        <td>
-                            <input type="file" name="file">
-                        </td>
+                        <td><input type="file" name="file"></td>
                     </tr>
 
+                    <!-- Tombol -->
                     <tr>
                         <td></td>
                         <td>

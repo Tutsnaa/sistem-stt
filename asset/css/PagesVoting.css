@@ -1,11 +1,9 @@
 /* ==============================
-   CSS Pages Voting
+   CONTAINER
 ============================== */
-
-/* Container utama */
 .pages-voting-container {
   margin-left: 115px;
-  margin-top: 30px;
+  margin-top: 40px;
   padding: 20px;
   background: #fff;
   border-radius: 12px;
@@ -13,125 +11,167 @@
 }
 
 .pages-voting-container h2 {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  font-weight: 600;
 }
 
-/* =========================
-TABLE
-========================= */
+/* ==============================
+   SUBMENU (TAB)
+============================== */
+.submenu {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+}
+
+.submenu-btn {
+  padding: 10px 18px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 500;
+  color: #666;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.submenu-btn:hover {
+  background: #f1f1f1;
+}
+
+.submenu-btn.active {
+  background: #ff9644;
+  color: #fff;
+}
+
+/* ==============================
+   TAB CONTENT
+============================== */
+.tab-content {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==============================
+   TABLE
+============================== */
 .pages-voting-table {
   border-collapse: collapse;
   width: 100%;
-  margin: 20px 0;
+  margin-top: 15px;
   font-family: Arial, sans-serif;
   background-color: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.pages-voting-table th,
-.pages-voting-table td {
-  border: 1px solid #ddd;
-  padding: 10px 12px;
-  text-align: left;
-  font-size: 14px;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .pages-voting-table th {
   background-color: #ff9644;
-  color: white;
-  font-weight: bold;
+  color: #fff;
+  font-weight: 600;
+  padding: 12px;
+  font-size: 14px;
+}
+
+.pages-voting-table td {
+  padding: 10px 12px;
+  font-size: 13px;
+  border-bottom: 1px solid #eee;
 }
 
 .pages-voting-table tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: #fafafa;
 }
 
 .pages-voting-table tr:hover {
-  background-color: #f1f1f1;
+  background-color: #f5f5f5;
 }
 
 .pages-voting-table td:last-child {
   text-align: center;
 }
 
-/* =========================
-BUTTON BASE
-========================= */
+/* ==============================
+   BUTTON
+============================== */
 .btn {
   padding: 6px 12px;
-  border: none;
   border-radius: 6px;
-  cursor: pointer;
-  color: #fff;
   font-size: 13px;
-  transition: all 0.2s ease;
-  text-decoration: none;
-  display: inline-block;
+  cursor: pointer;
+  border: none;
+  color: #fff;
+  transition: 0.2s;
 }
 
-/* =========================
-TAMBAH (HIJAU)
-========================= */
+/* Tambah */
 .btn-tambah {
-  background-color: #28a745;
+  background: #28a745;
 }
 
 .btn-tambah:hover {
-  background-color: #218838;
-  transform: scale(1.05);
+  background: #218838;
 }
 
-/* =========================
-UBAH (OREN)
-========================= */
-.btn-ubah {
-  background-color: #f39c12;
-}
-
-.btn-ubah:hover {
-  background-color: #e67e22;
-  transform: scale(1.05);
-}
-
+/* Ubah */
+.btn-ubah,
 .btn-ubah-kandidat {
-  background-color: #f39c12;
+  background: #f39c12;
 }
 
+.btn-ubah:hover,
 .btn-ubah-kandidat:hover {
-  background-color: #e67e22;
-  transform: scale(1.05);
+  background: #e67e22;
 }
 
-/* =========================
-HAPUS (MERAH)
-========================= */
+/* Hapus */
 .btn-hapus {
-  background-color: #dc3545;
+  background: #dc3545;
 }
 
 .btn-hapus:hover {
-  background-color: #c82333;
-  transform: scale(1.05);
+  background: #c82333;
 }
 
-/* =========================
-DISABLED
-========================= */
-.btn-disabled {
-  background-color: #6c757d;
+/* Disabled */
+button:disabled {
+  background: #aaa;
   cursor: not-allowed;
 }
 
-/* =========================
-LINK DALAM TABLE
-========================= */
+/* ==============================
+   LINK TABLE
+============================== */
 .pages-voting-container a {
   text-decoration: none;
+  color: #dc3545;
+  font-weight: 500;
 }
 
-/* =========================
-POPUP
-========================= */
+.pages-voting-container a:hover {
+  text-decoration: underline;
+}
+
+/* ==============================
+   POPUP
+============================== */
 .popup {
   position: fixed;
   top: 0;
@@ -142,25 +182,25 @@ POPUP
   display: none;
   justify-content: center;
   align-items: center;
+  z-index: 999;
 }
 
 .popup-content {
   background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  width: 400px;
-  max-width: 90%;
+  padding: 25px;
+  border-radius: 12px;
+  width: 420px;
+  max-width: 95%;
   position: relative;
+  animation: fadeIn 0.3s ease;
 }
 
-/* =========================
-CLOSE BUTTON
-========================= */
+/* Close button */
 .popup-close {
   position: absolute;
   top: 10px;
   right: 15px;
-  font-size: 20px;
+  font-size: 22px;
   cursor: pointer;
 }
 
@@ -168,33 +208,178 @@ CLOSE BUTTON
   color: red;
 }
 
-/* =========================
-FORM
-========================= */
+/* ==============================
+   FORM
+============================== */
 .popup-content input,
 .popup-content select,
 .popup-content textarea {
   width: 100%;
-  margin-bottom: 10px;
-  padding: 6px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-size: 13px;
 }
 
 .popup-content button {
-  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
-/* =========================
-RESPONSIVE (OPSIONAL)
-========================= */
+.popup-content button:hover {
+  background: #0056b3;
+}
+
+/* ==============================
+   RESPONSIVE
+============================== */
 @media (max-width: 768px) {
   .pages-voting-container {
     margin-left: 10px;
     margin-right: 10px;
+    padding: 15px;
   }
 
-  .popup-content {
-    width: 90%;
+  .submenu {
+    flex-direction: column;
   }
+
+  .submenu-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .pages-voting-table th,
+  .pages-voting-table td {
+    font-size: 12px;
+    padding: 8px;
+  }
+}
+
+/* =========================
+   REKAP KHUSUS
+========================= */
+.total-suara {
+  font-weight: bold;
+  color: #007bff;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* Optional: highlight pemenang */
+.pages-voting-table tr:hover .total-suara {
+  color: #28a745;
+}
+
+/* Header kiri kanan */
+.header-voting {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+/* Biar tombol tidak terlalu besar */
+.header-voting .btn-tambah {
+  padding: 8px 14px;
+}
+
+/* Header kiri kanan */
+.header-kandidat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+/* Biar tombol tidak terlalu besar */
+.header-kandidat .btn-tambah {
+  padding: 8px 14px;
+}
+
+/* =========================
+TOMBOL AKSI TABLE
+========================= */
+.btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  color: white;
+  transition: 0.2s;
+}
+
+/* Tambah */
+.btn-tambah {
+  background: #28a745;
+}
+
+.btn-tambah:hover {
+  background: #218838;
+}
+
+/* Ubah */
+.btn-ubah,
+.btn-ubah-kandidat {
+  background: #f39c12;
+}
+
+.btn-ubah:hover,
+.btn-ubah-kandidat:hover {
+  background: #e67e22;
+}
+
+.btn-hapus {
+  background: #dc3545;
+  color: #fff !important; /* 🔥 ini penting */
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-hapus:hover {
+  background: #c82333;
+  color: #fff;
+}
+
+.pages-voting-table a:hover {
+  text-decoration: none;
+}
+
+/* Vote */
+.btn-vote {
+  background: #007bff;
+}
+
+.btn-vote:hover {
+  background: #0056b3;
+}
+
+.btn-ditutup {
+  background: #dc3545;
+  color: #fff !important; /* 🔥 ini penting */
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+/* Kolom aksi kandidat (biasanya kolom ke-7 & ke-8) */
+.pages-voting-table td:nth-child(7),
+.pages-voting-table td:nth-child(8) {
+  text-align: center;
+}
+
+.text-center {
+  text-align: center;
 }
