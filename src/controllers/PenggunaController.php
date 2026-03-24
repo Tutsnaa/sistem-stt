@@ -111,9 +111,8 @@ elseif ($action == "update") {
     |--------------------------------------------------------------------------
     */
     if (!empty($_POST['kata_sandi'])) {
-        $data['kata_sandi'] = password_hash($_POST['kata_sandi'], PASSWORD_DEFAULT);
-    }
-
+    $data['kata_sandi'] = $_POST['kata_sandi']; // kirim plaintext ke model
+}
     /*
     |--------------------------------------------------------------------------
     | UPDATE FOTO (JIKA ADA FILE BARU)
@@ -168,12 +167,21 @@ elseif ($action == "update") {
         $_SESSION['user']['foto'] = $data['foto'];
     }
 }
-        if(isset($_POST['from']) && $_POST['from'] == "profil"){
-    header("Location: ../../public/dashboard_pengurus.php?page=profil");
-}else{
-    header("Location: ../../public/dashboard_pengurus.php?page=anggota");
-}
-exit;
+        // ================= REDIRECT SESUAI JABATAN =================
+    if(isset($_POST['from']) && $_POST['from'] == "profil"){
+        if($_SESSION['user']['jabatan'] == 'anggota'){
+            header("Location: ../../public/dashboard_anggota.php?page=profil");
+        } else {
+            header("Location: ../../public/dashboard_pengurus.php?page=profil");
+        }
+    } else {
+        if($_SESSION['user']['jabatan'] == 'anggota'){
+            header("Location: ../../public/dashboard_anggota.php?page=anggota");
+        } else {
+            header("Location: ../../public/dashboard_pengurus.php?page=anggota");
+        }
+    }
+    exit;
 
     } else {
         echo "Update gagal";

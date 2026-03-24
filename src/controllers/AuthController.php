@@ -23,6 +23,7 @@ class AuthController {
 
                 $_SESSION['user'] = $user;
 
+                 $_SESSION['flash_message'] = "Selamat datang, " . htmlspecialchars($user['nama_lengkap']);
                 if($user['jabatan']=="anggota"){
                     header("Location: ../../public/dashboard_anggota.php");
                 }else{

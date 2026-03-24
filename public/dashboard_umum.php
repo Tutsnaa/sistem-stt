@@ -23,7 +23,6 @@ $dataAnggota = $model->getAll($search);
     <meta charset="UTF-8">
     <title>Dashboard Umum - Sekaa Truna Truni</title>
     <link rel="stylesheet" href="../asset/css/DashboardUmum.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="../asset/css/DashboardAnggota.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/PagesDashboard.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/navbar.css?v=<?php echo time(); ?>">
 </head>
@@ -64,37 +63,6 @@ $dataAnggota = $model->getAll($search);
         </div>
 
     </div>
-
-    <!-- ================= HERO ================= -->
-    <!-- <div class="hero-section">
-        <div class="hero-container">
-
-            <div class="hero-text">
-
-                <h1>Sekaa Truna Truni Galuh Mantri</h1>
-                <h3>Media Informasi, Kegiatan, dan Administrasi Organisasi</h3>
-
-                <p>
-                    Sekaa Truna Truni Putra Kencana yang berlokasi di Banjar Kawan, Mas,
-                    Kabupaten Gianyar merupakan organisasi kepemudaan yang menjadi
-                    wadah kebersamaan dan kreativitas generasi muda.
-                </p>
-
-                <button class="btn-primary" onclick="openLogin()">
-                    Masuk ke Sistem
-                </button>
-
-            </div>
-
-            <div class="hero-image">
-                <div class="image-blob">
-                    <img src="../asset/img/LogoSTT.jpeg">
-                </div>
-            </div>
-
-        </div>
-    </div> -->
-
 
     <div>
 

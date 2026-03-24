@@ -264,13 +264,13 @@ body {
 
 /* PENGUMUMAN */
 /* ================= MAIN CONTENT ================= */
-.main-content {
+/* .main-content {
   margin-left: 115px;
   margin-top: 30px;
   padding: 20px;
   min-height: calc(100vh - 70px);
   background: #f5f7fa;
-}
+} */
 
 /* ================= CARD ================= */
 .card-container {
