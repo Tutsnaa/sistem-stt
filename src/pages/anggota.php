@@ -91,7 +91,7 @@
 
     <div id="anggota" class="section-anggota">
 
-        <h2>Daftar Anggota</h2>
+        <h2>Data Anggota</h2>
 
         <!-- FORM PENCARIAN -->
         <form method="GET" action="" class="search-box">

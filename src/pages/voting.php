@@ -9,56 +9,60 @@
 
     <!-- ================= TAB VOTING ================= -->
     <div id="tab-voting" class="tab-content active">
-
         <div class="header-voting">
             <h2>Kelola Voting</h2>
             <button class="btn btn-tambah" onclick="openVotingPopup()">Tambah Voting</button>
         </div>
-        <table class="pages-voting-table">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Judul Voting</th>
-                    <th>Masa Awal</th>
-                    <th>Masa Akhir</th>
-                    <th>Periode</th>
-                    <th>Tgl Buka</th>
-                    <th>Tgl Tutup</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php $no = 1; foreach($voting as $row): ?>
-                <tr>
-                    <td class="text-center"><?= $no++; ?></td>
-                    <td><?= htmlspecialchars($row['judul']) ?></td>
-                    <td class="text-center"><?= $row['masa_awal_jabatan'] ?: '-' ?></td>
-                    <td class="text-center"><?= $row['masa_akhir_jabatan'] ?: '-' ?></td>
-                    <td class="text-center"><?= $row['periode'] ?></td>
-                    <td class="text-center"><?= $row['tanggal_buka'] ?></td>
-                    <td class="text-center"><?= $row['tanggal_tutup'] ?></td>
-                    <td class="text-center"><?= $row['status'] ?></td>
-                    <td>
-                        <button class="btn btn-ubah" data-id="<?= $row['id_voting'] ?>"
-                            data-judul="<?= $row['judul'] ?>" data-periode="<?= $row['periode'] ?>"
-                            data-masa_awal="<?= $row['masa_awal_jabatan'] ?>"
-                            data-masa_akhir="<?= $row['masa_akhir_jabatan'] ?>"
-                            data-tanggal_buka="<?= date('Y-m-d', strtotime($row['tanggal_buka'])) ?>"
-                            data-tanggal_tutup="<?= date('Y-m-d', strtotime($row['tanggal_tutup'])) ?>"
-                            data-status="<?= $row['status'] ?>">
-                            Ubah
-                        </button>
 
-                        <a class="btn btn-hapus"
-                            href="../src/controllers/VotingController.php?action=deleteVoting&id=<?= $row['id_voting'] ?>"
-                            onclick="return confirm('Yakin hapus?')">Hapus</a>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+        <div class="table-wrapper-voting">
+            <div class="voting-table">
+                <table class="pages-voting-table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Judul Voting</th>
+                            <th>Masa Awal</th>
+                            <th>Masa Akhir</th>
+                            <th>Periode</th>
+                            <th>Tgl Buka</th>
+                            <th>Tgl Tutup</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $no = 1; foreach($voting as $row): ?>
+                        <tr>
+                            <td class="text-center"><?= $no++; ?></td>
+                            <td><?= htmlspecialchars($row['judul']) ?></td>
+                            <td class="text-center"><?= $row['masa_awal_jabatan'] ?: '-' ?></td>
+                            <td class="text-center"><?= $row['masa_akhir_jabatan'] ?: '-' ?></td>
+                            <td class="text-center"><?= $row['periode'] ?></td>
+                            <td class="text-center"><?= $row['tanggal_buka'] ?></td>
+                            <td class="text-center"><?= $row['tanggal_tutup'] ?></td>
+                            <td class="text-center"><?= $row['status'] ?></td>
+                            <td>
+                                <button class="btn btn-ubah" data-id="<?= $row['id_voting'] ?>"
+                                    data-judul="<?= $row['judul'] ?>" data-periode="<?= $row['periode'] ?>"
+                                    data-masa_awal="<?= $row['masa_awal_jabatan'] ?>"
+                                    data-masa_akhir="<?= $row['masa_akhir_jabatan'] ?>"
+                                    data-tanggal_buka="<?= date('Y-m-d', strtotime($row['tanggal_buka'])) ?>"
+                                    data-tanggal_tutup="<?= date('Y-m-d', strtotime($row['tanggal_tutup'])) ?>"
+                                    data-status="<?= $row['status'] ?>">
+                                    <i class="fa fa-pen-to-square"></i>
+                                </button>
 
+                                <a class="btn btn-hapus"
+                                    href="../src/controllers/VotingController.php?action=deleteVoting&id=<?= $row['id_voting'] ?>"
+                                    onclick="return confirm('Yakin hapus?')"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
     </div>
 
     <!-- ================= TAB KANDIDAT ================= -->
@@ -68,89 +72,94 @@
             <h2>Kelola Kandidat</h2>
             <button class="btn-tambah" onclick="openKandidatPopup()">Tambah Kandidat</button>
         </div>
-
-        <table class="pages-voting-table">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Voting</th>
-                    <th>Nama</th>
-                    <th>Jabatan</th>
-                    <th>No Paslon</th>
-                    <th>Visi</th>
-                    <th>Misi</th>
-                    <th>Aksi</th>
-                    <th>Vote</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php $no = 1;  foreach($kandidat as $row): ?>
-                <tr>
-                    <td class="text-center"><?= $no++; ?></td>
-                    <td><?= $row['judul'] ?></td>
-                    <td><?= $row['nama_lengkap'] ?></td>
-                    <td class="text-center"><?= $row['jabatan'] ?></td>
-                    <td class="text-center"><?= $row['no_paslon'] ?></td>
-                    <td><?= $row['visi'] ?></td>
-                    <td><?= $row['misi'] ?></td>
-                    <td>
-                        <button class="btn btn-ubah-kandidat" data-id="<?= $row['id_calon'] ?>"
-                            data-id_voting="<?= $row['id_voting'] ?>" data-id_pengguna="<?= $row['id_pengguna'] ?>"
-                            data-jabatan="<?= $row['jabatan'] ?>" data-no_paslon="<?= $row['no_paslon'] ?>"
-                            data-visi="<?= $row['visi'] ?>" data-misi="<?= $row['misi'] ?>">
-                            Ubah
-                        </button>
-                        <a class="btn btn-hapus"
-                            href="../src/controllers/KandidatController.php?action=deleteKandidat&id=<?= $row['id_calon'] ?>"
-                            onclick="return confirm('Yakin hapus?')">Hapus</a>
-                    </td>
-                    <td>
-                        <?php if($row['status']=='dibuka'): ?>
-                        <a href="../src/controllers/VotingController.php?action=vote&id_calon=<?= $row['id_calon'] ?>"
-                            class="btn btn-tambah">Vote</a>
-                        <?php else: ?>
-                        <button class="btn btn-ditutup" disabled>Ditutup</button>
-                        <?php endif; ?>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-
+        <div class="table-wrapper-voting">
+            <div class="table-voting">
+                <table class="pages-voting-table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Voting</th>
+                            <th>Nama</th>
+                            <th>Jabatan</th>
+                            <th>No Paslon</th>
+                            <th>Visi</th>
+                            <th>Misi</th>
+                            <th>Aksi</th>
+                            <th>Vote</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $no = 1;  foreach($kandidat as $row): ?>
+                        <tr>
+                            <td class="text-center"><?= $no++; ?></td>
+                            <td><?= $row['judul'] ?></td>
+                            <td><?= $row['nama_lengkap'] ?></td>
+                            <td class="text-center"><?= $row['jabatan'] ?></td>
+                            <td class="text-center"><?= $row['no_paslon'] ?></td>
+                            <td><?= $row['visi'] ?></td>
+                            <td><?= $row['misi'] ?></td>
+                            <td>
+                                <button class="btn btn-ubah-kandidat" data-id="<?= $row['id_calon'] ?>"
+                                    data-id_voting="<?= $row['id_voting'] ?>"
+                                    data-id_pengguna="<?= $row['id_pengguna'] ?>" data-jabatan="<?= $row['jabatan'] ?>"
+                                    data-no_paslon="<?= $row['no_paslon'] ?>" data-visi="<?= $row['visi'] ?>"
+                                    data-misi="<?= $row['misi'] ?>">
+                                    <i class="fa fa-pen-to-square"></i>
+                                </button>
+                                <a class="btn btn-hapus"
+                                    href="../src/controllers/KandidatController.php?action=deleteKandidat&id=<?= $row['id_calon'] ?>"
+                                    onclick="return confirm('Yakin hapus?')"><i class="fa fa-trash"></i></a>
+                            </td>
+                            <td>
+                                <?php if($row['status']=='dibuka'): ?>
+                                <a href="../src/controllers/VotingController.php?action=vote&id_calon=<?= $row['id_calon'] ?>"
+                                    class="btn btn-tambah">Vote</a>
+                                <?php else: ?>
+                                <button class="btn btn-ditutup" disabled><i class="fa-solid fa-lock"></i></button>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <!-- ================= TAB REKAP ================= -->
     <div id="tab-rekap" class="tab-content">
 
         <h2>Rekap Suara</h2>
-
-        <table class="pages-voting-table">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Voting</th>
-                    <th>Nama</th>
-                    <th>Jabatan</th>
-                    <th>No</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php $no=1; foreach($kandidat as $row): ?>
-                <tr>
-                    <td class="text-center"><?= $no++; ?></td>
-                    <td><?= $row['judul'] ?></td>
-                    <td><?= $row['nama_lengkap'] ?></td>
-                    <td class="text-center"><?= $row['jabatan'] ?></td>
-                    <td class="text-center"><?= $row['no_paslon'] ?></td>
-                    <td class="total-suara">
-                        <?= $votingModel->countSuara($row['id_calon']) ?>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-
+        <div class="table-wrapper-voting">
+            <div class="table-voting">
+                <table class="pages-voting-table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Voting</th>
+                            <th>Nama</th>
+                            <th>Jabatan</th>
+                            <th>No</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $no=1; foreach($kandidat as $row): ?>
+                        <tr>
+                            <td class="text-center"><?= $no++; ?></td>
+                            <td><?= $row['judul'] ?></td>
+                            <td><?= $row['nama_lengkap'] ?></td>
+                            <td class="text-center"><?= $row['jabatan'] ?></td>
+                            <td class="text-center"><?= $row['no_paslon'] ?></td>
+                            <td class="total-suara">
+                                <?= $votingModel->countSuara($row['id_calon']) ?>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
 </div>

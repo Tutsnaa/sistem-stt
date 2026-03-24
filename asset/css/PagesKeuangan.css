@@ -242,3 +242,17 @@ TOMBOL AKSI
 .form-group {
   margin-bottom: 15px;
 }
+
+.table-wrapper-keuangan {
+  width: 100%;
+  max-height: 480px;
+  overflow-y: scroll;
+}
+
+/* HEADER STICKY */
+.keuangan-table thead th {
+  position: sticky;
+  top: 0;
+  background: #ff9644;
+  z-index: 10;
+}
