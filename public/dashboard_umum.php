@@ -25,6 +25,7 @@ $dataAnggota = $model->getAll($search);
     <link rel="stylesheet" href="../asset/css/DashboardUmum.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/DashboardAnggota.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/PagesDashboard.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../asset/css/navbar.css?v=<?php echo time(); ?>">
 </head>
 
 <body class="body-bg">

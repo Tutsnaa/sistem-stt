@@ -59,12 +59,13 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <title>Dashboard Umum - Sekaa Truna Truni</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="../asset/css/DashboardAnggota.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/PagesAnggotaRoleA.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/PagesKeuanganRoleA.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/PagesDashboard.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="../asset/css/navbar.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/PagesProfilAnggota.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../asset/css/navbar.css?v=<?php echo time(); ?>">
 </head>
 
 <body class="body-bg">

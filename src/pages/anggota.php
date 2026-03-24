@@ -123,8 +123,8 @@
                         <th>Jabatan</th>
                         <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
                         <th>Username</th>
-                        <th>Aksi</th>
                         <?php } ?>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -149,6 +149,7 @@
                         <td style="text-align: center;"><?= htmlspecialchars($row['jabatan']); ?></td>
                         <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
                         <td><?= htmlspecialchars($row['nama_pengguna']); ?></td>
+                        <?php } ?>
                         <td>
                             <div class="aksi-btn">
                                 <!-- DETAIL -->
@@ -160,7 +161,7 @@
                                     data-foto="<?= htmlspecialchars($row['foto']); ?>" onclick="openDetailModal(this)">
                                     <i class="fa fa-eye"></i>
                                 </button>
-
+                                <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
                                 <!-- UBAH -->
                                 <button class="btn-edit" data-id="<?= htmlspecialchars($row['id_pengguna']); ?>"
                                     data-nama="<?= htmlspecialchars($row['nama_lengkap']); ?>"
@@ -177,9 +178,10 @@
                                     href="../src/controllers/PenggunaController.php?action=delete&id=<?= $row['id_pengguna']; ?>"
                                     onclick="return confirm('Yakin ingin menghapus anggota ini?')"><i
                                         class="fa fa-trash"></i></a>
+                                <?php } ?>
                             </div>
                         </td>
-                        <?php } ?>
+
                     </tr>
                     <?php
                 }

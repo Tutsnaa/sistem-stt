@@ -8,26 +8,14 @@
 .section-anggota h2 {
   text-align: center;
   font-size: 36px;
-  margin-top: 200px;
+  margin-top: 80px;
   margin-bottom: 30px;
   color: #333;
 }
 
-.search-box {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.search-box input[type="text"] {
-  padding: 10px 15px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  flex: 1;
-  min-width: 200px;
-}
+/* ===============================
+TABEL ANGGOTA
+=============================== */
 
 .search-box button {
   padding: 10px 20px;
@@ -71,12 +59,33 @@
   background: #27ae60;
 }
 
+.table-wrapper {
+  width: 100%;
+  max-height: 480px;
+  min-height: 480px;
+  overflow-y: auto;
+}
+
+/* HEADER STICKY */
+.anggota-table thead th {
+  position: sticky;
+  top: 0;
+  background: #ff9644; /* wajib ada */
+  z-index: 10;
+}
+
+td.alamat {
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 table.anggota-table {
   width: 100%;
   border-collapse: collapse;
   background: white;
   border-radius: 12px;
-  overflow: hidden;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
 
@@ -108,47 +117,214 @@ table.anggota-table td img {
   justify-content: center;
 }
 
-.btn-edit,
-.btn-hapus {
-  padding: 6px 12px;
+.btn-detail {
+  background: #3498db;
+  color: white;
+  padding: 6px 10px;
   border-radius: 6px;
   border: none;
   cursor: pointer;
   font-size: 14px;
-  text-decoration: none;
 }
 
-.btn-edit {
-  background: #f1c40f;
+.btn-detail:hover {
+  background: #2c80b4;
+  transform: scale(1.05);
+  transition: 0.2s;
+}
+
+/* ===============================
+MODAL DETAIL (KHUSUS)
+=============================== */
+.detail-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+
+  justify-content: center;
+  align-items: center;
+}
+
+.detail-modal-content p,
+.detail-modal-content p b,
+.detail-modal-content p span {
+  text-align: left;
+}
+
+/* CONTENT */
+.detail-modal-content {
+  background: #fff;
+  width: 400px;
+  max-width: 90%;
+  padding: 20px 25px;
+  border-radius: 12px;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: detailFadeIn 0.25s ease;
+  border-top: 5px solid #ff9644;
+}
+
+/* animasi */
+@keyframes detailFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* TITLE */
+.detail-modal-content h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ff9644;
+}
+
+/* TEXT */
+.detail-modal-content p {
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+.detail-modal-content p b {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 3px;
+}
+
+.detail-modal-content p span {
+  display: block;
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+/* CLOSE */
+.detail-close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 22px;
+  cursor: pointer;
+  color: #999;
+}
+
+.detail-close:hover {
+  color: #ff9644;
+}
+
+.detail-modal.show {
+  display: flex;
+}
+
+/* FOTO DI MODAL */
+.detail-foto {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.detail-foto img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ff9644;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* MODAL FOTO FULL */
+.foto-modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+
+  justify-content: center;
+  align-items: center;
+}
+
+/* gambar full */
+.foto-full {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* tombol close */
+.foto-close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 30px;
   color: white;
+  cursor: pointer;
 }
 
-.btn-edit:hover {
-  background: #d4ac0d;
+.foto-close:hover {
+  color: #ff9644;
 }
 
-.btn-hapus {
-  background: #e74c3c;
+/* efek klik */
+.detail-foto img {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.detail-foto img:hover {
+  transform: scale(1.05);
+}
+
+/* WRAPPER */
+.foto-wrapper {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* FOTO */
+.foto-wrapper img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ff9644;
+  transition: 0.3s;
+}
+
+/* OVERLAY */
+.foto-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  opacity: 0;
+  transition: 0.3s;
+}
+
+/* ICON */
+.foto-overlay i {
   color: white;
+  font-size: 18px;
 }
 
-.btn-hapus:hover {
-  background: #c0392b;
+/* HOVER EFFECT */
+.foto-wrapper:hover .foto-overlay {
+  opacity: 1;
 }
 
-/* Responsif untuk mobile */
-@media screen and (max-width: 768px) {
-  .search-box {
-    flex-direction: column;
-  }
-
-  table.anggota-table th,
-  table.anggota-table td {
-    padding: 8px;
-    font-size: 14px;
-  }
-
-  .btn-tambah {
-    width: 100%;
-  }
+.foto-wrapper:hover img {
+  transform: scale(1.05);
 }

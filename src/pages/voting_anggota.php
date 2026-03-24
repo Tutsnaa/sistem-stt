@@ -1,8 +1,11 @@
 <div class="card-container">
-    <?php foreach($kandidat as $row): ?>
+    <?php 
+    $adaVoting = false; // flag untuk mengecek apakah ada voting
 
-    <?php if($row['status'] != 'dibuka') continue; ?>
-
+    foreach($kandidat as $row): 
+        if($row['status'] != 'dibuka') continue;
+        $adaVoting = true; // ada kandidat yang tampil
+    ?>
     <div class="card-kandidat">
         <img src="../uploads/<?= htmlspecialchars($row['foto']) ?>" alt="Foto Kandidat" class="foto-kandidat">
 
@@ -32,11 +35,28 @@
         </div>
 
     </div>
-
     <?php endforeach; ?>
+
+    <?php if(!$adaVoting): ?>
+    <div class="no-voting">
+        Belum ada voting
+    </div>
+    <?php endif; ?>
 </div>
 
 <style>
+.no-voting {
+    grid-column: 1 / -1;
+    /* mengambil seluruh kolom grid */
+    text-align: center;
+    font-size: 18px;
+    color: #888;
+    padding: 50px 0;
+    font-weight: bold;
+    width: 100%;
+    height: 570px;
+}
+
 .card-container {
     width: 100%;
     padding: 60px 8%;

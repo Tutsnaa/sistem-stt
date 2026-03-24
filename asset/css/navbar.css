@@ -13,7 +13,7 @@
   padding: 0 30px;
   background: white;
   color: black;
-  z-index: 1000;
+  z-index: 100;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
 }
 
@@ -63,4 +63,71 @@
   height: 35px;
   border-radius: 50%;
   object-fit: cover;
+}
+
+/* Judul */
+.navbar-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ff9644;
+  letter-spacing: 0.5px;
+}
+
+/* Bagian kanan */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+}
+
+/* Menu */
+.navbar-menu {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+}
+
+/* Link menu */
+.navbar-menu li a {
+  text-decoration: none;
+  color: #333;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 6px 4px;
+  position: relative;
+  transition: 0.3s;
+}
+
+/* Hover elegan garis bawah */
+.navbar-menu li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background: #ff9644;
+  transition: 0.3s;
+}
+
+.navbar-menu li a:hover {
+  color: #ff9644;
+}
+
+.navbar-menu li a:hover::after {
+  width: 100%;
+}
+
+/* Menu aktif */
+.navbar-menu li a.active {
+  color: #ff9644;
+}
+
+.navbar-menu li a.active::after {
+  width: 100%;
+}
+
+/* hover */
+.navbar-menu li a:hover {
+  opacity: 0.8;
 }

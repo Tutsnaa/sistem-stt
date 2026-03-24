@@ -8,9 +8,10 @@
 }
 
 .page-content h2 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  font-weight: 600;
+  text-align: center;
+  font-size: 36px;
+  margin-bottom: 30px;
+  color: #333;
 }
 
 /* ================= FORM ================= */
@@ -175,6 +176,20 @@ TOMBOL AKSI
   max-width: 250px; /* batas lebar kolom */
   word-wrap: break-word; /* teks panjang turun ke bawah */
   white-space: normal; /* izinkan teks turun baris */
+}
+
+.table-wrapper-keuangan {
+  width: 100%;
+  max-height: 480px;
+  overflow-y: scroll;
+}
+
+/* HEADER STICKY */
+.keuangan-table thead th {
+  position: sticky;
+  top: 0;
+  background: #ff9644;
+  z-index: 10;
 }
 
 .popup {

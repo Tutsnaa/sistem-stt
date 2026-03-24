@@ -133,3 +133,44 @@
     width: 100%;
   }
 }
+
+/* ================= BUTTON PROFIL ================= */
+.profil-btn {
+  display: inline-block;
+  min-width: 100px;
+  text-align: center;
+  padding: 9px 16px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+}
+
+/* tombol ubah */
+.profil-btn-edit {
+  background: #f1c40f;
+}
+
+.profil-btn-edit:hover {
+  background: #c19d0e;
+}
+
+/* tombol simpan */
+.profil-btn-simpan {
+  background: #ff9644;
+}
+
+.profil-btn-simpan:hover {
+  background: #e67e22;
+}
+
+.profil-btn-batal {
+  background: #aaa;
+  color: white;
+  transition: 0.2s;
+}
+
+.profil-btn-batal:hover {
+  background: #888;
+}
