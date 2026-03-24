@@ -61,7 +61,7 @@
   padding: 10px;
   border: none;
   border-radius: 6px;
-  background: #2c7be5;
+  background: #ff9644;
   color: white;
   font-weight: 600;
   cursor: pointer;
@@ -69,7 +69,7 @@
 }
 
 .btn-save:hover {
-  background: #1a68d1;
+  background: #e0852f;
 }
 
 /* ================= TABLE ================= */
@@ -230,14 +230,14 @@ TOMBOL AKSI
   cursor: pointer;
 }
 
-.btn-save {
+/* .btn-save {
   width: 100%;
   padding: 10px;
   background: #007bff;
   color: white;
   border: none;
   border-radius: 6px;
-}
+} */
 
 .form-group {
   margin-bottom: 15px;

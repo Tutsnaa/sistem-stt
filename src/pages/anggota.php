@@ -110,77 +110,124 @@
         <?php } ?>
 
         <!-- TABEL DATA ANGGOTA -->
-        <table class="anggota-table">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Foto</th>
-                    <th>Nama Lengkap</th>
-                    <th>Email</th>
-                    <th>No HP</th>
-                    <th>Alamat</th>
-                    <th>Jabatan</th>
-                    <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
-                    <th>Username</th>
-                    <th>Aksi</th>
-                    <?php } ?>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
+        <div class="table-wrapper">
+            <table class="anggota-table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Foto</th>
+                        <th>Nama Lengkap</th>
+                        <th>Email</th>
+                        <th>No HP</th>
+                        <th>Alamat</th>
+                        <th>Jabatan</th>
+                        <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
+                        <th>Username</th>
+                        <th>Aksi</th>
+                        <?php } ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
             $no = 1;
             if(!empty($dataAnggota)){
                 foreach($dataAnggota as $row){
             ?>
-                <tr>
-                    <td><?= $no++; ?></td>
-                    <td style="text-align: none;">
-                        <?php if(!empty($row['foto'])){ ?>
-                        <img src="../uploads/<?= $row['foto']; ?>" width="50" height="50">
-                        <?php } else { ?>
-                        <img src="../asset/img/default.png" width="50" height="50">
+                    <tr>
+                        <td><?= $no++; ?></td>
+                        <td style="text-align: none;">
+                            <?php if(!empty($row['foto'])){ ?>
+                            <img src="../uploads/<?= $row['foto']; ?>" width="50" height="50">
+                            <?php } else { ?>
+                            <img src="../asset/img/default.png" width="50" height="50">
+                            <?php } ?>
+                        </td>
+                        <td><?= htmlspecialchars($row['nama_lengkap']); ?></td>
+                        <td><?= htmlspecialchars($row['email']); ?></td>
+                        <td style="text-align: center;"><?= htmlspecialchars($row['no_hp']); ?></td>
+                        <td class="alamat"><?= htmlspecialchars($row['alamat']); ?></td>
+                        <td style="text-align: center;"><?= htmlspecialchars($row['jabatan']); ?></td>
+                        <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
+                        <td><?= htmlspecialchars($row['nama_pengguna']); ?></td>
+                        <td>
+                            <div class="aksi-btn">
+                                <!-- DETAIL -->
+                                <button class="btn-detail" data-nama="<?= htmlspecialchars($row['nama_lengkap']); ?>"
+                                    data-email="<?= htmlspecialchars($row['email']); ?>"
+                                    data-hp="<?= htmlspecialchars($row['no_hp']); ?>"
+                                    data-alamat="<?= htmlspecialchars($row['alamat']); ?>"
+                                    data-jabatan="<?= htmlspecialchars($row['jabatan']); ?>"
+                                    data-foto="<?= htmlspecialchars($row['foto']); ?>" onclick="openDetailModal(this)">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+
+                                <!-- UBAH -->
+                                <button class="btn-edit" data-id="<?= htmlspecialchars($row['id_pengguna']); ?>"
+                                    data-nama="<?= htmlspecialchars($row['nama_lengkap']); ?>"
+                                    data-email="<?= htmlspecialchars($row['email']); ?>"
+                                    data-hp="<?= htmlspecialchars($row['no_hp']); ?>"
+                                    data-alamat="<?= htmlspecialchars($row['alamat']); ?>"
+                                    data-username="<?= htmlspecialchars($row['nama_pengguna']); ?>"
+                                    data-foto="<?= htmlspecialchars($row['foto']); ?>" onclick="openEditModal(this)">
+                                    <i class="fa fa-pen-to-square"></i>
+                                </button>
+
+                                <!-- HAPUS -->
+                                <a class="btn-hapus"
+                                    href="../src/controllers/PenggunaController.php?action=delete&id=<?= $row['id_pengguna']; ?>"
+                                    onclick="return confirm('Yakin ingin menghapus anggota ini?')"><i
+                                        class="fa fa-trash"></i></a>
+                            </div>
+                        </td>
                         <?php } ?>
-                    </td>
-                    <td><?= htmlspecialchars($row['nama_lengkap']); ?></td>
-                    <td><?= htmlspecialchars($row['email']); ?></td>
-                    <td style="text-align: center;"><?= htmlspecialchars($row['no_hp']); ?></td>
-                    <td><?= htmlspecialchars($row['alamat']); ?></td>
-                    <td style="text-align: center;"><?= htmlspecialchars($row['jabatan']); ?></td>
-                    <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
-                    <td><?= htmlspecialchars($row['nama_pengguna']); ?></td>
-                    <td>
-                        <div class="aksi-btn">
-                            <button class="btn-edit" data-id="<?= htmlspecialchars($row['id_pengguna']); ?>"
-                                data-nama="<?= htmlspecialchars($row['nama_lengkap']); ?>"
-                                data-email="<?= htmlspecialchars($row['email']); ?>"
-                                data-hp="<?= htmlspecialchars($row['no_hp']); ?>"
-                                data-alamat="<?= htmlspecialchars($row['alamat']); ?>"
-                                data-username="<?= htmlspecialchars($row['nama_pengguna']); ?>"
-                                data-foto="<?= htmlspecialchars($row['foto']); ?>" onclick="openEditModal(this)">
-                                Ubah
-                            </button>
-                            <a class="btn-hapus"
-                                href="../src/controllers/PenggunaController.php?action=delete&id=<?= $row['id_pengguna']; ?>"
-                                onclick="return confirm('Yakin ingin menghapus anggota ini?')">Hapus</a>
-                        </div>
-                    </td>
-                    <?php } ?>
-                </tr>
-                <?php
+                    </tr>
+                    <?php
                 }
             }else{
             ?>
-                <tr>
-                    <td colspan="9" align="center">Data anggota tidak ditemukan</td>
-                </tr>
-                <?php } ?>
-            </tbody>
-        </table>
+                    <tr>
+                        <td colspan="9" align="center">Data anggota tidak ditemukan</td>
+                    </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- =========================
+        POPUP DETAIL ANGGOTA
+    ========================== -->
+        <div id="detailModal" class="detail-modal">
+            <div class="detail-modal-content">
+                <span class="detail-close" onclick="closeDetailModal()">&times;</span>
+                <h3>Detail Anggota</h3>
+                <!-- FOTO -->
+                <div class="detail-foto">
+                    <div class="foto-wrapper" onclick="openFotoModal(document.getElementById('d_foto'))">
+                        <img id="d_foto" src="../asset/img/default.png" alt="Foto">
+                        <div class="foto-overlay">
+                            <i class="fa fa-search-plus"></i>
+                        </div>
+                    </div>
+                </div>
+                <p><b>Nama:</b> <span id="d_nama"></span></p>
+                <p><b>Email:</b> <span id="d_email"></span></p>
+                <p><b>No HP:</b> <span id="d_hp"></span></p>
+                <p><b>Alamat:</b> <span id="d_alamat"></span></p>
+                <p><b>Jabatan:</b> <span id="d_jabatan"></span></p>
+            </div>
+        </div>
+
+        <!-- MODAL FULL FOTO -->
+        <div id="fotoModal" class="foto-modal">
+            <span class="foto-close" onclick="closeFotoModal()">&times;</span>
+            <img class="foto-full" id="fotoFull">
+        </div>
 
         <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
         <!-- =========================
          FORM UBAH DATA ANGGOTA
-    ========================== -->
+        ========================== -->
         <div id="editModal" class="modal">
 
             <div class="modal-content">
@@ -232,9 +279,8 @@
     </div>
 
     <script>
+    // ================= EDIT MODAL =================
     function openEditModal(button) {
-        console.log(button.dataset); // cek data masuk atau tidak
-
         document.getElementById("editModal").style.display = "block";
         document.getElementById("edit_id").value = button.dataset.id;
         document.getElementById("edit_nama").value = button.dataset.nama;
@@ -251,7 +297,7 @@
         document.getElementById("editModal").style.display = "none";
     }
 
-
+    // ================= TAMBAH MODAL =================
     function openTambahModal() {
         document.getElementById("tambahModal").style.display = "block";
     }
@@ -260,10 +306,33 @@
         document.getElementById("tambahModal").style.display = "none";
     }
 
+    // ================= DETAIL MODAL =================
+    function openDetailModal(btn) {
+        document.getElementById("d_nama").innerText = btn.dataset.nama;
+        document.getElementById("d_email").innerText = btn.dataset.email;
+        document.getElementById("d_hp").innerText = btn.dataset.hp;
+        document.getElementById("d_alamat").innerText = btn.dataset.alamat;
+        document.getElementById("d_jabatan").innerText = btn.dataset.jabatan;
+
+        let fotoEl = document.getElementById("d_foto");
+        if (fotoEl) {
+            let foto = btn.dataset.foto;
+            fotoEl.src = foto ? "../uploads/" + foto : "../asset/img/default.png";
+        }
+
+        document.getElementById("detailModal").classList.add("show");
+    }
+
+    function closeDetailModal() {
+        document.getElementById("detailModal").classList.remove("show");
+    }
+
+    // ================= CLICK OUTSIDE (SEMUA MODAL) =================
     window.onclick = function(event) {
 
         let editModal = document.getElementById("editModal");
         let tambahModal = document.getElementById("tambahModal");
+        let detailModal = document.getElementById("detailModal");
 
         if (event.target == editModal) {
             editModal.style.display = "none";
@@ -273,5 +342,25 @@
             tambahModal.style.display = "none";
         }
 
+        if (event.target == detailModal) {
+            detailModal.classList.remove("show");
+        }
     }
+
+    function openFotoModal(img) {
+        document.getElementById("fotoModal").style.display = "flex";
+        document.getElementById("fotoFull").src = img.src;
+    }
+
+    function closeFotoModal() {
+        document.getElementById("fotoModal").style.display = "none";
+    }
+
+    // klik luar = close
+    window.addEventListener("click", function(e) {
+        let modal = document.getElementById("fotoModal");
+        if (e.target === modal) {
+            modal.style.display = "none";
+        }
+    });
     </script>
