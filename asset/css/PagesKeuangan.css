@@ -256,3 +256,127 @@ TOMBOL AKSI
   background: #ff9644;
   z-index: 10;
 }
+
+/* ================= POPUP KEUANGAN ================= */
+.popup {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* aktif */
+.popup.show {
+  display: flex;
+}
+
+/* CONTENT */
+.popup-keuangan {
+  width: 420px;
+  max-width: 90%;
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  border-top: 5px solid #ff9644;
+  animation: fadePopup 0.25s ease;
+}
+
+/* ANIMASI */
+@keyframes fadePopup {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* TITLE */
+.popup-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ff9644;
+  font-size: 20px;
+}
+
+/* CLOSE */
+.close-btn {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 22px;
+  cursor: pointer;
+  color: #999;
+}
+
+.close-btn:hover {
+  color: #ff9644;
+}
+
+/* ================= FORM ================= */
+
+.popup-keuangan form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* LABEL */
+.popup-keuangan label {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+/* INPUT */
+.popup-keuangan input,
+.popup-keuangan select,
+.popup-keuangan textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+/* TEXTAREA */
+.popup-keuangan textarea {
+  resize: none;
+  height: 80px;
+}
+
+/* FOCUS */
+.popup-keuangan input:focus,
+.popup-keuangan select:focus,
+.popup-keuangan textarea:focus {
+  border-color: #ff9644;
+  box-shadow: 0 0 5px rgba(255, 150, 68, 0.3);
+  outline: none;
+}
+
+/* BUTTON */
+.popup-keuangan .btn-save {
+  margin-top: 10px;
+  padding: 12px;
+  background: #ff9644;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.popup-keuangan .btn-save:hover {
+  background: #e67e22;
+  transform: translateY(-1px);
+}

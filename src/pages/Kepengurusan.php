@@ -37,7 +37,7 @@
                         <td>
                             <a href="../src/controllers/KepengurusanController.php?action=hapus&id=<?= $k['id_kepengurusan'] ?>"
                                 class="btn-delete" onclick="return confirm('Hapus data kepengurusan ini?')">
-                                Hapus
+                                <i class="fa fa-trash"></i>
                             </a>
                         </td>
                     </tr>

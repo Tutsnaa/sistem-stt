@@ -164,11 +164,11 @@
 
 </div>
 
-<!-- ================= Popup Edit Voting ================= -->
+<!-- ================= Popup Ubah Voting ================= -->
 <div id="modalEdit" class="popup" style="display:none;">
     <div class="popup-content">
         <span class="popup-close">&times;</span>
-        <h2>Edit Voting</h2>
+        <h2>Ubah Voting</h2>
 
         <form action="../src/controllers/VotingController.php?action=updateVoting" method="POST">
             <input type="hidden" name="id_voting" id="edit_id">
@@ -205,11 +205,11 @@
     </div>
 </div>
 
-<!-- ================= Popup Edit Kandidat ================= -->
+<!-- ================= Popup Ubah Kandidat ================= -->
 <div id="modalEditKandidat" class="popup" style="display:none;">
     <div class="popup-content">
         <span class="popup-close" onclick="closeEditKandidat()">&times;</span>
-        <h2>Edit Kandidat</h2>
+        <h2>Ubah Kandidat</h2>
         <form action="../src/controllers/KandidatController.php?action=updateKandidat" method="POST">
             <input type="hidden" name="id_calon" id="editKandidat_id">
             <input type="hidden" name="id_voting" id="editKandidat_id_voting">

@@ -28,6 +28,7 @@
   border-radius: 6px;
   text-decoration: none;
   transition: 0.3s;
+  border: none;
 }
 
 .btn-add:hover {
@@ -141,20 +142,20 @@
 
 /* edit */
 .btn-edit {
-  background: #f39c12;
+  background: #f1c40f;
 }
 
 .btn-edit:hover {
-  background: #e67e22;
+  background: #c19d0e;
 }
 
 /* hapus */
 .btn-hapus {
-  background: #dc3545;
+  background: red;
 }
 
 .btn-hapus:hover {
-  background: #c82333;
+  background: darkred;
 }
 
 /* ================= FORM GROUP ================= */

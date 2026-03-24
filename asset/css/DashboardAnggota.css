@@ -626,16 +626,16 @@ table.anggota-table td img {
 }
 
 .btn-edit:hover {
-  background: #d4ac0d;
+  background: #c19d0e;
 }
 
 .btn-hapus {
-  background: #e74c3c;
+  background: red;
   color: white;
 }
 
 .btn-hapus:hover {
-  background: #c0392b;
+  background: darkred;
 }
 
 /* Responsif untuk mobile */

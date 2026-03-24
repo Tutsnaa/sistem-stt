@@ -50,6 +50,11 @@
                     <button type="submit" class="profil-btn profil-btn-simpan" id="btnSimpan" style="display:none;">
                         Simpan
                     </button>
+
+                    <button type="button" class="profil-btn profil-btn-batal" id="btnBatal" onclick="batalEdit()"
+                        style="display:none;">
+                        Batal
+                    </button>
                 </div>
             </div>
         </form>
@@ -57,18 +62,56 @@
 </div>
 
 <script>
-// preview foto sebelum disimpan
+// simpan foto awal (biar bisa dikembalikan saat batal)
+let fotoAwal = document.getElementById('previewFoto').src;
+
+// ================= PREVIEW FOTO =================
 function previewImage(event) {
     const reader = new FileReader();
     reader.onload = function() {
         document.getElementById('previewFoto').src = reader.result;
     };
-    reader.readAsDataURL(event.target.files[0]);
+
+    if (event.target.files[0]) {
+        reader.readAsDataURL(event.target.files[0]);
+    }
 }
 
+// ================= EDIT =================
 function editProfil() {
-    document.querySelectorAll('.profil-data input').forEach(input => input.removeAttribute('readonly'));
+    // aktifkan input
+    document.querySelectorAll('.profil-data input').forEach(input => {
+        input.removeAttribute('readonly');
+    });
+
+    // tampilkan input foto
     document.getElementById('inputFoto').style.display = 'block';
+
+    // tombol
     document.getElementById('btnSimpan').style.display = 'inline-block';
+    document.getElementById('btnBatal').style.display = 'inline-block';
+    document.querySelector('.profil-btn-edit').style.display = 'none';
+}
+
+// ================= BATAL =================
+function batalEdit() {
+    // tombol
+    document.getElementById('btnSimpan').style.display = 'none';
+    document.getElementById('btnBatal').style.display = 'none';
+    document.querySelector('.profil-btn-edit').style.display = 'inline-block';
+
+    // readonly lagi
+    document.querySelectorAll('.profil-data input').forEach(input => {
+        input.setAttribute('readonly', true);
+    });
+
+    // reset form
+    document.querySelector('.profil-card').reset();
+
+    // sembunyikan input foto
+    document.getElementById('inputFoto').style.display = 'none';
+
+    // 🔥 kembalikan foto ke semula
+    document.getElementById('previewFoto').src = fotoAwal;
 }
 </script>

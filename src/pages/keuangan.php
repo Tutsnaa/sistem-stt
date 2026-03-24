@@ -2,21 +2,17 @@
 
     <!-- ================= POPUP TAMBAH DATA ================= -->
     <div id="popupForm" class="popup">
-        <div class="popup-content">
+        <div class="popup-content popup-keuangan">
 
-            <!-- Tombol close popup -->
             <span class="close-btn" onclick="closePopup()">&times;</span>
 
-            <h2>Tambah Data</h2>
+            <h2 class="popup-title">Tambah Data Keuangan</h2>
 
-            <!-- Form tambah data keuangan -->
             <form action="../src/controllers/KeuanganController.php?action=simpan" method="POST"
                 enctype="multipart/form-data">
 
-                <!-- Hidden ID user -->
                 <input type="hidden" name="id_pengguna" value="<?= $user['id_pengguna']; ?>">
 
-                <!-- Pilih jenis -->
                 <div class="form-group">
                     <label>Jenis</label>
                     <select name="jenis" required>
@@ -26,25 +22,21 @@
                     </select>
                 </div>
 
-                <!-- Input keterangan -->
                 <div class="form-group">
                     <label>Keterangan</label>
-                    <textarea name="keterangan" required></textarea>
+                    <textarea name="keterangan" required placeholder="Masukkan keterangan"></textarea>
                 </div>
 
-                <!-- Input jumlah -->
                 <div class="form-group">
                     <label>Jumlah</label>
-                    <input type="number" name="jumlah" required>
+                    <input type="number" name="jumlah" required placeholder="Masukkan jumlah">
                 </div>
 
-                <!-- Upload bukti -->
                 <div class="form-group">
                     <label>Upload Bukti</label>
                     <input type="file" name="file_bukti">
                 </div>
 
-                <!-- Tombol simpan -->
                 <button type="submit" class="btn-save">Simpan</button>
 
             </form>
@@ -121,8 +113,6 @@
     <!-- ================= TABEL DATA KEUANGAN ================= -->
     <div class="table-wrapper-keuangan">
         <div class="table-keuangan">
-
-
             <!-- ================= TABEL ================= -->
             <table>
 
@@ -193,14 +183,14 @@
                             <button class="btn-ubah-keuangan" data-id="<?= $row['id_keuangan']; ?>"
                                 data-jenis="<?= $row['jenis']; ?>" data-keterangan="<?= $row['keterangan']; ?>"
                                 data-jumlah="<?= $row['jumlah']; ?>" onclick="openEditModal(this)">
-                                Ubah
+                                <i class="fa fa-pen-to-square"></i>
                             </button>
 
                             <!-- Tombol hapus -->
                             <a class="btn-hapus-keuangan"
                                 href="../src/controllers/KeuanganController.php?action=hapus&id=<?= $row['id_keuangan']; ?>"
                                 onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                Hapus
+                                <i class="fa fa-trash"></i>
                             </a>
 
                         </td>
@@ -237,20 +227,20 @@ function closeModal() {
 }
 
 // klik luar modal = tutup
-window.onclick = function(event) {
-    let modal = document.getElementById("editModal");
-    if (event.target == modal) {
-        modal.style.display = "none";
+window.addEventListener("click", function(e) {
+    let popup = document.getElementById("popupForm");
+    if (e.target === popup) {
+        popup.classList.remove("show");
     }
-}
+});
 
 
 // ================= POPUP TAMBAH =================
 function openPopup() {
-    document.getElementById("popupForm").style.display = "block";
+    document.getElementById("popupForm").classList.add("show");
 }
 
 function closePopup() {
-    document.getElementById("popupForm").style.display = "none";
+    document.getElementById("popupForm").classList.remove("show");
 }
 </script>

@@ -110,13 +110,13 @@
                                         '<?= $p['status']; ?>',
                                         '<?= $p['file']; ?>'
                                     )">
-                                    Ubah
+                                    <i class="fa fa-pen-to-square"></i>
                                 </button>
 
                                 <!-- tombol hapus -->
                                 <a href="../src/controllers/PengumumanController.php?action=hapus&id=<?= $p['id_pengumuman']; ?>"
                                     class="btn-hapus" onclick="return confirm('Hapus pengumuman ini?')">
-                                    Hapus
+                                    <i class="fa fa-trash"></i>
                                 </a>
 
                             </div>

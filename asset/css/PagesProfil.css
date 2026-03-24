@@ -98,14 +98,24 @@
 }
 
 .profil-btn-edit:hover {
-  background: #d4ac0d;
+  background: #c19d0e;
 }
 
 /* tombol simpan */
 .profil-btn-simpan {
-  background: #2ecc71;
+  background: #ff9644;
 }
 
 .profil-btn-simpan:hover {
-  background: #27ae60;
+  background: #e67e22;
+}
+
+.profil-btn-batal {
+  background: #aaa;
+  color: white;
+  transition: 0.2s;
+}
+
+.profil-btn-batal:hover {
+  background: #888;
 }
