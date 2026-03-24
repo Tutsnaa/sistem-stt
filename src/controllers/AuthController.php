@@ -20,21 +20,24 @@ class AuthController {
             $user = $this->model->verifyLogin($nama_pengguna,$kata_sandi);
 
             if($user){
+            // Login berhasil
+            $_SESSION['user'] = $user;
+            $_SESSION['flash_message'] = "Selamat datang, " . htmlspecialchars($user['nama_lengkap']);
 
-                $_SESSION['user'] = $user;
+            // Redirect sesuai jabatan
+            if($user['jabatan'] == "anggota"){
+                header("Location: ../../public/dashboard_anggota.php");
+            } else {
+                header("Location: ../../public/dashboard_pengurus.php");
+            }
 
-                 $_SESSION['flash_message'] = "Selamat datang, " . htmlspecialchars($user['nama_lengkap']);
-                if($user['jabatan']=="anggota"){
-                    header("Location: ../../public/dashboard_anggota.php");
-                }else{
-                    header("Location: ../../public/dashboard_pengurus.php");
-                }
+            exit;
 
-                exit;
-
-            }else{
-
-                echo "Login gagal";
+        } else {
+            // Login gagal
+            $_SESSION['login_error'] = "Nama pengguna atau kata sandi salah";
+            header("Location: ../../public/dashboard_umum.php");
+            exit;
             }
         }
     }
