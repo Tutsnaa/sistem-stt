@@ -23,8 +23,6 @@ $model = new PenggunaModel();
 */
 $action = $_GET['action'] ?? '';
 
-
-
 /*
 |--------------------------------------------------------------------------
 | 1. TAMBAH DATA ANGGOTA (CREATE)
@@ -35,13 +33,13 @@ $action = $_GET['action'] ?? '';
 if ($action == "create") {
 
     $data = [
-        'nama_lengkap' => $_POST['nama_lengkap'],
-        'email' => $_POST['email'],
-        'no_hp' => $_POST['no_hp'],
-        'alamat' => $_POST['alamat'],
-        'jabatan' => $_POST['jabatan'],
-        'nama_pengguna' => $_POST['nama_pengguna'],
-        'kata_sandi' => $_POST['kata_sandi']
+        'nama_lengkap'   => $_POST['nama_lengkap'],
+        'email'          => $_POST['email'],
+        'no_hp'          => $_POST['no_hp'],
+        'alamat'         => $_POST['alamat'],
+        'jabatan'        => $_POST['jabatan'],
+        'nama_pengguna'  => $_POST['nama_pengguna'],
+        'kata_sandi'     => $_POST['kata_sandi']
     ];
 
     /*
@@ -52,15 +50,13 @@ if ($action == "create") {
     if (isset($_FILES['foto_profil']) && $_FILES['foto_profil']['error'] == 0) {
 
         $file = $_FILES['foto_profil'];
+        $ext  = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 
-        $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-
-        $allowed = ['jpg','jpeg','png','gif'];
+        $allowed = ['jpg', 'jpeg', 'png', 'gif'];
 
         if (in_array($ext, $allowed)) {
 
-            $nama_file = time() . '_' . $file['name'];
-
+            $nama_file  = time() . '_' . $file['name'];
             $target_dir = __DIR__ . '/../../uploads/';
 
             if (!is_dir($target_dir)) {
@@ -78,14 +74,17 @@ if ($action == "create") {
     $create = $model->create($data);
 
     if ($create) {
+
+     // 🔥 NOTIFIKASI
+        $_SESSION['flash_message'] = "Data anggota berhasil ditambahkan";
+        $_SESSION['flash_type'] = "success";
+
         header("Location: ../../public/dashboard_pengurus.php?page=anggota");
         exit;
     } else {
         echo "Gagal menambah anggota";
     }
 }
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -97,11 +96,11 @@ if ($action == "create") {
 elseif ($action == "update") {
 
     $data = [
-        'id_pengguna' => $_POST['id_pengguna'],
-        'nama_lengkap' => $_POST['nama_lengkap'],
-        'email' => $_POST['email'],
-        'no_hp' => $_POST['no_hp'],
-        'alamat' => $_POST['alamat'],
+        'id_pengguna'   => $_POST['id_pengguna'],
+        'nama_lengkap'  => $_POST['nama_lengkap'],
+        'email'         => $_POST['email'],
+        'no_hp'         => $_POST['no_hp'],
+        'alamat'        => $_POST['alamat'],
         'nama_pengguna' => $_POST['nama_pengguna']
     ];
 
@@ -111,8 +110,9 @@ elseif ($action == "update") {
     |--------------------------------------------------------------------------
     */
     if (!empty($_POST['kata_sandi'])) {
-    $data['kata_sandi'] = $_POST['kata_sandi']; // kirim plaintext ke model
-}
+        $data['kata_sandi'] = $_POST['kata_sandi']; // kirim plaintext ke model
+    }
+
     /*
     |--------------------------------------------------------------------------
     | UPDATE FOTO (JIKA ADA FILE BARU)
@@ -121,15 +121,13 @@ elseif ($action == "update") {
     if (isset($_FILES['foto_profil']) && $_FILES['foto_profil']['error'] == 0) {
 
         $file = $_FILES['foto_profil'];
+        $ext  = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 
-        $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-
-        $allowed = ['jpg','jpeg','png','gif'];
+        $allowed = ['jpg', 'jpeg', 'png', 'gif'];
 
         if (in_array($ext, $allowed)) {
 
-            $nama_file = time() . '_' . preg_replace('/\s+/', '_', $file['name']);
-
+            $nama_file  = time() . '_' . preg_replace('/\s+/', '_', $file['name']);
             $target_dir = __DIR__ . '/../../uploads/';
 
             if (!is_dir($target_dir)) {
@@ -155,40 +153,53 @@ elseif ($action == "update") {
         | UPDATE SESSION USER
         |--------------------------------------------------------------------------
         */
-        if($_SESSION['user']['id_pengguna'] == $data['id_pengguna']){
+        if ($_SESSION['user']['id_pengguna'] == $data['id_pengguna']) {
 
-    $_SESSION['user']['nama_lengkap'] = $data['nama_lengkap'];
-    $_SESSION['user']['email'] = $data['email'];
-    $_SESSION['user']['no_hp'] = $data['no_hp'];
-    $_SESSION['user']['alamat'] = $data['alamat'];
-    $_SESSION['user']['nama_pengguna'] = $data['nama_pengguna'];
+            $_SESSION['user']['nama_lengkap']  = $data['nama_lengkap'];
+            $_SESSION['user']['email']         = $data['email'];
+            $_SESSION['user']['no_hp']         = $data['no_hp'];
+            $_SESSION['user']['alamat']        = $data['alamat'];
+            $_SESSION['user']['nama_pengguna'] = $data['nama_pengguna'];
 
-    if(isset($data['foto'])){
-        $_SESSION['user']['foto'] = $data['foto'];
-    }
-}
+            if (isset($data['foto'])) {
+                $_SESSION['user']['foto'] = $data['foto'];
+            }
+        }
+
+
+                /*
+        |--------------------------------------------------------------------------
+        | NOTIFIKASI 🔥
+        |--------------------------------------------------------------------------
+        */
+        $_SESSION['flash_message'] = "Data pengguna berhasil diperbarui";
+        $_SESSION['flash_type'] = "info";
+
+
         // ================= REDIRECT SESUAI JABATAN =================
-    if(isset($_POST['from']) && $_POST['from'] == "profil"){
-        if($_SESSION['user']['jabatan'] == 'anggota'){
-            header("Location: ../../public/dashboard_anggota.php?page=profil");
+        if (isset($_POST['from']) && $_POST['from'] == "profil") {
+
+            if ($_SESSION['user']['jabatan'] == 'anggota') {
+                header("Location: ../../public/dashboard_anggota.php?page=profil");
+            } else {
+                header("Location: ../../public/dashboard_pengurus.php?page=profil");
+            }
+
         } else {
-            header("Location: ../../public/dashboard_pengurus.php?page=profil");
+
+            if ($_SESSION['user']['jabatan'] == 'anggota') {
+                header("Location: ../../public/dashboard_anggota.php?page=anggota");
+            } else {
+                header("Location: ../../public/dashboard_pengurus.php?page=anggota");
+            }
         }
-    } else {
-        if($_SESSION['user']['jabatan'] == 'anggota'){
-            header("Location: ../../public/dashboard_anggota.php?page=anggota");
-        } else {
-            header("Location: ../../public/dashboard_pengurus.php?page=anggota");
-        }
-    }
-    exit;
+
+        exit;
 
     } else {
         echo "Update gagal";
     }
 }
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -204,13 +215,12 @@ elseif ($action == "delete") {
     $delete = $model->delete($id);
 
     if ($delete) {
-
+$_SESSION['flash_message'] = "Pengumuman berhasil dihapus";
+$_SESSION['flash_type'] = "danger";
         header("Location: ../../public/dashboard_pengurus.php?page=anggota");
         exit;
 
     } else {
-
         echo "Gagal menghapus anggota";
-
     }
 }

@@ -81,7 +81,7 @@ $kandidat = $kandidatModel->getAllKandidat();
 
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard Anggota - Sekaa Truna Truni</title>
+    <title>Sekaa Truna Truni</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="../asset/css/DashboardAnggota.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/PagesAnggotaRoleA.css?v=<?php echo time(); ?>">

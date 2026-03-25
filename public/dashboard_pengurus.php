@@ -67,7 +67,7 @@ $kepengurusan = $kepengurusanModel->getAll(); // Pastikan ada method getAll()
 
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard Pengurus - STT</title>
+    <title>Sekaa Truna Truni</title>
     <link rel="stylesheet" href="../asset/css/DashboardPengurus.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/navbar.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/sidebar.css?v=<?php echo time(); ?>">

@@ -34,35 +34,78 @@ switch($action) {
             ];
 
             $model->tambahPengumuman($data);
+            $_SESSION['flash_message'] = "Pengumuman berhasil ditambahkan";
             header("Location: $dashboardPage");
             exit();
         }
         break;
 
-    case 'update':
-        if($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id = $_POST['id_pengumuman'];
-            $file = $_FILES['file']['name'] ?? $_POST['file_lama'];
-            if(isset($_FILES['file']) && $_FILES['file']['name'] != '') {
-                move_uploaded_file($_FILES['file']['tmp_name'], __DIR__ . '/../../uploads/' . $file);
-            }
+//     case 'update':
+//         if($_SERVER['REQUEST_METHOD'] === 'POST') {
+//             $id = $_POST['id_pengumuman'];
+//             $file = $_FILES['file']['name'] ?? $_POST['file_lama'];
+//             if(isset($_FILES['file']) && $_FILES['file']['name'] != '') {
+//                 move_uploaded_file($_FILES['file']['tmp_name'], __DIR__ . '/../../uploads/' . $file);
+//             }
 
-            $data = [
-                'judul' => $_POST['judul'],
-                'isi' => $_POST['isi'],
-                'file' => $file,
-                'status' => $_POST['status']
-            ];
+//             $data = [
+//                 'judul' => $_POST['judul'],
+//                 'isi' => $_POST['isi'],
+//                 'file' => $file,
+//                 'status' => $_POST['status']
+//             ];
 
-            $model->updatePengumuman($id, $data);
-            header("Location: $dashboardPage");
-            exit();
+//             $model->updatePengumuman($id, $data);
+//             $_SESSION['flash_message'] = "Pengumuman berhasil diperbarui";
+// $_SESSION['flash_type'] = "info";
+//             header("Location: $dashboardPage");
+//             exit();
+//         }
+//         break;
+
+case 'update':
+    if($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+        $id = $_POST['id_pengumuman'];
+
+        // 🔥 ambil file lama dulu
+        $file = $_POST['file_lama'];
+
+        // 🔥 cek apakah upload file baru
+        if(isset($_FILES['file']) && $_FILES['file']['name'] != ''){
+
+            $fileBaru = $_FILES['file']['name'];
+
+            move_uploaded_file(
+                $_FILES['file']['tmp_name'], 
+                __DIR__ . '/../../uploads/' . $fileBaru
+            );
+
+            $file = $fileBaru; // pakai file baru
         }
-        break;
+
+        $data = [
+            'judul' => $_POST['judul'],
+            'isi' => $_POST['isi'],
+            'file' => $file, // 🔥 ini fix
+            'status' => $_POST['status']
+        ];
+
+        $model->updatePengumuman($id, $data);
+
+        $_SESSION['flash_message'] = "Pengumuman berhasil diperbarui";
+        $_SESSION['flash_type'] = "info";
+
+        header("Location: $dashboardPage");
+        exit();
+    }
+    break;
 
     case 'hapus':
         $id = $_GET['id'];
         $model->hapusPengumuman($id);
+        $_SESSION['flash_message'] = "Data anggota berhasil dihapus";
+$_SESSION['flash_type'] = "danger";
         header("Location: $dashboardPage");
         exit();
         break;

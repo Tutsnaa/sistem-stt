@@ -22,7 +22,7 @@ $dataAnggota = $model->getAll($search);
 
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard Umum - Sekaa Truna Truni</title>
+    <title>Sekaa Truna Truni</title>
     <link rel="stylesheet" href="../asset/css/DashboardUmum.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/PagesDashboard.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/navbar.css?v=<?php echo time(); ?>">

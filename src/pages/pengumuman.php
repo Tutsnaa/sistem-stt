@@ -1,3 +1,122 @@
+<?php if(isset($_SESSION['flash_message'])): ?>
+<div id="flash-message" class="alert-success">
+    <?= $_SESSION['flash_message']; ?>
+</div>
+<?php unset($_SESSION['flash_message']); ?>
+<?php endif; ?>
+
+
+<?php if(isset($_SESSION['flash_message'])): ?>
+<div id="flash-message" class="alert <?= $_SESSION['flash_type'] ?? 'success'; ?>">
+    <?= $_SESSION['flash_message']; ?>
+</div>
+<?php 
+unset($_SESSION['flash_message']); 
+unset($_SESSION['flash_type']);
+?>
+<?php endif; ?>
+
+<style>
+.alert-success {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-size: 16px;
+    z-index: 9999;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.alert {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 30px;
+    border-radius: 10px;
+    color: white;
+    z-index: 9999;
+}
+
+/* sukses */
+.alert.success {
+    background-color: #4CAF50;
+}
+
+/* hapus */
+.alert.danger {
+    background-color: #e74c3c;
+}
+
+.modal-hapus {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-box {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    width: 350px;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal-box h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.modal-box p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.btn-batal {
+    background: #ccc;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-batal:hover {
+    background: #999;
+}
+
+.btn-hapus-yes {
+    background: #e74c3c;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.btn-hapus-yes:hover {
+    background: #c0392b;
+}
+</style>
+
 <div class="pengumuman-wrapper">
 
     <!-- ================= JUDUL HALAMAN ================= -->
@@ -114,10 +233,9 @@
                                 </button>
 
                                 <!-- tombol hapus -->
-                                <a href="../src/controllers/PengumumanController.php?action=hapus&id=<?= $p['id_pengumuman']; ?>"
-                                    class="btn-hapus" onclick="return confirm('Hapus pengumuman ini?')">
+                                <button class="btn-hapus" onclick="confirmHapus(<?= $p['id_pengumuman']; ?>)">
                                     <i class="fa fa-trash"></i>
-                                </a>
+                                </button>
 
                             </div>
                         </td>
@@ -190,8 +308,48 @@
 
 </div>
 
+<div id="modalHapus" class="modal-hapus">
+    <div class="modal-box">
+        <h3>Konfirmasi Hapus</h3>
+        <p>Apakah kamu yakin ingin menghapus pengumuman ini?</p>
+
+        <div class="modal-actions">
+            <button class="btn-batal" onclick="closeModalHapus()">Batal</button>
+            <a id="btnYaHapus" class="btn-hapus-yes">Ya, Hapus</a>
+        </div>
+    </div>
+</div>
+
 <!-- Script JS untuk modal -->
 <script>
+setTimeout(function() {
+    var msg = document.getElementById('flash-message');
+    if (msg) {
+        msg.style.display = 'none';
+    }
+}, 3000); // hilang 3 detik
+
+
+function confirmHapus(id) {
+    document.getElementById("modalHapus").style.display = "block";
+
+    // set link hapus
+    document.getElementById("btnYaHapus").href =
+        "../src/controllers/PengumumanController.php?action=hapus&id=" + id;
+}
+
+function closeModalHapus() {
+    document.getElementById("modalHapus").style.display = "none";
+}
+
+// klik luar modal = tutup
+window.onclick = function(event) {
+    const modal = document.getElementById("modalHapus");
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+}
+
 const modal = document.getElementById('modalTambah');
 const btnTambah = document.getElementById('btnTambah');
 const spanClose = document.getElementsByClassName('close')[0];

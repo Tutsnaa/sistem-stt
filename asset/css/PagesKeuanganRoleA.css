@@ -1,9 +1,9 @@
 /* ================= PAGE ================= */
 
 .page-content {
-  margin-top: 30px;
+  margin-top: 60px;
   padding: 20px;
-  min-height: calc(100vh - 70px);
+  min-height: calc(102vh - 80px);
   background: #f5f7fa;
 }
 
