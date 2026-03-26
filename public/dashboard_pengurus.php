@@ -62,6 +62,34 @@ $kepengurusanModel = new KepengurusanModel();
 $kepengurusan = $kepengurusanModel->getAll(); // Pastikan ada method getAll()
 ?>
 
+<!-- NOTIFICATION -->
+<?php if(isset($_SESSION['flash_message'])): ?>
+<div id="flash-message" class="alert alert-success">
+    <?= $_SESSION['flash_message']; ?>
+</div>
+<?php unset($_SESSION['flash_message']); ?>
+<?php endif; ?>
+
+<style>
+.alert {
+    padding: 20px 30px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 10px;
+    position: fixed;
+    top: 80px;
+    /* jarak dari atas */
+    left: 50%;
+    /* posisi horizontal di tengah */
+    transform: translateX(-50%);
+    /* tepat di tengah horizontal */
+    z-index: 9999;
+    font-size: 18px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+</style>
+
 <!DOCTYPE html>
 <html lang="id">
 
@@ -169,7 +197,6 @@ $kepengurusan = $kepengurusanModel->getAll(); // Pastikan ada method getAll()
         <div class="main-content">
 
             <?php
-$page = $_GET['page'] ?? 'dashboard';
 
 switch ($page) {
 
@@ -177,7 +204,7 @@ switch ($page) {
         include '../src/pages/profil.php';
         break;
 
-    case 'profil':
+    case 'pengumuman':
         include '../src/pages/pengumuman.php';
         break;
 
@@ -213,3 +240,14 @@ switch ($page) {
 </body>
 
 </html>
+
+<script>
+window.onload = function() {
+    setTimeout(function() {
+        var msg = document.getElementById('flash-message');
+        if (msg) {
+            msg.style.display = 'none';
+        }
+    }, 5000); // 5 detik
+};
+</script>

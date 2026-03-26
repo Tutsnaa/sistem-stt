@@ -1,3 +1,134 @@
+<?php if(isset($_SESSION['flash_message'])): ?>
+<div id="flash-message" class="alert-success">
+    <?= $_SESSION['flash_message']; ?>
+</div>
+<?php unset($_SESSION['flash_message']); ?>
+<?php endif; ?>
+
+
+<?php if(isset($_SESSION['flash_message'])): ?>
+<div id="flash-message" class="alert <?= $_SESSION['flash_type'] ?? 'success'; ?>">
+    <?= $_SESSION['flash_message']; ?>
+</div>
+<?php 
+unset($_SESSION['flash_message']); 
+unset($_SESSION['flash_type']);
+?>
+<?php endif; ?>
+
+<style>
+.alert-success {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-size: 16px;
+    z-index: 9999;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.alert {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 30px;
+    border-radius: 10px;
+    color: white;
+    z-index: 9999;
+}
+
+/* sukses */
+.alert.success {
+    background-color: #4CAF50;
+}
+
+/* hapus */
+.alert.danger {
+    background-color: #e74c3c;
+}
+
+.modal-hapus {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-box {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    width: 350px;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal-box h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.modal-box p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.btn-batal {
+    background: #ccc;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-batal:hover {
+    background: #999;
+}
+
+.btn-hapus-yes {
+    background: #e74c3c;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.btn-hapus-yes:hover {
+    background: #c0392b;
+}
+</style>
+
+<div id="modalHapus" class="modal-hapus">
+    <div class="modal-box">
+        <h3>Konfirmasi Hapus</h3>
+        <p>Apakah kamu yakin ingin menghapus pengumuman ini?</p>
+
+        <div class="modal-actions">
+            <button class="btn-batal" onclick="closeModalHapus()">Batal</button>
+            <a id="btnYaHapus" class="btn-hapus-yes">Ya, Hapus</a>
+        </div>
+    </div>
+</div>
+
 <div class="page-content">
 
     <!-- ================= POPUP TAMBAH DATA ================= -->
@@ -6,11 +137,11 @@
 
             <span class="close-btn" onclick="closePopup()">&times;</span>
 
-            <h2 class="popup-title">Tambah Data Keuangan</h2>
+            <h2>Tambah Data Keuangan</h2>
 
-            <form action="../src/controllers/KeuanganController.php?action=simpan" method="POST"
-                enctype="multipart/form-data">
+            <form action="../src/controllers/KeuanganController.php" method="POST" enctype="multipart/form-data">
 
+                <input type="hidden" name="action" value="simpan">
                 <input type="hidden" name="id_pengguna" value="<?= $user['id_pengguna']; ?>">
 
                 <div class="form-group">
@@ -24,12 +155,12 @@
 
                 <div class="form-group">
                     <label>Keterangan</label>
-                    <textarea name="keterangan" required placeholder="Masukkan keterangan"></textarea>
+                    <textarea name="keterangan" required></textarea>
                 </div>
 
                 <div class="form-group">
                     <label>Jumlah</label>
-                    <input type="number" name="jumlah" required placeholder="Masukkan jumlah">
+                    <input type="number" name="jumlah" required>
                 </div>
 
                 <div class="form-group">
@@ -58,13 +189,11 @@
             <h3>Edit Data Keuangan</h3>
 
             <!-- Form edit -->
-            <form action="../src/controllers/KeuanganController.php?action=update" method="POST"
-                enctype="multipart/form-data">
+            <form action="../src/controllers/KeuanganController.php" method="POST" enctype="multipart/form-data">
 
-                <!-- Hidden ID -->
+                <input type="hidden" name="action" value="update">
                 <input type="hidden" name="id_keuangan" id="edit_id">
 
-                <!-- Jenis -->
                 <div class="form-group">
                     <label>Jenis</label>
                     <select name="jenis" id="edit_jenis" required>
@@ -73,25 +202,16 @@
                     </select>
                 </div>
 
-                <!-- Keterangan -->
                 <div class="form-group">
                     <label>Keterangan</label>
                     <textarea name="keterangan" id="edit_keterangan" required></textarea>
                 </div>
 
-                <!-- Jumlah -->
                 <div class="form-group">
                     <label>Jumlah</label>
                     <input type="number" name="jumlah" id="edit_jumlah" required>
                 </div>
 
-                <!-- Upload bukti -->
-                <div class="form-group">
-                    <label>Upload Bukti</label>
-                    <input type="file" name="file_bukti">
-                </div>
-
-                <!-- Tombol simpan -->
                 <button type="submit" class="btn-save">Simpan</button>
 
             </form>
@@ -187,12 +307,16 @@
                             </button>
 
                             <!-- Tombol hapus -->
-                            <a class="btn-hapus-keuangan"
+                            <!-- <a class="btn-hapus-keuangan"
                                 href="../src/controllers/KeuanganController.php?action=hapus&id=<?= $row['id_keuangan']; ?>"
                                 onclick="return confirm('Yakin ingin menghapus data ini?')">
                                 <i class="fa fa-trash"></i>
-                            </a>
+                            </a> -->
 
+                            <a href="#" class="btn-hapus-keuangan"
+                                onclick="confirmHapus(<?= $row['id_keuangan']; ?>); return false;">
+                                <i class="fa fa-trash"></i>
+                            </a>
                         </td>
                         <?php } ?>
 
@@ -212,6 +336,34 @@
 
 <!-- ================= SCRIPT ================= -->
 <script>
+setTimeout(function() {
+    var msg = document.getElementById('flash-message');
+    if (msg) {
+        msg.style.display = 'none';
+    }
+}, 3000); // hilang 3 detik
+
+
+function confirmHapus(id) {
+    document.getElementById("modalHapus").style.display = "block";
+
+    // set link hapus
+    document.getElementById("btnYaHapus").href =
+        "../src/controllers/KeuanganController.php?action=hapus&id=" + id;
+}
+
+function closeModalHapus() {
+    document.getElementById("modalHapus").style.display = "none";
+}
+
+// klik luar modal = tutup
+window.onclick = function(event) {
+    const modal = document.getElementById("modalHapus");
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+}
+
 // ================= EDIT MODAL =================
 function openEditModal(button) {
     document.getElementById("editModal").style.display = "block";
