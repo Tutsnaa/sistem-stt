@@ -104,8 +104,14 @@
         : 'dashboard_pengurus.php?page=anggota'; ?>" class="btn-reset">
                 Tampilkan Semua
             </a>
+
+
         </form>
+
         <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
+        <a href="../src/controllers/PenggunaController.php?action=download_excel" class="btn-download">
+            📥 Download Excel
+        </a>
         <button class="btn-tambah" onclick="openTambahModal()">+ Tambah Anggota</button>
         <?php } ?>
 
@@ -293,6 +299,20 @@
     </div>
 
     <style>
+    .btn-download {
+        display: inline-block;
+        margin-bottom: 10px;
+        padding: 8px 15px;
+        background-color: #2ecc71;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+    .btn-download:hover {
+        background-color: #27ae60;
+    }
+
     .modal-hapus {
         display: none;
         /* default hidden */

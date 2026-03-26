@@ -240,3 +240,33 @@ elseif ($action == "delete") {
     header("Location: ../../public/dashboard_pengurus.php?page=anggota");
     exit;
 }
+
+if($action === 'download_excel') {
+    $dataAnggota = $model->getAll(); // Ambil semua anggota
+
+    $filename = "data_anggota_" . date('Ymd_His') . ".csv";
+
+    header("Content-Type: text/csv");
+    header("Content-Disposition: attachment; filename=\"$filename\"");
+
+    $output = fopen("php://output", "w");
+
+    $header = ['No', 'Nama Lengkap', 'Email', 'No HP', 'Alamat', 'Jabatan', 'Username'];
+    fputcsv($output, $header);
+
+    $no = 1;
+    foreach($dataAnggota as $row){
+        fputcsv($output, [
+            $no++,
+            $row['nama_lengkap'],
+            $row['email'],
+            $row['no_hp'],
+            $row['alamat'],
+            $row['jabatan'],
+            $row['nama_pengguna']
+        ]);
+    }
+
+    fclose($output);
+    exit();
+}
