@@ -1,129 +1,3 @@
-<?php if(isset($_SESSION['flash_message'])): ?>
-<div id="flash-message" class="alert-success">
-    <?= $_SESSION['flash_message']; ?>
-</div>
-<?php unset($_SESSION['flash_message']); ?>
-<?php endif; ?>
-
-<style>
-.alert-success {
-    position: fixed;
-    top: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #4CAF50;
-    color: white;
-    padding: 15px 30px;
-    border-radius: 10px;
-    font-size: 16px;
-    z-index: 9999;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.alert {
-    position: fixed;
-    top: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 15px 30px;
-    border-radius: 10px;
-    color: white;
-    z-index: 9999;
-}
-
-/* sukses */
-.alert.success {
-    background-color: #4CAF50;
-}
-
-/* hapus */
-.alert.danger {
-    background-color: #e74c3c;
-}
-
-.modal-box h3 {
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.modal-box p {
-    color: #666;
-    margin-bottom: 20px;
-}
-
-.modal-actions {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-}
-
-.btn-batal {
-    background: #ccc;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.btn-batal:hover {
-    background: #999;
-}
-
-.btn-hapus-yes {
-    background: #e74c3c;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 6px;
-    text-decoration: none;
-}
-
-.btn-hapus-yes:hover {
-    background: #c0392b;
-}
-
-.modal-hapus {
-    display: none;
-    /* default sembunyi */
-    position: fixed;
-    z-index: 9999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-
-    background: rgba(0, 0, 0, 0.5);
-
-    justify-content: center;
-    align-items: center;
-}
-
-/* aktif */
-.modal-hapus.show {
-    display: flex;
-}
-
-.modal-box {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    text-align: center;
-    width: 350px;
-    animation: muncul 0.3s ease;
-}
-
-@keyframes muncul {
-    from {
-        transform: scale(0.8);
-        opacity: 0;
-    }
-
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-</style>
-
 <div class="container">
 
     <!-- =========================
@@ -418,26 +292,61 @@
         </div>
     </div>
 
+    <style>
+    .modal-hapus {
+        display: none;
+        /* default hidden */
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-box {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        width: 350px;
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .btn-hapus-yes {
+        background-color: #e74c3c;
+        color: #fff;
+        padding: 8px 15px;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+    </style>
+
     <script>
-    setTimeout(function() {
-        var msg = document.getElementById('flash-message');
-        if (msg) {
-            msg.style.display = 'none';
-        }
-    }, 3000); // hilang 3 detik
-
-
     function confirmHapus(id) {
         const modal = document.getElementById("modalHapus");
-        modal.classList.add("show");
+        modal.style.display = "block"; // tampilkan modal
 
+        // Set URL delete
         document.getElementById("btnYaHapus").href =
             "../src/controllers/PenggunaController.php?action=delete&id=" + id;
     }
 
     function closeModalHapus() {
-        document.getElementById("modalHapus").classList.remove("show");
+        document.getElementById("modalHapus").style.display = "none";
     }
+
+    // klik luar modal = tutup modal hapus
+    window.addEventListener("click", function(event) {
+        const hapusModal = document.getElementById("modalHapus");
+        if (event.target === hapusModal) {
+            hapusModal.style.display = "none";
+        }
+    });
 
     // klik luar modal = tutup
     window.onclick = function(event) {

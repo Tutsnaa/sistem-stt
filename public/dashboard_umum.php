@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+// ================================
+// NOTIFIKASI
+// ================================
+require_once __DIR__ . '/../src/view/flash_message.php';
+
 $page = $_GET['page'] ?? 'home';
 require_once __DIR__ . '/../src/models/PengumumanModel.php';
 
@@ -27,21 +32,6 @@ $dataAnggota = $model->getAll($search);
     <link rel="stylesheet" href="../asset/css/PagesDashboard.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/navbar.css?v=<?php echo time(); ?>">
 </head>
-
-<!-- ================= NOTIFICATION ================= -->
-<?php if(isset($_SESSION['flash_message'])): ?>
-<div id="flash-message" class="alert alert-success">
-    <?= $_SESSION['flash_message']; ?>
-</div>
-<?php unset($_SESSION['flash_message']); ?>
-<?php endif; ?>
-
-<?php if(isset($_SESSION['login_error'])): ?>
-<div id="flash-error" class="alert alert-danger">
-    <?= $_SESSION['login_error']; ?>
-</div>
-<?php unset($_SESSION['login_error']); ?>
-<?php endif; ?>
 
 <body class="body-bg">
 
@@ -170,31 +160,6 @@ openLogin();
 </body>
 
 </html>
-
-
-<style>
-.alert {
-    padding: 20px 30px;
-    border-radius: 10px;
-    position: fixed;
-    top: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 9999;
-    font-size: 18px;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    color: white;
-}
-
-.alert-success {
-    background-color: green;
-}
-
-.alert-danger {
-    background-color: red;
-}
-</style>
 
 <!-- ================= SCRIPT ================= -->
 <script>

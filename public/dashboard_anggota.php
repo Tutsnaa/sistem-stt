@@ -57,7 +57,7 @@ $kandidat = $kandidatModel->getAllKandidat();
 <?php unset($_SESSION['flash_message']); ?>
 <?php endif; ?>
 
-<style>
+<!-- <style>
 .alert {
     padding: 20px 30px;
     background-color: #4CAF50;
@@ -65,17 +65,17 @@ $kandidat = $kandidatModel->getAllKandidat();
     border-radius: 10px;
     position: fixed;
     top: 80px;
-    /* jarak dari atas */
+
     left: 50%;
-    /* posisi horizontal di tengah */
+
     transform: translateX(-50%);
-    /* tepat di tengah horizontal */
+
     z-index: 9999;
     font-size: 18px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     text-align: center;
 }
-</style>
+</style> -->
 <!DOCTYPE html>
 <html lang="id">
 

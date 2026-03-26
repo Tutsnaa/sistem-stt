@@ -94,7 +94,7 @@ if($action == 'createVoting') {
 
     $result = $votingModel->createVoting($data);
      $_SESSION['flash_message'] = " Voting berhasil ditambahkan";
-        $_SESSION['flash_type'] = "info";
+        $_SESSION['flash_type'] = "success";
 
     // if($result){
     //     $_SESSION['success'] = "Voting berhasil ditambahkan!";
@@ -118,7 +118,7 @@ if($action == 'updateVoting') {
     ];
     $votingModel->updateVoting($id, $data);
     $_SESSION['flash_message'] = "Voting berhasil diperbarui";
-    $_SESSION['flash_type'] = "info";
+    $_SESSION['flash_type'] = "success";
     header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=voting");
     exit;
 }

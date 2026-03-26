@@ -172,8 +172,15 @@ elseif ($action == "update") {
         | NOTIFIKASI 🔥
         |--------------------------------------------------------------------------
         */
-        $_SESSION['flash_message'] = "Data pengguna berhasil diperbarui";
-        $_SESSION['flash_type'] = "info";
+       if ($_SESSION['user']['id_pengguna'] == $data['id_pengguna']) {
+    // Update profil sendiri
+    $_SESSION['flash_message'] = "Profil berhasil diperbarui";
+} else {
+    // Update anggota lain (oleh pengurus)
+    $_SESSION['flash_message'] = "Data anggota berhasil diperbarui";
+}
+
+$_SESSION['flash_type'] = "success";
 
 
         // ================= REDIRECT SESUAI JABATAN =================
@@ -210,17 +217,26 @@ elseif ($action == "update") {
 */
 elseif ($action == "delete") {
 
-    $id = $_GET['id'];
+    $id = $_GET['id'] ?? null;
+
+    if (!$id) {
+        $_SESSION['flash_message'] = "ID anggota tidak ditemukan";
+        $_SESSION['flash_type'] = "error";
+        header("Location: ../../public/dashboard_pengurus.php?page=anggota");
+        exit;
+    }
 
     $delete = $model->delete($id);
 
     if ($delete) {
-$_SESSION['flash_message'] = "Pengumuman berhasil dihapus";
-$_SESSION['flash_type'] = "danger";
-        header("Location: ../../public/dashboard_pengurus.php?page=anggota");
-        exit;
-
+        $_SESSION['flash_message'] = "Data anggota berhasil dihapus";
+        $_SESSION['flash_type'] = "success";
     } else {
-        echo "Gagal menghapus anggota";
+        $_SESSION['flash_message'] = "Gagal menghapus anggota. Silakan coba lagi.";
+        $_SESSION['flash_type'] = "error";
     }
+
+    // Redirect kembali ke halaman anggota
+    header("Location: ../../public/dashboard_pengurus.php?page=anggota");
+    exit;
 }

@@ -21,7 +21,7 @@ if(isset($_GET['action'])){
             $kandidatModel->createKandidat($data);
 
         $_SESSION['flash_message'] = "Data kandidat berhasil ditambahkan";
-        $_SESSION['flash_type'] = "info";
+        $_SESSION['flash_type'] = "success";
             // Redirect ke page voting agar kandidat muncul di tabel voting
             header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=kandidat");
             exit;
@@ -42,7 +42,7 @@ if(isset($_GET['action'])){
 
 
         $_SESSION['flash_message'] = "Data kandidat berhasil diperbarui";
-        $_SESSION['flash_type'] = "info";
+        $_SESSION['flash_type'] = "success";
             // Redirect ke page voting agar kandidat tetap di tabel voting
            header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=kandidat");
             exit;
@@ -56,7 +56,7 @@ if(isset($_GET['action'])){
             }
 
         $_SESSION['flash_message'] = "Berhasil menghapus kandidat";
-        $_SESSION['flash_type'] = "info";
+        $_SESSION['flash_type'] = "success";
             // Redirect ke page voting agar tabel kandidat tetap terlihat
             header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=kandidat");
             exit;

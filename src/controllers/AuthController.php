@@ -35,7 +35,8 @@ class AuthController {
 
         } else {
             // Login gagal
-            $_SESSION['login_error'] = "Nama pengguna atau kata sandi salah";
+            $_SESSION['flash_message'] = "Nama pengguna atau kata sandi salah";
+             $_SESSION['flash_type'] = "danger";
             header("Location: ../../public/dashboard_umum.php");
             exit;
             }

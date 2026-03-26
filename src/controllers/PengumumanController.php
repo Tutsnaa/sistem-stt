@@ -40,29 +40,6 @@ switch($action) {
         }
         break;
 
-//     case 'update':
-//         if($_SERVER['REQUEST_METHOD'] === 'POST') {
-//             $id = $_POST['id_pengumuman'];
-//             $file = $_FILES['file']['name'] ?? $_POST['file_lama'];
-//             if(isset($_FILES['file']) && $_FILES['file']['name'] != '') {
-//                 move_uploaded_file($_FILES['file']['tmp_name'], __DIR__ . '/../../uploads/' . $file);
-//             }
-
-//             $data = [
-//                 'judul' => $_POST['judul'],
-//                 'isi' => $_POST['isi'],
-//                 'file' => $file,
-//                 'status' => $_POST['status']
-//             ];
-
-//             $model->updatePengumuman($id, $data);
-//             $_SESSION['flash_message'] = "Pengumuman berhasil diperbarui";
-// $_SESSION['flash_type'] = "info";
-//             header("Location: $dashboardPage");
-//             exit();
-//         }
-//         break;
-
 case 'update':
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -94,7 +71,7 @@ case 'update':
         $model->updatePengumuman($id, $data);
 
         $_SESSION['flash_message'] = "Pengumuman berhasil diperbarui";
-        $_SESSION['flash_type'] = "info";
+        $_SESSION['flash_type'] = "success";
 
         header("Location: $dashboardPage");
         exit();
@@ -104,8 +81,8 @@ case 'update':
     case 'hapus':
         $id = $_GET['id'];
         $model->hapusPengumuman($id);
-        $_SESSION['flash_message'] = "Data anggota berhasil dihapus";
-$_SESSION['flash_type'] = "danger";
+        $_SESSION['flash_message'] = "Pengumuman berhasil dihapus";
+$_SESSION['flash_type'] = "success";
         header("Location: $dashboardPage");
         exit();
         break;

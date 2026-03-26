@@ -16,7 +16,7 @@ unset($_SESSION['flash_type']);
 ?>
 <?php endif; ?>
 
-<style>
+<!-- <style>
 .alert-success {
     position: fixed;
     top: 80px;
@@ -42,12 +42,12 @@ unset($_SESSION['flash_type']);
     z-index: 9999;
 }
 
-/* sukses */
+
 .alert.success {
     background-color: #4CAF50;
 }
 
-/* hapus */
+
 .alert.danger {
     background-color: #e74c3c;
 }
@@ -115,7 +115,7 @@ unset($_SESSION['flash_type']);
 .btn-hapus-yes:hover {
     background: #c0392b;
 }
-</style>
+</style> -->
 
 <div class="profil-container">
     <div class="profil-box">

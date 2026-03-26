@@ -55,8 +55,8 @@ if (isset($_POST['action'])) {
         ];
 
         $model->insert($data);
-          $_SESSION['flash_message'] = "Tambah data keuangan berhasil";
-        $_SESSION['flash_type'] = "info";
+          $_SESSION['flash_message'] = "Data keuangan berhasil ditambahkan";
+        $_SESSION['flash_type'] = "success";
 
         header("Location: ../../public/dashboard_pengurus.php?page=keuangan");
         exit();
@@ -74,7 +74,7 @@ if (isset($_POST['action'])) {
 
         $model->update($data);
           $_SESSION['flash_message'] = "Data Keuangan berhasil diperbarui";
-        $_SESSION['flash_type'] = "info";
+        $_SESSION['flash_type'] = "success";
 
         header("Location: ../../public/dashboard_pengurus.php?page=keuangan");
         exit();
@@ -90,7 +90,7 @@ if (isset($_GET['action']) && $_GET['action'] == "hapus") {
 
     $model->delete($id);
       $_SESSION['flash_message'] = "Data Keuangan berhasil dihapus";
-        $_SESSION['flash_type'] = "info";
+        $_SESSION['flash_type'] = "success";
 
     header("Location: ../../public/dashboard_pengurus.php?page=keuangan");
     exit();
