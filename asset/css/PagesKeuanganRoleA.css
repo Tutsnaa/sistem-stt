@@ -4,7 +4,7 @@
   margin-top: 60px;
   padding: 20px;
   min-height: calc(102vh - 80px);
-  background: #f5f7fa;
+  background-color: #f5f7fa;
 }
 
 .page-content h2 {
@@ -74,7 +74,6 @@
 /* ================= TABLE ================= */
 
 .table-keuangan {
-  background: #ffffff;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
@@ -83,6 +82,9 @@
 .table-keuangan table {
   width: 100%;
   border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: white;
 }
 
 .table-keuangan th {

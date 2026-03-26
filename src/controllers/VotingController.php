@@ -38,46 +38,47 @@ try {
     if($action === "vote"){
         $id_calon = $_GET['id_calon'] ?? null;
         $id_pengguna = $_SESSION['user']['id_pengguna'];
+        $jabatan = $_SESSION['user']['jabatan'];
+
+        $dashboard = ($jabatan === 'anggota') 
+            ? '../../public/dashboard_anggota.php?page=voting_anggota' 
+            : '../../public/dashboard_pengurus.php?page=voting';
 
         if(!$id_calon){
             $_SESSION['error'] = "Kandidat tidak valid!";
-            header("Location: ../../public/dashboard_pengurus.php?page=voting");
+            header("Location: $dashboard");
             exit;
         }
 
-        // 🔥 CEK STATUS VOTING
         $voting = $votingModel->getVotingByCalon($id_calon);
 
         if(!$voting || $voting['status'] !== 'dibuka'){
             $_SESSION['error'] = "Voting sudah ditutup!";
-            header("Location: ../../public/dashboard_pengurus.php?page=voting");
+            header("Location: $dashboard");
             exit;
         }
 
-        // 🔥 CEK SUDAH VOTE ATAU BELUM
         if(!$suaraModel->cekSuara($id_pengguna, $id_calon)){
-    $suaraModel->createSuara([
-        'id_calon' => $id_calon,
-        'id_pengguna' => $id_pengguna,
-        'tanggal_dibuat' => date('Y-m-d H:i:s')
-    ]);
-    $_SESSION['flash_message'] = "Vote berhasil!";
-    $_SESSION['flash_type'] = "success";
-} else {
-    $_SESSION['flash_message'] = "Kamu sudah memilih kandidat ini!";
-    $_SESSION['flash_type'] = "danger";
-}
+            $suaraModel->createSuara([
+                'id_calon' => $id_calon,
+                'id_pengguna' => $id_pengguna,
+                'tanggal_dibuat' => date('Y-m-d H:i:s')
+            ]);
+            $_SESSION['flash_message'] = "Vote berhasil!";
+            $_SESSION['flash_type'] = "success";
+        } else {
+            $_SESSION['flash_message'] = "Kamu sudah memilih kandidat ini!";
+            $_SESSION['flash_type'] = "danger";
+        }
 
-header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=kandidat");
-exit;
+        header("Location: $dashboard");
+        exit;
     }
 } catch(Exception $e){
-    error_log("VotingController Error: " . $e->getMessage());
-    $_SESSION['error'] = "Terjadi kesalahan!";
-    header("Location: ../../public/dashboard_pengurus.php?page=voting");
+    $_SESSION['error'] = "Terjadi kesalahan: " . $e->getMessage();
+    header("Location: $dashboard");
     exit;
 }
-
 // ================= CREATE VOTING =================
 if($action == 'createVoting') {
 

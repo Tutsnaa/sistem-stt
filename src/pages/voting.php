@@ -318,6 +318,17 @@ $tab = $_GET['tab'] ?? 'voting'; // default ke 'voting' kalau tidak ada param
     </div>
 </div>
 
+<div id="modalHapus" class="modal-hapus">
+    <div class="modal-box">
+        <h3>Konfirmasi Hapus</h3>
+        <p>Apakah kamu yakin ingin menghapus data anggota ini?</p>
+
+        <div class="modal-actions">
+            <button class="btn-batal" onclick="closeModalHapus()">Batal</button>
+            <a id="btnYaHapus" class="btn-hapus-yes">Ya, Hapus</a>
+        </div>
+    </div>
+</div>
 
 <!-- ================= Script Popup & Edit ================= -->
 <script>

@@ -1,16 +1,25 @@
+/* ===============================
+SECTION ANGGOTA
+=============================== */
 .section-anggota {
   width: 100%;
-  padding: 100px 10% 60px 10%;
+  max-width: 2000px; /* Lebar maksimal section */
+  padding: 80px 5% 60px 5%; /* Padding atas, kanan, bawah, kiri */
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background: #f5f7fa;
 }
 
+/* Judul section */
 .section-anggota h2 {
   text-align: center;
   font-size: 36px;
-  margin-top: 150px;
-  margin-bottom: 30px;
-  color: #333;
+  margin-top: 140px;
+}
+
+/* Wrapper tabel agar melebar dan bisa scroll horizontal jika perlu */
+.table-wrapper {
+  max-height: 460px;
+  overflow-x: auto; /* scroll horizontal jika tabel terlalu lebar */
 }
 
 /* ===============================
@@ -57,13 +66,6 @@ TABEL ANGGOTA
 
 .btn-tambah:hover {
   background: #27ae60;
-}
-
-.table-wrapper {
-  width: 100%;
-  max-height: 480px;
-  min-height: 480px;
-  overflow-y: auto;
 }
 
 /* HEADER STICKY */
