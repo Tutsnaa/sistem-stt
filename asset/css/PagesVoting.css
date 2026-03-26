@@ -403,11 +403,14 @@ TOMBOL AKSI TABLE
 
 /* Vote */
 .btn-vote {
+  color: white !important;
   background: #007bff;
+  color: white; /* ini yang benar */
 }
 
 .btn-vote:hover {
   background: #0056b3;
+  color: white; /* biar tetap putih saat hover */
 }
 
 .btn-ditutup {

@@ -59,7 +59,7 @@
 
 .card-container {
     width: 100%;
-    padding: 60px 8%;
+    padding: 100px 30px 0px 30px;
     background: #f4f6f9;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -159,7 +159,7 @@
     display: inline-block;
     width: 100%;
     padding: 10px;
-    background: linear-gradient(135deg, #28a745, #218838);
+    background: #007bff;
     color: #fff;
     border-radius: 8px;
     text-decoration: none;
@@ -168,7 +168,7 @@
 }
 
 .btn-vote:hover {
-    background: linear-gradient(135deg, #218838, #1e7e34);
+    background: #0056b3;
 }
 
 /* RESPONSIVE */

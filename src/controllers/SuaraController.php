@@ -33,6 +33,7 @@ if(isset($_GET['action']) && $_GET['action'] === "vote"){
         } else {
             $_SESSION['error'] = "Kamu sudah memilih kandidat ini!";
         }
+        
     } catch(PDOException $e){
         error_log("SuaraController Error: " . $e->getMessage());
         $_SESSION['error'] = "Terjadi kesalahan saat memberikan vote!";

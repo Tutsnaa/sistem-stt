@@ -56,18 +56,20 @@ try {
 
         // 🔥 CEK SUDAH VOTE ATAU BELUM
         if(!$suaraModel->cekSuara($id_pengguna, $id_calon)){
-            $suaraModel->createSuara([
-                'id_calon' => $id_calon,
-                'id_pengguna' => $id_pengguna,
-                'tanggal_dibuat' => date('Y-m-d H:i:s')
-            ]);
-            $_SESSION['success'] = "Vote berhasil!";
-        } else {
-            $_SESSION['error'] = "Kamu sudah memilih kandidat ini!";
-        }
+    $suaraModel->createSuara([
+        'id_calon' => $id_calon,
+        'id_pengguna' => $id_pengguna,
+        'tanggal_dibuat' => date('Y-m-d H:i:s')
+    ]);
+    $_SESSION['flash_message'] = "Vote berhasil!";
+    $_SESSION['flash_type'] = "success";
+} else {
+    $_SESSION['flash_message'] = "Kamu sudah memilih kandidat ini!";
+    $_SESSION['flash_type'] = "danger";
+}
 
-        header("Location: ../../public/dashboard_pengurus.php?page=voting");
-        exit;
+header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=kandidat");
+exit;
     }
 } catch(Exception $e){
     error_log("VotingController Error: " . $e->getMessage());
@@ -91,14 +93,16 @@ if($action == 'createVoting') {
 ];
 
     $result = $votingModel->createVoting($data);
+     $_SESSION['flash_message'] = " Voting berhasil ditambahkan";
+        $_SESSION['flash_type'] = "info";
 
-    if($result){
-        $_SESSION['success'] = "Voting berhasil ditambahkan!";
-    } else {
-        $_SESSION['error'] = "Gagal menambahkan voting!";
-    }
+    // if($result){
+    //     $_SESSION['success'] = "Voting berhasil ditambahkan!";
+    // } else {
+    //     $_SESSION['error'] = "Gagal menambahkan voting!";
+    // }
 
-    header("Location: ../../public/dashboard_pengurus.php?page=voting");
+    header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=voting");
     exit;
 }
 
@@ -113,7 +117,9 @@ if($action == 'updateVoting') {
         'status' => $_POST['status']
     ];
     $votingModel->updateVoting($id, $data);
-    header("Location: ../../public/dashboard_pengurus.php?page=voting");
+    $_SESSION['flash_message'] = "Voting berhasil diperbarui";
+    $_SESSION['flash_type'] = "info";
+    header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=voting");
     exit;
 }
 
@@ -162,4 +168,32 @@ function prosesPemenang($votingModel, $kepengurusanModel, $id_voting){
             $row['jabatan']
         );
     }
+
+    
+}
+
+// ================= HAPUS VOTING =================
+if($action == 'hapus') {
+
+    $id = $_GET['id'] ?? null;
+
+    if(!$id){
+        $_SESSION['flash_message'] = "ID tidak valid!";
+        $_SESSION['flash_type'] = "danger";
+        header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=voting");
+    }
+
+    // eksekusi hapus
+    $result = $votingModel->deleteVoting($id);
+
+    if($result){
+        $_SESSION['flash_message'] = "Voting berhasil dihapus!";
+        $_SESSION['flash_type'] = "success";
+    } else {
+        $_SESSION['flash_message'] = "Gagal menghapus voting!";
+        $_SESSION['flash_type'] = "danger";
+    }
+
+    header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=voting");
+    exit;
 }
