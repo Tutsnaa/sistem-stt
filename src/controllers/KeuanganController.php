@@ -95,3 +95,45 @@ if (isset($_GET['action']) && $_GET['action'] == "hapus") {
     header("Location: ../../public/dashboard_pengurus.php?page=keuangan");
     exit();
 }
+
+/* =========================
+   HANDLE DOWNLOAD EXCEL
+========================= */
+if (isset($_GET['action']) && $_GET['action'] == "download") {
+
+    $filter = $_GET['filter'] ?? 'all';
+
+    $data = $model->getAll();
+
+    // header excel
+    header("Content-Type: application/vnd.ms-excel");
+header("Content-Disposition: attachment; filename=data_keuangan.xls");
+
+    echo "<table border='1'>";
+    echo "<tr>
+            <th>No</th>
+            <th>Jenis</th>
+            <th>Keterangan</th>
+            <th>Jumlah</th>
+            <th>Tanggal</th>
+          </tr>";
+
+    $no = 1;
+    foreach ($data as $row) {
+
+        // FILTER
+        if ($filter == 'pemasukan' && $row['jenis'] != 'pemasukan') continue;
+        if ($filter == 'pengeluaran' && $row['jenis'] != 'pengeluaran') continue;
+
+        echo "<tr>
+                <td>".$no++."</td>
+                <td>".$row['jenis']."</td>
+                <td>".$row['keterangan']."</td>
+                <td>".$row['jumlah']."</td>
+                <td>".date('d-m-Y', strtotime($row['tanggal_dibuat']))."</td>
+              </tr>";
+    }
+
+    echo "</table>";
+    exit();
+}

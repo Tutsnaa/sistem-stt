@@ -102,14 +102,42 @@
     <?php } ?>
 
 
-    <!-- ================= TOMBOL TAMBAH ================= -->
-    <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
-    <button class="btn-tambah" onclick="openPopup()">+ Tambah Data</button>
-    <?php } ?>
+
 
 
     <!-- ================= JUDUL TABEL ================= -->
     <h2>Data Keuangan</h2>
+    <div class="filter-container">
+
+        <!-- KIRI -->
+        <div class="filter-left">
+            <form method="GET">
+                <input type="hidden" name="page" value="keuangan">
+
+                <select name="filter" onchange="this.form.submit()" class="filter-dropdown">
+                    <option value="all" <?= (!isset($_GET['filter']) || $_GET['filter']=='all') ? 'selected' : '' ?>>
+                        Semua</option>
+                    <option value="pemasukan"
+                        <?= (isset($_GET['filter']) && $_GET['filter']=='pemasukan') ? 'selected' : '' ?>>Pemasukan
+                    </option>
+                    <option value="pengeluaran"
+                        <?= (isset($_GET['filter']) && $_GET['filter']=='pengeluaran') ? 'selected' : '' ?>>Pengeluaran
+                    </option>
+                </select>
+            </form>
+
+            <a href="../src/controllers/KeuanganController.php?action=download&filter=<?= $_GET['filter'] ?? 'all'; ?>"
+                class="btn-download">
+                Download Data
+            </a>
+        </div>
+
+        <!-- KANAN -->
+        <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
+        <button class="btn-tambah" onclick="openPopup()">+ Tambah Data</button>
+        <?php } ?>
+
+    </div>
 
     <!-- ================= TABEL DATA KEUANGAN ================= -->
     <div class="table-wrapper-keuangan">
@@ -136,11 +164,16 @@
                     <?php
                 require_once __DIR__ . '/../models/KeuanganModel.php';
                 $keuanganModel = new KeuanganModel();
+                $filter = $_GET['filter'] ?? 'all';
                 $data = $keuanganModel->getAll();
 
-                $no = 1;
-                foreach ($data as $row):
-                ?>
+               $no = 1;
+foreach ($data as $row):
+
+    // ================= FILTER =================
+    if ($filter == 'pemasukan' && $row['jenis'] != 'pemasukan') continue;
+    if ($filter == 'pengeluaran' && $row['jenis'] != 'pengeluaran') continue;
+?>
 
                     <tr>
 

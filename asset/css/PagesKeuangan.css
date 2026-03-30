@@ -221,14 +221,14 @@ TOMBOL AKSI
   cursor: pointer;
 }
 
-.btn-tambah {
+/* .btn-tambah {
   background: #28a745;
   color: white;
   padding: 10px 18px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-}
+} */
 
 /* .btn-save {
   width: 100%;
@@ -379,4 +379,67 @@ TOMBOL AKSI
 .popup-keuangan .btn-save:hover {
   background: #e67e22;
   transform: translateY(-1px);
+}
+
+/* CONTAINER */
+.filter-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* center semua */
+  margin-bottom: 10px;
+}
+
+/* KIRI */
+.filter-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* RESET SEMUA ELEMEN */
+.filter-dropdown,
+.btn-download,
+.btn-tambah {
+  height: 38px;
+  padding: 0 16px;
+  border-radius: 6px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+  vertical-align: middle; /* 🔥 ini penting */
+}
+
+/* DROPDOWN */
+.filter-dropdown {
+  border: 1px solid #ccc;
+}
+
+/* DOWNLOAD */
+.btn-download {
+  background: #007bff;
+  color: #fff;
+  text-decoration: none;
+}
+
+.btn-download:hover {
+  background: #0056b3;
+}
+
+/* 🔥 FIX UTAMA DI SINI */
+.btn-tambah {
+  background: #28a745;
+  color: white;
+  border: none;
+
+  /* RESET STYLE BUTTON */
+  line-height: normal;
+  font-size: 14px;
+  margin: 0;
+}
+
+.btn-tambah:hover {
+  background: #218838;
 }
