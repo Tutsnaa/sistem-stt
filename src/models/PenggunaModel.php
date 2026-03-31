@@ -72,7 +72,8 @@ public function getAll($search = null){
                 email = :email,
                 no_hp = :no_hp,
                 alamat = :alamat,
-                nama_pengguna = :nama_pengguna";
+                nama_pengguna = :nama_pengguna,
+                status = :status";
 
     $params = [
         ':nama_lengkap' => $data['nama_lengkap'],
@@ -80,7 +81,8 @@ public function getAll($search = null){
         ':no_hp' => $data['no_hp'],
         ':alamat' => $data['alamat'],
         ':nama_pengguna' => $data['nama_pengguna'],
-        ':id_pengguna' => $data['id_pengguna']
+        ':status' => $data['status'],
+        ':id_pengguna' => $data['id_pengguna'],
     ];
 
     // update password jika ada
@@ -140,9 +142,19 @@ public function verifyLogin($nama_pengguna, $kata_sandi)
         return false;
     }
 
-    if($user['status'] != 'aktif'){
-        return false;
-    }
+    if(!$user){
+    return ['status' => 'not_found'];
+}
+
+if($user['status'] != 'aktif'){
+    return ['status' => 'nonaktif'];
+}
+
+if(password_verify($kata_sandi,$user['kata_sandi'])){
+    return ['status' => 'success', 'data' => $user];
+}
+
+return ['status' => 'wrong_password'];
 
     // cek password hash
     if(password_verify($kata_sandi,$user['kata_sandi'])){

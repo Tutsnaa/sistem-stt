@@ -10,38 +10,55 @@ class AuthController {
         $this->model = new PenggunaModel();
     }
 
-    public function login(){
+   public function login(){
 
-        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-            $nama_pengguna = $_POST['nama_pengguna'];
-            $kata_sandi    = $_POST['kata_sandi'];
+        $nama_pengguna = $_POST['nama_pengguna'];
+        $kata_sandi    = $_POST['kata_sandi'];
 
-            $user = $this->model->verifyLogin($nama_pengguna,$kata_sandi);
+        $result = $this->model->verifyLogin($nama_pengguna, $kata_sandi);
 
-            if($user){
-            // Login berhasil
-            $_SESSION['user'] = $user;
-            $_SESSION['flash_message'] = "Selamat datang, " . htmlspecialchars($user['nama_lengkap']);
+        // ================= LOGIN BERHASIL =================
+        if($result['status'] == 'success'){
 
-            // Redirect sesuai jabatan
-            if($user['jabatan'] == "anggota"){
+            $_SESSION['user'] = $result['data'];
+            $_SESSION['flash_message'] = "Selamat datang, " . htmlspecialchars($result['data']['nama_lengkap']);
+            $_SESSION['flash_type'] = "success";
+
+            // redirect sesuai jabatan
+            if($result['data']['jabatan'] == "anggota"){
                 header("Location: ../../public/dashboard_anggota.php");
             } else {
                 header("Location: ../../public/dashboard_pengurus.php");
             }
 
             exit;
-
-        } else {
-            // Login gagal
-            $_SESSION['flash_message'] = "Nama pengguna atau kata sandi salah";
-             $_SESSION['flash_type'] = "danger";
-            header("Location: ../../public/dashboard_umum.php");
-            exit;
-            }
         }
+
+        // ================= AKUN NONAKTIF =================
+        elseif($result['status'] == 'nonaktif'){
+            $_SESSION['flash_message'] = "Akun Anda nonaktif. Silakan hubungi pengurus.";
+            $_SESSION['flash_type'] = "danger";
+        }
+
+        // ================= PASSWORD SALAH =================
+        elseif($result['status'] == 'wrong_password'){
+            $_SESSION['flash_message'] = "Kata sandi salah";
+            $_SESSION['flash_type'] = "danger";
+        }
+
+        // ================= USERNAME TIDAK ADA =================
+        else{
+            $_SESSION['flash_message'] = "Nama pengguna tidak ditemukan";
+            $_SESSION['flash_type'] = "danger";
+        }
+
+        // redirect balik ke halaman login
+        header("Location: ../../public/dashboard_umum.php");
+        exit;
     }
+}
 
     public function logout(){
 

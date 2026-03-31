@@ -234,7 +234,7 @@ const btnTambah = document.getElementById('btnTambah');
 const spanClose = document.getElementsByClassName('close')[0];
 const btnBatal = document.getElementById('btnBatal');
 
-btnTambah.onclick = () => modal.style.display = 'block';
+btnTambah.onclick = () => modal.style.display = 'flex';
 spanClose.onclick = () => modal.style.display = 'none';
 btnBatal.onclick = () => modal.style.display = 'none';
 
@@ -242,7 +242,7 @@ btnBatal.onclick = () => modal.style.display = 'none';
 
 function openEditModal(id, judul, isi, status) {
 
-    document.getElementById("modalEdit").style.display = "block";
+    document.getElementById("modalEdit").style.display = "flex";
 
     document.getElementById("edit_id").value = id;
     document.getElementById("edit_judul").value = judul;
@@ -257,7 +257,7 @@ function closeEditModal() {
 
 function openEditModal(id, judul, isi, status, file) {
 
-    document.getElementById("modalEdit").style.display = "block";
+    document.getElementById("modalEdit").style.display = "flex";
 
     document.getElementById("edit_id").value = id;
     document.getElementById("edit_judul").value = judul;

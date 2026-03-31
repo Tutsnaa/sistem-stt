@@ -101,7 +101,8 @@ elseif ($action == "update") {
         'email'         => $_POST['email'],
         'no_hp'         => $_POST['no_hp'],
         'alamat'        => $_POST['alamat'],
-        'nama_pengguna' => $_POST['nama_pengguna']
+        'nama_pengguna' => $_POST['nama_pengguna'],
+        'status'        => $_POST['status'] 
     ];
 
     /*
@@ -241,32 +242,51 @@ elseif ($action == "delete") {
     exit;
 }
 
-if($action === 'download_excel') {
-    $dataAnggota = $model->getAll(); // Ambil semua anggota
+if (isset($_GET['action']) && $_GET['action'] == "download_excel") {
 
-    $filename = "data_anggota_" . date('Ymd_His') . ".csv";
+    $dataAnggota = $model->getAll();
 
-    header("Content-Type: text/csv");
-    header("Content-Disposition: attachment; filename=\"$filename\"");
+    // Header Excel
+    header("Content-Type: application/vnd.ms-excel");
+    header("Content-Disposition: attachment; filename=data_anggota.xls");
 
-    $output = fopen("php://output", "w");
+    // =========================
+    // TITLE
+    // =========================
+    echo "<h2 style='text-align:center;'>DATA ANGGOTA SEKAA TRUNA</h2>";
+    echo "<p style='text-align:center;'>Tanggal: " . date('d-m-Y H:i') . "</p><br>";
 
-    $header = ['No', 'Nama Lengkap', 'Email', 'No HP', 'Alamat', 'Jabatan', 'Username'];
-    fputcsv($output, $header);
+    // =========================
+    // TABLE
+    // =========================
+    echo "<table border='1' cellpadding='5' cellspacing='0'>";
 
+    // HEADER
+    echo "<tr style='background-color:#ff9644; color:#fff; font-weight:bold; text-align:center;'>
+            <th>No</th>
+            <th>Nama Lengkap</th>
+            <th>Email</th>
+            <th>No HP</th>
+            <th>Alamat</th>
+            <th>Jabatan</th>
+            <th>Username</th>
+          </tr>";
+
+    // DATA
     $no = 1;
-    foreach($dataAnggota as $row){
-        fputcsv($output, [
-            $no++,
-            $row['nama_lengkap'],
-            $row['email'],
-            $row['no_hp'],
-            $row['alamat'],
-            $row['jabatan'],
-            $row['nama_pengguna']
-        ]);
+    foreach ($dataAnggota as $row) {
+
+        echo "<tr>
+                <td>".$no++."</td>
+                <td>".$row['nama_lengkap']."</td>
+                <td>".$row['email']."</td>
+                <td>".$row['no_hp']."</td>
+                <td>".$row['alamat']."</td>
+                <td>".$row['jabatan']."</td>
+                <td>".$row['nama_pengguna']."</td>
+              </tr>";
     }
 
-    fclose($output);
+    echo "</table>";
     exit();
 }

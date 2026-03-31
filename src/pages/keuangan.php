@@ -128,7 +128,7 @@
 
             <a href="../src/controllers/KeuanganController.php?action=download&filter=<?= $_GET['filter'] ?? 'all'; ?>"
                 class="btn-download">
-                Download Data
+                Unduh Data
             </a>
         </div>
 
@@ -272,7 +272,7 @@ window.onclick = function(event) {
 
 // ================= EDIT MODAL =================
 function openEditModal(button) {
-    document.getElementById("editModal").style.display = "block";
+    document.getElementById("editModal").style.display = "flex";
 
     document.getElementById("edit_id").value = button.dataset.id;
     document.getElementById("edit_jenis").value = button.dataset.jenis;

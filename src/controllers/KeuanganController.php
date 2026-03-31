@@ -102,36 +102,55 @@ if (isset($_GET['action']) && $_GET['action'] == "hapus") {
 if (isset($_GET['action']) && $_GET['action'] == "download") {
 
     $filter = $_GET['filter'] ?? 'all';
-
     $data = $model->getAll();
 
-    // header excel
     header("Content-Type: application/vnd.ms-excel");
-header("Content-Disposition: attachment; filename=data_keuangan.xls");
+    header("Content-Disposition: attachment; filename=data_keuangan.xls");
 
-    echo "<table border='1'>";
-    echo "<tr>
+    echo "
+    <table border='0' width='100%'>
+        <tr>
+            <td colspan='5' style='text-align:center; font-size:18px; font-weight:bold;'>
+                DATA KEUANGAN SEKAA TRUNA
+            </td>
+        </tr>
+        <tr>
+            <td colspan='5' style='text-align:center;'>
+                Tanggal Dibuat: ".date('d-m-Y H:i')."
+            </td>
+        </tr>
+        <tr><td colspan='5'></td></tr>
+    </table>
+    ";
+
+    echo "
+    <table border='1' cellpadding='8' cellspacing='0' width='100%'>
+        <tr style='background-color:#ff9644; color:#ffffff; text-align:center; font-weight:bold;'>
             <th>No</th>
             <th>Jenis</th>
             <th>Keterangan</th>
             <th>Jumlah</th>
             <th>Tanggal</th>
-          </tr>";
+        </tr>
+    ";
 
     $no = 1;
+
     foreach ($data as $row) {
 
         // FILTER
         if ($filter == 'pemasukan' && $row['jenis'] != 'pemasukan') continue;
         if ($filter == 'pengeluaran' && $row['jenis'] != 'pengeluaran') continue;
 
-        echo "<tr>
-                <td>".$no++."</td>
-                <td>".$row['jenis']."</td>
-                <td>".$row['keterangan']."</td>
-                <td>".$row['jumlah']."</td>
-                <td>".date('d-m-Y', strtotime($row['tanggal_dibuat']))."</td>
-              </tr>";
+        echo "
+        <tr>
+            <td style='text-align:center;'>".$no++."</td>
+            <td>".$row['jenis']."</td>
+            <td>".$row['keterangan']."</td>
+            <td>Rp ".number_format($row['jumlah'], 0, ',', '.')."</td>
+            <td>".date('d-m-Y', strtotime($row['tanggal_dibuat']))."</td>
+        </tr>
+        ";
     }
 
     echo "</table>";

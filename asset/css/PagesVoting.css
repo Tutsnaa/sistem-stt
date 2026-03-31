@@ -16,7 +16,7 @@
 }
 
 /* ==============================
-   SUBMENU (TAB)
+   SUBMENU
 ============================== */
 .submenu {
   display: flex;
@@ -34,7 +34,7 @@
   font-weight: 500;
   color: #666;
   border-radius: 8px;
-  transition: all 0.3s ease;
+  transition: 0.3s;
 }
 
 .submenu-btn:hover {
@@ -47,49 +47,68 @@
 }
 
 /* ==============================
-   TAB CONTENT
+   TAB
 ============================== */
 .tab-content {
   display: none;
-  animation: fadeIn 0.3s ease;
 }
 
 .tab-content.active {
   display: block;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* ==============================
+   HEADER ATAS
+============================== */
+.header-voting,
+.header-kandidat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.header-voting .btn-tambah,
+.header-kandidat .btn-tambah {
+  padding: 8px 14px;
+}
+
+/* ==============================
+   TABLE WRAPPER (SCROLL)
+============================== */
+.table-wrapper-voting {
+  width: 100%;
+  max-height: 480px;
+  overflow-y: auto;
+  position: relative; /* WAJIB untuk sticky */
 }
 
 /* ==============================
    TABLE
 ============================== */
 .pages-voting-table {
-  border-collapse: collapse;
   width: 100%;
-  margin-top: 15px;
-  font-family: Arial, sans-serif;
-  background-color: #fff;
-  border-radius: 10px;
-  overflow: hidden;
+  border-collapse: collapse;
+  background: #fff;
+  table-layout: fixed;
 }
 
-.pages-voting-table th {
-  background-color: #ff9644;
+/* ==============================
+   STICKY HEADER (INI KUNCI UTAMA)
+============================== */
+.pages-voting-table thead th {
+  position: sticky;
+  top: 0;
+  background: #ff9644;
   color: #fff;
-  font-weight: 600;
+  z-index: 20;
   padding: 12px;
   font-size: 14px;
 }
 
+/* ==============================
+   TABLE BODY
+============================== */
 .pages-voting-table td {
   padding: 10px 12px;
   font-size: 13px;
@@ -97,17 +116,32 @@
 }
 
 .pages-voting-table tr:nth-child(even) {
-  background-color: #fafafa;
+  background: #fafafa;
 }
 
 .pages-voting-table tr:hover {
-  background-color: #f5f5f5;
+  background: #f5f5f5;
 }
 
 .pages-voting-table td:last-child {
   text-align: center;
 }
 
+/* Kolom Visi misi (ke-6 dan 7) */
+.pages-voting-table td:nth-child(7),
+.pages-voting-table td:nth-child(6) {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pages-voting-table td:nth-child(8) {
+  width: 150px;
+  min-width: 150px;
+  text-align: center;
+  white-space: nowrap;
+}
 /* ==============================
    BUTTON
 ============================== */
@@ -115,8 +149,10 @@
   padding: 6px 12px;
   border-radius: 6px;
   font-size: 13px;
-  cursor: pointer;
   border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
   color: #fff;
   transition: 0.2s;
 }
@@ -125,7 +161,6 @@
 .btn-tambah {
   background: #28a745;
 }
-
 .btn-tambah:hover {
   background: #218838;
 }
@@ -133,43 +168,53 @@
 /* Ubah */
 .btn-ubah,
 .btn-ubah-kandidat {
-  background: #f39c12;
+  background: #f1c40f;
 }
-
 .btn-ubah:hover,
 .btn-ubah-kandidat:hover {
-  background: #e67e22;
+  background: #c19d0e;
 }
 
 /* Hapus */
 .btn-hapus {
-  background: #dc3545;
+  background: red;
+  color: #fff !important;
 }
-
 .btn-hapus:hover {
-  background: #c82333;
+  background: darkred;
 }
 
-/* Disabled */
-button:disabled {
-  background: #aaa;
-  cursor: not-allowed;
+/* Vote */
+.btn-vote {
+  background: #007bff;
+  color: #fff !important;
+}
+.btn-vote:hover {
+  background: #0056b3;
+}
+
+/* Ditutup */
+.btn-ditutup {
+  background: #dc3545;
+  color: #fff !important;
 }
 
 /* ==============================
-   LINK TABLE
+   TEXT
 ============================== */
-.pages-voting-container a {
-  text-decoration: none;
-  color: #dc3545;
-  font-weight: 500;
+.text-center {
+  text-align: center;
 }
 
-.pages-voting-container a:hover {
-  text-decoration: underline;
+.total-suara {
+  font-weight: bold;
+  color: #007bff;
+  text-align: center;
 }
 
-/* ================= POPUP ================= */
+/* ==============================
+   POPUP
+============================== */
 .popup {
   position: fixed;
   inset: 0;
@@ -180,7 +225,6 @@ button:disabled {
   z-index: 9999;
 }
 
-/* CONTENT */
 .popup-content {
   background: #fff;
   padding: 25px 30px;
@@ -188,18 +232,15 @@ button:disabled {
   width: 420px;
   max-width: 95%;
   position: relative;
-  animation: fadeIn 0.25s ease;
   border-top: 5px solid #ff9644;
 }
 
-/* TITLE */
 .popup-content h2 {
   text-align: center;
   margin-bottom: 20px;
   color: #ff9644;
 }
 
-/* CLOSE */
 .popup-close {
   position: absolute;
   top: 12px;
@@ -213,83 +254,12 @@ button:disabled {
   color: #ff9644;
 }
 
-/* ================= FORM ================= */
-.popup-content form {
-  display: flex;
-  flex-direction: column;
-}
-
-/* LABEL */
-.popup-content label {
-  margin-top: 10px;
-  font-size: 13px;
-  color: #666;
-  font-weight: 500;
-}
-
-/* INPUT */
-.popup-content input,
-.popup-content select,
-.popup-content textarea {
-  margin-top: 5px;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  font-size: 14px;
-  transition: 0.2s;
-}
-
-/* FOCUS EFFECT */
-.popup-content input:focus,
-.popup-content select:focus,
-.popup-content textarea:focus {
-  border-color: #ff9644;
-  box-shadow: 0 0 5px rgba(255, 150, 68, 0.3);
-  outline: none;
-}
-
-/* TEXTAREA */
-.popup-content textarea {
-  resize: none;
-}
-
-/* ================= BUTTON ================= */
-.popup-content button {
-  margin-top: 18px;
-  padding: 12px;
-  background: #ff9644;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.popup-content button:hover {
-  background: #e67e22;
-  transform: translateY(-1px);
-}
-
-/* ================= ANIMATION ================= */
-/* @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-} */
-
 /* ==============================
    RESPONSIVE
 ============================== */
 @media (max-width: 768px) {
   .pages-voting-container {
-    margin-left: 10px;
-    margin-right: 10px;
+    margin: 10px;
     padding: 15px;
   }
 
@@ -299,7 +269,6 @@ button:disabled {
 
   .submenu-btn {
     width: 100%;
-    text-align: center;
   }
 
   .pages-voting-table th,
@@ -309,140 +278,258 @@ button:disabled {
   }
 }
 
-/* =========================
-   REKAP KHUSUS
-========================= */
-.total-suara {
-  font-weight: bold;
-  color: #007bff;
+/* Detail Aksi */
+
+.btn-detail {
+  background: #3498db;
+  color: white;
+}
+
+.btn-detail:hover {
+  background: #2c80b4;
+}
+
+/* ==============================
+   POPUP KHUSUS VOTING
+============================== */
+.popup-voting {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.popup-voting.show {
+  display: flex;
+}
+
+/* ==============================
+   CONTENT MODAL
+============================== */
+.popup-voting-content {
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 14px;
+  width: 450px;
+  max-width: 95%;
+  position: relative;
+  border-top: 5px solid #ff9644;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: fadeVoting 0.25s ease;
+}
+
+/* TITLE */
+.popup-voting-content h2 {
   text-align: center;
+  margin-bottom: 20px;
+  color: #ff9644;
+}
+
+/* CLOSE */
+.popup-voting .popup-close {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #999;
+}
+
+.popup-voting .popup-close:hover {
+  color: #ff9644;
+}
+
+/* ==============================
+   FORM KHUSUS VOTING
+============================== */
+.form-voting {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* LABEL */
+.form-voting label {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* INPUT & SELECT */
+.form-voting input,
+.form-voting select {
+  width: 100%;
+  padding: 9px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
   font-size: 14px;
 }
 
-/* Optional: highlight pemenang */
-.pages-voting-table tr:hover .total-suara {
-  color: #28a745;
+/* FOCUS */
+.form-voting input:focus,
+.form-voting select:focus {
+  border-color: #ff9644;
+  outline: none;
 }
 
-/* Header kiri kanan */
-.header-voting {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Biar tombol tidak terlalu besar */
-.header-voting .btn-tambah {
-  padding: 8px 14px;
-}
-
-/* Header kiri kanan */
-.header-kandidat {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Biar tombol tidak terlalu besar */
-.header-kandidat .btn-tambah {
-  padding: 8px 14px;
-}
-
-/* =========================
-TOMBOL AKSI TABLE
-========================= */
-.btn {
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 13px;
+/* BUTTON */
+.form-voting button {
+  margin-top: 15px;
+  padding: 10px;
+  background: #ff9644;
+  color: #fff;
   border: none;
+  border-radius: 8px;
   cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-  color: white;
+  transition: 0.3s;
+}
+
+.form-voting button:hover {
+  background: #e0852f;
+}
+
+/* ==============================
+   ANIMASI
+============================== */
+@keyframes fadeVoting {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ==============================
+   MODAL KHUSUS DETAIL KANDIDAT
+============================== */
+.dk-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+
+  display: none;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 9999;
+}
+
+/* tampilkan */
+.dk-modal.show {
+  display: flex;
+}
+
+/* ==============================
+   BOX
+============================== */
+.dk-box {
+  background: #fff;
+  width: 420px;
+  max-width: 95%;
+  padding: 25px 30px;
+  border-radius: 14px;
+  position: relative;
+
+  border-top: 5px solid #ff9644;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+
+  animation: dkFade 0.25s ease;
+}
+
+/* ==============================
+   TITLE
+============================== */
+.dk-box h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ff9644;
+}
+
+/* ==============================
+   ROW (kiri kanan)
+============================== */
+.dk-row {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.dk-row b {
+  color: #555;
+}
+
+.dk-row span {
+  color: #222;
+  word-break: break-word;
+}
+
+/* ==============================
+   VISI MISI
+============================== */
+.dk-block {
+  margin-top: 12px;
+}
+
+.dk-block b {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.dk-block div {
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ==============================
+   CLOSE BUTTON
+============================== */
+.dk-close {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 22px;
+  cursor: pointer;
+  color: #999;
   transition: 0.2s;
 }
 
-/* Tambah */
-.btn-tambah {
-  background: #28a745;
+.dk-close:hover {
+  color: #ff9644;
+  transform: scale(1.2);
 }
 
-.btn-tambah:hover {
-  background: #218838;
+/* ==============================
+   ANIMASI
+============================== */
+@keyframes dkFade {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
-/* Ubah */
-.btn-ubah,
-.btn-ubah-kandidat {
-  background: #f1c40f;
-}
-
-.btn-ubah:hover,
-.btn-ubah-kandidat:hover {
-  background: #c19d0e;
-}
-
-.btn-hapus {
-  background: red;
-  color: #fff !important; /* 🔥 ini penting */
-  padding: 6px 12px;
+/* VISI MISI ADA SCROLL SENDIRI */
+.dk-block div {
+  background: #f9f9f9;
+  padding: 10px;
   border-radius: 6px;
-  text-decoration: none;
-  display: inline-block;
-}
+  font-size: 14px;
+  line-height: 1.5;
 
-.btn-hapus:hover {
-  background: darkred;
-  color: #fff;
-}
-
-.pages-voting-table a:hover {
-  text-decoration: none;
-}
-
-/* Vote */
-.btn-vote {
-  color: white !important;
-  background: #007bff;
-  color: white; /* ini yang benar */
-}
-
-.btn-vote:hover {
-  background: #0056b3;
-  color: white; /* biar tetap putih saat hover */
-}
-
-.btn-ditutup {
-  background: #dc3545;
-  color: #fff !important; /* 🔥 ini penting */
-  padding: 6px 12px;
-  border-radius: 6px;
-  text-decoration: none;
-  display: inline-block;
-}
-
-/* Kolom aksi kandidat (biasanya kolom ke-7 & ke-8) */
-.pages-voting-table td:nth-child(7),
-.pages-voting-table td:nth-child(8) {
-  text-align: center;
-}
-
-.text-center {
-  text-align: center;
-}
-
-/* TABLE SCROLL */
-.table-wrapper-voting {
-  width: 100%;
-  max-height: 480px;
-  overflow-y: scroll;
-}
-
-/* HEADER STICKY */
-.tab-content thead th {
-  position: sticky;
-  top: 0;
-  background: #ff9644;
-  z-index: 10;
+  max-height: 120px; /* batas tinggi */
+  overflow-y: auto; /* scroll aktif */
 }

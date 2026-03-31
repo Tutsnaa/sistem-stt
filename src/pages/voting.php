@@ -19,7 +19,7 @@ $tab = $_GET['tab'] ?? 'voting'; // default ke 'voting' kalau tidak ada param
     <div id="tab-voting" class="tab-content <?= ($tab == 'voting') ? 'active' : '' ?>">
         <div class="header-voting">
             <h2>Kelola Voting</h2>
-            <button class="btn btn-tambah" onclick="openVotingPopup()">Tambah Voting</button>
+            <button class="btn btn-tambah" onclick="openVotingPopup()">+ Tambah Voting</button>
         </div>
 
         <div class="table-wrapper-voting">
@@ -81,59 +81,106 @@ $tab = $_GET['tab'] ?? 'voting'; // default ke 'voting' kalau tidak ada param
 
         <div class="header-kandidat">
             <h2>Kelola Kandidat</h2>
-            <button class="btn-tambah" onclick="openKandidatPopup()">Tambah Kandidat</button>
+            <button class="btn-tambah" onclick="openKandidatPopup()">+ Tambah Kandidat</button>
         </div>
         <div class="table-wrapper-voting">
-            <div class="table-voting">
-                <table class="pages-voting-table">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Voting</th>
-                            <th>Nama</th>
-                            <th>Jabatan</th>
-                            <th>No Paslon</th>
-                            <th>Visi</th>
-                            <th>Misi</th>
-                            <th>Aksi</th>
-                            <th>Vote</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $no = 1;  foreach($kandidat as $row): ?>
-                        <tr>
-                            <td class="text-center"><?= $no++; ?></td>
-                            <td><?= $row['judul'] ?></td>
-                            <td><?= $row['nama_lengkap'] ?></td>
-                            <td class="text-center"><?= $row['jabatan'] ?></td>
-                            <td class="text-center"><?= $row['no_paslon'] ?></td>
-                            <td><?= $row['visi'] ?></td>
-                            <td><?= $row['misi'] ?></td>
-                            <td>
-                                <button class="btn btn-ubah-kandidat" data-id="<?= $row['id_calon'] ?>"
-                                    data-id_voting="<?= $row['id_voting'] ?>"
-                                    data-id_pengguna="<?= $row['id_pengguna'] ?>" data-jabatan="<?= $row['jabatan'] ?>"
-                                    data-no_paslon="<?= $row['no_paslon'] ?>" data-visi="<?= $row['visi'] ?>"
-                                    data-misi="<?= $row['misi'] ?>">
-                                    <i class="fa fa-pen-to-square"></i>
-                                </button>
-                                <a href="#" class="btn btn-hapus"
-                                    onclick="confirmHapusKandidat(<?= $row['id_calon']; ?>); return false;">
-                                    <i class="fa fa-trash"></i>
-                                </a>
-                            </td>
-                            <td>
-                                <?php if($row['status']=='dibuka'): ?>
-                                <a href="../src/controllers/VotingController.php?action=vote&id_calon=<?= $row['id_calon'] ?>"
-                                    class="btn btn-vote">Vote</a>
-                                <?php else: ?>
-                                <button class="btn btn-ditutup" disabled><i class="fa-solid fa-lock"></i></button>
-                                <?php endif; ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+            <table class="pages-voting-table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Voting</th>
+                        <th>Nama</th>
+                        <th>Jabatan</th>
+                        <th>No Paslon</th>
+                        <th>Visi</th>
+                        <th>Misi</th>
+                        <th>Aksi</th>
+                        <th>Vote</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $no = 1;  foreach($kandidat as $row): ?>
+                    <tr>
+                        <td class="text-center"><?= $no++; ?></td>
+                        <td><?= $row['judul'] ?></td>
+                        <td><?= $row['nama_lengkap'] ?></td>
+                        <td class="text-center"><?= $row['jabatan'] ?></td>
+                        <td class="text-center"><?= $row['no_paslon'] ?></td>
+                        <td><?= $row['visi'] ?></td>
+                        <td><?= $row['misi'] ?></td>
+                        <td>
+                            <!-- DETAIL -->
+                            <button class="btn btn-detail" data-nama="<?= $row['nama_lengkap'] ?>"
+                                data-voting="<?= $row['judul'] ?>" data-jabatan="<?= $row['jabatan'] ?>"
+                                data-no="<?= $row['no_paslon'] ?>" data-visi="<?= $row['visi'] ?>"
+                                data-misi="<?= $row['misi'] ?>" onclick="openDetailKandidat(this)">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                            <!-- Ubah -->
+                            <button class="btn btn-ubah-kandidat" data-id="<?= $row['id_calon'] ?>"
+                                data-id_voting="<?= $row['id_voting'] ?>" data-id_pengguna="<?= $row['id_pengguna'] ?>"
+                                data-jabatan="<?= $row['jabatan'] ?>" data-no_paslon="<?= $row['no_paslon'] ?>"
+                                data-visi="<?= $row['visi'] ?>" data-misi="<?= $row['misi'] ?>">
+                                <i class="fa fa-pen-to-square"></i>
+                            </button>
+                            <!-- Hapus -->
+                            <a href="#" class="btn btn-hapus"
+                                onclick="confirmHapusKandidat(<?= $row['id_calon']; ?>); return false;">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <?php if($row['status']=='dibuka'): ?>
+                            <a href="../src/controllers/VotingController.php?action=vote&id_calon=<?= $row['id_calon'] ?>"
+                                class="btn btn-vote">Vote</a>
+                            <?php else: ?>
+                            <button class="btn btn-ditutup" disabled><i class="fa-solid fa-lock"></i></button>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <!-- =========================
+   POPUP DETAIL KANDIDAT
+========================= -->
+    <div id="detailKandidatModal" class="dk-modal">
+        <div class="dk-box">
+            <span class="dk-close" onclick="closeDetailKandidat()">&times;</span>
+            <h3>Detail Kandidat</h3>
+
+            <div class="dk-row">
+                <b>Nama</b>
+                <span id="dk_nama"></span>
+            </div>
+
+            <div class="dk-row">
+                <b>Voting</b>
+                <span id="dk_voting"></span>
+            </div>
+
+            <div class="dk-row">
+                <b>Jabatan</b>
+                <span id="dk_jabatan"></span>
+            </div>
+
+            <div class="dk-row">
+                <b>No</b>
+                <span id="dk_no"></span>
+            </div>
+
+            <div class="dk-block">
+                <b>Visi</b>
+                <div id="dk_visi"></div>
+            </div>
+
+            <div class="dk-block">
+                <b>Misi</b>
+                <div id="dk_misi"></div>
             </div>
         </div>
     </div>
@@ -177,12 +224,12 @@ $tab = $_GET['tab'] ?? 'voting'; // default ke 'voting' kalau tidak ada param
 </div>
 
 <!-- ================= Popup Ubah Voting ================= -->
-<div id="modalEdit" class="popup" style="display:none;">
-    <div class="popup-content">
+<div id="modalEdit" class="popup popup-voting">
+    <div class="popup-content popup-voting-content">
         <span class="popup-close">&times;</span>
         <h2>Ubah Voting</h2>
 
-        <form action="../src/controllers/VotingController.php?action=updateVoting" method="POST">
+        <form class="form-voting" action="../src/controllers/VotingController.php?action=updateVoting" method="POST">
             <input type="hidden" name="id_voting" id="edit_id">
 
             <label>Judul Voting</label>
@@ -191,7 +238,6 @@ $tab = $_GET['tab'] ?? 'voting'; // default ke 'voting' kalau tidak ada param
             <label>Periode</label>
             <input type="text" name="periode" id="edit_periode" required>
 
-            <!-- TAMBAHAN -->
             <label>Masa Awal Jabatan</label>
             <input type="date" name="masa_awal_jabatan" id="edit_masa_awal" required>
 
@@ -222,7 +268,8 @@ $tab = $_GET['tab'] ?? 'voting'; // default ke 'voting' kalau tidak ada param
     <div class="popup-content">
         <span class="popup-close" onclick="closeEditKandidat()">&times;</span>
         <h2>Ubah Kandidat</h2>
-        <form action="../src/controllers/KandidatController.php?action=updateKandidat" method="POST">
+        <form class="form-voting" action="../src/controllers/KandidatController.php?action=updateKandidat"
+            method="POST">
             <input type="hidden" name="id_calon" id="editKandidat_id">
             <input type="hidden" name="id_voting" id="editKandidat_id_voting">
             <input type="hidden" name="id_pengguna" id="editKandidat_id_pengguna">
@@ -240,24 +287,32 @@ $tab = $_GET['tab'] ?? 'voting'; // default ke 'voting' kalau tidak ada param
 </div>
 
 <!-- ================= Popup Tambah Voting ================= -->
-<div id="popupVoting" class="popup" style="display:none;">
-    <div class="popup-content">
+<div id="popupVoting" class="popup popup-voting">
+    <div class="popup-content popup-voting-content">
         <span class="popup-close" onclick="closeVotingPopup()">&times;</span>
         <h2>Tambah Voting</h2>
-        <form action="../src/controllers/VotingController.php?action=createVoting" method="POST">
+
+        <form class="form-voting" action="../src/controllers/VotingController.php?action=createVoting" method="POST">
             <input type="hidden" name="id_pengguna" value="<?= $user['id_pengguna'] ?>">
+
             <label>Judul Voting</label>
             <input type="text" name="judul" required>
+
             <label>Masa Awal Jabatan</label>
             <input type="date" name="masa_awal_jabatan" required>
+
             <label>Masa Akhir Jabatan</label>
             <input type="date" name="masa_akhir_jabatan" required>
+
             <label>Periode</label>
             <input type="text" name="periode" required>
+
             <label>Tanggal Buka</label>
             <input type="date" name="tanggal_buka" required>
+
             <label>Tanggal Tutup</label>
             <input type="date" name="tanggal_tutup" required>
+
             <button type="submit">Simpan</button>
         </form>
     </div>
@@ -268,7 +323,8 @@ $tab = $_GET['tab'] ?? 'voting'; // default ke 'voting' kalau tidak ada param
     <div class="popup-content">
         <span class="popup-close" onclick="closeKandidatPopup()">&times;</span>
         <h2>Tambah Kandidat</h2>
-        <form action="../src/controllers/KandidatController.php?action=createKandidat" method="POST">
+        <form class="form-voting" action="../src/controllers/KandidatController.php?action=createKandidat"
+            method="POST">
             <label>Voting</label>
             <select name="id_voting" required>
                 <option value="">-- Pilih Voting --</option>
@@ -310,9 +366,9 @@ $tab = $_GET['tab'] ?? 'voting'; // default ke 'voting' kalau tidak ada param
             <label>No Paslon</label>
             <input type="text" name="no_paslon" required>
             <label>Visi</label>
-            <textarea name="visi" required></textarea>
+            <input name="visi" required></input>
             <label>Misi</label>
-            <textarea name="misi" required></textarea>
+            <input name="misi" required></input>
             <button type="submit">Simpan</button>
         </form>
     </div>
@@ -330,8 +386,34 @@ $tab = $_GET['tab'] ?? 'voting'; // default ke 'voting' kalau tidak ada param
     </div>
 </div>
 
-<!-- ================= Script Popup & Edit ================= -->
+
 <script>
+// ================= DETAIL KANDIDAT =================
+function openDetailKandidat(btn) {
+
+    console.log("Klik detail"); // debug
+
+    const modal = document.getElementById("detailKandidatModal");
+
+    if (!modal) {
+        console.error("Modal tidak ditemukan!");
+        return;
+    }
+
+    document.getElementById("dk_nama").innerText = btn.dataset.nama || '-';
+    document.getElementById("dk_voting").innerText = btn.dataset.voting || '-';
+    document.getElementById("dk_jabatan").innerText = btn.dataset.jabatan || '-';
+    document.getElementById("dk_no").innerText = btn.dataset.no || '-';
+    document.getElementById("dk_visi").innerText = btn.dataset.visi || '-';
+    document.getElementById("dk_misi").innerText = btn.dataset.misi || '-';
+
+    modal.style.display = "flex";
+}
+
+function closeDetailKandidat() {
+    const modal = document.getElementById("detailKandidatModal");
+    if (modal) modal.style.display = "none";
+}
 // ================= AUTO TAB DARI URL =================
 document.addEventListener("DOMContentLoaded", function() {
     const params = new URLSearchParams(window.location.search);
