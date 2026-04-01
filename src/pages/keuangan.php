@@ -126,10 +126,12 @@
                 </select>
             </form>
 
+            <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
             <a href="../src/controllers/KeuanganController.php?action=download&filter=<?= $_GET['filter'] ?? 'all'; ?>"
                 class="btn-download">
                 Unduh Data
             </a>
+            <?php } ?>
         </div>
 
         <!-- KANAN -->

@@ -11,20 +11,20 @@ class VotingModel {
 
     // ================= AUTO UPDATE STATUS =================
     public function autoUpdateStatus(){
-        try {
-            $query = "UPDATE voting 
-                      SET status = 
-                        CASE 
-                            WHEN NOW() < tanggal_buka THEN 'draft'
-                            WHEN NOW() BETWEEN tanggal_buka AND tanggal_tutup THEN 'dibuka'
-                            WHEN NOW() > tanggal_tutup THEN 'selesai'
-                        END";
-            $stmt = $this->conn->prepare($query);
-            $stmt->execute();
-        } catch(PDOException $e){
-            error_log("Auto Update Status Error: " . $e->getMessage());
-        }
+    try {
+        $query = "UPDATE voting 
+                  SET status = CASE
+                      WHEN NOW() < tanggal_buka THEN 'draft'
+                      WHEN NOW() BETWEEN tanggal_buka AND tanggal_tutup THEN 'dibuka'
+                      WHEN NOW() > tanggal_tutup THEN 'selesai'
+                  END
+                  WHERE status IN ('draft', 'dibuka')"; // Hanya update status aktif
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+    } catch(PDOException $e){
+        error_log("Auto Update Status Error: " . $e->getMessage());
     }
+}
 
     // ================= CREATE VOTING =================
     public function createVoting($data){

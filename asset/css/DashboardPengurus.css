@@ -37,16 +37,25 @@ body {
 
 /* CARD */
 .pengurus-pengumuman-card {
-  background: #ffffff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* biar isi rata */
+  align-items: center; /* center horizontal */
+  justify-content: center; /* center vertikal jika perlu */
+  padding: 15px;
+  margin: 15px 0;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
 
-  height: 100%; /* penting biar sama tinggi */
+.pengurus-pengumuman-card img {
+  width: auto;
+  max-width: 400px; /* lebar maksimal */
+  max-height: 300px; /* tinggi maksimal */
+  display: block;
+  margin: 10px 0; /* jarak atas-bawah */
+  border-radius: 8px;
+  object-fit: contain; /* tetap proporsional */
 }
 
 .pengurus-pengumuman-card:hover {

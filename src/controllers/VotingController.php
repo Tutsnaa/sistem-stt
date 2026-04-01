@@ -22,8 +22,14 @@ foreach($votingList as $v){
         $cek = $kepengurusanModel->cekVotingSelesai($v['id_voting']);
 
         if(!$cek){
-            prosesPemenang($votingModel, $kepengurusanModel, $v['id_voting']);
-        }
+    $dataPemenang = $votingModel->getPemenangPerJabatan($v['id_voting']);
+    if(!empty($dataPemenang)){
+        prosesPemenang($votingModel, $kepengurusanModel, $v['id_voting']);
+    } else {
+        // jangan die, log saja
+        error_log("Voting ID {$v['id_voting']} selesai tapi belum ada suara.");
+    }
+}
     }
 }
 
@@ -130,9 +136,13 @@ function prosesPemenang($votingModel, $kepengurusanModel, $id_voting){
     $data = $votingModel->getPemenangPerJabatan($id_voting);
     $voting = $votingModel->getVotingById($id_voting);
 
+    // if(empty($data)){
+    //     die("DATA PEMENANG KOSONG");
+    // }
     if(empty($data)){
-        die("DATA PEMENANG KOSONG");
-    }
+    // Tidak ada pemenang, skip saja
+    return false;
+}
 
     $pemenang = [];
 

@@ -146,9 +146,10 @@ usort($pengurus, function($a, $b) use ($urutanJabatan) {
             <!-- ================= FILE GAMBAR ================= -->
             <?php if(in_array($ext, ['jpg','jpeg','png','gif'])): ?>
 
-            <img src="<?= $fileUrl ?>" alt="File Pengumuman" style="align-self:center; ">
+            <img src="<?= $fileUrl ?>" alt="File Pengumuman"
+                style="width:100%; height:auto; display:block; margin:20px 0; border-radius:8px;">
 
-            <a href="<?= $fileUrl ?>" download class="btn-download">
+            <a href="<?= $fileUrl ?>" download class="btn-download-file">
                 Download Gambar
             </a>
 

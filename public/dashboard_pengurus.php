@@ -49,6 +49,7 @@ require_once __DIR__ . '/../src/models/VotingModel.php';
 require_once __DIR__ . '/../src/models/KandidatModel.php';
 
 $votingModel = new VotingModel();
+$votingModel->autoUpdateStatus();
 $kandidatModel = new KandidatModel();
 
 // Ambil semua voting

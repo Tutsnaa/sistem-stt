@@ -335,34 +335,33 @@ body {
 }
 
 .pengumuman-list {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  align-items: center;
+  display: block; /* default block */
+  overflow: visible; /* pastikan konten bisa tampil penuh */
+  padding: 0 10px;
 }
 
+/* Container pengumuman */
 .pengumuman-card {
-  background: linear-gradient(145deg, #ffffff, #f1f3f6);
-  padding: 25px 30px;
-  width: 100%;
-  max-width: 900px;
-  border-radius: 18px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  transition: all 0.4s ease;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  align-items: center; /* center horizontal */
+  justify-content: center; /* center vertikal jika perlu */
+  padding: 15px;
+  margin: 15px 0;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
+/* Gambar pengumuman */
 .pengumuman-card img {
-  max-width: 100%;
-  max-height: 300px;
   width: auto;
-  height: auto;
+  max-width: 400px; /* lebar maksimal */
+  max-height: 300px; /* tinggi maksimal */
   display: block;
-  margin-top: 15px;
+  margin: 10px 0; /* jarak atas-bawah */
   border-radius: 8px;
+  object-fit: contain; /* tetap proporsional */
 }
 
 .pengumuman-card:hover {
@@ -392,10 +391,14 @@ body {
   /* hapus indentasi */
 }
 
+.pengumuman-card a.btn-download-file {
+  color: white !important;
+}
+
 .pengumuman-card a {
   display: inline-block;
   margin-top: 15px;
-  color: #3498db;
+  color: white;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;
@@ -413,6 +416,23 @@ body {
   line-height: 1.4;
 }
 
+.btn-download-file {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: #4caf50;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 13px;
+  width: fit-content;
+  transition: 0.3s;
+  display: inline-block;
+}
+
+.btn-download-file:hover {
+  background: #45a049;
+  color: white;
+}
 /* ================= ANGGOTA ================= */
 
 .section-anggota {

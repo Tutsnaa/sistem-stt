@@ -1,8 +1,9 @@
 <?php
-// Ambil semua voting dari database
-$votings = $votingModel->getAllVoting(); 
+// Ambil voting yang sedang dibuka saja
+$votings = array_filter($votingModel->getAllVoting(), function($v) {
+    return $v['status'] === 'dibuka';
+});
 ?>
-
 <?php foreach($votings as $voting): ?>
 <div class="voting-info">
     <h2 class="voting-title"><?= htmlspecialchars($voting['judul'] ?: 'Voting tanpa judul') ?></h2>
