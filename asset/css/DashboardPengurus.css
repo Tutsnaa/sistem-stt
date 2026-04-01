@@ -123,3 +123,87 @@ body {
   color: #999;
   font-style: italic;
 }
+
+/* ================= WRAPPER ================= */
+.rekap-wrapper {
+  margin-top: 10px;
+  padding: 25px;
+  background: #fff;
+  border-radius: 16px;
+}
+
+/* TITLE UTAMA */
+.rekap-main-title {
+  font-size: 30px;
+  margin-bottom: 25px;
+  color: #333;
+  text-align: center;
+}
+
+/* CONTAINER PER JABATAN */
+.rekap-group {
+  margin-bottom: 40px;
+}
+
+/* TITLE PER JABATAN */
+.rekap-group-title {
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: #ff9644;
+  font-weight: bold;
+  border-left: 5px solid #ff9644;
+  padding-left: 10px;
+}
+
+/* GRID */
+.rekap-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+/* CARD */
+.rekap-card {
+  display: flex;
+  gap: 20px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+}
+
+.rekap-card:hover {
+  transform: translateY(-5px);
+}
+
+/* FOTO */
+.rekap-img {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* INFO */
+.rekap-info h3 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.rekap-info p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+/* SUARA */
+.rekap-suara {
+  margin-top: 10px;
+  padding: 6px 12px;
+  background: #ff9644;
+  color: white;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 14px;
+  display: inline-block;
+}

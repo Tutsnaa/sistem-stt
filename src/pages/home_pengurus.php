@@ -45,6 +45,59 @@
     </div>
 
     <!-- =========================
+     REKAP SUARA PER JABATAN
+========================= -->
+    <div class="rekap-wrapper">
+
+        <h2 class="rekap-main-title">Rekap Suara Kandidat</h2>
+
+        <?php
+    $kategori = ['ketua', 'wakil', 'sekretaris', 'bendahara'];
+
+    foreach($kategori as $jabatan):
+
+        $filtered = array_filter($kandidat, function($row) use ($jabatan){
+            return strtolower($row['jabatan']) === $jabatan;
+        });
+
+        if(empty($filtered)) continue;
+    ?>
+
+        <!-- CONTAINER PER JABATAN -->
+        <div class="rekap-group">
+
+            <h3 class="rekap-group-title">
+                Calon <?= ucfirst($jabatan) ?>
+            </h3>
+
+            <div class="rekap-container">
+
+                <?php foreach($filtered as $row): ?>
+                <div class="rekap-card">
+
+                    <img src="../uploads/<?= htmlspecialchars($row['foto']) ?>" class="rekap-img">
+
+                    <div class="rekap-info">
+                        <h3><?= htmlspecialchars($row['nama_lengkap']) ?></h3>
+                        <p>No: <?= htmlspecialchars($row['no_paslon']) ?></p>
+
+                        <div class="rekap-suara">
+                            <?= $votingModel->countSuara($row['id_calon']) ?> Suara
+                        </div>
+                    </div>
+
+                </div>
+                <?php endforeach; ?>
+
+            </div>
+
+        </div>
+
+        <?php endforeach; ?>
+
+    </div>
+
+    <!-- =========================
      SECTION PENGUMUMAN PENGURUS
 ========================= -->
     <div id="pengumuman" class="pengurus-pengumuman-section">

@@ -243,3 +243,28 @@ TOMBOL AKSI
 .form-group {
   margin-bottom: 15px;
 }
+
+.filter-dropdown {
+  height: 38px;
+  padding: 0 16px;
+  border-radius: 6px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+  vertical-align: middle; /* 🔥 ini penting */
+}
+
+/* DROPDOWN */
+.filter-dropdown {
+  border: 1px solid #ccc;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* center semua */
+  margin-left: 20px;
+}
