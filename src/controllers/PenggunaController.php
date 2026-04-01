@@ -102,7 +102,7 @@ elseif ($action == "update") {
         'no_hp'         => $_POST['no_hp'],
         'alamat'        => $_POST['alamat'],
         'nama_pengguna' => $_POST['nama_pengguna'],
-        'status'        => $_POST['status'] 
+        'status'        => $_SESSION['user']['status']
     ];
 
     /*
@@ -150,22 +150,24 @@ elseif ($action == "update") {
     if ($update) {
 
         /*
-        |--------------------------------------------------------------------------
-        | UPDATE SESSION USER
-        |--------------------------------------------------------------------------
-        */
-        if ($_SESSION['user']['id_pengguna'] == $data['id_pengguna']) {
+            |--------------------------------------------------------------------------
+            | UPDATE SESSION USER
+            |--------------------------------------------------------------------------
+            */
+            if ($_SESSION['user']['id_pengguna'] == $data['id_pengguna']) {
 
-            $_SESSION['user']['nama_lengkap']  = $data['nama_lengkap'];
-            $_SESSION['user']['email']         = $data['email'];
-            $_SESSION['user']['no_hp']         = $data['no_hp'];
-            $_SESSION['user']['alamat']        = $data['alamat'];
-            $_SESSION['user']['nama_pengguna'] = $data['nama_pengguna'];
+                $_SESSION['user']['nama_lengkap']  = $data['nama_lengkap'];
+                $_SESSION['user']['email']         = $data['email'];
+                $_SESSION['user']['no_hp']         = $data['no_hp'];
+                $_SESSION['user']['alamat']        = $data['alamat'];
+                $_SESSION['user']['nama_pengguna'] = $data['nama_pengguna'];
+                $_SESSION['user']['status']        = $data['status'];
 
-            if (isset($data['foto'])) {
-                $_SESSION['user']['foto'] = $data['foto'];
+
+                if (isset($data['foto'])) {
+                    $_SESSION['user']['foto'] = $data['foto'];
+                }
             }
-        }
 
 
                 /*

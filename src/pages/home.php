@@ -4,12 +4,12 @@
 
         <div class="hero-text">
 
-            <h1>Sekaa Truna Truni A</h1>
+            <h1>Sekaa Truna Truni </h1>
             <h3>Media Informasi, Kegiatan, dan Administrasi Organisasi</h3>
 
             <p>
-                Sekaa Truna Truni Putra Kencana yang berlokasi di Banjar Kawan, Mas,
-                Kabupaten Gianyar merupakan organisasi kepemudaan yang menjadi
+                Sekaa Truna Truni Galuh Mantri yang berlokasi di Banjar, Kecamatan,
+                Kabupaten merupakan organisasi kepemudaan yang menjadi
                 wadah kebersamaan dan kreativitas generasi muda.
             </p>
 
@@ -17,7 +17,7 @@
 
         <div class="hero-image">
             <div class="image-blob">
-                <img src="../asset/img/gambar2.jpeg">
+                <img src="../asset/img/Gambar2.jpeg">
             </div>
         </div>
 

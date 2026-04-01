@@ -125,7 +125,7 @@ switch ($page) {
 
         <span class="close-btn" onclick="closeLogin()">&times;</span>
 
-        <h2>Masuk ke Sistem STT</h2>
+        <h2>Masuk</h2>
 
         <?php
 if(isset($_SESSION['error'])){
