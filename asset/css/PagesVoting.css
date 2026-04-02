@@ -77,10 +77,10 @@
    TABLE WRAPPER (SCROLL)
 ============================== */
 .table-wrapper-voting {
-  width: 100%;
-  max-height: 480px;
-  overflow-y: auto;
-  position: relative; /* WAJIB untuk sticky */
+  background: white;
+  border-radius: 12px;
+  overflow: hidden; /* 🔥 penting biar sudut kepotong */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
 
 /* ==============================
@@ -532,4 +532,11 @@
 
   max-height: 120px; /* batas tinggi */
   overflow-y: auto; /* scroll aktif */
+}
+
+.voting-table {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden; /* 🔥 penting biar sudut kepotong */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }

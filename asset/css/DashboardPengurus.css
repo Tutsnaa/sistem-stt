@@ -23,9 +23,10 @@ body {
 }
 
 .pengurus-title {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
+  font-size: 30px;
+  margin-bottom: 25px;
+  color: #333;
+  text-align: center;
 }
 
 /* LIST */
@@ -45,7 +46,8 @@ body {
   margin: 15px 0;
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
 }
 
 .pengurus-pengumuman-card img {
@@ -126,6 +128,7 @@ body {
 
 /* ================= WRAPPER ================= */
 .rekap-wrapper {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
   margin-top: 10px;
   padding: 25px;
   background: #fff;
@@ -133,7 +136,7 @@ body {
 }
 
 /* TITLE UTAMA */
-.rekap-main-title {
+.main-content-header h2 {
   font-size: 30px;
   margin-bottom: 25px;
   color: #333;

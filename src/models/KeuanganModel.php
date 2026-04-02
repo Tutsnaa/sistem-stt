@@ -8,24 +8,18 @@ class KeuanganModel {
     private $table = "keuangan";
 
     public function __construct(){
-
         $database = new Database();
         $this->conn = $database->getConnection();
-
     }
 
     public function getAll(){
-
         $query = "SELECT * FROM " . $this->table . " ORDER BY tanggal_dibuat DESC";
-
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
-
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function insert($data){
-
         $query = "INSERT INTO ".$this->table."
         (id_pengguna, jenis, keterangan, jumlah, file_bukti)
         VALUES
@@ -43,72 +37,96 @@ class KeuanganModel {
     }
 
     public function getById($id){
+        $query = "SELECT * FROM keuangan WHERE id_keuangan = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id",$id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
-$query = "SELECT * FROM keuangan WHERE id_keuangan = :id";
+    public function update($data){
+        $query = "UPDATE keuangan
+                  SET jenis=:jenis,
+                      keterangan=:keterangan,
+                      jumlah=:jumlah
+                  WHERE id_keuangan=:id";
 
-$stmt = $this->conn->prepare($query);
+        $stmt = $this->conn->prepare($query);
 
-$stmt->bindParam(":id",$id);
+        $stmt->bindParam(":jenis",$data['jenis']);
+        $stmt->bindParam(":keterangan",$data['keterangan']);
+        $stmt->bindParam(":jumlah",$data['jumlah']);
+        $stmt->bindParam(":id",$data['id_keuangan']);
 
-$stmt->execute();
+        return $stmt->execute();
+    }
 
-return $stmt->fetch(PDO::FETCH_ASSOC);
+    public function delete($id){
+        $query = "DELETE FROM keuangan WHERE id_keuangan=:id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id",$id);
+        return $stmt->execute();
+    }
 
-}
+    // =========================
+    // TOTAL PEMASUKAN (FILTER)
+    // =========================
+    public function getTotalPemasukan($bulan = null, $tahun = null){
 
-public function update($data){
+        $query = "SELECT SUM(jumlah) as total 
+                  FROM keuangan 
+                  WHERE jenis='pemasukan'";
 
-$query = "UPDATE keuangan
-SET jenis=:jenis,
-keterangan=:keterangan,
-jumlah=:jumlah
-WHERE id_keuangan=:id";
+        if($bulan && $tahun){
+            $query .= " AND MONTH(tanggal_dibuat) = :bulan 
+                        AND YEAR(tanggal_dibuat) = :tahun";
+        } elseif($tahun){
+            $query .= " AND YEAR(tanggal_dibuat) = :tahun";
+        }
 
-$stmt = $this->conn->prepare($query);
+        $stmt = $this->conn->prepare($query);
 
-$stmt->bindParam(":jenis",$data['jenis']);
-$stmt->bindParam(":keterangan",$data['keterangan']);
-$stmt->bindParam(":jumlah",$data['jumlah']);
-$stmt->bindParam(":id",$data['id_keuangan']);
+        if($bulan && $tahun){
+            $stmt->bindParam(":bulan", $bulan);
+            $stmt->bindParam(":tahun", $tahun);
+        } elseif($tahun){
+            $stmt->bindParam(":tahun", $tahun);
+        }
 
-return $stmt->execute();
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-}
+        return $row['total'] ?? 0;
+    }
 
-public function delete($id){
+    // =========================
+    // TOTAL PENGELUARAN (FILTER)
+    // =========================
+    public function getTotalPengeluaran($bulan = null, $tahun = null){
 
-$query = "DELETE FROM keuangan WHERE id_keuangan=:id";
+        $query = "SELECT SUM(jumlah) as total 
+                  FROM keuangan 
+                  WHERE jenis='pengeluaran'";
 
-$stmt = $this->conn->prepare($query);
+        if($bulan && $tahun){
+            $query .= " AND MONTH(tanggal_dibuat) = :bulan 
+                        AND YEAR(tanggal_dibuat) = :tahun";
+        } elseif($tahun){
+            $query .= " AND YEAR(tanggal_dibuat) = :tahun";
+        }
 
-$stmt->bindParam(":id",$id);
+        $stmt = $this->conn->prepare($query);
 
-return $stmt->execute();
+        if($bulan && $tahun){
+            $stmt->bindParam(":bulan", $bulan);
+            $stmt->bindParam(":tahun", $tahun);
+        } elseif($tahun){
+            $stmt->bindParam(":tahun", $tahun);
+        }
 
-}
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-public function getTotalPemasukan(){
-
-    $query = "SELECT SUM(jumlah) as total FROM keuangan WHERE jenis='pemasukan'";
-
-    $stmt = $this->conn->prepare($query);
-    $stmt->execute();
-
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    return $row['total'] ?? 0;
-}
-
-public function getTotalPengeluaran(){
-
-    $query = "SELECT SUM(jumlah) as total FROM keuangan WHERE jenis='pengeluaran'";
-
-    $stmt = $this->conn->prepare($query);
-    $stmt->execute();
-
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    return $row['total'] ?? 0;
-}
-
+        return $row['total'] ?? 0;
+    }
 }

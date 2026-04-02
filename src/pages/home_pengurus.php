@@ -1,45 +1,86 @@
 <!-- ===== MAIN CONTENT ===== -->
 <div class="main-content">
 
-    <div class="card-container">
+    <div class="main-content-header">
+        <h2>Informasi Keuangan</h2>
 
-        <!-- Card Pemasukan -->
-        <div class="card">
-            <div class="card-icon">
-                <i class="fa-solid fa-arrow-down"></i>
-            </div>
-            <div class="card-text">
-                <h3>Pemasukan</h3>
-                <div class="card-amount">
-                    Rp <?= number_format($totalPemasukan,0,',','.'); ?>
-                </div>
-            </div>
+        <!-- ===== FILTER ===== -->
+        <div class="filter-box">
+            <form method="GET" action="dashboard_pengurus.php">
+
+                <input type="hidden" name="page" value="home_pengurus">
+
+                <select name="bulan">
+                    <option value="">-- Pilih Bulan --</option>
+                    <option value="1" <?= ($_GET['bulan'] ?? '') == 1 ? 'selected' : '' ?>>Januari</option>
+                    <option value="2" <?= ($_GET['bulan'] ?? '') == 2 ? 'selected' : '' ?>>Februari</option>
+                    <option value="3" <?= ($_GET['bulan'] ?? '') == 3 ? 'selected' : '' ?>>Maret</option>
+                    <option value="4" <?= ($_GET['bulan'] ?? '') == 4 ? 'selected' : '' ?>>April</option>
+                    <option value="5" <?= ($_GET['bulan'] ?? '') == 5 ? 'selected' : '' ?>>Mei</option>
+                    <option value="6" <?= ($_GET['bulan'] ?? '') == 6 ? 'selected' : '' ?>>Juni</option>
+                    <option value="7" <?= ($_GET['bulan'] ?? '') == 7 ? 'selected' : '' ?>>Juli</option>
+                    <option value="8" <?= ($_GET['bulan'] ?? '') == 8 ? 'selected' : '' ?>>Agustus</option>
+                    <option value="9" <?= ($_GET['bulan'] ?? '') == 9 ? 'selected' : '' ?>>September</option>
+                    <option value="10" <?= ($_GET['bulan'] ?? '') == 10 ? 'selected' : '' ?>>Oktober</option>
+                    <option value="11" <?= ($_GET['bulan'] ?? '') == 11 ? 'selected' : '' ?>>November</option>
+                    <option value="12" <?= ($_GET['bulan'] ?? '') == 12 ? 'selected' : '' ?>>Desember</option>
+                </select>
+
+                <select name="tahun">
+                    <option value="">-- Pilih Tahun --</option>
+
+                    <?php for($i = 2026; $i <= date('Y'); $i++): ?>
+                    <option value="<?= $i ?>" <?= (isset($_GET['tahun']) && $_GET['tahun'] == $i) ? 'selected' : '' ?>>
+                        <?= $i ?>
+                    </option>
+                    <?php endfor; ?>
+                </select>
+
+                <button type="submit">Filter</button>
+                <a href="dashboard_pengurus.php?page=home_pengurus" class="btn-reset">Reset</a>
+
+            </form>
         </div>
 
-        <!-- Card Pengeluaran -->
-        <div class="card">
-            <div class="card-icon">
-                <i class="fa-solid fa-arrow-up"></i>
-            </div>
-            <div class="card-text">
-                <h3>Pengeluaran</h3>
-                <div class="card-amount">
-                    Rp <?= number_format($totalPengeluaran,0,',','.'); ?>
-                </div>
-            </div>
-        </div>
+        <!-- ===== CARD ===== -->
+        <div class="card-container">
 
-        <!-- Card Uang Kas -->
-        <div class="card">
-            <div class="card-icon">
-                <i class="fa-solid fa-wallet"></i>
-            </div>
-            <div class="card-text">
-                <h3>Uang Kas</h3>
-                <div class="card-amount">
-                    Rp <?= number_format($uangKas,0,',','.'); ?>
+            <div class="card pemasukan">
+                <div class="card-icon">
+                    <i class="fa-solid fa-arrow-down"></i>
+                </div>
+                <div class="card-text">
+                    <h3>Pemasukan</h3>
+                    <div class="card-amount">
+                        Rp <?= number_format($totalPemasukan,0,',','.'); ?>
+                    </div>
                 </div>
             </div>
+
+            <div class="card pengeluaran">
+                <div class="card-icon">
+                    <i class="fa-solid fa-arrow-up"></i>
+                </div>
+                <div class="card-text">
+                    <h3>Pengeluaran</h3>
+                    <div class="card-amount">
+                        Rp <?= number_format($totalPengeluaran,0,',','.'); ?>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card kas">
+                <div class="card-icon">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+                <div class="card-text">
+                    <h3>Uang Kas</h3>
+                    <div class="card-amount">
+                        Rp <?= number_format($uangKas,0,',','.'); ?>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </div>

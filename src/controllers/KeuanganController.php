@@ -28,6 +28,19 @@ require_once __DIR__ . '/../models/KeuanganModel.php';
 $model = new KeuanganModel();
 
 /* =========================
+   FILTER BULAN & TAHUN 🔥
+========================= */
+$bulan = $_GET['bulan'] ?? null;
+$tahun = $_GET['tahun'] ?? date('Y');
+
+/* =========================
+   AMBIL TOTAL (SUDAH FILTER)
+========================= */
+$totalPemasukan   = $model->getTotalPemasukan($bulan, $tahun);
+$totalPengeluaran = $model->getTotalPengeluaran($bulan, $tahun);
+$uangKas          = $totalPemasukan - $totalPengeluaran;
+
+/* =========================
    HANDLE POST (TAMBAH & UPDATE)
 ========================= */
 if (isset($_POST['action'])) {
@@ -55,7 +68,8 @@ if (isset($_POST['action'])) {
         ];
 
         $model->insert($data);
-          $_SESSION['flash_message'] = "Data keuangan berhasil ditambahkan";
+
+        $_SESSION['flash_message'] = "Data keuangan berhasil ditambahkan";
         $_SESSION['flash_type'] = "success";
 
         header("Location: ../../public/dashboard_pengurus.php?page=keuangan");
@@ -73,7 +87,8 @@ if (isset($_POST['action'])) {
         ];
 
         $model->update($data);
-          $_SESSION['flash_message'] = "Data Keuangan berhasil diperbarui";
+
+        $_SESSION['flash_message'] = "Data Keuangan berhasil diperbarui";
         $_SESSION['flash_type'] = "success";
 
         header("Location: ../../public/dashboard_pengurus.php?page=keuangan");
@@ -82,26 +97,29 @@ if (isset($_POST['action'])) {
 }
 
 /* =========================
-   HANDLE HAPUS (GET)
+   HANDLE HAPUS
 ========================= */
 if (isset($_GET['action']) && $_GET['action'] == "hapus") {
 
     $id = $_GET['id'];
 
     $model->delete($id);
-      $_SESSION['flash_message'] = "Data Keuangan berhasil dihapus";
-        $_SESSION['flash_type'] = "success";
+
+    $_SESSION['flash_message'] = "Data Keuangan berhasil dihapus";
+    $_SESSION['flash_type'] = "success";
 
     header("Location: ../../public/dashboard_pengurus.php?page=keuangan");
     exit();
 }
 
 /* =========================
-   HANDLE DOWNLOAD EXCEL
+   DOWNLOAD EXCEL (SUDAH FILTER 🔥)
 ========================= */
 if (isset($_GET['action']) && $_GET['action'] == "download") {
 
-    $filter = $_GET['filter'] ?? 'all';
+    $filterJenis = $_GET['filter'] ?? 'all';
+
+    // 🔥 AMBIL DATA DENGAN FILTER BULAN & TAHUN
     $data = $model->getAll();
 
     header("Content-Type: application/vnd.ms-excel");
@@ -116,7 +134,7 @@ if (isset($_GET['action']) && $_GET['action'] == "download") {
         </tr>
         <tr>
             <td colspan='5' style='text-align:center;'>
-                Tanggal Dibuat: ".date('d-m-Y H:i')."
+                Periode: ".($bulan ? "Bulan $bulan" : "Semua Bulan")." - Tahun $tahun
             </td>
         </tr>
         <tr><td colspan='5'></td></tr>
@@ -138,13 +156,20 @@ if (isset($_GET['action']) && $_GET['action'] == "download") {
 
     foreach ($data as $row) {
 
-        // FILTER
-        if ($filter == 'pemasukan' && $row['jenis'] != 'pemasukan') continue;
-        if ($filter == 'pengeluaran' && $row['jenis'] != 'pengeluaran') continue;
+        // FILTER JENIS
+        if ($filterJenis == 'pemasukan' && $row['jenis'] != 'pemasukan') continue;
+        if ($filterJenis == 'pengeluaran' && $row['jenis'] != 'pengeluaran') continue;
+
+        // 🔥 FILTER BULAN & TAHUN
+        $rowBulan = date('n', strtotime($row['tanggal_dibuat']));
+        $rowTahun = date('Y', strtotime($row['tanggal_dibuat']));
+
+        if ($bulan && $rowBulan != $bulan) continue;
+        if ($tahun && $rowTahun != $tahun) continue;
 
         echo "
         <tr>
-            <td style='text-align:center;'>".$no++."</td>
+            <td>".$no++."</td>
             <td>".$row['jenis']."</td>
             <td>".$row['keterangan']."</td>
             <td>Rp ".number_format($row['jumlah'], 0, ',', '.')."</td>

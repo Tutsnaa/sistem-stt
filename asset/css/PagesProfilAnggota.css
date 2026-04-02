@@ -1,13 +1,14 @@
 /* CONTAINER */
 .profil-container {
   width: 100%;
-  min-height: 100vh;
+  min-height: 90vh;
   background: #f4f6f9;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 40px 20px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin-top: 60px;
 }
 
 /* BOX */

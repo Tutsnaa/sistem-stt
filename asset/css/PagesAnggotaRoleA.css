@@ -19,6 +19,7 @@ SECTION ANGGOTA
 /* Wrapper tabel agar melebar dan bisa scroll horizontal jika perlu */
 .table-wrapper {
   max-height: 460px;
+  min-height: 460px; /* TAMBAHAN */
   overflow-x: auto; /* scroll horizontal jika tabel terlalu lebar */
 }
 
@@ -68,14 +69,44 @@ TABEL ANGGOTA
   background: #27ae60;
 }
 
-/* HEADER STICKY */
-.anggota-table thead th {
-  position: sticky;
-  top: 0;
-  background: #ff9644; /* wajib ada */
-  z-index: 10;
+.anggota-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
+/* jadikan thead & tbody block */
+.anggota-table thead,
+.anggota-table tbody {
+  display: block;
+}
+
+/* tbody yang di-scroll */
+.anggota-table tbody {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* biar kolom sejajar */
+.anggota-table thead tr,
+.anggota-table tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.anggota-table th,
+.anggota-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.anggota-table th {
+  background: #ff9644;
+  color: white;
+  font-weight: 600;
+}
 td.alamat {
   max-width: 150px;
   white-space: nowrap;

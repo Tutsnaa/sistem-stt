@@ -7,32 +7,88 @@
   background: #f5f7fa;
 }
 
-/* ================= CARD ================= */
-.card-container {
-  display: flex;
-  gap: 25px;
+/* ================= FILTER ================= */
+.filter-box {
+  background: #fff;
+  padding: 15px 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
-.card {
-  flex: 1;
-  background: white;
-  padding: 25px;
+.filter-box form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.filter-box select {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.filter-box button {
+  background: #ff9644;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.filter-box button:hover {
+  background: #e67e22;
+}
+
+/* ================= CARD ================= */
+.main-content-header {
+  padding: 20px;
+  background-color: white;
   border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.info-keuangan-title {
+  font-size: 30px;
+  margin-bottom: 25px;
+  color: #333;
+  text-align: center;
+}
+
+.rekap-main-title {
+  font-size: 30px;
+  margin-bottom: 25px;
+  color: #333;
+  text-align: center;
+}
+.card {
+  background: white;
+  padding: 22px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   gap: 18px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
   transition: 0.25s;
+  position: relative;
 }
 
 .card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-5px);
 }
 
+/* ICON */
 .card-icon {
   width: 55px;
   height: 55px;
-  background: #ff9644;
   color: white;
   display: flex;
   align-items: center;
@@ -41,15 +97,44 @@
   font-size: 22px;
 }
 
+/* WARNA PER CARD */
+.card.pemasukan .card-icon {
+  background: #27ae60;
+}
+
+.card.pengeluaran .card-icon {
+  background: #e74c3c;
+}
+
+.card.kas .card-icon {
+  background: #3498db;
+}
+
+/* TEXT */
 .card-text h3 {
-  font-size: 16px;
-  color: #666;
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 5px;
 }
 
 .card-amount {
   font-size: 22px;
   font-weight: bold;
-  color: #333;
+  color: #222;
+}
+
+.btn-reset {
+  background: #ccc;
+  color: white;
+  padding: 7px 15px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.btn-reset:hover {
+  background: #999;
+  color: white;
 }
 
 /* ================= PENGUMUMAN ================= */

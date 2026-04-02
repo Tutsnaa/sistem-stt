@@ -13,6 +13,7 @@
 }
 
 .table-wrapper-kepengurusan {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
   width: 100%;
   max-height: 480px;
   overflow-y: scroll;

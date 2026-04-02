@@ -16,6 +16,8 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['jabatan'] === 'anggota') {
 
 $user = $_SESSION['user'];
 $page = $_GET['page'] ?? 'home_pengurus';
+$bulan = $_GET['bulan'] ?? null;
+$tahun = $_GET['tahun'] ?? date('Y');
 
 // ================================
 // LOAD MODEL PENGGUNA
@@ -30,8 +32,8 @@ $dataAnggota = $penggunaModel->getAll($search);
 // ================================
 require_once __DIR__ . '/../src/models/KeuanganModel.php';
 $keuanganModel = new KeuanganModel();
-$totalPemasukan = $keuanganModel->getTotalPemasukan();
-$totalPengeluaran = $keuanganModel->getTotalPengeluaran();
+$totalPemasukan = $keuanganModel->getTotalPemasukan($bulan, $tahun);
+$totalPengeluaran = $keuanganModel->getTotalPengeluaran($bulan, $tahun);
 $uangKas = $totalPemasukan - $totalPengeluaran;
 
 // ================================
