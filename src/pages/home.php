@@ -149,41 +149,52 @@ usort($pengurus, function($a, $b) use ($urutanJabatan) {
             <!-- ================= FILE GAMBAR ================= -->
             <?php if(in_array($ext, ['jpg','jpeg','png','gif'])): ?>
 
-            <img src="<?= $fileUrl ?>" alt="File Pengumuman"
-                style="width:100%; height:auto; display:block; margin:20px 0; border-radius:8px;">
+            <img src="<?= $fileUrl ?>" alt="File Pengumuman">
 
-            <a href="<?= $fileUrl ?>" download class="btn-download-file">
-                Download Gambar
+            <a href="<?= $fileUrl ?>" download class="btn-download-pengumuman">
+                Unduh
             </a>
 
             <!-- ================= FILE PDF ================= -->
             <?php elseif($ext === 'pdf'): ?>
 
-            <iframe src="<?= $fileUrl ?>" width="100%" height="500px"
-                style="border:1px solid #ccc; border-radius:8px; margin-top:15px;">
-            </iframe>
+            <div class="file-card" onclick="window.open('<?= $fileUrl ?>', '_blank')">
 
-            <a href="<?= $fileUrl ?>" download class="btn-download">
-                Download PDF
+                <div class="file-info">
+                    <i class="fa-solid fa-file"></i>
+
+                    <span><?= basename($p['file']); ?></span>
+                </div>
+
+
+            </div>
+            <a href="<?= $fileUrl ?>" download class="btn-download-pengumuman" onclick="event.stopPropagation()">
+                Unduh
             </a>
 
             <!-- ================= FILE OFFICE ================= -->
             <?php elseif(in_array($ext, ['doc','docx','xls','xlsx','ppt','pptx'])): ?>
 
-            <iframe
-                src="https://docs.google.com/gview?url=<?= urlencode('http://yourdomain.com/uploads/'.$p['file']) ?>&embedded=true"
-                style="width:100%; height:500px; border:1px solid #ccc; border-radius:8px; margin-top:15px;">
-            </iframe>
+            <div class="file-card" onclick="window.open('<?= $fileUrl ?>', '_blank')">
 
-            <a href="<?= $fileUrl ?>" download class="btn-download">
-                Download Dokumen
+                <div class="file-info">
+                    <i class="fa-solid <?= $icon ?>" style="color: <?= $color ?>"></i>
+
+                    <span><?= basename($p['file']); ?></span>
+                </div>
+
+
+            </div>
+
+            <a href="<?= $fileUrl ?>" download class="btn-download-pengumuman">
+                Unduh
             </a>
 
             <!-- ================= FILE LAIN ================= -->
             <?php else: ?>
 
-            <a href="<?= $fileUrl ?>" download class="btn-download">
-                Download File
+            <a href="<?= $fileUrl ?>" download class="btn-download-pengumuman">
+                Unduh
             </a>
 
             <?php endif; ?>

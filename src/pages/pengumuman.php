@@ -41,7 +41,7 @@
 
                 <div class="form-group">
                     <label>File (opsional)</label>
-                    <input type="file" name="file" accept=".pdf,.doc,.docx,.jpg,.png">
+                    <input type="file" name="file">
                 </div>
 
                 <button type="submit" class="btn-save">Simpan</button>

@@ -1,0 +1,89 @@
+<h2 style='text-align:center;'>DATA ANGGOTA SEKAA TRUNA</h2><p style='text-align:center;'>Tanggal: 31-03-2026 05:21</p><br><table border='1' cellpadding='5' cellspacing='0'><tr style='background-color:#ff9644; color:#fff; font-weight:bold; text-align:center;'>
+            <th>No</th>
+            <th>Nama Lengkap</th>
+            <th>Email</th>
+            <th>No HP</th>
+            <th>Alamat</th>
+            <th>Jabatan</th>
+            <th>Username</th>
+          </tr><tr>
+                <td>1</td>
+                <td>Anggota 2</td>
+                <td>anggota2@gmail.com</td>
+                <td>082147148191</td>
+                <td>Bali Indonesia</td>
+                <td>anggota</td>
+                <td>anggota2</td>
+              </tr><tr>
+                <td>2</td>
+                <td>Wayan Hendra</td>
+                <td>wayanhendra@gmail.com</td>
+                <td>081000000001</td>
+                <td>Jl. Melati Indah No. 123, Blok B2, Perumahan Griya Sejahtera, Desa Sukamaju, Kecamatan Sentosa, Kota Harmoni, Provinsi Nusantara, Kode Pos 12345, Dekat Taman Kota dan Sebelah Minimarket</td>
+                <td>anggota</td>
+                <td>hendra</td>
+              </tr><tr>
+                <td>3</td>
+                <td>ADMIN</td>
+                <td>admin@gmail.com</td>
+                <td>081000000000</td>
+                <td>Bali</td>
+                <td>ketua</td>
+                <td>admin</td>
+              </tr><tr>
+                <td>4</td>
+                <td>Anggota</td>
+                <td>anggota@gmail.com</td>
+                <td>081234567890</td>
+                <td>Bali</td>
+                <td>anggota</td>
+                <td>anggota</td>
+              </tr><tr>
+                <td>5</td>
+                <td>Made Agus</td>
+                <td>madeagus@gmail.com</td>
+                <td>081124567880</td>
+                <td>Denpasar, bali</td>
+                <td>sekretaris 2</td>
+                <td>made</td>
+              </tr><tr>
+                <td>6</td>
+                <td>Komang Wira</td>
+                <td>komangwira@gmail.com</td>
+                <td>081234567123</td>
+                <td>Bali</td>
+                <td>bendahara 2</td>
+                <td>komang</td>
+              </tr><tr>
+                <td>7</td>
+                <td>I Gede Putra</td>
+                <td>gedeputra@gmail.com</td>
+                <td>081567890123</td>
+                <td>Bali</td>
+                <td>bendahara 1</td>
+                <td>putra</td>
+              </tr><tr>
+                <td>8</td>
+                <td>Made Angga</td>
+                <td>madeangga@gmail.com</td>
+                <td>081234567222</td>
+                <td>Bali</td>
+                <td>sekretaris 1</td>
+                <td>angga</td>
+              </tr><tr>
+                <td>9</td>
+                <td>Wakil Ketua STT </td>
+                <td>wakilketuastt@gmail.com</td>
+                <td>081234125371</td>
+                <td>Denpasar</td>
+                <td>wakil</td>
+                <td>wakil</td>
+              </tr><tr>
+                <td>10</td>
+                <td>Bagus Putra</td>
+                <td>ketuastt@gmail.com</td>
+                <td>081234125355</td>
+                <td>Gianyar</td>
+                <td>anggota</td>
+                <td>bagus</td>
+              </tr></table>

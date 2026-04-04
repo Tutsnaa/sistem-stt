@@ -110,7 +110,7 @@
 }
 
 /* ===== LINK FILE ===== */
-.pengumuman-table td a {
+/* .pengumuman-table td a {
   color: #007bff;
   text-decoration: none;
   font-weight: 500;
@@ -118,7 +118,7 @@
 
 .pengumuman-table td a:hover {
   text-decoration: underline;
-}
+} */
 
 /* ================= TOMBOL AKSI ================= */
 .aksi-btn {
@@ -267,4 +267,17 @@
   top: 0;
   background: #ff9644; /* wajib ada */
   z-index: 10;
+}
+
+.pengumuman-table td:nth-child(2),
+.pengumuman-table td:nth-child(3) {
+  max-width: 300px; /* sesuaikan */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pengumuman-table th:nth-child(2),
+.pengumuman-table td:nth-child(2) {
+  width: 350px;
+  white-space: nowrap;
 }

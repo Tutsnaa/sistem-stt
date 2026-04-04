@@ -1,0 +1,25 @@
+<table border='1'><tr>
+            <th>No</th>
+            <th>Jenis</th>
+            <th>Keterangan</th>
+            <th>Jumlah</th>
+            <th>Tanggal</th>
+          </tr><tr>
+                <td>1</td>
+                <td>pengeluaran</td>
+                <td>Membeli konsumsi</td>
+                <td>400000.00</td>
+                <td>10-03-2026</td>
+              </tr><tr>
+                <td>2</td>
+                <td>pemasukan</td>
+                <td>Hasil dari penjualan baju ogoh-ogoh 2026</td>
+                <td>1000000.00</td>
+                <td>10-03-2026</td>
+              </tr><tr>
+                <td>3</td>
+                <td>pemasukan</td>
+                <td>Uang masuk</td>
+                <td>10000.00</td>
+                <td>10-03-2026</td>
+              </tr></table>

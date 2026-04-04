@@ -40,7 +40,6 @@ body {
 .pengurus-pengumuman-card {
   display: flex;
   flex-direction: column;
-  align-items: center; /* center horizontal */
   justify-content: center; /* center vertikal jika perlu */
   padding: 15px;
   margin: 15px 0;
@@ -55,7 +54,7 @@ body {
   max-width: 400px; /* lebar maksimal */
   max-height: 300px; /* tinggi maksimal */
   display: block;
-  margin: 10px 0; /* jarak atas-bawah */
+  margin: 10px auto; /* jarak atas-bawah */
   border-radius: 8px;
   object-fit: contain; /* tetap proporsional */
 }
@@ -66,9 +65,13 @@ body {
 
 /* JUDUL */
 .pengurus-judul {
-  font-size: 18px;
+  text-align: center;
+  font-size: 22px;
   font-weight: bold;
   color: #333;
+  border-bottom: 2px solid #ff9644;
+  padding-bottom: 8px;
+  margin-bottom: 15px;
 }
 
 /* ISI */
@@ -99,7 +102,7 @@ body {
 .pengurus-btn {
   margin-top: 10px;
   padding: 8px 12px;
-  background: #4caf50;
+  background: #007bff;
   color: white;
   text-decoration: none;
   border-radius: 6px;
@@ -109,7 +112,7 @@ body {
 }
 
 .pengurus-btn:hover {
-  background: #45a049;
+  background: #0056b3;
 }
 
 /* INFO */
@@ -124,6 +127,39 @@ body {
   text-align: center;
   color: #999;
   font-style: italic;
+}
+
+.file-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background: #f9fafc;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 12px 15px;
+  margin-top: 15px;
+
+  cursor: pointer; /* 🔥 biar keliatan bisa diklik */
+  transition: 0.3s;
+}
+
+.file-card:hover {
+  background: #eef3f8;
+  transform: translateY(-2px);
+}
+
+/* info */
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #333;
+}
+
+.file-info i {
+  font-size: 18px;
 }
 
 /* ================= WRAPPER ================= */

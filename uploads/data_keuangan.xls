@@ -1,0 +1,13 @@
+<table border='1'><tr>
+            <th>No</th>
+            <th>Jenis</th>
+            <th>Keterangan</th>
+            <th>Jumlah</th>
+            <th>Tanggal</th>
+          </tr><tr>
+                <td>1</td>
+                <td>pengeluaran</td>
+                <td>Membeli konsumsi</td>
+                <td>400000.00</td>
+                <td>10-03-2026</td>
+              </tr></table>

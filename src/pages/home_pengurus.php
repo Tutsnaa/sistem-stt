@@ -170,32 +170,47 @@
                 <img src="<?= $fileUrl ?>" class="pengurus-img">
 
                 <a href="<?= $fileUrl ?>" download class="pengurus-btn">
-                    Download Gambar
+                    Unduh
                 </a>
 
                 <?php elseif($ext === 'pdf'): ?>
 
-                <iframe src="<?= $fileUrl ?>" class="pengurus-frame"></iframe>
+                <div class="file-card" onclick="window.open('<?= $fileUrl ?>', '_blank')">
+
+                    <div class="file-info">
+                        <i class="fa-solid fa-file"></i>
+
+                        <span><?= basename($p['file']); ?></span>
+                    </div>
+
+
+                </div>
 
                 <a href="<?= $fileUrl ?>" download class="pengurus-btn">
-                    Download PDF
+                    Unduh
                 </a>
 
                 <?php elseif(in_array($ext, ['doc','docx','xls','xlsx','ppt','pptx'])): ?>
 
-                <iframe
-                    src="https://docs.google.com/gview?url=<?= urlencode('http://yourdomain.com/uploads/'.$p['file']) ?>&embedded=true"
-                    class="pengurus-frame">
-                </iframe>
+                <div class="file-card" onclick="window.open('<?= $fileUrl ?>', '_blank')">
+
+                    <div class="file-info">
+                        <i class="fa-solid fa-file"></i>
+
+                        <span><?= basename($p['file']); ?></span>
+                    </div>
+
+
+                </div>
 
                 <a href="<?= $fileUrl ?>" download class="pengurus-btn">
-                    Download Dokumen
+                    unduh
                 </a>
 
                 <?php else: ?>
 
                 <a href="<?= $fileUrl ?>" download class="pengurus-btn">
-                    Download File
+                    unduh
                 </a>
 
                 <?php endif; ?>
