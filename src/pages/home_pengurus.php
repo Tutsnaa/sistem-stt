@@ -165,62 +165,46 @@
             $fileUrl = "../uploads/".$p['file'];
             ?>
 
+                <!-- GAMBAR -->
                 <?php if(in_array($ext, ['jpg','jpeg','png','gif'])): ?>
-
                 <img src="<?= $fileUrl ?>" class="pengurus-img">
 
-                <a href="<?= $fileUrl ?>" download class="pengurus-btn">
-                    Unduh
-                </a>
-
+                <!-- PDF -->
                 <?php elseif($ext === 'pdf'): ?>
-
                 <div class="file-card" onclick="window.open('<?= $fileUrl ?>', '_blank')">
-
                     <div class="file-info">
                         <i class="fa-solid fa-file"></i>
-
                         <span><?= basename($p['file']); ?></span>
                     </div>
-
-
                 </div>
 
-                <a href="<?= $fileUrl ?>" download class="pengurus-btn">
-                    Unduh
-                </a>
-
+                <!-- OFFICE -->
                 <?php elseif(in_array($ext, ['doc','docx','xls','xlsx','ppt','pptx'])): ?>
-
                 <div class="file-card" onclick="window.open('<?= $fileUrl ?>', '_blank')">
-
                     <div class="file-info">
                         <i class="fa-solid fa-file"></i>
-
                         <span><?= basename($p['file']); ?></span>
                     </div>
+                </div>
+                <?php endif; ?>
 
+                <?php endif; ?>
+
+                <!-- 🔥 FOOTER -->
+                <div class="pengurus-footer">
+
+                    <?php if($p['file']): ?>
+                    <a href="<?= $fileUrl ?>" download class="pengurus-btn">
+                        Unduh
+                    </a>
+                    <?php endif; ?>
+
+                    <small class="pengurus-info">
+                        Oleh: <?= $p['nama_lengkap'] ?><br>
+                        <?= date('d M Y', strtotime($p['tanggal_dibuat'])) ?>
+                    </small>
 
                 </div>
-
-                <a href="<?= $fileUrl ?>" download class="pengurus-btn">
-                    unduh
-                </a>
-
-                <?php else: ?>
-
-                <a href="<?= $fileUrl ?>" download class="pengurus-btn">
-                    unduh
-                </a>
-
-                <?php endif; ?>
-
-                <?php endif; ?>
-
-                <small class="pengurus-info">
-                    Oleh: <?= $p['nama_lengkap'] ?><br>
-                    <?= date('d M Y', strtotime($p['tanggal_dibuat'])) ?>
-                </small>
 
             </div>
 

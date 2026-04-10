@@ -148,64 +148,44 @@ usort($pengurus, function($a, $b) use ($urutanJabatan) {
 
             <!-- ================= FILE GAMBAR ================= -->
             <?php if(in_array($ext, ['jpg','jpeg','png','gif'])): ?>
-
             <img src="<?= $fileUrl ?>" alt="File Pengumuman">
-
-            <a href="<?= $fileUrl ?>" download class="btn-download-pengumuman">
-                Unduh
-            </a>
 
             <!-- ================= FILE PDF ================= -->
             <?php elseif($ext === 'pdf'): ?>
-
             <div class="file-card" onclick="window.open('<?= $fileUrl ?>', '_blank')">
-
                 <div class="file-info">
                     <i class="fa-solid fa-file"></i>
-
                     <span><?= basename($p['file']); ?></span>
                 </div>
-
-
             </div>
-            <a href="<?= $fileUrl ?>" download class="btn-download-pengumuman" onclick="event.stopPropagation()">
-                Unduh
-            </a>
 
             <!-- ================= FILE OFFICE ================= -->
             <?php elseif(in_array($ext, ['doc','docx','xls','xlsx','ppt','pptx'])): ?>
-
             <div class="file-card" onclick="window.open('<?= $fileUrl ?>', '_blank')">
-
                 <div class="file-info">
                     <i class="fa-solid <?= $icon ?>" style="color: <?= $color ?>"></i>
-
                     <span><?= basename($p['file']); ?></span>
                 </div>
+            </div>
+            <?php endif; ?>
 
+            <?php endif; ?>
+
+            <!-- 🔥 FOOTER (SATU SAJA) -->
+            <div class="pengumuman-footer">
+
+                <?php if($p['file']): ?>
+                <a href="<?= $fileUrl ?>" download class="btn-download-pengumuman">
+                    Unduh
+                </a>
+                <?php endif; ?>
+
+                <small>
+                    Oleh: <?= $p['nama_lengkap'] ?><br>
+                    <?= date('d M Y', strtotime($p['tanggal_dibuat'])) ?>
+                </small>
 
             </div>
-
-            <a href="<?= $fileUrl ?>" download class="btn-download-pengumuman">
-                Unduh
-            </a>
-
-            <!-- ================= FILE LAIN ================= -->
-            <?php else: ?>
-
-            <a href="<?= $fileUrl ?>" download class="btn-download-pengumuman">
-                Unduh
-            </a>
-
-            <?php endif; ?>
-
-            <?php endif; ?>
-
-            <!-- Info pembuat -->
-            <small>
-                Oleh: <?= $p['nama_lengkap'] ?><br>
-                <?= date('d M Y', strtotime($p['tanggal_dibuat'])) ?>
-            </small>
 
         </div>
 

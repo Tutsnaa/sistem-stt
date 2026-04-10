@@ -334,104 +334,146 @@ body {
   color: #333;
 }
 
+/* ================= GRID ================= */
 .pengumuman-list {
-  display: block; /* default block */
-  overflow: visible; /* pastikan konten bisa tampil penuh */
-  padding: 0 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* default 2 kolom */
+  gap: 30px;
 }
 
-/* Container pengumuman */
+/* ================= CARD ================= */
 .pengumuman-card {
+  background: linear-gradient(145deg, #ffffff, #f1f3f6);
+  padding: 25px 30px;
+  border-radius: 18px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+
   display: flex;
   flex-direction: column;
-  align-items: center; /* center horizontal */
-  justify-content: center; /* center vertikal jika perlu */
-  padding: 15px;
-  margin: 15px 0;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* Gambar pengumuman */
-.pengumuman-card img {
-  width: auto;
-  max-width: 400px; /* lebar maksimal */
-  max-height: 300px; /* tinggi maksimal */
-  display: block;
-  margin: 10px 0; /* jarak atas-bawah */
-  border-radius: 8px;
-  object-fit: contain; /* tetap proporsional */
-}
-
+/* hover */
 .pengumuman-card:hover {
-  transform: translateY(-5px) scale(1.01);
+  transform: translateY(-5px);
   box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
 }
 
+/* ================= JUDUL ================= */
 .pengumuman-card h3 {
-  margin-bottom: 10px;
-  font-size: 24px;
-  color: #2c3e50;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+  border-bottom: 2px solid #ff9644;
+  padding-bottom: 8px;
+  margin-bottom: 15px;
 }
 
+/* ================= ISI ================= */
 .pengumuman-card p {
-  font-size: 16px;
+  font-size: 15px;
+  color: #444;
   line-height: 1.6;
-  color: #555;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  text-align: justify;
-  /* rata kanan-kiri */
-  margin: 0;
-  /* hapus margin default */
-  padding: 0;
-  /* hapus padding default */
-  text-indent: 0;
-  /* hapus indentasi */
 }
 
-.pengumuman-card a.btn-download-file {
-  color: white !important;
+/* ================= GAMBAR ================= */
+.pengumuman-card img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  margin: 15px 0;
+  border-radius: 10px;
 }
 
-.pengumuman-card a {
+/* ================= FILE CARD ================= */
+.file-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background: #f9fafc;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 12px 15px;
+  margin-top: 15px;
+
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.file-card:hover {
+  background: #eef3f8;
+  transform: translateY(-2px);
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #333;
+}
+
+.file-info i {
+  font-size: 18px;
+}
+
+/* ================= FOOTER ================= */
+
+/* 🔥 penting supaya selalu di bawah */
+.pengumuman-footer {
+  margin-top: auto;
+}
+
+/* tombol */
+.btn-download-pengumuman {
   display: inline-block;
   margin-top: 15px;
-  color: white;
+  padding: 8px 14px;
+  background: #007bff;
+  color: white !important;
   text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s ease;
+  border-radius: 6px;
+  font-size: 13px;
+  transition: 0.3s;
 }
 
-.pengumuman-card a:hover {
-  color: #1d6fa5;
+.btn-download-pengumuman:hover {
+  background: #0056b3;
 }
 
-.pengumuman-card small {
+/* info */
+.pengumuman-footer small {
   display: block;
-  margin-top: 15px;
+  margin-top: 10px;
   font-size: 13px;
   color: #888;
   line-height: 1.4;
 }
 
-.btn-download-file {
-  margin-top: 10px;
-  padding: 8px 12px;
-  background: #4caf50;
-  color: white;
-  text-decoration: none;
-  border-radius: 6px;
-  font-size: 13px;
-  width: fit-content;
-  transition: 0.3s;
-  display: inline-block;
+/* ================= RESPONSIVE ================= */
+
+/* Tablet */
+@media (max-width: 992px) {
+  .pengumuman-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-.btn-download-file:hover {
-  background: #45a049;
-  color: white;
+/* HP */
+@media (max-width: 600px) {
+  .pengumuman-list {
+    grid-template-columns: 1fr;
+  }
+
+  .section-pengumuman {
+    padding: 60px 5%;
+  }
+
+  .section-pengumuman h2 {
+    font-size: 28px;
+  }
 }
 /* ================= ANGGOTA ================= */
 

@@ -48,7 +48,8 @@ class KeuanganModel {
         $query = "UPDATE keuangan
                   SET jenis=:jenis,
                       keterangan=:keterangan,
-                      jumlah=:jumlah
+                      jumlah=:jumlah,
+                      file_bukti=:file_bukti
                   WHERE id_keuangan=:id";
 
         $stmt = $this->conn->prepare($query);
@@ -56,6 +57,7 @@ class KeuanganModel {
         $stmt->bindParam(":jenis",$data['jenis']);
         $stmt->bindParam(":keterangan",$data['keterangan']);
         $stmt->bindParam(":jumlah",$data['jumlah']);
+        $stmt->bindParam(":file_bukti",$data['file_bukti']);
         $stmt->bindParam(":id",$data['id_keuangan']);
 
         return $stmt->execute();

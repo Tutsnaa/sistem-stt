@@ -41,7 +41,7 @@
 
                 <div class="form-group">
                     <label>Jumlah</label>
-                    <input type="number" name="jumlah" required>
+                    <input type="text" name="jumlah" required>
                 </div>
 
                 <div class="form-group">
@@ -90,7 +90,12 @@
 
                 <div class="form-group">
                     <label>Jumlah</label>
-                    <input type="number" name="jumlah" id="edit_jumlah" required>
+                    <input type="text" name="jumlah" id="edit_jumlah" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Ubah Bukti (Opsional)</label>
+                    <input type="file" name="file_bukti">
                 </div>
 
                 <button type="submit" class="btn-save">Simpan</button>
@@ -200,7 +205,7 @@ foreach ($data as $row):
                         <!-- Bukti -->
                         <td style="text-align: center;">
                             <?php if($row['file_bukti']){ ?>
-                            <a href="../uploads/<?= $row['file_bukti']; ?>" target="_blank">Lihat</a>
+                            <button onclick="openBukti('<?= $row['file_bukti']; ?>')">Lihat</button>
                             <?php } else { ?>
                             -
                             <?php } ?>
@@ -218,7 +223,8 @@ foreach ($data as $row):
                             <!-- Tombol edit -->
                             <button class="btn-ubah-keuangan" data-id="<?= $row['id_keuangan']; ?>"
                                 data-jenis="<?= $row['jenis']; ?>" data-keterangan="<?= $row['keterangan']; ?>"
-                                data-jumlah="<?= $row['jumlah']; ?>" onclick="openEditModal(this)">
+                                data-jumlah="<?= $row['jumlah']; ?>" data-file="<?= $row['file_bukti']; ?>"
+                                onclick="openEditModal(this)">
                                 <i class="fa fa-pen-to-square"></i>
                             </button>
 
@@ -249,9 +255,162 @@ foreach ($data as $row):
 
 </div>
 
+<!-- popup lihat bukti -->
+<div id="modalBukti" class="modal-bukti">
+    <div class="modal-content-bukti">
+        <span class="close-btn" onclick="closeBukti()">&times;</span>
+
+        <!-- GAMBAR -->
+        <img id="imgBukti" src="" style="display:none;" />
+
+        <!-- PDF -->
+        <iframe id="pdfBukti" class="pdf-viewer"></iframe>
+
+    </div>
+</div>
+
+<style>
+/* MODAL BACKGROUND */
+.modal-bukti {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.8);
+
+    justify-content: center;
+
+    /* agar tidak ketutup navbar */
+    align-items: flex-start;
+    padding-top: 80px;
+}
+
+/* aktif saat dibuka */
+.modal-bukti.show {
+    display: flex;
+}
+
+/* KONTEN (ikuti ukuran gambar/PDF) */
+.modal-content-bukti {
+    position: relative;
+    display: inline-block;
+    /* KUNCI AGAR IKUT KONTEN */
+    max-width: 90%;
+    max-height: 90%;
+}
+
+/* GAMBAR */
+.modal-content-bukti img {
+    display: none;
+    max-width: 100%;
+    max-height: 80vh;
+    border-radius: 10px;
+}
+
+/* PDF */
+.pdf-viewer {
+    display: none;
+    width: 80vw;
+    height: 80vh;
+    border: none;
+    border-radius: 10px;
+}
+
+/* TOMBOL CLOSE */
+.close-btn {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+
+    background: white;
+    color: black;
+
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: 0.2s;
+}
+
+.close-btn:hover {
+    background: #f1f1f1;
+    transform: scale(1.1);
+}
+</style>
+
 
 <!-- ================= SCRIPT ================= -->
 <script>
+// Lihat Bukti
+function openBukti(file) {
+    let modal = document.getElementById("modalBukti");
+    let img = document.getElementById("imgBukti");
+    let pdf = document.getElementById("pdfBukti");
+
+    modal.style.display = "flex";
+
+    let filePath = "../uploads/" + file;
+
+    // 🔥 CEK EXTENSION FILE
+    let ext = file.split('.').pop().toLowerCase();
+
+    if (ext === "pdf") {
+        pdf.style.display = "flex";
+        img.style.display = "none";
+        pdf.src = filePath;
+    } else {
+        img.style.display = "flex";
+        pdf.style.display = "none";
+        img.src = filePath;
+    }
+}
+
+function closeBukti() {
+    document.getElementById("modalBukti").style.display = "none";
+
+    // reset
+    document.getElementById("imgBukti").src = "";
+    document.getElementById("pdfBukti").src = "";
+}
+
+// ================= FORMAT RUPIAH =================
+function formatRupiah(angka) {
+    return angka.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+// ================= FORMAT INPUT =================
+function handleRupiahInput(input) {
+    input.addEventListener('input', function() {
+        let value = this.value.replace(/\D/g, '');
+        this.value = value ? formatRupiah(value) : '';
+    });
+}
+
+// ================= AKTIFKAN SEMUA INPUT JUMLAH =================
+document.querySelectorAll("form").forEach(function(form) {
+    form.addEventListener("submit", function() {
+        let input = this.querySelector('input[name="jumlah"]');
+        if (input) {
+            input.value = input.value.replace(/\./g, ''); // 🔥 hapus titik
+        }
+    });
+});
+
+
 function confirmHapus(id) {
     document.getElementById("modalHapus").style.display = "block";
 
@@ -279,7 +438,15 @@ function openEditModal(button) {
     document.getElementById("edit_id").value = button.dataset.id;
     document.getElementById("edit_jenis").value = button.dataset.jenis;
     document.getElementById("edit_keterangan").value = button.dataset.keterangan;
-    document.getElementById("edit_jumlah").value = button.dataset.jumlah;
+    let jumlah = button.dataset.jumlah;
+
+    // 🔥 BUANG DESIMAL (.00)
+    jumlah = parseFloat(jumlah).toString();
+
+    // 🔥 HAPUS SEMUA SELAIN ANGKA (BIAR AMAN)
+    jumlah = jumlah.replace(/\D/g, '');
+
+    document.getElementById("edit_jumlah").value = formatRupiah(jumlah);
 }
 
 function closeModal() {

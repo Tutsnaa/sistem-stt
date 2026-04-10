@@ -77,14 +77,30 @@ if (isset($_POST['action'])) {
     }
 
     // ===== UPDATE =====
-    if ($_POST['action'] == "update") {
+   if ($_POST['action'] == "update") {
 
-        $data = [
-            'id_keuangan' => $_POST['id_keuangan'],
-            'jenis' => $_POST['jenis'],
-            'keterangan' => $_POST['keterangan'],
-            'jumlah' => $_POST['jumlah']
-        ];
+    $fileName = $_POST['file_lama']; // default pakai file lama
+
+    // 🔥 cek apakah upload file baru
+    if (!empty($_FILES['file_bukti']['name'])) {
+
+        $fileName = time() . "_" . $_FILES['file_bukti']['name'];
+
+        move_uploaded_file(
+            $_FILES['file_bukti']['tmp_name'],
+            "../../uploads/" . $fileName
+        );
+    }
+
+    $data = [
+        'id_keuangan' => $_POST['id_keuangan'],
+        'jenis' => $_POST['jenis'],
+        'keterangan' => $_POST['keterangan'],
+        'jumlah' => $_POST['jumlah'],
+        'file_bukti' => $fileName
+    ];
+
+    $model->update($data);
 
         $model->update($data);
 
