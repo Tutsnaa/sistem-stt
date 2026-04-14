@@ -136,6 +136,11 @@
                 class="btn-download">
                 Unduh Data
             </a>
+
+            <a href="../src/controllers/KeuanganController.php?action=pdf&filter=<?= $_GET['filter'] ?? 'all'; ?>"
+                class="btn-download">
+                Unduh PDF
+            </a>
             <?php } ?>
         </div>
 
