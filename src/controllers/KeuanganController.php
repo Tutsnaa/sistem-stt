@@ -128,68 +128,211 @@ if (isset($_GET['action']) && $_GET['action'] == "hapus") {
     exit();
 }
 
-/* =========================
-   DOWNLOAD EXCEL (SUDAH FILTER 🔥)
-========================= */
+/* ========================= DOWNLOAD EXCEL FINAL FIX 🔥 ========================= */
 if (isset($_GET['action']) && $_GET['action'] == "download") {
 
     $filterJenis = $_GET['filter'] ?? 'all';
-
-    // 🔥 AMBIL DATA DENGAN FILTER BULAN & TAHUN
     $data = $model->getAll();
 
     header("Content-Type: application/vnd.ms-excel");
     header("Content-Disposition: attachment; filename=data_keuangan.xls");
 
+    // =========================
+    // JUDUL
+    // =========================
+    $jenisText = ($filterJenis == 'all') ? "Pemasukan dan Pengeluaran" : ucfirst($filterJenis);
+    $periodeText = ($bulan ? "Bulan $bulan" : "Semua Bulan") . " - Tahun $tahun";
+
     echo "
-    <table border='0' width='100%'>
+    <table border='0' width='2000'>
         <tr>
-            <td colspan='5' style='text-align:center; font-size:18px; font-weight:bold;'>
+            <td colspan='6' style='text-align:center; font-size:26px; font-weight:bold;'>
                 DATA KEUANGAN SEKAA TRUNA
             </td>
         </tr>
         <tr>
-            <td colspan='5' style='text-align:center;'>
-                Periode: ".($bulan ? "Bulan $bulan" : "Semua Bulan")." - Tahun $tahun
+            <td colspan='6' style='text-align:center; font-size:20px;'>
+                Jenis: $jenisText
             </td>
         </tr>
-        <tr><td colspan='5'></td></tr>
+        <tr>
+            <td colspan='6' style='text-align:center; font-size:18px;'>
+                Periode: $periodeText
+            </td>
+        </tr>
+        <tr><td colspan='6'></td></tr>
     </table>
     ";
 
+    // =========================
+    // TABEL UTAMA
+    // =========================
     echo "
-    <table border='1' cellpadding='8' cellspacing='0' width='100%'>
-        <tr style='background-color:#ff9644; color:#ffffff; text-align:center; font-weight:bold;'>
-            <th>No</th>
-            <th>Jenis</th>
-            <th>Keterangan</th>
-            <th>Jumlah</th>
-            <th>Tanggal</th>
-        </tr>
+    <table border='1' cellspacing='0' cellpadding='10' width='2000'
+        style='border-collapse:collapse; font-size:16px; table-layout:fixed;'>
     ";
 
+    // =========================
+    // COLGROUP (KETERANGAN PANJANG 🔥)
+    // =========================
+    if ($filterJenis == 'all') {
+        echo "
+        <colgroup>
+            <col style='width:80px'>
+            <col style='width:200px'>
+            <col style='width:1200px'>
+            <col style='width:260px'>
+            <col style='width:260px'>
+        </colgroup>
+        ";
+    } else {
+        echo "
+        <colgroup>
+            <col style='width:80px'>
+            <col style='width:250px'>
+            <col style='width:1400px'>
+            <col style='width:270px'>
+        </colgroup>
+        ";
+    }
+
+    // =========================
+    // HEADER
+    // =========================
+    if ($filterJenis == 'all') {
+        echo "
+        <tr style='background:#ff9644; color:#fff; font-weight:bold; text-align:center; height:40px;'>
+            <th>No</th>
+            <th>Tanggal</th>
+            <th>Keterangan</th>
+            <th>Jumlah Masuk</th>
+            <th>Jumlah Keluar</th>
+        </tr>";
+    } elseif ($filterJenis == 'pemasukan') {
+        echo "
+        <tr style='background:#ff9644; color:#fff; font-weight:bold; text-align:center; height:40px;'>
+            <th>No</th>
+            <th>Tanggal</th>
+            <th>Keterangan</th>
+            <th>Jumlah Masuk</th>
+        </tr>";
+    } else {
+        echo "
+        <tr style='background:#ff9644; color:#fff; font-weight:bold; text-align:center; height:40px;'>
+            <th>No</th>
+            <th>Tanggal</th>
+            <th>Keterangan</th>
+            <th>Jumlah Keluar</th>
+        </tr>";
+    }
+
     $no = 1;
+    $totalMasuk = 0;
+    $totalKeluar = 0;
+
+    // STYLE TIDAK TURUN
+    $nowrap = "style='white-space:nowrap; overflow:hidden;'";
 
     foreach ($data as $row) {
 
-        // FILTER JENIS
-        if ($filterJenis == 'pemasukan' && $row['jenis'] != 'pemasukan') continue;
-        if ($filterJenis == 'pengeluaran' && $row['jenis'] != 'pengeluaran') continue;
-
-        // 🔥 FILTER BULAN & TAHUN
         $rowBulan = date('n', strtotime($row['tanggal_dibuat']));
         $rowTahun = date('Y', strtotime($row['tanggal_dibuat']));
 
         if ($bulan && $rowBulan != $bulan) continue;
         if ($tahun && $rowTahun != $tahun) continue;
+        if ($filterJenis != 'all' && $row['jenis'] != $filterJenis) continue;
+
+        if ($row['jenis'] == 'pemasukan') {
+            $totalMasuk += $row['jumlah'];
+        } else {
+            $totalKeluar += $row['jumlah'];
+        }
+
+        if ($filterJenis == 'all') {
+
+            $masuk = ($row['jenis'] == 'pemasukan')
+                ? "Rp " . number_format($row['jumlah'], 0, ',', '.')
+                : "";
+
+            $keluar = ($row['jenis'] == 'pengeluaran')
+                ? "Rp " . number_format($row['jumlah'], 0, ',', '.')
+                : "";
+
+            echo "
+            <tr style='height:35px;'>
+                <td>$no</td>
+                <td $nowrap>" . date('d-m-Y', strtotime($row['tanggal_dibuat'])) . "</td>
+                <td $nowrap>" . $row['keterangan'] . "</td>
+                <td style='text-align:right;'>$masuk</td>
+                <td style='text-align:right;'>$keluar</td>
+            </tr>
+            ";
+
+        } elseif ($filterJenis == 'pemasukan') {
+
+            echo "
+            <tr style='height:35px;'>
+                <td>$no</td>
+                <td $nowrap>" . date('d-m-Y', strtotime($row['tanggal_dibuat'])) . "</td>
+                <td $nowrap>" . $row['keterangan'] . "</td>
+                <td style='text-align:right;'>Rp " . number_format($row['jumlah'], 0, ',', '.') . "</td>
+            </tr>
+            ";
+
+        } else {
+
+            echo "
+            <tr style='height:35px;'>
+                <td>$no</td>
+                <td $nowrap>" . date('d-m-Y', strtotime($row['tanggal_dibuat'])) . "</td>
+                <td $nowrap>" . $row['keterangan'] . "</td>
+                <td style='text-align:right;'>Rp " . number_format($row['jumlah'], 0, ',', '.') . "</td>
+            </tr>
+            ";
+        }
+
+        $no++;
+    }
+
+    // =========================
+    // TOTAL
+    // =========================
+    if ($filterJenis == 'all') {
+
+        $saldo = $totalMasuk - $totalKeluar;
 
         echo "
-        <tr>
-            <td>".$no++."</td>
-            <td>".$row['jenis']."</td>
-            <td>".$row['keterangan']."</td>
-            <td>Rp ".number_format($row['jumlah'], 0, ',', '.')."</td>
-            <td>".date('d-m-Y', strtotime($row['tanggal_dibuat']))."</td>
+        <tr style='font-weight:bold; background:#d9edf7;'>
+            <td colspan='3' style='text-align:right;'>Total Pemasukan</td>
+            <td style='text-align:right;'>Rp " . number_format($totalMasuk, 0, ',', '.') . "</td>
+            <td></td>
+        </tr>
+        <tr style='font-weight:bold; background:#f2dede;'>
+            <td colspan='3' style='text-align:right;'>Total Pengeluaran</td>
+            <td></td>
+            <td style='text-align:right;'>Rp " . number_format($totalKeluar, 0, ',', '.') . "</td>
+        </tr>
+        <tr style='font-weight:bold; background:#dff0d8;'>
+            <td colspan='3' style='text-align:right;'>Saldo Akhir</td>
+            <td colspan='2' style='text-align:right;'>Rp " . number_format($saldo, 0, ',', '.') . "</td>
+        </tr>
+        ";
+
+    } elseif ($filterJenis == 'pemasukan') {
+
+        echo "
+        <tr style='font-weight:bold; background:#d9edf7;'>
+            <td colspan='3' style='text-align:right;'>Total Pemasukan</td>
+            <td style='text-align:right;'>Rp " . number_format($totalMasuk, 0, ',', '.') . "</td>
+        </tr>
+        ";
+
+    } else {
+
+        echo "
+        <tr style='font-weight:bold; background:#f2dede;'>
+            <td colspan='3' style='text-align:right;'>Total Pengeluaran</td>
+            <td style='text-align:right;'>Rp " . number_format($totalKeluar, 0, ',', '.') . "</td>
         </tr>
         ";
     }
