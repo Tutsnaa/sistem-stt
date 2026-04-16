@@ -382,65 +382,137 @@ TOMBOL AKSI
   transform: translateY(-1px);
 }
 
-/* CONTAINER */
+/* ================= FILTER CONTAINER ================= */
 .filter-container {
   display: flex;
   justify-content: space-between;
-  align-items: center; /* center semua */
-  margin-bottom: 10px;
+  align-items: center; /* 🔥 ini kunci biar sejajar */
+  margin-bottom: 15px;
 }
 
-/* KIRI */
+/* ================= KIRI ================= */
 .filter-left {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
-/* RESET SEMUA ELEMEN */
-.filter-dropdown,
-.btn-download,
-.btn-tambah {
-  height: 38px;
-  padding: 0 16px;
-  border-radius: 6px;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  box-sizing: border-box;
-  vertical-align: middle; /* 🔥 ini penting */
-}
-
-/* DROPDOWN */
+/* ================= FORM DROPDOWN ================= */
 .filter-dropdown {
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 6px;
   border: 1px solid #ccc;
 }
 
-/* DOWNLOAD */
-.btn-download {
-  background: #007bff;
-  color: #fff;
+/* ================= FILTER TANGGAL ================= */
+.filter-tanggal {
+  display: flex;
+  align-items: center; /* 🔥 sejajar */
+  gap: 8px;
+}
+
+/* label */
+.filter-tanggal label {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* input date */
+.filter-tanggal input[type="date"] {
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* tombol filter */
+.filter-tanggal button {
+  height: 38px;
+  padding: 0 14px;
+  background: #ff9644;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.filter-tanggal button:hover {
+  background: #e67e22;
+}
+
+/* ================= RESET ================= */
+.btn-reset {
+  height: 38px;
+  padding: 0 14px;
+  background: #ccc;
+  color: #333;
+  border-radius: 6px;
   text-decoration: none;
+
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn-reset:hover {
+  background: #999;
+  color: white;
+}
+
+/* ================= DOWNLOAD ================= */
+.btn-download {
+  height: 38px;
+  padding: 0 14px;
+  background: #007bff;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+
+  display: inline-flex;
+  align-items: center;
 }
 
 .btn-download:hover {
   background: #0056b3;
 }
 
-/* 🔥 FIX UTAMA DI SINI */
+/* ================= TOMBOL TAMBAH (FIX UTAMA) ================= */
 .btn-tambah {
+  height: 38px;
+  padding: 0 18px;
   background: #28a745;
   color: white;
   border: none;
+  border-radius: 6px;
 
-  /* RESET STYLE BUTTON */
-  line-height: normal;
-  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  /* 🔥 FIX AGAR TIDAK NAIK */
   margin: 0;
+  line-height: normal;
 }
 
 .btn-tambah:hover {
   background: #218838;
+}
+
+.btn-lihat {
+  background: none;
+  border: none;
+  color: #007bff; /* biru seperti link */
+  cursor: pointer;
+  padding: 0;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+/* hover effect */
+.btn-lihat:hover {
+  text-decoration: underline;
+  color: #0056b3;
 }

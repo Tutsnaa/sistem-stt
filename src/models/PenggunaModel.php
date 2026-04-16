@@ -36,6 +36,24 @@ public function create($data){
     ]);
 }
 
+// ===============================
+// Ambil berdasarkan jabatan
+// ===============================
+public function getByJabatan($jabatan)
+{
+    $query = "SELECT * FROM pengguna 
+              WHERE jabatan = :jabatan 
+              AND status = 'aktif'
+              LIMIT 1";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute([
+        ':jabatan' => $jabatan
+    ]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
     // ===============================
 // Ambil semua anggota
 // ===============================

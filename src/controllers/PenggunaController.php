@@ -102,7 +102,7 @@ elseif ($action == "update") {
         'no_hp'         => $_POST['no_hp'],
         'alamat'        => $_POST['alamat'],
         'nama_pengguna' => $_POST['nama_pengguna'],
-        'status'        => $_SESSION['user']['status']
+        'status'        => $_POST['status']
     ];
 
     /*

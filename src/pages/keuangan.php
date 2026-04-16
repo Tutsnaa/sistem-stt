@@ -107,9 +107,6 @@
     <?php } ?>
 
 
-
-
-
     <!-- ================= JUDUL TABEL ================= -->
     <h2>Data Keuangan</h2>
     <div class="filter-container">
@@ -131,14 +128,40 @@
                 </select>
             </form>
 
+            <form method="GET" class="filter-tanggal">
+                <input type="hidden" name="page" value="keuangan">
+                <input type="hidden" name="filter" value="<?= $_GET['filter'] ?? 'all'; ?>">
+
+                <label>Awal</label>
+                <input type="date" name="tanggal_awal" value="<?= $_GET['tanggal_awal'] ?? '' ?>">
+
+                <label>Akhir</label>
+                <input type="date" name="tanggal_akhir" value="<?= $_GET['tanggal_akhir'] ?? '' ?>">
+
+                <button type="submit">Filter</button>
+
+                <a href="dashboard_pengurus.php?page=keuangan&filter=<?= $_GET['filter'] ?? 'all'; ?>"
+                    class="btn-reset">
+                    Reset
+                </a>
+            </form>
+
             <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
-            <a href="../src/controllers/KeuanganController.php?action=download&filter=<?= $_GET['filter'] ?? 'all'; ?>"
-                class="btn-download">
-                Unduh Data
+            <a href="../src/controllers/KeuanganController.php?action=download
+&filter=<?= $_GET['filter'] ?? 'all'; ?>
+&bulan=<?= $_GET['bulan'] ?? ''; ?>
+&tahun=<?= $_GET['tahun'] ?? ''; ?>
+&tanggal_awal=<?= $_GET['tanggal_awal'] ?? ''; ?>
+&tanggal_akhir=<?= $_GET['tanggal_akhir'] ?? ''; ?>" class="btn-download">
+                Unduh Excel
             </a>
 
-            <a href="../src/controllers/KeuanganController.php?action=pdf&filter=<?= $_GET['filter'] ?? 'all'; ?>"
-                class="btn-download">
+            <a href="../src/controllers/KeuanganController.php?action=pdf
+&filter=<?= $_GET['filter'] ?? 'all'; ?>
+&bulan=<?= $_GET['bulan'] ?? ''; ?>
+&tahun=<?= $_GET['tahun'] ?? ''; ?>
+&tanggal_awal=<?= $_GET['tanggal_awal'] ?? ''; ?>
+&tanggal_akhir=<?= $_GET['tanggal_akhir'] ?? ''; ?>" class="btn-download">
                 Unduh PDF
             </a>
             <?php } ?>
@@ -174,17 +197,27 @@
                 <tbody>
 
                     <?php
-                require_once __DIR__ . '/../models/KeuanganModel.php';
-                $keuanganModel = new KeuanganModel();
-                $filter = $_GET['filter'] ?? 'all';
-                $data = $keuanganModel->getAll();
+require_once __DIR__ . '/../models/KeuanganModel.php';
+$keuanganModel = new KeuanganModel();
 
-               $no = 1;
+$filter = $_GET['filter'] ?? 'all';
+$tanggalAwal = $_GET['tanggal_awal'] ?? null;
+$tanggalAkhir = $_GET['tanggal_akhir'] ?? null;
+
+$data = $keuanganModel->getAll();
+
+$no = 1;
 foreach ($data as $row):
+
+    $tanggalRow = date('Y-m-d', strtotime($row['tanggal_dibuat']));
 
     // ================= FILTER =================
     if ($filter == 'pemasukan' && $row['jenis'] != 'pemasukan') continue;
     if ($filter == 'pengeluaran' && $row['jenis'] != 'pengeluaran') continue;
+
+    // 🔥 FILTER TANGGAL (INI YANG KURANG)
+    if ($tanggalAwal && $tanggalRow < $tanggalAwal) continue;
+    if ($tanggalAkhir && $tanggalRow > $tanggalAkhir) continue;
 ?>
 
                     <tr>
@@ -210,7 +243,9 @@ foreach ($data as $row):
                         <!-- Bukti -->
                         <td style="text-align: center;">
                             <?php if($row['file_bukti']){ ?>
-                            <button onclick="openBukti('<?= $row['file_bukti']; ?>')">Lihat</button>
+                            <button class="btn-lihat" onclick="openBukti('<?= $row['file_bukti']; ?>')">
+                                Lihat
+                            </button>
                             <?php } else { ?>
                             -
                             <?php } ?>
