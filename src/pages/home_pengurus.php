@@ -37,7 +37,7 @@
                 </select>
 
                 <button type="submit">Filter</button>
-                <a href="dashboard_pengurus.php?page=home_pengurus" class="btn-reset">Reset</a>
+                <a href="dashboard_pengurus.php?page=home_pengurus" class="btn-reset-pengurus">Reset</a>
 
             </form>
         </div>

@@ -89,7 +89,7 @@
                         <!-- File -->
                         <td>
                             <?php if($p['file']): ?>
-                            <a href="../uploads/<?= $p['file']; ?>" target="_blank">Download</a>
+                            <a href="../uploads/<?= $p['file']; ?>" target="_blank">Lihat</a>
                             <?php else: ?>
                             -
                             <?php endif; ?>

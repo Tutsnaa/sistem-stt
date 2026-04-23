@@ -13,7 +13,7 @@
   padding: 0 30px;
   background: white;
   color: black;
-  z-index: 100;
+  z-index: 1000;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
 }
 

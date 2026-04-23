@@ -1,6 +1,6 @@
 <div class="profil-container">
     <div class="profil-box">
-        <h2>PROFIL</h2>
+        <h2>Profil</h2>
         <form method="POST" action="../src/controllers/PenggunaController.php?action=update"
             enctype="multipart/form-data" class="profil-card">
 

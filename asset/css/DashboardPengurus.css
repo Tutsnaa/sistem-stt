@@ -13,9 +13,6 @@ body {
 /* =========================
    PENGUMUMAN PENGURUS
 ========================= */
-/* =========================
-   PENGUMUMAN PENGURUS
-========================= */
 
 .pengurus-pengumuman-section {
   margin-top: 10px;
@@ -248,4 +245,15 @@ body {
   font-weight: bold;
   font-size: 14px;
   display: inline-block;
+}
+
+.btn-reset-pengurus {
+  height: 32px;
+  padding: 0 14px;
+  background: #ccc;
+  color: #333;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
 }

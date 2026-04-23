@@ -106,10 +106,9 @@ $kepengurusan = $kepengurusanModel->getAll(); // Pastikan ada method getAll()
 
     <!-- ================= LAYOUT ================= -->
     <div class="dashboard-wrapper">
-
         <!-- ===== SIDEBAR ===== -->
         <div class="sidebar">
-
+            <h2>Sekaa Truna Truni</h2>
             <div class="sidebar-menu">
                 <ul>
                     <!-- <h3 class="menu-title">Dashboard</h3> -->

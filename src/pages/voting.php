@@ -188,7 +188,9 @@ $tab = $_GET['tab'] ?? 'voting'; // default ke 'voting' kalau tidak ada param
     <!-- ================= TAB REKAP ================= -->
     <div id="tab-rekap" class="tab-content <?= ($tab == 'rekap') ? 'active' : '' ?>">
 
-        <h2>Rekap Suara</h2>
+        <div class="header-voting">
+            <h2>Rekap Suara</h2>
+        </div>
         <div class="table-wrapper-voting">
             <div class="table-voting">
                 <table class="pages-voting-table">
@@ -227,7 +229,7 @@ $tab = $_GET['tab'] ?? 'voting'; // default ke 'voting' kalau tidak ada param
 <div id="modalEdit" class="popup popup-voting">
     <div class="popup-content popup-voting-content">
         <span class="popup-close">&times;</span>
-        <h2>Ubah Voting</h2>
+        <h3>Ubah Voting</h3>
 
         <form class="form-voting" action="../src/controllers/VotingController.php?action=updateVoting" method="POST">
             <input type="hidden" name="id_voting" id="edit_id">
@@ -267,7 +269,7 @@ $tab = $_GET['tab'] ?? 'voting'; // default ke 'voting' kalau tidak ada param
 <div id="modalEditKandidat" class="popup" style="display:none;">
     <div class="popup-content">
         <span class="popup-close" onclick="closeEditKandidat()">&times;</span>
-        <h2>Ubah Kandidat</h2>
+        <h3>Ubah Kandidat</h3>
         <form class="form-voting" action="../src/controllers/KandidatController.php?action=updateKandidat"
             method="POST">
             <input type="hidden" name="id_calon" id="editKandidat_id">
@@ -290,7 +292,7 @@ $tab = $_GET['tab'] ?? 'voting'; // default ke 'voting' kalau tidak ada param
 <div id="popupVoting" class="popup popup-voting">
     <div class="popup-content popup-voting-content">
         <span class="popup-close" onclick="closeVotingPopup()">&times;</span>
-        <h2>Tambah Voting</h2>
+        <h3>Tambah Voting</h3>
 
         <form class="form-voting" action="../src/controllers/VotingController.php?action=createVoting" method="POST">
             <input type="hidden" name="id_pengguna" value="<?= $user['id_pengguna'] ?>">
@@ -322,7 +324,7 @@ $tab = $_GET['tab'] ?? 'voting'; // default ke 'voting' kalau tidak ada param
 <div id="popupKandidat" class="popup" style="display:none;">
     <div class="popup-content">
         <span class="popup-close" onclick="closeKandidatPopup()">&times;</span>
-        <h2>Tambah Kandidat</h2>
+        <h3>Tambah Kandidat</h3>
         <form class="form-voting" action="../src/controllers/KandidatController.php?action=createKandidat"
             method="POST">
             <label>Voting</label>

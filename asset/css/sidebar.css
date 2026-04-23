@@ -1,30 +1,49 @@
+/* RESET WAJIB 🔥 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ================= LAYOUT ================= */
+.dashboard-wrapper {
+  display: flex;
+}
+
 /* ================= SIDEBAR ================= */
 .sidebar {
   position: fixed;
-  top: 70px;
+  top: 0;
   left: 0;
-
   width: 230px;
-  height: calc(100vh - 70px);
-
-  background: white;
-  border-right: 1px solid #eee;
-
+  height: 100vh;
+  background: #ff9644;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  z-index: 2000;
+  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.2);
 }
 
-.menu-title {
-  font-size: 18px;
-  margin-bottom: 15px;
-  padding-left: 30px;
-  color: #333;
+/* ================= HEADER ================= */
+.sidebar h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+
+  text-align: center;
+
+  padding: 15px 10px; /* 🔥 lebih kecil */
+  margin: 0;
+
+  letter-spacing: 2px;
+
+  /* border-bottom: 1px solid rgba(255, 255, 255, 0.2); */
 }
 
-/* menu area */
+/* ================= MENU ================= */
 .sidebar-menu {
-  padding-top: 20px;
+  flex: 1; /* 🔥 isi ruang tengah */
+  padding-top: 10px;
 }
 
 /* reset list */
@@ -34,7 +53,7 @@
 
 /* menu item */
 .sidebar ul li {
-  margin: 3px 0;
+  margin: 2px 0;
 }
 
 /* menu link */
@@ -42,13 +61,12 @@
   display: block;
 
   padding: 12px 20px;
-  margin: 6px 10px;
+  margin: 4px 10px;
 
   text-decoration: none;
-  color: #555;
-  font-size: 15px;
+  color: white;
 
-  border: 1px solid transparent;
+  font-size: 15px;
   border-radius: 8px;
 
   transition: 0.25s;
@@ -56,21 +74,17 @@
 
 /* hover */
 .sidebar ul li a:hover {
-  border: 1px solid #ff9644;
-  color: #ff9644;
-  background: #fff7f0;
+  background: rgba(255, 255, 255, 0.2);
 }
 
 /* aktif */
 .sidebar ul li a.active {
-  background: #ff9644;
-  color: white;
-  border: 1px solid #ff9644;
+  background: white;
+  color: #7b542f;
   font-weight: 600;
 }
 
 /* ================= LOGOUT ================= */
-
 .logout-form {
   padding: 10px;
 }
@@ -83,14 +97,15 @@
   padding: 12px 20px;
 
   font-size: 15px;
-  color: #555;
+  color: white;
+
   text-align: left;
   cursor: pointer;
 
   border-radius: 8px;
 }
 
+/* hover logout */
 .logout-btn:hover {
-  background: #fff5ec;
-  color: #ff9644;
+  background: rgba(255, 255, 255, 0.2);
 }

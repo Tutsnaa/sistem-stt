@@ -16,9 +16,9 @@
     <div id="popupForm" class="popup">
         <div class="popup-content popup-keuangan">
 
-            <span class="close-btn" onclick="closePopup()">&times;</span>
+            <span class="close" onclick="closePopup()">&times;</span>
 
-            <h2>Tambah Data Keuangan</h2>
+            <h3>Tambah Data Keuangan</h3>
 
             <form action="../src/controllers/KeuanganController.php" method="POST" enctype="multipart/form-data">
 
@@ -128,6 +128,17 @@
                 </select>
             </form>
 
+            <?php
+function getDashboard() {
+    $jabatan = strtolower($_SESSION['user']['jabatan']);
+    $pengurus = ['ketua','wakil','sekretaris 1','sekretaris 2','bendahara 1','bendahara 2'];
+
+    return in_array($jabatan, $pengurus)
+        ? 'dashboard_pengurus.php'
+        : 'dashboard_anggota.php';
+}
+?>
+
             <form method="GET" class="filter-tanggal">
                 <input type="hidden" name="page" value="keuangan">
                 <input type="hidden" name="filter" value="<?= $_GET['filter'] ?? 'all'; ?>">
@@ -140,7 +151,7 @@
 
                 <button type="submit">Filter</button>
 
-                <a href="dashboard_pengurus.php?page=keuangan&filter=<?= $_GET['filter'] ?? 'all'; ?>"
+                <a href="<?= getDashboard(); ?>?page=keuangan&filter=<?= $_GET['filter'] ?? 'all'; ?>"
                     class="btn-reset">
                     Reset
                 </a>

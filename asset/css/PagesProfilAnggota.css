@@ -1,20 +1,27 @@
 /* CONTAINER */
 .profil-container {
   width: 100%;
-  min-height: 90vh;
+  min-height: 100vh;
   background: #f4f6f9;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 40px 20px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  margin-top: 60px;
 }
 
 /* BOX */
 .profil-box {
   width: 100%;
   max-width: 900px;
+}
+
+.profil-box h2 {
+  font-size: 40px;
+  margin-top: 40px;
+  margin-bottom: 5px;
+  text-align: center;
+  color: #333;
 }
 
 /* CARD */

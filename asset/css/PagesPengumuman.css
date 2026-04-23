@@ -9,10 +9,8 @@
 }
 
 .pengumuman-title {
-  text-align: center;
-  font-size: 28px;
-  margin-bottom: 20px;
-  color: #333;
+  text-align: left;
+  color: black;
 }
 
 /* ================= ACTION BUTTON ================= */
