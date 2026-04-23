@@ -6,7 +6,7 @@
   padding: 20px;
   padding-top: 50px;
   min-height: calc(100vh - 70px);
-  background: #f5f7fa;
+  /* background: #f5f7fa; */
 }
 
 /* ================= FILTER ================= */
@@ -137,86 +137,4 @@
 .btn-reset:hover {
   background: #999;
   color: white;
-}
-
-/* ================= PENGUMUMAN ================= */
-
-.section-pengumuman {
-  width: 100%;
-  padding: 80px 10%;
-  background: white;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.section-pengumuman h2 {
-  text-align: center;
-  font-size: 40px;
-  font-weight: 700;
-  margin-bottom: 50px;
-  color: #333;
-}
-
-.pengumuman-list {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  align-items: center;
-}
-
-.pengumuman-card {
-  background: linear-gradient(145deg, #ffffff, #f1f3f6);
-  padding: 25px 30px;
-  width: 100%;
-  max-width: 900px;
-  border-radius: 18px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  transition: all 0.4s ease;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-
-.pengumuman-card:hover {
-  transform: translateY(-5px) scale(1.01);
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
-}
-
-.pengumuman-card h3 {
-  margin-bottom: 10px;
-  font-size: 24px;
-  color: #2c3e50;
-}
-
-.pengumuman-card p {
-  font-size: 16px;
-  line-height: 1.6;
-  color: #555;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  text-align: justify; /* rata kanan-kiri */
-  margin: 0; /* hapus margin default */
-  padding: 0; /* hapus padding default */
-  text-indent: 0; /* hapus indentasi */
-}
-
-.pengumuman-card a {
-  display: inline-block;
-  margin-top: 15px;
-  color: #3498db;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s ease;
-}
-
-.pengumuman-card a:hover {
-  color: #1d6fa5;
-}
-
-.pengumuman-card small {
-  display: block;
-  margin-top: 15px;
-  font-size: 13px;
-  color: #888;
-  line-height: 1.4;
 }

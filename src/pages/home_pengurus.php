@@ -1,5 +1,5 @@
 <!-- ===== MAIN CONTENT ===== -->
-<div class="main-content">
+<div class="home-content">
 
     <div class="main-content-header">
         <h2>Informasi Keuangan</h2>

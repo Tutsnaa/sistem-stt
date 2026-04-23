@@ -17,32 +17,35 @@
   left: 0;
   width: 230px;
   height: 100vh;
-  background: #ff9644;
+
+  background-color: #262626;
+
   display: flex;
   flex-direction: column;
   z-index: 2000;
-  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.2);
+
+  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.5);
 }
 
 /* ================= HEADER ================= */
 .sidebar h2 {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: bold;
-  color: white;
+  color: #ffffff;
 
   text-align: center;
 
-  padding: 15px 10px; /* 🔥 lebih kecil */
+  padding: 15px 10px;
   margin: 0;
 
   letter-spacing: 2px;
 
-  /* border-bottom: 1px solid rgba(255, 255, 255, 0.2); */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* ================= MENU ================= */
 .sidebar-menu {
-  flex: 1; /* 🔥 isi ruang tengah */
+  flex: 1;
   padding-top: 10px;
 }
 
@@ -64,23 +67,25 @@
   margin: 4px 10px;
 
   text-decoration: none;
-  color: white;
+  color: #e0e0e0;
 
   font-size: 15px;
   border-radius: 8px;
 
-  transition: 0.25s;
+  transition: all 0.25s ease;
 }
 
 /* hover */
 .sidebar ul li a:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  transform: translateX(5px); /* 🔥 efek geser */
 }
 
 /* aktif */
 .sidebar ul li a.active {
-  background: white;
-  color: #7b542f;
+  background: #ffffff;
+  color: #121212;
   font-weight: 600;
 }
 
@@ -97,15 +102,19 @@
   padding: 12px 20px;
 
   font-size: 15px;
-  color: white;
+  color: #e0e0e0;
 
   text-align: left;
   cursor: pointer;
 
   border-radius: 8px;
+
+  transition: all 0.25s ease;
 }
 
 /* hover logout */
 .logout-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  transform: translateX(5px);
 }

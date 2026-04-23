@@ -10,6 +10,12 @@ body {
   background-color: white;
 }
 
+.home-content {
+  margin-left: 115px;
+  margin-top: 40px;
+  padding: 20px;
+  border-radius: 12px;
+}
 /* =========================
    PENGUMUMAN PENGURUS
 ========================= */
