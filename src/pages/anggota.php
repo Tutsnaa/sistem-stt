@@ -90,12 +90,12 @@
                             <th>No</th>
                             <th>Foto</th>
                             <th>Nama Lengkap</th>
-                            <th>Email</th>
+
                             <th>No HP</th>
-                            <th>Alamat</th>
+
                             <th>Jabatan</th>
                             <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
-                            <th>Nama Pengguna</th>
+
                             <th>Status</th>
                             <?php } ?>
                             <th>Aksi</th>
@@ -117,12 +117,12 @@
                                 <?php } ?>
                             </td>
                             <td><?= htmlspecialchars($row['nama_lengkap']); ?></td>
-                            <td class="email"><?= htmlspecialchars($row['email']); ?></td>
+
                             <td style="text-align: center;"><?= htmlspecialchars($row['no_hp']); ?></td>
-                            <td class="alamat"><?= htmlspecialchars($row['alamat']); ?></td>
+
                             <td style="text-align: center;"><?= htmlspecialchars($row['jabatan']); ?></td>
                             <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
-                            <td><?= htmlspecialchars($row['nama_pengguna']); ?></td>
+
                             <td style="text-align: center;">
                                 <span class="status <?= $row['status'] == 'aktif' ? 'aktif' : 'nonaktif' ?>">
                                     <?= ucfirst($row['status']); ?>
@@ -138,6 +138,8 @@
                                         data-hp="<?= htmlspecialchars($row['no_hp']); ?>"
                                         data-alamat="<?= htmlspecialchars($row['alamat']); ?>"
                                         data-jabatan="<?= htmlspecialchars($row['jabatan']); ?>"
+                                        data-nama_pengguna="<?= htmlspecialchars($row['nama_pengguna']); ?>"
+                                        data-status="<?= htmlspecialchars($row['status']); ?>"
                                         data-foto="<?= htmlspecialchars($row['foto']); ?>"
                                         onclick="openDetailModal(this)">
                                         <i class="fa fa-eye"></i>
@@ -149,7 +151,7 @@
                                         data-email="<?= htmlspecialchars($row['email']); ?>"
                                         data-hp="<?= htmlspecialchars($row['no_hp']); ?>"
                                         data-alamat="<?= htmlspecialchars($row['alamat']); ?>"
-                                        data-username="<?= htmlspecialchars($row['nama_pengguna']); ?>"
+                                        data-nama_pengguna="<?= htmlspecialchars($row['nama_pengguna']); ?>"
                                         data-foto="<?= htmlspecialchars($row['foto']); ?>"
                                         onclick="openEditModal(this)">
                                         <i class="fa fa-pen-to-square"></i>
@@ -185,20 +187,30 @@
                 <div class="detail-modal-content">
                     <span class="detail-close" onclick="closeDetailModal()">&times;</span>
                     <h3>Detail Anggota</h3>
-                    <!-- FOTO -->
-                    <div class="detail-foto">
-                        <div class="foto-wrapper" onclick="openFotoModal(document.getElementById('d_foto'))">
-                            <img id="d_foto" src="../asset/img/default.png" alt="Foto">
-                            <div class="foto-overlay">
-                                <i class="fa fa-search-plus"></i>
+                    <div class="detail-body">
+
+                        <!-- KIRI (FOTO) -->
+                        <div class="detail-left">
+                            <div class="foto-wrapper" onclick="openFotoModal(document.getElementById('d_foto'))">
+                                <img id="d_foto" src="../asset/img/default.png" alt="Foto">
+                                <div class="foto-overlay">
+                                    <i class="fa fa-search-plus"></i>
+                                </div>
                             </div>
                         </div>
+
+                        <!-- KANAN (DATA) -->
+                        <div class="detail-right">
+                            <p><b>Nama:</b> <span id="d_nama"></span></p>
+                            <p><b>Email:</b> <span id="d_email"></span></p>
+                            <p><b>No HP:</b> <span id="d_hp"></span></p>
+                            <p><b>Alamat:</b> <span class="alamat-box" id="d_alamat"></span></p>
+                            <p><b>Jabatan:</b> <span id="d_jabatan"></span></p>
+                            <p><b>Nama Pengguna:</b> <span id="d_nama_pengguna"></span></p>
+                            <p><b>Status:</b> <span id="d_status"></span></p>
+                        </div>
+
                     </div>
-                    <p><b>Nama:</b> <span id="d_nama"></span></p>
-                    <p><b>Email:</b> <span id="d_email"></span></p>
-                    <p><b>No HP:</b> <span id="d_hp"></span></p>
-                    <p><b>Alamat:</b> <span id="d_alamat"></span></p>
-                    <p><b>Jabatan:</b> <span id="d_jabatan"></span></p>
                 </div>
             </div>
 
@@ -328,6 +340,8 @@
             document.getElementById("d_hp").innerText = btn.dataset.hp;
             document.getElementById("d_alamat").innerText = btn.dataset.alamat;
             document.getElementById("d_jabatan").innerText = btn.dataset.jabatan;
+            document.getElementById("d_nama_pengguna").innerText = btn.dataset.nama_pengguna;
+            document.getElementById("d_status").innerText = btn.dataset.status;
 
             const fotoEl = document.getElementById("d_foto");
             fotoEl.src = btn.dataset.foto ?

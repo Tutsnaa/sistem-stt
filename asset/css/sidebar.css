@@ -39,8 +39,6 @@
   margin: 0;
 
   letter-spacing: 2px;
-
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* ================= MENU ================= */
@@ -92,6 +90,7 @@
 /* ================= LOGOUT ================= */
 .logout-form {
   padding: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .logout-btn {
@@ -117,4 +116,39 @@
   background: rgba(255, 255, 255, 0.08);
   color: #ffffff;
   transform: translateX(5px);
+}
+
+.sidebar-menu-bottom a i {
+  margin-right: 10px;
+}
+
+.sidebar-menu-bottom li a {
+  display: block;
+
+  padding: 12px 20px;
+
+  text-decoration: none;
+  color: #e0e0e0;
+
+  font-size: 15px;
+  border-radius: 8px;
+
+  transition: all 0.25s ease;
+}
+.sidebar-menu-bottom li {
+  list-style: none;
+}
+
+/* hover */
+.sidebar-menu-bottom li a:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  transform: translateX(5px); /* 🔥 efek geser */
+}
+
+/* aktif */
+.sidebar-menu-bottom li a.active {
+  background: #ffffff;
+  color: #121212;
+  font-weight: 600;
 }

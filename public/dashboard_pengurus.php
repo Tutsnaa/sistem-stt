@@ -128,13 +128,6 @@ $kepengurusan = $kepengurusanModel->getAll(); // Pastikan ada method getAll()
                     </li>
 
                     <li>
-                        <a href="dashboard_pengurus.php?page=profil"
-                            class="<?php echo ($page == 'profil') ? 'active' : ''; ?>">
-                            Profil
-                        </a>
-                    </li>
-
-                    <li>
                         <a href="dashboard_pengurus.php?page=anggota"
                             class="<?php echo ($page == 'anggota') ? 'active' : ''; ?>">
                             Data Anggota
@@ -165,11 +158,18 @@ $kepengurusan = $kepengurusanModel->getAll(); // Pastikan ada method getAll()
             </div>
 
             <form method="POST" action="dashboard_umum.php" class="logout-form">
+                <div class="sidebar-menu-bottom">
+                    <li>
+                        <a href="dashboard_pengurus.php?page=profil"
+                            class="<?php echo ($page == 'profil') ? 'active' : ''; ?>">
+                            <i class="fa-solid fa-user"></i>Profil
+                        </a>
+                    </li>
+                </div>
                 <button class="logout-btn">
                     <i class="fa-solid fa-right-from-bracket"></i> Logout
                 </button>
             </form>
-
         </div>
 
         <!-- ===== MAIN CONTENT ===== -->

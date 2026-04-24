@@ -11,10 +11,11 @@ body {
 }
 
 .home-content {
-  margin-left: 115px;
-  margin-top: 40px;
+  margin-left: 100px;
+  margin-top: 20px;
   padding: 20px;
   border-radius: 12px;
+  width: 1290px;
 }
 /* =========================
    PENGUMUMAN PENGURUS
