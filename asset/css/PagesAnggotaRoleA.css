@@ -1,36 +1,44 @@
 /* ===============================
-SECTION ANGGOTA
+   SECTION ANGGOTA
 =============================== */
 .section-anggota {
   width: 100%;
-  max-width: 2000px; /* Lebar maksimal section */
-  padding: 80px 5% 60px 5%; /* Padding atas, kanan, bawah, kiri */
+  max-width: 2000px;
+  padding: 80px 5% 60px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background: #f5f7fa;
 }
 
-/* Judul section */
 .section-anggota h2 {
   text-align: center;
   font-size: 36px;
   margin-top: 140px;
-}
-
-/* Wrapper tabel agar melebar dan bisa scroll horizontal jika perlu */
-.table-wrapper {
-  max-height: 460px;
-  min-height: 460px; /* TAMBAHAN */
-  overflow-x: auto; /* scroll horizontal jika tabel terlalu lebar */
+  margin-bottom: 30px;
+  color: #333;
 }
 
 /* ===============================
-TABEL ANGGOTA
+   SEARCH & BUTTON
 =============================== */
+.search-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.search-box input {
+  padding: 10px;
+  width: 230px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+}
 
 .search-box button {
   padding: 10px 20px;
   background: #ff9644;
-  color: white;
+  color: #fff;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -44,7 +52,7 @@ TABEL ANGGOTA
 .search-box .btn-reset {
   padding: 10px 20px;
   background: #aaa;
-  color: white;
+  color: #fff;
   border-radius: 8px;
   text-decoration: none;
   transition: 0.3s;
@@ -57,7 +65,7 @@ TABEL ANGGOTA
 .btn-tambah {
   padding: 10px 20px;
   background: #2ecc71;
-  color: white;
+  color: #fff;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -69,25 +77,40 @@ TABEL ANGGOTA
   background: #27ae60;
 }
 
-.anggota-table {
+/* ===============================
+   TABLE WRAPPER
+=============================== */
+.table-wrapper {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  background: #fff;
 }
 
-/* jadikan thead & tbody block */
+/* ===============================
+   TABLE
+=============================== */
+table.anggota-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+/* HEADER & BODY JADI BLOCK */
 .anggota-table thead,
 .anggota-table tbody {
   display: block;
 }
 
-/* tbody yang di-scroll */
+/* BODY YANG DISCROLL */
 .anggota-table tbody {
   max-height: 400px;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
-/* biar kolom sejajar */
+/* AGAR KOLOM SEJAJAR */
 .anggota-table thead tr,
 .anggota-table tbody tr {
   display: table;
@@ -95,12 +118,73 @@ TABEL ANGGOTA
   table-layout: fixed;
 }
 
-.anggota-table th {
+/* HEADER */
+.anggota-table thead th {
   background: #ff9644;
   color: white;
+  padding: 12px 15px;
+  text-align: center;
   font-weight: 600;
+}
+
+/* ISI */
+.anggota-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+/* HOVER */
+.anggota-table tbody tr:hover {
+  background: #f1f3f6;
+}
+
+/* ===============================
+   TABLE
+=============================== */
+table.anggota-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+}
+
+.anggota-table thead th:first-child {
+  border-top-left-radius: 12px;
+}
+
+.anggota-table thead th:last-child {
+  border-top-right-radius: 12px;
+}
+
+.anggota-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+.anggota-table tbody tr:nth-child(even) {
+  background: #fafafa;
+}
+
+.anggota-table tbody tr:hover {
+  background: #f1f3f6;
+}
+
+.anggota-table td img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.anggota-table td:nth-child(2) {
   text-align: center;
 }
+
+.anggota-table th:nth-child(1),
+.anggota-table td:nth-child(1) {
+  width: 50px;
+}
+
 td.alamat {
   max-width: 150px;
   white-space: nowrap;
@@ -108,244 +192,129 @@ td.alamat {
   text-overflow: ellipsis;
 }
 
-table.anggota-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-}
-
-.anggota-table th:nth-child(1),
-.anggota-table td:nth-child(1) {
-  width: 50px;
-}
-.anggota-table td:nth-child(2) {
-  text-align: center;
-}
-
-table.anggota-table th,
-table.anggota-table td {
-  padding: 12px 15px;
-  text-align: center;
-  border-bottom: 1px solid #eee;
-}
-
-table.anggota-table td {
-  padding: 12px 15px;
-  text-align: left;
-  border-bottom: 1px solid #eee;
-}
-
-table.anggota-table th {
-  background: #ff9644;
-  color: white;
-  font-weight: 600;
-}
-
-table.anggota-table tr:hover {
-  background: #f1f3f6;
-}
-
-table.anggota-table td img {
-  border-radius: 50%;
-  object-fit: cover;
-}
-
+/* ===============================
+   AKSI BUTTON
+=============================== */
 .aksi-btn {
   display: flex;
-  gap: 10px;
   justify-content: center;
+  gap: 10px;
 }
 
 .btn-detail {
   background: #3498db;
-  color: white;
+  color: #fff;
   padding: 6px 10px;
   border-radius: 6px;
   border: none;
   cursor: pointer;
   font-size: 14px;
+  transition: 0.2s;
 }
 
 .btn-detail:hover {
   background: #2c80b4;
   transform: scale(1.05);
-  transition: 0.2s;
 }
 
 /* ===============================
-MODAL DETAIL (KHUSUS)
+   MODAL DETAIL
 =============================== */
 .detail-modal {
   display: none;
   position: fixed;
-  z-index: 1000;
   inset: 0;
+  z-index: 1500;
   background: rgba(0, 0, 0, 0.5);
-
   justify-content: center;
   align-items: center;
-}
-
-.detail-modal-content p,
-.detail-modal-content p b,
-.detail-modal-content p span {
-  text-align: left;
-}
-
-/* CONTENT */
-.detail-modal-content {
-  background: #fff;
-  width: 400px;
-  max-width: 90%;
-  padding: 20px 25px;
-  border-radius: 12px;
-  position: relative;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  animation: detailFadeIn 0.25s ease;
-  border-top: 5px solid #ff9644;
-}
-
-/* animasi */
-@keyframes detailFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* TITLE */
-.detail-modal-content h3 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #ff9644;
-}
-
-/* TEXT */
-.detail-modal-content p {
-  margin: 10px 0;
-  font-size: 14px;
-}
-
-.detail-modal-content p b {
-  display: block;
-  font-size: 12px;
-  margin-bottom: 3px;
-}
-
-.detail-modal-content p span {
-  display: block;
-  border: 1px solid #ccc;
-  padding: 8px 10px;
-  border-radius: 6px;
-  font-weight: 500;
-}
-
-/* CLOSE */
-.detail-close {
-  position: absolute;
-  right: 15px;
-  top: 10px;
-  font-size: 22px;
-  cursor: pointer;
-  color: #999;
-}
-
-.detail-close:hover {
-  color: #ff9644;
 }
 
 .detail-modal.show {
   display: flex;
 }
 
-/* FOTO DI MODAL */
-.detail-foto {
-  text-align: center;
-  margin-bottom: 15px;
-}
-
-.detail-foto img {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #ff9644;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* MODAL FOTO FULL */
-.foto-modal {
-  display: none;
-  position: fixed;
-  z-index: 2000;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.9);
-
-  justify-content: center;
-  align-items: center;
-}
-
-/* gambar full */
-.foto-full {
+.detail-modal-content {
+  width: 500px;
   max-width: 90%;
-  max-height: 90%;
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 25px;
+  position: relative;
+  border-top: 5px solid #ff9644;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: detailFadeIn 0.25s ease;
 }
 
-/* tombol close */
-.foto-close {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  font-size: 30px;
-  color: white;
-  cursor: pointer;
-}
-
-.foto-close:hover {
+.detail-modal-content h3 {
+  text-align: center;
+  margin-bottom: 20px;
   color: #ff9644;
 }
 
-/* efek klik */
-.detail-foto img {
+/* ===============================
+   CLOSE BUTTON
+=============================== */
+.detail-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 22px;
+  color: #999;
   cursor: pointer;
   transition: 0.3s;
 }
 
-.detail-foto img:hover {
-  transform: scale(1.05);
+.detail-close:hover {
+  color: #ff9644;
 }
 
-/* WRAPPER */
+/* ===============================
+   DETAIL BODY
+=============================== */
+.detail-body {
+  display: flex;
+  gap: 25px;
+  align-items: flex-start;
+}
+
+/* ===============================
+   FOTO KIRI
+=============================== */
+.detail-left {
+  flex: 0 0 130px;
+  display: flex;
+  justify-content: center;
+}
+
 .foto-wrapper {
   position: relative;
-  display: inline-block;
+  width: 120px;
+  height: 120px;
   cursor: pointer;
 }
 
-/* FOTO */
 .foto-wrapper img {
-  width: 90px;
-  height: 90px;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid #ff9644;
   transition: 0.3s;
 }
 
-/* OVERLAY */
+.foto-wrapper:hover img {
+  transform: scale(1.05);
+}
+
+/* ===============================
+   FOTO OVERLAY
+=============================== */
 .foto-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
   border-radius: 50%;
+  background: rgba(0, 0, 0, 0.4);
 
   display: flex;
   justify-content: center;
@@ -355,17 +324,135 @@ MODAL DETAIL (KHUSUS)
   transition: 0.3s;
 }
 
-/* ICON */
-.foto-overlay i {
-  color: white;
-  font-size: 18px;
-}
-
-/* HOVER EFFECT */
 .foto-wrapper:hover .foto-overlay {
   opacity: 1;
 }
 
-.foto-wrapper:hover img {
-  transform: scale(1.05);
+.foto-overlay i {
+  color: #fff;
+  font-size: 20px;
+}
+
+/* ===============================
+   DATA KANAN
+=============================== */
+.detail-right {
+  flex: 1;
+}
+
+.detail-right p {
+  margin: 8px 0;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.detail-right p b {
+  font-size: 12px;
+  margin-bottom: 4px;
+  color: #555;
+}
+
+.detail-right p span {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #f9f9f9;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.alamat-box {
+  min-height: 60px;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+/* ===============================
+   FOTO MODAL FULL
+=============================== */
+.foto-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0, 0, 0, 0.85);
+  justify-content: center;
+  align-items: center;
+}
+
+.foto-full {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+.foto-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 30px;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.foto-close:hover {
+  color: #ff9644;
+}
+
+/* ===============================
+   ANIMATION
+=============================== */
+@keyframes detailFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ===============================
+   RESPONSIVE
+=============================== */
+@media screen and (max-width: 768px) {
+  .search-box {
+    flex-direction: column;
+  }
+
+  .search-box input,
+  .search-box button,
+  .search-box .btn-reset {
+    width: 100%;
+  }
+
+  .detail-body {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .detail-right {
+    width: 100%;
+  }
+
+  .detail-modal-content {
+    width: 95%;
+    padding: 18px;
+  }
+
+  .foto-wrapper {
+    width: 100px;
+    height: 100px;
+  }
+
+  .section-anggota h2 {
+    font-size: 28px;
+  }
 }

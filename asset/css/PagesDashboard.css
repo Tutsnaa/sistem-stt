@@ -138,3 +138,11 @@
   background: #999;
   color: white;
 }
+
+.footer-right p {
+  margin-bottom: 5px;
+}
+
+.alamat-footer {
+  width: 280px;
+}

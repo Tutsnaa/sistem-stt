@@ -14,8 +14,8 @@ $page = $page ?? 'home';
             <h3>Media Informasi, Kegiatan, dan Administrasi Organisasi</h3>
 
             <p>
-                Sekaa Truna Truni Galuh Mantri yang berlokasi di Banjar, Kecamatan,
-                Kabupaten merupakan organisasi kepemudaan yang menjadi
+                Sekaa Truna Truni Galuh Mantri yang berlokasi di Banjar Celuk, Kecamatan Sukawati,
+                Kabupaten Gianyar merupakan organisasi kepemudaan yang menjadi
                 wadah kebersamaan dan kreativitas generasi muda.
             </p>
 
@@ -23,7 +23,7 @@ $page = $page ?? 'home';
 
         <div class="hero-image">
             <div class="image-blob">
-                <img src="../asset/img/Gambar2.jpeg">
+                <img src="../asset/img/LOGOSTT.png">
             </div>
         </div>
 
@@ -251,25 +251,57 @@ usort($pengurus, function($a, $b) use ($urutanJabatan) {
             </p>
         </div>
 
+
+        <?php
+$dashboard = (isset($_SESSION['user']) && $_SESSION['user']['jabatan'] == 'anggota')
+    ? 'dashboard_anggota.php'
+    : 'dashboard_umum.php';
+?>
         <!-- Bagian Tengah -->
         <div class="footer-center">
             <h4>Menu</h4>
             <ul>
-                <li><a href="dashboard_umum.php?page=home"
+                <li>
+                    <a href="<?= $dashboard; ?>?page=home"
                         class="<?php echo ($page == 'home' && !isset($_GET['section'])) ? 'active' : ''; ?>">
-                        Home
-                    </a></li>
-                <li><a href="dashboard_umum.php?page=home&section=pengumuman#pengumuman"
+                        Beranda
+                    </a>
+                </li>
+
+                <li>
+                    <a href="<?= $dashboard; ?>?page=home&section=pengumuman#pengumuman"
                         class="<?php echo (isset($_GET['section']) && $_GET['section'] == 'pengumuman') ? 'active' : ''; ?>">
                         Pengumuman
-                    </a></li>
-                <li><a onclick="openLogin()" href="#">Data Anggota</a></li>
-                <li><a onclick="openLogin()" href="#">Keuangan</a></li>
-                <li><a onclick="openLogin()" href="#">Voting</a></li>
-                <li><a href="dashboard_umum.php?page=home&section=kontak#kontak"
+                    </a>
+                </li>
+
+                <li>
+                    <a href="<?= isset($_SESSION['user']) ? 'dashboard_anggota.php?page=anggota' : '#' ?>"
+                        <?php if(!isset($_SESSION['user'])) echo 'onclick="openLogin()"'; ?>>
+                        Data Anggota
+                    </a>
+                </li>
+
+                <li>
+                    <a href="<?= isset($_SESSION['user']) ? 'dashboard_anggota.php?page=keuangan' : '#' ?>"
+                        <?php if(!isset($_SESSION['user'])) echo 'onclick="openLogin()"'; ?>>
+                        Keuangan
+                    </a>
+                </li>
+
+                <li>
+                    <a href="<?= isset($_SESSION['user']) ? 'dashboard_anggota.php?page=voting' : '#' ?>"
+                        <?php if(!isset($_SESSION['user'])) echo 'onclick="openLogin()"'; ?>>
+                        Voting
+                    </a>
+                </li>
+
+                <li>
+                    <a href="<?= $dashboard; ?>?page=home&section=kontak#kontak"
                         class="<?php echo (isset($_GET['section']) && $_GET['section'] == 'kontak') ? 'active' : ''; ?>">
                         Kontak
-                    </a></li>
+                    </a>
+                </li>
             </ul>
         </div>
 
@@ -278,7 +310,10 @@ usort($pengurus, function($a, $b) use ($urutanJabatan) {
             <h4>Kontak</h4>
             <p>Email : organisasi@email.com</p>
             <p>Telp : 0812-3456-7890</p>
-            <p>Alamat : Indonesia</p>
+            <p class="alamat-footer">
+                Alamat : Jl. Raya Celuk No.11x, Celuk, Kec. Sukawati,
+                Kabupaten Gianyar, Bali 80582
+            </p>
         </div>
 
     </div>

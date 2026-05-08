@@ -87,7 +87,7 @@ $kandidat = $kandidatModel->getAllKandidat();
             <ul class="navbar-menu">
                 <li><a href="dashboard_anggota.php?page=home"
                         class="<?php echo ($page == 'home' && !isset($_GET['section'])) ? 'active' : ''; ?>">
-                        Home
+                        Beranda
                     </a></li>
                 <li><a href="dashboard_anggota.php?page=home&section=pengumuman#pengumuman"
                         class="<?php echo (isset($_GET['section']) && $_GET['section'] == 'pengumuman') ? 'active' : ''; ?>">
@@ -124,7 +124,7 @@ $kandidat = $kandidatModel->getAllKandidat();
             <span><?php echo $user['nama_lengkap']; ?></span>
             <form method="POST" action="../src/controllers/AuthController.php?action=logout" class="logout-form">
                 <button type="submit" class="logout-btn">
-                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    <i class="fa-solid fa-right-from-bracket"></i> Keluar
                 </button>
             </form>
         </div>

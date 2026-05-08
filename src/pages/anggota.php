@@ -55,6 +55,8 @@
         </div>
         <?php } ?>
 
+
+        <!-- TABEL DATA ANGGOTA -->
         <div id="anggota" class="section-anggota">
 
             <h2>Data Anggota</h2>
@@ -206,8 +208,10 @@
                             <p><b>No HP:</b> <span id="d_hp"></span></p>
                             <p><b>Alamat:</b> <span class="alamat-box" id="d_alamat"></span></p>
                             <p><b>Jabatan:</b> <span id="d_jabatan"></span></p>
+                            <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
                             <p><b>Nama Pengguna:</b> <span id="d_nama_pengguna"></span></p>
                             <p><b>Status:</b> <span id="d_status"></span></p>
+                            <?php } ?>
                         </div>
 
                     </div>
@@ -250,7 +254,7 @@
                         <input type="text" name="alamat" id="edit_alamat">
 
                         <label>Nama Pengguna</label>
-                        <input type="text" name="nama_pengguna" id="edit_username">
+                        <input type="text" name="nama_pengguna" id="edit_nama_pengguna">
 
                         <label>Password Baru</label>
                         <input type="password" name="kata_sandi">
@@ -314,7 +318,7 @@
             document.getElementById("edit_email").value = button.dataset.email;
             document.getElementById("edit_hp").value = button.dataset.hp;
             document.getElementById("edit_alamat").value = button.dataset.alamat;
-            document.getElementById("edit_username").value = button.dataset.username;
+            document.getElementById("edit_nama_pengguna").value = button.dataset.nama_pengguna;
 
             document.getElementById("preview_edit_foto").src =
                 "../uploads/" + (button.dataset.foto || "default.png");
@@ -335,15 +339,27 @@
 
         // ================= MODAL DETAIL =================
         function openDetailModal(btn) {
+
             document.getElementById("d_nama").innerText = btn.dataset.nama;
             document.getElementById("d_email").innerText = btn.dataset.email;
             document.getElementById("d_hp").innerText = btn.dataset.hp;
             document.getElementById("d_alamat").innerText = btn.dataset.alamat;
             document.getElementById("d_jabatan").innerText = btn.dataset.jabatan;
-            document.getElementById("d_nama_pengguna").innerText = btn.dataset.nama_pengguna;
-            document.getElementById("d_status").innerText = btn.dataset.status;
+
+            // cek apakah elemen ada
+            const namaPengguna = document.getElementById("d_nama_pengguna");
+            const status = document.getElementById("d_status");
+
+            if (namaPengguna) {
+                namaPengguna.innerText = btn.dataset.nama_pengguna;
+            }
+
+            if (status) {
+                status.innerText = btn.dataset.status;
+            }
 
             const fotoEl = document.getElementById("d_foto");
+
             fotoEl.src = btn.dataset.foto ?
                 "../uploads/" + btn.dataset.foto :
                 "../asset/img/default.png";

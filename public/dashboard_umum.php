@@ -50,7 +50,7 @@ $dataAnggota = $model->getAll($search);
             <ul class="navbar-menu">
                 <li><a href="dashboard_umum.php?page=home"
                         class="<?php echo ($page == 'home' && !isset($_GET['section'])) ? 'active' : ''; ?>">
-                        Home
+                        Beranda
                     </a></li>
                 <li><a href="dashboard_umum.php?page=home&section=pengumuman#pengumuman"
                         class="<?php echo (isset($_GET['section']) && $_GET['section'] == 'pengumuman') ? 'active' : ''; ?>">

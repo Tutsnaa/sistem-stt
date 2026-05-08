@@ -116,7 +116,7 @@ $kepengurusan = $kepengurusanModel->getAll(); // Pastikan ada method getAll()
                     <li>
                         <a href="dashboard_pengurus.php?page=home_pengurus"
                             class="<?php echo ($page == 'home_pengurus') ? 'active' : ''; ?>">
-                            Home
+                            Beranda
                         </a>
                     </li>
 
@@ -167,7 +167,7 @@ $kepengurusan = $kepengurusanModel->getAll(); // Pastikan ada method getAll()
                     </li>
                 </div>
                 <button class="logout-btn">
-                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    <i class="fa-solid fa-right-from-bracket"></i> Keluar
                 </button>
             </form>
         </div>
