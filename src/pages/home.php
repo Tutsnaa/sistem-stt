@@ -1,4 +1,5 @@
 <?php
+session_start();
 $dataAnggota = $dataAnggota ?? [];
 $page = $page ?? 'home';
 ?>
@@ -9,7 +10,7 @@ $page = $page ?? 'home';
 
         <div class="hero-text">
 
-            <h1>Sekaa Truna Truni </h1>
+            <h1>Sekaa Truna Truni Galuh Mantri </h1>
             <h3>Media Informasi, Kegiatan, dan Administrasi Organisasi</h3>
 
             <p>
@@ -104,6 +105,8 @@ usort($pengurus, function($a, $b) use ($urutanJabatan) {
             </p>
 
             <!-- KONTAK -->
+            <?php if(isset($_SESSION['user']['id_pengguna'])){ ?>
+
             <div class="pengurus-info">
 
                 <p><?= htmlspecialchars($row['email']); ?></p>
@@ -111,6 +114,8 @@ usort($pengurus, function($a, $b) use ($urutanJabatan) {
                 <p><?= htmlspecialchars($row['no_hp']); ?></p>
 
             </div>
+
+            <?php } ?>
 
         </div>
 

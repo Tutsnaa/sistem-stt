@@ -264,7 +264,7 @@ if (isset($_GET['action']) && $_GET['action'] == "download") {
 
 
 /* =========================
-   UNDUH LAPORAN PDF FIX 🔥
+   UNDUH LAPORAN PDF
 ========================= */
 if (isset($_GET['action']) && $_GET['action'] == "pdf") {
 
@@ -272,7 +272,7 @@ if (isset($_GET['action']) && $_GET['action'] == "pdf") {
     require_once __DIR__ . '/../models/PenggunaModel.php';
 
     // =========================
-    // SETTING DOMPDF (WAJIB 🔥)
+    // SETTING DOMPDF
     // =========================
     $options = new Options();
     $options->set('isRemoteEnabled', true);

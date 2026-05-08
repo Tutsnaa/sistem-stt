@@ -157,7 +157,7 @@ $kepengurusan = $kepengurusanModel->getAll(); // Pastikan ada method getAll()
                 </ul>
             </div>
 
-            <form method="POST" action="dashboard_umum.php" class="logout-form">
+            <form method="POST" action="../src/controllers/AuthController.php?action=logout" class="logout-form">
                 <div class="sidebar-menu-bottom">
                     <li>
                         <a href="dashboard_pengurus.php?page=profil"

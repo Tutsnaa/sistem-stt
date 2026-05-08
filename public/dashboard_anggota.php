@@ -122,8 +122,8 @@ $kandidat = $kandidatModel->getAllKandidat();
         <div class="navbar-user">
             <img src="../uploads/<?php echo $user['foto']; ?>" class="user-photo">
             <span><?php echo $user['nama_lengkap']; ?></span>
-            <form method="POST" action="dashboard_umum.php" class="logout-form">
-                <button class="logout-btn">
+            <form method="POST" action="../src/controllers/AuthController.php?action=logout" class="logout-form">
+                <button type="submit" class="logout-btn">
                     <i class="fa-solid fa-right-from-bracket"></i> Logout
                 </button>
             </form>

@@ -267,6 +267,12 @@ table.anggota-table {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
+/* TITLE */
+.detail-modal-content h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ff9644;
+}
 /* ===============================
   DETAIL MODAL
 =============================== */

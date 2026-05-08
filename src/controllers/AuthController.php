@@ -62,11 +62,14 @@ class AuthController {
 
     public function logout(){
 
-        session_destroy();
+    $_SESSION = [];
 
-        header("Location: ../../public/dashboard_umum.php");
-        exit;
-    }
+    session_unset();
+    session_destroy();
+
+    header("Location: ../../public/dashboard_umum.php");
+    exit;
+}
 }
 
 $auth = new AuthController();
