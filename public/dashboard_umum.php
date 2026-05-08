@@ -14,8 +14,10 @@ $dataPengumuman = $pengumumanModel->getAllPengumuman();
 
 require_once __DIR__ . '/../src/models/PenggunaModel.php';
 
-
 $model = new PenggunaModel();
+
+// ambil keyword search
+$search = $_GET['search'] ?? null;
 
 // ambil data anggota
 $dataAnggota = $model->getAll($search);

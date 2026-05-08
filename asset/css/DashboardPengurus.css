@@ -11,9 +11,10 @@ body {
 }
 
 .home-content {
-  margin-left: 100px;
+  margin-left: 80px;
   margin-top: 20px;
   padding: 20px;
+  padding-left: 50px;
   border-radius: 12px;
   width: 1290px;
 }

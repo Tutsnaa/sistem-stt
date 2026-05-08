@@ -1,3 +1,11 @@
+<?php
+if(session_status() === PHP_SESSION_NONE){
+    session_start();
+}
+
+$user = $_SESSION['user'] ?? null;
+?>
+
 <div id="modalHapus" class="modal-hapus">
     <div class="modal-box">
         <h3>Konfirmasi Hapus</h3>
@@ -208,9 +216,6 @@ function getDashboard() {
                 <tbody>
 
                     <?php
-require_once __DIR__ . '/../models/KeuanganModel.php';
-$keuanganModel = new KeuanganModel();
-
 $filter = $_GET['filter'] ?? 'all';
 $tanggalAwal = $_GET['tanggal_awal'] ?? null;
 $tanggalAkhir = $_GET['tanggal_akhir'] ?? null;

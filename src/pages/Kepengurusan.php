@@ -1,3 +1,7 @@
+<?php
+$kepengurusan = $kepengurusan ?? [];
+?>
+
 <div class="kepengurusan-wrapper">
 
     <h2 class="page-title">Data Kepengurusan</h2>

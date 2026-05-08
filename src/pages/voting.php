@@ -1,6 +1,13 @@
 <?php
-$tab = $_GET['tab'] ?? 'voting'; // default ke 'voting' kalau tidak ada param
+$tab = $_GET['tab'] ?? 'voting';
+
+// cegah warning variable undefined
+$voting = $voting ?? [];
+$kandidat = $kandidat ?? [];
+$anggota = $anggota ?? [];
+$user = $user ?? [];
 ?>
+
 <div class="pages-voting-container">
 
     <!-- ================= SUBMENU ================= -->
@@ -418,14 +425,17 @@ function closeDetailKandidat() {
 }
 // ================= AUTO TAB DARI URL =================
 document.addEventListener("DOMContentLoaded", function() {
-    const params = new URLSearchParams(window.location.search);
+
+    const params = new window.URLSearchParams(window.location.search);
+
     let tab = params.get("tab");
 
     if (!tab) {
-        tab = "voting"; // default ke voting
+        tab = "voting";
     }
 
     const btn = document.querySelector(`.submenu-btn[onclick*="${tab}"]`);
+
     if (btn) {
         showTab(btn, tab);
     }
@@ -564,11 +574,13 @@ function showTab(e, tab) {
     e.classList.add("active");
 
     // update URL tanpa reload
-    const url = new URL(window.location);
+    const url = new window.URL(window.location.href);
+
     url.searchParams.set('tab', tab);
+
     window.history.pushState({}, '', url);
 
-    // simpan di localStorage juga (opsional)
+    // simpan tab
     localStorage.setItem("activeTab", tab);
 }
 </script>

@@ -1,3 +1,8 @@
+<?php
+$uangKas = $uangKas ?? 0;
+$kandidat = $kandidat ?? [];
+?>
+
 <!-- ===== MAIN CONTENT ===== -->
 <div class="home-content">
 
@@ -158,12 +163,16 @@
 
                 <p class="pengurus-isi"><?= nl2br(htmlspecialchars($p['isi'])) ?></p>
 
+                <?php 
+                $fileUrl = '';
+                ?>
+
                 <?php if($p['file']): ?>
 
                 <?php 
-            $ext = strtolower(pathinfo($p['file'], PATHINFO_EXTENSION));
-            $fileUrl = "../uploads/".$p['file'];
-            ?>
+                $ext = strtolower(pathinfo($p['file'], PATHINFO_EXTENSION));
+                $fileUrl = "../uploads/".$p['file'];
+                ?>
 
                 <!-- GAMBAR -->
                 <?php if(in_array($ext, ['jpg','jpeg','png','gif'])): ?>

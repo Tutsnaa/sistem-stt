@@ -1,3 +1,8 @@
+<?php
+$dataAnggota = $dataAnggota ?? [];
+$page = $page ?? 'home';
+?>
+
 <!-- ================= HOME ================= -->
 <div id="home" class="hero-section">
     <div class="hero-container">
@@ -139,6 +144,11 @@ usort($pengurus, function($a, $b) use ($urutanJabatan) {
             <!-- Isi -->
             <p><?= nl2br(htmlspecialchars($p['isi'])) ?></p>
 
+            <?php
+            $icon = "fa-file";
+            $color = "#555";
+            ?>
+
             <?php if($p['file']): ?>
 
             <?php 
@@ -158,6 +168,26 @@ usort($pengurus, function($a, $b) use ($urutanJabatan) {
                     <span><?= basename($p['file']); ?></span>
                 </div>
             </div>
+
+            <?php
+
+                $icon = "fa-file";
+                $color = "#555";
+
+                if(in_array($ext, ['doc','docx'])){
+                    $icon = "fa-file-word";
+                    $color = "#2b579a";
+                }
+                elseif(in_array($ext, ['xls','xlsx'])){
+                  $icon = "fa-file-excel";
+                  $color = "#217346";
+                }
+                elseif(in_array($ext, ['ppt','pptx'])){
+                 $icon = "fa-file-powerpoint";
+                 $color = "#d24726";
+                }
+
+            ?>
 
             <!-- ================= FILE OFFICE ================= -->
             <?php elseif(in_array($ext, ['doc','docx','xls','xlsx','ppt','pptx'])): ?>

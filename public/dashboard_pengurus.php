@@ -199,10 +199,6 @@ switch ($page) {
         include '../src/pages/keuangan.php';
         break;
 
-    case 'pengumuman':
-        include '../src/pages/pengumuman.php';
-        break;
-
     case 'voting':
         include '../src/pages/voting.php';
         break;

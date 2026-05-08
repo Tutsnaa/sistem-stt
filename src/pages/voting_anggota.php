@@ -1,4 +1,8 @@
 <?php
+$kandidat = $kandidat ?? [];
+?>
+
+<?php
 // Ambil voting yang sedang dibuka saja
 $votings = array_filter($votingModel->getAllVoting(), function($v) {
     return $v['status'] === 'dibuka';

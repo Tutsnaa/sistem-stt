@@ -1,3 +1,11 @@
+<?php
+if(session_status() === PHP_SESSION_NONE){
+    session_start();
+}
+
+$user = $_SESSION['user'] ?? null;
+?>
+
 <div class="profil-container">
     <div class="profil-box">
         <h2>Profil</h2>
@@ -96,14 +104,18 @@ let fotoAwal = document.getElementById('previewFoto').src;
 
 // ================= PREVIEW FOTO =================
 function previewImage(event) {
-    const reader = new FileReader();
-    reader.onload = function() {
-        document.getElementById('previewFoto').src = reader.result;
+
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    const reader = new window.FileReader();
+
+    reader.onload = function(e) {
+        document.getElementById('previewFoto').src = e.target.result;
     };
 
-    if (event.target.files[0]) {
-        reader.readAsDataURL(event.target.files[0]);
-    }
+    reader.readAsDataURL(file);
 }
 
 // ================= EDIT =================
