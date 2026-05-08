@@ -96,15 +96,16 @@ if ($action == "create") {
 elseif ($action == "update") {
 
     $data = [
-        'id_pengguna'   => $_POST['id_pengguna'],
-        'nama_lengkap'  => $_POST['nama_lengkap'],
-        'email'         => $_POST['email'],
-        'no_hp'         => $_POST['no_hp'],
-        'alamat'        => $_POST['alamat'],
-        'nama_pengguna' => $_POST['nama_pengguna'],
-        'status'        => $_POST['status']
-    ];
+    'id_pengguna'   => $_POST['id_pengguna'],
+    'nama_lengkap'  => $_POST['nama_lengkap'],
+    'email'         => $_POST['email'],
+    'no_hp'         => $_POST['no_hp'],
+    'alamat'        => $_POST['alamat'],
+    'nama_pengguna' => $_POST['nama_pengguna'],
 
+    // gunakan status lama jika status tidak dikirim
+    'status' => $_POST['status'] ?? $_SESSION['user']['status']
+];
     /*
     |--------------------------------------------------------------------------
     | UPDATE PASSWORD (JIKA DIISI)
