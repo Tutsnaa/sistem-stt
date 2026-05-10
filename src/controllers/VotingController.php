@@ -64,19 +64,35 @@ try {
             exit;
         }
 
-        if(!$suaraModel->cekSuara($id_pengguna, $id_calon)){
-            $suaraModel->createSuara([
-                'id_calon' => $id_calon,
-                'id_pengguna' => $id_pengguna,
-                'tanggal_dibuat' => date('Y-m-d H:i:s')
-            ]);
-            $_SESSION['flash_message'] = "Vote berhasil!";
-            $_SESSION['flash_type'] = "success";
-        } else {
-            $_SESSION['flash_message'] = "Kamu sudah memilih kandidat ini!";
-            $_SESSION['flash_type'] = "danger";
-        }
+        $calon = $votingModel->getCalonById($id_calon);
 
+if(!$calon){
+    $_SESSION['flash_message'] = "Data calon tidak ditemukan!";
+    $_SESSION['flash_type'] = "danger";
+    header("Location: $dashboard");
+    exit;
+}
+
+if(!$suaraModel->cekSuaraPerJabatan(
+    $id_pengguna,
+    $calon['jabatan'],
+    $calon['id_voting']
+)){
+    
+    $suaraModel->createSuara([
+        'id_calon' => $id_calon,
+        'id_pengguna' => $id_pengguna,
+        'tanggal_dibuat' => date('Y-m-d H:i:s')
+    ]);
+
+    $_SESSION['flash_message'] = "Vote berhasil!";
+    $_SESSION['flash_type'] = "success";
+
+} else {
+
+    $_SESSION['flash_message'] = "Kamu sudah memilih pada jabatan ini!";
+    $_SESSION['flash_type'] = "danger";
+}
         header("Location: $dashboard");
         exit;
     }

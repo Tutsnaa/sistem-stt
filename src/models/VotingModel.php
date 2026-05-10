@@ -147,4 +147,16 @@ public function getVotingById($id_voting){
     $stmt->execute([$id_voting]);
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
+public function getCalonById($id_calon)
+{
+    $stmt = $this->conn->prepare("
+        SELECT * FROM calon_kandidat
+        WHERE id_calon = ?
+    ");
+
+    $stmt->execute([$id_calon]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
 }

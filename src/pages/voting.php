@@ -386,7 +386,7 @@ $user = $user ?? [];
 <div id="modalHapus" class="modal-hapus">
     <div class="modal-box">
         <h3>Konfirmasi Hapus</h3>
-        <p>Apakah kamu yakin ingin menghapus data anggota ini?</p>
+        <p>Apakah kamu yakin ingin menghapus data voting ini?</p>
 
         <div class="modal-actions">
             <button class="btn-batal" onclick="closeModalHapus()">Batal</button>

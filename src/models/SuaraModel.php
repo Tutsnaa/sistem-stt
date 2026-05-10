@@ -22,6 +22,29 @@ class SuaraModel {
         ]);
     }
 
+//TAMBAHAN PENGECEKAN VOTING
+public function cekSuaraPerJabatan($id_pengguna, $jabatan, $id_voting)
+{
+    $stmt = $this->conn->prepare("
+        SELECT COUNT(*) as jumlah
+        FROM suara_voting sv
+        JOIN calon_kandidat ck ON sv.id_calon = ck.id_calon
+        WHERE sv.id_pengguna = ?
+        AND ck.jabatan = ?
+        AND ck.id_voting = ?
+    ");
+
+    $stmt->execute([
+        $id_pengguna,
+        $jabatan,
+        $id_voting
+    ]);
+
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return ($row['jumlah'] > 0);
+}
+
     public function cekSuara($id_pengguna, $id_calon){
         $stmt = $this->conn->prepare("
             SELECT COUNT(*) as jumlah 
