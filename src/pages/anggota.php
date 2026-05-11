@@ -18,13 +18,13 @@
                     <input type="text" name="nama_lengkap" required>
 
                     <label>Email</label>
-                    <input type="email" name="email">
+                    <input type="email" name="email" required>
 
                     <label>No HP</label>
-                    <input type="text" name="no_hp">
+                    <input type="text" name="no_hp" required>
 
                     <label>Alamat</label>
-                    <input type="text" name="alamat">
+                    <input type="text" name="alamat" required>
 
                     <label>Jabatan</label>
                     <select name="jabatan" required>
@@ -45,7 +45,7 @@
                     <input type="password" name="kata_sandi" required>
 
                     <label>Foto</label>
-                    <input type="file" name="foto_profil" accept="image/*">
+                    <input type="file" name="foto_profil" accept="image/*" required>
 
                     <button type="submit" class="btn-save">Simpan</button>
 

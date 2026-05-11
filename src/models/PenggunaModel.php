@@ -37,6 +37,37 @@ public function create($data){
 }
 
 // ===============================
+// Cek email sudah ada
+// ===============================
+public function emailExists($email, $id_pengguna = null){
+
+    $query = "SELECT id_pengguna 
+              FROM pengguna 
+              WHERE email = :email";
+
+    // untuk update → abaikan id sendiri
+    if($id_pengguna){
+        $query .= " AND id_pengguna != :id_pengguna";
+    }
+
+    $query .= " LIMIT 1";
+
+    $stmt = $this->conn->prepare($query);
+
+    $params = [
+        ':email' => $email
+    ];
+
+    if($id_pengguna){
+        $params[':id_pengguna'] = $id_pengguna;
+    }
+
+    $stmt->execute($params);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+// ===============================
 // Ambil berdasarkan jabatan
 // ===============================
 public function getByJabatan($jabatan)
@@ -181,5 +212,7 @@ return ['status' => 'wrong_password'];
 
     return false;
 }
+
+
 
 }

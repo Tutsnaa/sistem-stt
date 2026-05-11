@@ -71,6 +71,17 @@ if ($action == "create") {
         }
     }
 
+    // cek email duplicate
+if($model->emailExists($data['email'])){
+
+    $_SESSION['flash_message'] = "Email sudah digunakan!";
+    $_SESSION['flash_type'] = "danger";
+
+    header("Location: ../../public/dashboard_pengurus.php?page=anggota");
+    exit;
+}
+
+
     $create = $model->create($data);
 
     if ($create) {
@@ -146,6 +157,15 @@ elseif ($action == "update") {
         }
     }
 
+    // cek email duplicate selain dirinya sendiri
+if($model->emailExists($data['email'], $data['id_pengguna'])){
+
+    $_SESSION['flash_message'] = "Email sudah digunakan!";
+    $_SESSION['flash_type'] = "danger";
+
+    header("Location: ../../public/dashboard_pengurus.php?page=anggota");
+    exit;
+}
     $update = $model->update($data);
 
     if ($update) {
