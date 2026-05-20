@@ -5,9 +5,19 @@
 
 
     <!-- ================= TOMBOL TAMBAH ================= -->
+    <?php 
+if (
+    isset($_SESSION['user']) && 
+    $_SESSION['user']['jabatan'] != 'ketua' &&
+    $_SESSION['user']['jabatan'] != 'wakil' &&
+    $_SESSION['user']['jabatan'] != 'bendahara 1' &&
+    $_SESSION['user']['jabatan'] != 'bendahara 2'
+) { 
+?>
     <div class="pengumuman-actions">
         <button id="btnTambah" class="btn-add">+ Tambah Pengumuman</button>
     </div>
+    <?php } ?>
 
 
     <!-- ================= MODAL TAMBAH ================= -->
@@ -65,7 +75,15 @@
                         <th>Isi</th>
                         <th>File</th>
                         <th>Status</th>
+                        <?php 
+if (
+    isset($_SESSION['user']) && 
+    $_SESSION['user']['jabatan'] != 'bendahara 1' &&
+    $_SESSION['user']['jabatan'] != 'bendahara 2'
+) { 
+?>
                         <th>Aksi</th>
+                        <?php } ?>
                     </tr>
                 </thead>
 
@@ -98,6 +116,13 @@
                         <!-- Status -->
                         <td><?= ucfirst($p['status']); ?></td>
 
+                        <?php 
+if (
+    isset($_SESSION['user']) && 
+    $_SESSION['user']['jabatan'] != 'bendahara 1' &&
+    $_SESSION['user']['jabatan'] != 'bendahara 2'
+) { 
+?>
                         <!-- Aksi -->
                         <td>
                             <div class="aksi-btn">
@@ -120,6 +145,7 @@
 
                             </div>
                         </td>
+                        <?php } ?>
 
                     </tr>
 

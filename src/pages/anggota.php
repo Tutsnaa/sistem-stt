@@ -79,7 +79,15 @@
                 <?php } ?>
 
             </form>
-            <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
+            <?php 
+if (
+    isset($_SESSION['user']) && 
+    $_SESSION['user']['jabatan'] != 'anggota' &&
+    $_SESSION['user']['jabatan'] != 'bendahara 1' &&
+    $_SESSION['user']['jabatan'] != 'bendahara 2'
+) { 
+?>
+
             <button class="btn-tambah" onclick="openTambahModal()">+ Tambah Anggota</button>
             <?php } ?>
 
@@ -146,7 +154,15 @@
                                         onclick="openDetailModal(this)">
                                         <i class="fa fa-eye"></i>
                                     </button>
-                                    <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
+                                    <?php 
+if (
+    isset($_SESSION['user']) && 
+    $_SESSION['user']['jabatan'] != 'anggota' &&
+    $_SESSION['user']['jabatan'] != 'bendahara 1' &&
+    $_SESSION['user']['jabatan'] != 'bendahara 2'
+) { 
+?>
+
                                     <!-- UBAH -->
                                     <button class="btn-edit" data-id="<?= htmlspecialchars($row['id_pengguna']); ?>"
                                         data-nama="<?= htmlspecialchars($row['nama_lengkap']); ?>"

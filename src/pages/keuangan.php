@@ -187,7 +187,15 @@ function getDashboard() {
         </div>
 
         <!-- KANAN -->
-        <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
+        <?php 
+if (
+    isset($_SESSION['user']) && 
+    $_SESSION['user']['jabatan'] != 'anggota' &&
+    $_SESSION['user']['jabatan'] != 'sekretaris 1' &&
+    $_SESSION['user']['jabatan'] != 'sekretaris 2'
+) { 
+?>
+
         <button class="btn-tambah" onclick="openPopup()">+ Tambah Data</button>
         <?php } ?>
 
@@ -207,7 +215,14 @@ function getDashboard() {
                         <th>Jumlah</th>
                         <th>Bukti</th>
                         <th>Tanggal</th>
-                        <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
+                        <?php 
+if (
+    isset($_SESSION['user']) && 
+    $_SESSION['user']['jabatan'] != 'anggota' &&
+    $_SESSION['user']['jabatan'] != 'sekretaris 1' &&
+    $_SESSION['user']['jabatan'] != 'sekretaris 2'
+) { 
+?>
                         <th>Aksi</th>
                         <?php } ?>
                     </tr>
@@ -273,7 +288,14 @@ foreach ($data as $row):
                         </td>
 
                         <!-- Aksi (admin only) -->
-                        <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
+                        <?php 
+if (
+    isset($_SESSION['user']) && 
+    $_SESSION['user']['jabatan'] != 'anggota' &&
+    $_SESSION['user']['jabatan'] != 'sekretaris 1' &&
+    $_SESSION['user']['jabatan'] != 'sekretaris 2'
+) { 
+?>
                         <td style="text-align: center;">
 
                             <!-- Tombol edit -->
@@ -283,13 +305,6 @@ foreach ($data as $row):
                                 onclick="openEditModal(this)">
                                 <i class="fa fa-pen-to-square"></i>
                             </button>
-
-                            <!-- Tombol hapus -->
-                            <!-- <a class="btn-hapus-keuangan"
-                                href="../src/controllers/KeuanganController.php?action=hapus&id=<?= $row['id_keuangan']; ?>"
-                                onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                <i class="fa fa-trash"></i>
-                            </a> -->
 
                             <a href="#" class="btn-hapus-keuangan"
                                 onclick="confirmHapus(<?= $row['id_keuangan']; ?>); return false;">

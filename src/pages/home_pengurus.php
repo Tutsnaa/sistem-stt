@@ -90,6 +90,8 @@ $kandidat = $kandidat ?? [];
 
     </div>
 
+    <?php if (!empty($voting)): ?>
+
     <!-- =========================
      REKAP SUARA PER JABATAN
 ========================= -->
@@ -125,7 +127,8 @@ $kandidat = $kandidat ?? [];
 
                     <div class="rekap-info">
                         <h3><?= htmlspecialchars($row['nama_lengkap']) ?></h3>
-                        <p>No: <?= htmlspecialchars($row['no_paslon']) ?></p>
+
+                        <p>No Paslon: <?= htmlspecialchars($row['no_paslon']) ?></p>
 
                         <div class="rekap-suara">
                             <?= $votingModel->countSuara($row['id_calon']) ?> Suara
@@ -142,6 +145,8 @@ $kandidat = $kandidat ?? [];
         <?php endforeach; ?>
 
     </div>
+
+    <?php endif; ?>
 
     <!-- =========================
      SECTION PENGUMUMAN PENGURUS

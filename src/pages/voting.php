@@ -26,7 +26,16 @@ $user = $user ?? [];
     <div id="tab-voting" class="tab-content <?= ($tab == 'voting') ? 'active' : '' ?>">
         <div class="header-voting">
             <h2>Kelola Voting</h2>
+            <?php 
+if (
+    isset($_SESSION['user']) && 
+    $_SESSION['user']['jabatan'] != 'anggota' &&
+    $_SESSION['user']['jabatan'] != 'bendahara 1' &&
+    $_SESSION['user']['jabatan'] != 'bendahara 2'
+) { 
+?>
             <button class="btn btn-tambah" onclick="openVotingPopup()">+ Tambah Voting</button>
+            <?php } ?>
         </div>
 
         <div class="table-wrapper-voting">
@@ -42,7 +51,16 @@ $user = $user ?? [];
                             <th>Tgl Buka</th>
                             <th>Tgl Tutup</th>
                             <th>Status</th>
+                            <?php 
+if (
+    isset($_SESSION['user']) && 
+    $_SESSION['user']['jabatan'] != 'anggota' &&
+    $_SESSION['user']['jabatan'] != 'bendahara 1' &&
+    $_SESSION['user']['jabatan'] != 'bendahara 2'
+) { 
+?>
                             <th>Aksi</th>
+                            <?php } ?>
                         </tr>
                     </thead>
                     <tbody>
@@ -56,6 +74,14 @@ $user = $user ?? [];
                             <td class="text-center"><?= $row['tanggal_buka'] ?></td>
                             <td class="text-center"><?= $row['tanggal_tutup'] ?></td>
                             <td class="text-center"><?= $row['status'] ?></td>
+                            <?php 
+if (
+    isset($_SESSION['user']) && 
+    $_SESSION['user']['jabatan'] != 'anggota' &&
+    $_SESSION['user']['jabatan'] != 'bendahara 1' &&
+    $_SESSION['user']['jabatan'] != 'bendahara 2'
+) { 
+?>
                             <td>
                                 <button class="btn btn-ubah" data-id="<?= $row['id_voting'] ?>"
                                     data-judul="<?= $row['judul'] ?>" data-periode="<?= $row['periode'] ?>"
@@ -67,13 +93,12 @@ $user = $user ?? [];
                                     <i class="fa fa-pen-to-square"></i>
                                 </button>
 
-
-
                                 <a href="#" class="btn-hapus"
                                     onclick="confirmHapus(<?= $row['id_voting']; ?>); return false;">
                                     <i class="fa fa-trash"></i>
                                 </a>
                             </td>
+                            <?php } ?>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -88,7 +113,16 @@ $user = $user ?? [];
 
         <div class="header-kandidat">
             <h2>Kelola Kandidat</h2>
+            <?php 
+if (
+    isset($_SESSION['user']) && 
+    $_SESSION['user']['jabatan'] != 'anggota' &&
+    $_SESSION['user']['jabatan'] != 'bendahara 1' &&
+    $_SESSION['user']['jabatan'] != 'bendahara 2'
+) { 
+?>
             <button class="btn-tambah" onclick="openKandidatPopup()">+ Tambah Kandidat</button>
+            <?php } ?>
         </div>
         <div class="table-wrapper-voting">
             <table class="pages-voting-table">
@@ -123,6 +157,16 @@ $user = $user ?? [];
                                 data-misi="<?= $row['misi'] ?>" onclick="openDetailKandidat(this)">
                                 <i class="fa fa-eye"></i>
                             </button>
+
+                            <?php 
+if (
+    isset($_SESSION['user']) && 
+    $_SESSION['user']['jabatan'] != 'anggota' &&
+    $_SESSION['user']['jabatan'] != 'bendahara 1' &&
+    $_SESSION['user']['jabatan'] != 'bendahara 2'
+) { 
+?>
+
                             <!-- Ubah -->
                             <button class="btn btn-ubah-kandidat" data-id="<?= $row['id_calon'] ?>"
                                 data-id_voting="<?= $row['id_voting'] ?>" data-id_pengguna="<?= $row['id_pengguna'] ?>"
@@ -135,6 +179,7 @@ $user = $user ?? [];
                                 onclick="confirmHapusKandidat(<?= $row['id_calon']; ?>); return false;">
                                 <i class="fa fa-trash"></i>
                             </a>
+                            <?php } ?>
                         </td>
                         <td>
                             <?php if($row['status']=='dibuka'): ?>
