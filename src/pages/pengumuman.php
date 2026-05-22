@@ -41,13 +41,13 @@ if (
                     <textarea name="isi" rows="4" required placeholder="Masukkan isi pengumuman"></textarea>
                 </div>
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label>Status</label>
                     <select name="status" required>
                         <option value="tampil">Tampil</option>
                         <option value="tidak_tampil">Tidak Tampil</option>
                     </select>
-                </div>
+                </div> -->
 
                 <div class="form-group">
                     <label>File (opsional)</label>
@@ -123,23 +123,60 @@ if (
 ) { 
 ?>
                         <!-- Status -->
-                        <td><?= ucfirst($p['status']); ?></td>
+                        <td class="status-cell">
+
+                            <?php if($p['status'] == 'Menunggu'): ?>
+                            <span class="badge badge-menunggu">
+                                Menunggu
+                            </span>
+
+                            <?php elseif($p['status'] == 'Disetujui'): ?>
+                            <span class="badge badge-disetujui">
+                                Disetujui
+                            </span>
+
+                            <?php elseif($p['status'] == 'Ditolak'): ?>
+                            <span class="badge badge-ditolak">
+                                Ditolak
+                            </span>
+                            <?php endif; ?>
+
+                        </td>
                         <?php } ?>
 
-                        <td>
-                            <label class="switch">
-                                <input type="checkbox" onchange="toggleStatus(
-                <?= $p['id_pengumuman']; ?>,
-                this.checked
-            )" <?= $p['status'] == 'tampil' ? 'checked' : ''; ?>>
+                        <?php if($_SESSION['user']['jabatan'] == 'ketua'): ?>
 
-                                <span class="slider round">
-                                    <span class="label">
-                                        <?= $p['status'] == 'tampil' ? 'Tampil' : 'Tidak Tampil'; ?>
-                                    </span>
-                                </span>
-                            </label>
+                        <td class="aksi-status">
+
+                            <?php if($p['status'] == 'Menunggu'): ?>
+
+                            <a href="../src/controllers/PengumumanController.php?action=toggleStatus&id=<?= $p['id_pengumuman']; ?>&status=Disetujui"
+                                class="btn-terima" onclick="return confirm('Terima pengumuman ini?')">
+                                Disetujui
+                            </a>
+
+                            <a href="../src/controllers/PengumumanController.php?action=toggleStatus&id=<?= $p['id_pengumuman']; ?>&status=Ditolak"
+                                class="btn-tolak" onclick="return confirm('Tolak pengumuman ini?')">
+                                Ditolak
+                            </a>
+
+                            <?php elseif($p['status'] == 'Disetujui'): ?>
+
+                            <span class="badge-disetujui">
+                                Disetujui
+                            </span>
+
+                            <?php elseif($p['status'] == 'Ditolak'): ?>
+
+                            <span class="badge-ditolak">
+                                Ditolak
+                            </span>
+
+                            <?php endif; ?>
+
                         </td>
+
+                        <?php endif; ?>
 
 
                         <?php 
@@ -219,14 +256,6 @@ if (
                 <div class="form-group">
                     <label>Isi</label>
                     <textarea name="isi" id="edit_isi" rows="4" required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Status</label>
-                    <select name="status" id="edit_status" required>
-                        <option value="tampil">Tampil</option>
-                        <option value="tidak_tampil">Tidak Tampil</option>
-                    </select>
                 </div>
 
                 <div class="form-group">
@@ -319,14 +348,5 @@ function openEditModal(id, judul, isi, status, file) {
     document.getElementById("edit_status").value = status;
     document.getElementById("edit_file_lama").value = file;
 
-}
-
-function toggleStatus(id, checked) {
-
-    let statusBaru = checked ? 'tampil' : 'tidak_tampil';
-
-    window.location.href =
-        "../src/controllers/PengumumanController.php?action=toggleStatus&id=" +
-        id + "&status=" + statusBaru;
 }
 </script>

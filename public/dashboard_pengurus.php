@@ -40,9 +40,14 @@ $uangKas = $totalPemasukan - $totalPengeluaran;
 // LOAD MODEL PENGUMUMAN
 // ================================
 require_once __DIR__ . '/../src/models/PengumumanModel.php';
+
 $pengumumanModel = new PengumumanModel();
-$pengumuman = $pengumumanModel->getAllPengumuman();
-$dataPengumuman = $pengumumanModel->getAllPengumuman();
+
+$jabatan = $_SESSION['user']['jabatan'];
+
+$pengumuman = $pengumumanModel->getAllPengumuman($jabatan);
+
+$dataPengumuman = $pengumumanModel->getAllPengumuman($jabatan);
 
 // ================================
 // LOAD MODEL VOTING & KANDIDAT

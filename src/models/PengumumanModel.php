@@ -10,13 +10,34 @@ class PengumumanModel {
     }
 
     // Ambil semua pengumuman
-    public function getAllPengumuman() {
-        $stmt = $this->db->query("SELECT p.*, u.nama_lengkap 
-                                  FROM pengumuman p
-                                  LEFT JOIN pengguna u ON p.id_pengguna = u.id_pengguna
-                                  ORDER BY p.tanggal_dibuat DESC");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+   public function getAllPengumuman($jabatan) {
+
+    if($jabatan == 'anggota'){
+
+        $stmt = $this->db->prepare("
+            SELECT p.*, u.nama_lengkap
+            FROM pengumuman p
+            LEFT JOIN pengguna u ON p.id_pengguna = u.id_pengguna
+            WHERE p.status = 'Disetujui'
+            ORDER BY p.tanggal_dibuat DESC
+        ");
+
+        $stmt->execute();
+
+    } else {
+
+        $stmt = $this->db->prepare("
+            SELECT p.*, u.nama_lengkap
+            FROM pengumuman p
+            LEFT JOIN pengguna u ON p.id_pengguna = u.id_pengguna
+            ORDER BY p.tanggal_dibuat DESC
+        ");
+
+        $stmt->execute();
     }
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
     // Ambil pengumuman berdasarkan ID
     public function getPengumumanById($id) {
@@ -38,16 +59,21 @@ class PengumumanModel {
     }
 
     // Update pengumuman
-    public function updatePengumuman($id, $data) {
-        $stmt = $this->db->prepare("UPDATE pengumuman SET judul = ?, isi = ?, file = ?, status = ? WHERE id_pengumuman = ?");
-        return $stmt->execute([
-            $data['judul'],
-            $data['isi'],
-            $data['file'],
-            $data['status'],
-            $id
-        ]);
-    }
+   public function updatePengumuman($id, $data) {
+
+    $stmt = $this->db->prepare("
+        UPDATE pengumuman 
+        SET judul = ?, isi = ?, file = ?, status = 'Menunggu'
+        WHERE id_pengumuman = ?
+    ");
+
+    return $stmt->execute([
+        $data['judul'],
+        $data['isi'],
+        $data['file'],
+        $id
+    ]);
+}
 
     // Update status pengumuman
 public function updateStatus($id, $status) {

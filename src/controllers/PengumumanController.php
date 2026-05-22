@@ -30,7 +30,7 @@ switch($action) {
                 'judul' => $_POST['judul'],
                 'isi' => $_POST['isi'],
                 'file' => $file,
-                'status' => $_POST['status']
+                'status' =>'Menunggu'
             ];
 
             $model->tambahPengumuman($data);
@@ -64,8 +64,8 @@ case 'update':
         $data = [
             'judul' => $_POST['judul'],
             'isi' => $_POST['isi'],
-            'file' => $file, // 🔥 ini fix
-            'status' => $_POST['status']
+            'file' => $file,
+            'status' => 'Menunggu'
         ];
 
         $model->updatePengumuman($id, $data);

@@ -280,53 +280,84 @@
   white-space: nowrap;
 }
 
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 110px;
-  height: 30px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  inset: 0;
-  border-radius: 34px;
-  background-color: #ef4444;
-  transition: 0.4s;
+.aksi-status {
   display: flex;
+  gap: 8px;
   align-items: center;
   justify-content: center;
+}
+
+.btn-terima {
+  background: #28a745;
   color: white;
-  font-size: 12px;
-  font-weight: bold;
+  padding: 6px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.3s;
 }
 
-/* bulatan */
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 22px;
-  width: 22px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  border-radius: 50%;
-  transition: 0.4s;
+.btn-terima:hover {
+  background: #218838;
 }
 
-/* ON */
-input:checked + .slider {
-  background-color: #22c55e;
+.btn-tolak {
+  background: #dc3545;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.3s;
 }
 
-/* geser bulatan */
-input:checked + .slider:before {
-  transform: translateX(80px);
+.btn-tolak:hover {
+  background: #c82333;
+}
+
+.badge-disetujui {
+  background: #d4edda;
+  color: #155724;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.badge-ditolak {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* MENUNGGU (kuning/orange) */
+.badge-menunggu {
+  background: #fff3cd;
+  color: #856404;
+}
+
+/* DISETUJUI (hijau) */
+.badge-disetujui {
+  background: #d4edda;
+  color: #155724;
+}
+
+/* DITOLAK (merah) */
+.badge-ditolak {
+  background: #f8d7da;
+  color: #721c24;
 }

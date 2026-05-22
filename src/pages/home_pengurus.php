@@ -160,7 +160,7 @@ $kandidat = $kandidat ?? [];
             <?php if(!empty($dataPengumuman)): ?>
             <?php foreach($dataPengumuman as $p): ?>
 
-            <?php if($p['status'] == 'tampil'): ?>
+            <?php if($p['status'] == 'Disetujui'): ?>
 
             <div class="pengurus-pengumuman-card">
 
