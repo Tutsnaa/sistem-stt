@@ -49,6 +49,21 @@ class PengumumanModel {
         ]);
     }
 
+    // Update status pengumuman
+public function updateStatus($id, $status) {
+
+    $stmt = $this->db->prepare("
+        UPDATE pengumuman 
+        SET status = ? 
+        WHERE id_pengumuman = ?
+    ");
+
+    return $stmt->execute([
+        $status,
+        $id
+    ]);
+}
+
     // Hapus pengumuman
     public function hapusPengumuman($id) {
         $stmt = $this->db->prepare("DELETE FROM pengumuman WHERE id_pengumuman = ?");

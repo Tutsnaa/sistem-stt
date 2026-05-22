@@ -78,6 +78,8 @@ if (
                         <?php 
 if (
     isset($_SESSION['user']) && 
+    $_SESSION['user']['jabatan'] != 'ketua' &&
+    $_SESSION['user']['jabatan'] != 'wakil' &&
     $_SESSION['user']['jabatan'] != 'bendahara 1' &&
     $_SESSION['user']['jabatan'] != 'bendahara 2'
 ) { 
@@ -113,12 +115,38 @@ if (
                             <?php endif; ?>
                         </td>
 
+                        <?php 
+if (
+    isset($_SESSION['user']) && 
+    $_SESSION['user']['jabatan'] != 'ketua' &&
+    $_SESSION['user']['jabatan'] != 'wakil'
+) { 
+?>
                         <!-- Status -->
                         <td><?= ucfirst($p['status']); ?></td>
+                        <?php } ?>
+
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" onchange="toggleStatus(
+                <?= $p['id_pengumuman']; ?>,
+                this.checked
+            )" <?= $p['status'] == 'tampil' ? 'checked' : ''; ?>>
+
+                                <span class="slider round">
+                                    <span class="label">
+                                        <?= $p['status'] == 'tampil' ? 'Tampil' : 'Tidak Tampil'; ?>
+                                    </span>
+                                </span>
+                            </label>
+                        </td>
+
 
                         <?php 
 if (
     isset($_SESSION['user']) && 
+    $_SESSION['user']['jabatan'] != 'ketua' &&
+    $_SESSION['user']['jabatan'] != 'wakil' &&
     $_SESSION['user']['jabatan'] != 'bendahara 1' &&
     $_SESSION['user']['jabatan'] != 'bendahara 2'
 ) { 
@@ -291,5 +319,14 @@ function openEditModal(id, judul, isi, status, file) {
     document.getElementById("edit_status").value = status;
     document.getElementById("edit_file_lama").value = file;
 
+}
+
+function toggleStatus(id, checked) {
+
+    let statusBaru = checked ? 'tampil' : 'tidak_tampil';
+
+    window.location.href =
+        "../src/controllers/PengumumanController.php?action=toggleStatus&id=" +
+        id + "&status=" + statusBaru;
 }
 </script>

@@ -87,6 +87,22 @@ $_SESSION['flash_type'] = "success";
         exit();
         break;
 
+        /* ================= TOGGLE STATUS ================= */
+case 'toggleStatus':
+
+    $id = $_GET['id'];
+    $status = $_GET['status'];
+
+   $model->updateStatus($id, $status);
+
+    $_SESSION['flash_message'] = "Status pengumuman berhasil diubah";
+    $_SESSION['flash_type'] = "success";
+
+    header("Location: $dashboardPage");
+    exit();
+
+break;
+
     default:
         // Jika action tidak dikenal, redirect ke dashboard sesuai user
         header("Location: $dashboardPage");
