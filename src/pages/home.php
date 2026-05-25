@@ -138,7 +138,7 @@ usort($pengurus, function($a, $b) use ($urutanJabatan) {
         <?php if(!empty($dataPengumuman)): ?>
         <?php foreach($dataPengumuman as $p): ?>
 
-        <?php if($p['status'] == 'tampil'): ?>
+        <?php if($p['status'] == 'Disetujui'): ?>
 
         <div class="pengumuman-card">
 

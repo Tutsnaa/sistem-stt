@@ -37,7 +37,12 @@ $uangKas = $totalPemasukan - $totalPengeluaran;
 require_once __DIR__ . '/../src/models/PengumumanModel.php';
 
 $pengumumanModel = new PengumumanModel();
-$dataPengumuman = $pengumumanModel->getAllPengumuman();
+
+// ambil jabatan user login
+$jabatan = $_SESSION['user']['jabatan'];
+
+// ambil data pengumuman
+$dataPengumuman = $pengumumanModel->getAllPengumuman($jabatan);
 
 require_once __DIR__ . '/../src/models/VotingModel.php';
 require_once __DIR__ . '/../src/models/KandidatModel.php';

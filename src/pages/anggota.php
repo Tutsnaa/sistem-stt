@@ -100,8 +100,9 @@ if (
                             <th>No</th>
                             <th>Foto</th>
                             <th>Nama Lengkap</th>
-
+                            <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
                             <th>No HP</th>
+                            <?php } ?>
 
                             <th>Jabatan</th>
                             <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
@@ -128,7 +129,9 @@ if (
                             </td>
                             <td><?= htmlspecialchars($row['nama_lengkap']); ?></td>
 
+                            <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
                             <td style="text-align: center;"><?= htmlspecialchars($row['no_hp']); ?></td>
+                            <?php } ?>
 
                             <td style="text-align: center;"><?= htmlspecialchars($row['jabatan']); ?></td>
                             <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
@@ -145,7 +148,6 @@ if (
                                     <button class="btn-detail"
                                         data-nama="<?= htmlspecialchars($row['nama_lengkap']); ?>"
                                         data-email="<?= htmlspecialchars($row['email']); ?>"
-                                        data-hp="<?= htmlspecialchars($row['no_hp']); ?>"
                                         data-alamat="<?= htmlspecialchars($row['alamat']); ?>"
                                         data-jabatan="<?= htmlspecialchars($row['jabatan']); ?>"
                                         data-nama_pengguna="<?= htmlspecialchars($row['nama_pengguna']); ?>"
@@ -221,7 +223,6 @@ if (
                         <div class="detail-right">
                             <p><b>Nama:</b> <span id="d_nama"></span></p>
                             <p><b>Email:</b> <span id="d_email"></span></p>
-                            <p><b>No HP:</b> <span id="d_hp"></span></p>
                             <p><b>Alamat:</b> <span class="alamat-box" id="d_alamat"></span></p>
                             <p><b>Jabatan:</b> <span id="d_jabatan"></span></p>
                             <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
@@ -358,7 +359,6 @@ if (
 
             document.getElementById("d_nama").innerText = btn.dataset.nama;
             document.getElementById("d_email").innerText = btn.dataset.email;
-            document.getElementById("d_hp").innerText = btn.dataset.hp;
             document.getElementById("d_alamat").innerText = btn.dataset.alamat;
             document.getElementById("d_jabatan").innerText = btn.dataset.jabatan;
 

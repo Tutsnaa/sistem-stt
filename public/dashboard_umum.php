@@ -7,10 +7,16 @@ session_start();
 require_once __DIR__ . '/../src/view/flash_message.php';
 
 $page = $_GET['page'] ?? 'home';
+
 require_once __DIR__ . '/../src/models/PengumumanModel.php';
 
 $pengumumanModel = new PengumumanModel();
-$dataPengumuman = $pengumumanModel->getAllPengumuman();
+
+// ambil jabatan user login
+$jabatan = $_SESSION['user']['jabatan'] ?? 'anggota';
+
+// ambil data pengumuman
+$dataPengumuman = $pengumumanModel->getAllPengumuman($jabatan);
 
 require_once __DIR__ . '/../src/models/PenggunaModel.php';
 
@@ -21,7 +27,6 @@ $search = $_GET['search'] ?? null;
 
 // ambil data anggota
 $dataAnggota = $model->getAll($search);
-
 ?>
 
 <!DOCTYPE html>
