@@ -1,71 +1,148 @@
 <?php
 $kandidat = $kandidat ?? [];
+
+// Ambil voting (dibuka + selesai)
+$votings = array_values(array_filter($votingModel->getAllVoting(), function($v) {
+    return in_array($v['status'], ['dibuka', 'selesai']);
+}));
 ?>
 
-<?php
-// Ambil voting yang sedang dibuka saja
-$votings = array_filter($votingModel->getAllVoting(), function($v) {
-    return $v['status'] === 'dibuka';
-});
-?>
+<?php if(!empty($votings)): ?>
+
 <?php foreach($votings as $voting): ?>
+
+<!-- ================= INFO VOTING ================= -->
 <div class="voting-info">
-    <h2 class="voting-title"><?= htmlspecialchars($voting['judul'] ?: 'Voting tanpa judul') ?></h2>
+    <h2 class="voting-title">
+        <?= htmlspecialchars($voting['judul'] ?: 'Voting tanpa judul') ?>
+    </h2>
+
     <p>
         Masa Jabatan: <?= $voting['masa_awal_jabatan'] ?: '-' ?> s/d <?= $voting['masa_akhir_jabatan'] ?: '-' ?><br>
         Periode: <?= $voting['periode'] ?: '-' ?><br>
         Tanggal Buka: <?= $voting['tanggal_buka'] ?: '-' ?> |
         Tanggal Tutup: <?= $voting['tanggal_tutup'] ?: '-' ?><br>
-        Status: <?= $voting['status'] ?: '-' ?>
+        Status: <b><?= strtoupper($voting['status']) ?></b>
     </p>
 </div>
 
 <?php
-// Kategori jabatan
 $kategori = ['ketua', 'wakil', 'sekretaris', 'bendahara'];
-$kandidatByJabatan = [];
-
-foreach($kategori as $jabatan) {
-    $kandidatByJabatan[$jabatan] = array_filter($kandidat, function($row) use ($jabatan, $voting) {
-        return $row['status'] === 'dibuka' 
-            && strtolower($row['jabatan']) === $jabatan 
-            && $row['id_voting'] == $voting['id_voting'];
-    });
-}
 ?>
 
 <div class="card-kategori-wrapper">
+
     <?php foreach($kategori as $jabatan): ?>
-    <?php if(!empty($kandidatByJabatan[$jabatan])): ?>
+
+    <?php
+    $filtered = array_filter($kandidat, function($row) use ($jabatan, $voting) {
+        return strtolower($row['jabatan']) === $jabatan
+            && $row['id_voting'] == $voting['id_voting'];
+    });
+    ?>
+
+    <?php if(!empty($filtered)): ?>
+
     <h3 class="kategori-title">Calon <?= ucfirst($jabatan) ?></h3>
+
     <div class="card-container">
-        <?php foreach($kandidatByJabatan[$jabatan] as $row): ?>
+
+        <?php foreach($filtered as $row): ?>
         <div class="card-kandidat">
+
             <img src="../uploads/<?= htmlspecialchars($row['foto']) ?>" class="foto-kandidat">
+
             <div class="card-info">
-                <h1 class="no-paslon"><?= htmlspecialchars($row['no_paslon']) ?></h1>
-                <h2 class="calon">Calon <?= htmlspecialchars($row['jabatan']) ?></h2>
-                <h3 class="nama-kandidat"><?= htmlspecialchars($row['nama_lengkap']) ?></h3>
-                <div class="visi"><strong>Visi:</strong>
-                    <p><?= htmlspecialchars($row['visi']) ?></p>
+
+                <div>
+                    <h1 class="no-paslon"><?= htmlspecialchars($row['no_kandidat']) ?></h1>
+                    <h2 class="calon">Calon <?= htmlspecialchars($row['jabatan']) ?></h2>
+                    <h3 class="nama-kandidat"><?= htmlspecialchars($row['nama_lengkap']) ?></h3>
+
+                    <div class="visi">
+                        <strong>Visi:</strong>
+                        <p><?= nl2br(htmlspecialchars($row['visi'])) ?></p>
+                    </div>
+
+                    <div class="misi">
+                        <strong>Misi:</strong>
+                        <p><?= nl2br(htmlspecialchars($row['misi'])) ?></p>
+                    </div>
                 </div>
-                <div class="misi"><strong>Misi:</strong>
-                    <p><?= htmlspecialchars($row['misi']) ?></p>
-                </div>
+
                 <div class="card-action">
+
+                    <?php if($voting['status'] === 'dibuka'): ?>
                     <a href="../src/controllers/VotingController.php?action=vote&id_calon=<?= $row['id_calon'] ?>"
-                        onclick="return confirm('Yakin memilih kandidat ini?')" class="btn-vote">Vote</a>
+                        onclick="return confirm('Yakin memilih kandidat ini?')" class="btn-vote">
+                        Vote
+                    </a>
+                    <?php else: ?>
+                    <span class="btn-vote disabled">Voting Ditutup</span>
+                    <?php endif; ?>
+
                 </div>
+
             </div>
         </div>
         <?php endforeach; ?>
+
     </div>
+
     <?php else: ?>
-    <div class="no-voting">Belum ada kandidat untuk <?= ucfirst($jabatan) ?></div>
+    <div class="no-voting">
+        Belum ada kandidat untuk <?= ucfirst($jabatan) ?>
+    </div>
     <?php endif; ?>
+
     <?php endforeach; ?>
+
 </div>
+
+<!-- ================= PEMENANG ================= -->
+<?php if($voting['status'] === 'selesai'): ?>
+
+<?php
+$pemenang = $votingModel->getPemenangPerJabatan($voting['id_voting']);
+?>
+
+<?php if(!empty($pemenang)): ?>
+
+<h3 style="text-align:center;margin-top:40px;">🏆 Pemenang Voting</h3>
+
+<div class="card-container">
+
+    <?php foreach($pemenang as $row): ?>
+    <div class="pemenang-card">
+
+        <img src="../uploads/<?= htmlspecialchars($row['foto'] ?? '') ?>" width="120">
+
+        <h3><?= htmlspecialchars($row['nama_lengkap'] ?? '-') ?></h3>
+
+        <p>Jabatan: <b><?= htmlspecialchars($row['jabatan']) ?></b></p>
+
+        <p>No Kandidat: <b><?= htmlspecialchars($row['no_kandidat'] ?? '-') ?></b></p>
+
+        <p>Total Suara: <b><?= $row['total_suara'] ?? 0 ?></b></p>
+
+    </div>
+    <?php endforeach; ?>
+
+</div>
+
+<?php endif; ?>
+
+<?php endif; ?>
+
 <?php endforeach; ?>
+
+<?php else: ?>
+
+<p style="text-align:center;color:#888;margin:20px 0;">
+    Tidak ada voting saat ini
+</p>
+
+<?php endif; ?>
 
 <style>
 /* ================= INFO VOTING ================= */

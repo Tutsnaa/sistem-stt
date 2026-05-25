@@ -48,9 +48,9 @@ $kandidat = $kandidat ?? [];
         </div>
 
         <!-- ===== CARD ===== -->
-        <div class="card-container">
+        <div class="finance-card-wrapper">
 
-            <div class="card pemasukan">
+            <div class="finance-card pemasukan">
                 <div class="card-icon">
                     <i class="fa-solid fa-arrow-down"></i>
                 </div>
@@ -62,7 +62,7 @@ $kandidat = $kandidat ?? [];
                 </div>
             </div>
 
-            <div class="card pengeluaran">
+            <div class="finance-card pengeluaran">
                 <div class="card-icon">
                     <i class="fa-solid fa-arrow-up"></i>
                 </div>
@@ -74,7 +74,7 @@ $kandidat = $kandidat ?? [];
                 </div>
             </div>
 
-            <div class="card kas">
+            <div class="finance-card kas">
                 <div class="card-icon">
                     <i class="fa-solid fa-wallet"></i>
                 </div>
@@ -93,52 +93,154 @@ $kandidat = $kandidat ?? [];
     <?php if (!empty($voting)): ?>
 
     <!-- =========================
-     REKAP SUARA PER JABATAN
+     CALON KANDIDAT
 ========================= -->
     <div class="rekap-wrapper">
 
-        <h2 class="rekap-main-title">Rekap Suara Kandidat</h2>
+        <?php if (!empty($votings)) : ?>
+        <?php foreach ($votings as $v) : ?>
 
-        <?php
-    $kategori = ['ketua', 'wakil', 'sekretaris', 'bendahara'];
-
-    foreach($kategori as $jabatan):
-
-        $filtered = array_filter($kandidat, function($row) use ($jabatan){
-            return strtolower($row['jabatan']) === $jabatan;
-        });
-
-        if(empty($filtered)) continue;
-    ?>
-
-        <!-- CONTAINER PER JABATAN -->
-        <div class="rekap-group">
-
-            <h3 class="rekap-group-title">
-                Calon <?= ucfirst($jabatan) ?>
+        <!-- ================= INFO VOTING ================= -->
+        <div class="voting-info">
+            <h3 class="voting-title">
+                <?= htmlspecialchars($v['judul']) ?>
             </h3>
 
-            <div class="rekap-container">
+            <p>
+                Periode: <?= htmlspecialchars($v['periode']) ?><br>
+                Masa Jabatan: <?= $v['masa_awal_jabatan'] ?> - <?= $v['masa_akhir_jabatan'] ?><br>
+                Dibuka: <?= $v['tanggal_buka'] ?> | Ditutup: <?= $v['tanggal_tutup'] ?><br>
+                Status: <b><?= strtoupper($v['status']) ?></b>
+            </p>
+        </div>
 
-                <?php foreach($filtered as $row): ?>
-                <div class="rekap-card">
+        <!-- ================= CALON KANDIDAT ================= -->
+        <?php if ($v['status'] == 'dibuka') : ?>
 
-                    <img src="../uploads/<?= htmlspecialchars($row['foto']) ?>" class="rekap-img">
+        <div class="calon-wrapper">
 
-                    <div class="rekap-info">
-                        <h3><?= htmlspecialchars($row['nama_lengkap']) ?></h3>
+            <?php if (!empty($v['calon'])) : ?>
 
-                        <p>No Paslon: <?= htmlspecialchars($row['no_paslon']) ?></p>
+            <?php
+                    // 🔥 GROUPING BERDASARKAN JABATAN
+                    $grouped = [];
+                    foreach ($v['calon'] as $c) {
+                        $grouped[$c['jabatan']][] = $c;
+                    }
+                    ?>
 
-                        <div class="rekap-suara">
-                            <?= $votingModel->countSuara($row['id_calon']) ?> Suara
+            <?php foreach ($grouped as $jabatanCalon => $listCalon) : ?>
+
+            <h3 class="kategori-title">
+                Calon <?= ucfirst($jabatanCalon) ?>
+            </h3>
+
+            <?php foreach ($listCalon as $c) : ?>
+
+            <div class="calon-card">
+
+                <!-- FOTO -->
+                <div class="calon-foto">
+                    <img src="../uploads/<?= htmlspecialchars($c['foto']) ?>" class="foto-kandidat">
+                </div>
+
+                <!-- CONTENT -->
+                <div class="calon-content">
+
+                    <div>
+                        <strong><?= htmlspecialchars($c['nama_lengkap']) ?></strong>
+
+                        <small>No Kandidat: <?= htmlspecialchars($c['no_kandidat']) ?></small>
+                        <small>Jabatan: <?= htmlspecialchars($c['jabatan']) ?></small>
+
+                        <div class="calon-visi">
+                            <b>Visi:</b><br>
+                            <?= nl2br(htmlspecialchars($c['visi'])) ?>
+                        </div>
+
+                        <div class="calon-misi">
+                            <b>Misi:</b><br>
+                            <?= nl2br(htmlspecialchars($c['misi'])) ?>
                         </div>
                     </div>
 
+                    <!-- BUTTON VOTE -->
+                    <div class="card-action">
+
+                        <?php if ($v['status'] !== 'dibuka') : ?>
+
+                        <span class="btn-vote disabled">
+                            Voting Ditutup
+                        </span>
+
+                        <?php else : ?>
+
+                        <a href="../src/controllers/VotingController.php?action=vote&id_calon=<?= $c['id_calon'] ?>"
+                            onclick="return confirm('Yakin memilih kandidat ini?')" class="btn-vote">Vote</a>
+
+                        <?php endif; ?>
+
+                    </div>
+
                 </div>
-                <?php endforeach; ?>
 
             </div>
+
+            <?php endforeach; ?>
+
+            <?php endforeach; ?>
+
+            <?php else : ?>
+            <p class="no-calon">Belum ada kandidat</p>
+            <?php endif; ?>
+
+        </div>
+
+        <?php elseif ($v['status'] == 'draft') : ?>
+
+        <p style="text-align:center;color:#888;margin:20px 0;">
+            Voting belum dibuka
+        </p>
+
+        <?php endif; ?>
+
+        <?php endforeach; ?>
+
+        <?php else : ?>
+        <p style="text-align:center;color:#888;">
+            Tidak ada voting yang sedang dibuka
+        </p>
+        <?php endif; ?>
+
+        <!-- PANGGIL PEMENANG -->
+        <?php
+$pemenang = $votingModel->getPemenangVoting($v['id_voting']);
+?>
+
+        <?php foreach($pemenang as $row): ?>
+
+        <div class="pemenang-card">
+
+            <img src="../uploads/<?= htmlspecialchars($row['foto']) ?>" width="120">
+
+            <h3>
+                <?= htmlspecialchars($row['nama_lengkap']) ?>
+            </h3>
+
+            <p>
+                Jabatan:
+                <b><?= htmlspecialchars($row['jabatan']) ?></b>
+            </p>
+
+            <p>
+                No Kandidat:
+                <b><?= htmlspecialchars($row['no_kandidat']) ?></b>
+            </p>
+
+            <p>
+                Total Suara:
+                <b><?= $row['total_suara'] ?></b>
+            </p>
 
         </div>
 

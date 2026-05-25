@@ -2,78 +2,111 @@
 session_start();
 
 // ================================
-// NOTIFIKASI
+// FLASH MESSAGE
 // ================================
 require_once __DIR__ . '/../src/view/flash_message.php';
 
 // ================================
-// CEK LOGIN & PASTIKAN BUKAN ANGGOTA
+// CEK LOGIN
 // ================================
-if (!isset($_SESSION['user']) || $_SESSION['user']['jabatan'] === 'anggota') {
+if (
+    !isset($_SESSION['user']) ||
+    $_SESSION['user']['jabatan'] === 'anggota'
+) {
     header("Location: dashboard_umum.php");
     exit();
 }
 
-$user = $_SESSION['user'];
-$page = $_GET['page'] ?? 'home_pengurus';
-$bulan = $_GET['bulan'] ?? null;
-$tahun = $_GET['tahun'] ?? date('Y');
+// ================================
+// DATA USER & FILTER
+// ================================
+$user   = $_SESSION['user'];
+$jabatan = $user['jabatan'];
+
+$page   = $_GET['page'] ?? 'home_pengurus';
+$bulan  = $_GET['bulan'] ?? null;
+$tahun  = $_GET['tahun'] ?? date('Y');
+$search = $_GET['search'] ?? null;
 
 // ================================
-// LOAD MODEL PENGGUNA
+// LOAD MODEL
 // ================================
 require_once __DIR__ . '/../src/models/PenggunaModel.php';
-$penggunaModel = new PenggunaModel();
-$search = $_GET['search'] ?? null;
-$dataAnggota = $penggunaModel->getAll($search);
-
-// ================================
-// LOAD MODEL KEUANGAN
-// ================================
 require_once __DIR__ . '/../src/models/KeuanganModel.php';
-$keuanganModel = new KeuanganModel();
-$totalPemasukan = $keuanganModel->getTotalPemasukan($bulan, $tahun);
-$totalPengeluaran = $keuanganModel->getTotalPengeluaran($bulan, $tahun);
-$uangKas = $totalPemasukan - $totalPengeluaran;
-
-// ================================
-// LOAD MODEL PENGUMUMAN
-// ================================
 require_once __DIR__ . '/../src/models/PengumumanModel.php';
-
-$pengumumanModel = new PengumumanModel();
-
-$jabatan = $_SESSION['user']['jabatan'];
-
-$pengumuman = $pengumumanModel->getAllPengumuman($jabatan);
-
-$dataPengumuman = $pengumumanModel->getAllPengumuman($jabatan);
-
-// ================================
-// LOAD MODEL VOTING & KANDIDAT
-// ================================
 require_once __DIR__ . '/../src/models/VotingModel.php';
 require_once __DIR__ . '/../src/models/KandidatModel.php';
+require_once __DIR__ . '/../src/models/KepengurusanModel.php';
 
-$votingModel = new VotingModel();
+// ================================
+// LOAD CONTROLLER VOTING
+// ================================
+require_once __DIR__ . '/../src/controllers/VotingController.php';
+
+// ================================
+// INISIALISASI MODEL
+// ================================
+$penggunaModel      = new PenggunaModel();
+$keuanganModel      = new KeuanganModel();
+$pengumumanModel    = new PengumumanModel();
+$kandidatModel      = new KandidatModel();
+$kepengurusanModel  = new KepengurusanModel();
+
+// ================================
+// DATA ANGGOTA
+// ================================
+$dataAnggota = $penggunaModel->getAll($search);
+$anggota     = $penggunaModel->getAll();
+
+// ================================
+// DATA KEUANGAN
+// ================================
+$totalPemasukan   = $keuanganModel->getTotalPemasukan($bulan, $tahun);
+$totalPengeluaran = $keuanganModel->getTotalPengeluaran($bulan, $tahun);
+$uangKas          = $totalPemasukan - $totalPengeluaran;
+
+// ================================
+// DATA PENGUMUMAN
+// ================================
+$pengumuman      = $pengumumanModel->getAllPengumuman($jabatan);
+$dataPengumuman  = $pengumuman;
+
+// ================================
+// AUTO UPDATE STATUS VOTING
+// ================================
 $votingModel->autoUpdateStatus();
-$kandidatModel = new KandidatModel();
 
-// Ambil semua voting
-$voting = $votingModel->getAllVoting();
+// ================================
+// DATA VOTING
+// ================================
+$voting  = $votingModel->getAllVoting();
+$votings = $votingModel->getAllVoting();
 
-// Ambil semua kandidat
+// ================================
+// AMBIL KANDIDAT PER VOTING
+// ================================
+foreach ($votings as &$v) {
+
+    $v['calon'] = $votingModel->getCalonByVoting(
+        $v['id_voting']
+    );
+}
+unset($v);
+
+// ================================
+// DATA KANDIDAT
+// ================================
 $kandidat = $kandidatModel->getAllKandidat();
 
-// Ambil semua anggota (pengguna)
-$anggota = $penggunaModel->getAll();
+// ================================
+// DATA KEPENGURUSAN
+// ================================
+$periode = $_GET['periode'] ?? null;
 
-// ================================
-// LOAD MODEL KEPENGURUSAN
-// ================================
-require_once __DIR__ . '/../src/models/KepengurusanModel.php';
-$kepengurusanModel = new KepengurusanModel();
-$kepengurusan = $kepengurusanModel->getAll(); // Pastikan ada method getAll()
+$kepengurusan = $kepengurusanModel->getAll($periode);
+
+$daftarPeriode = $kepengurusanModel->getPeriodeList();
+
 ?>
 
 <!DOCTYPE html>
@@ -92,6 +125,8 @@ $kepengurusan = $kepengurusanModel->getAll(); // Pastikan ada method getAll()
     <link rel="stylesheet" href="../asset/css/PagesPengumuman.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/PagesVoting.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../asset/css/PagesKepengurusan.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../asset/css/VotingKandidat.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../asset/css/HomePengurus.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 

@@ -14,7 +14,7 @@ if(isset($_GET['action'])){
                 'id_voting'   => $_POST['id_voting'] ?? null,
                 'id_pengguna' => $_POST['id_pengguna'] ?? null,
                 'jabatan'     => $_POST['jabatan'] ?? '',
-                'no_paslon'   => $_POST['no_paslon'] ?? '',
+                'no_kandidat'   => $_POST['no_kandidat'] ?? '',
                 'visi'        => $_POST['visi'] ?? '',
                 'misi'        => $_POST['misi'] ?? ''
             ];
@@ -34,7 +34,7 @@ if(isset($_GET['action'])){
                 'id_voting'   => $_POST['id_voting'] ?? null,
                 'id_pengguna' => $_POST['id_pengguna'] ?? null,
                 'jabatan'     => $_POST['jabatan'] ?? '',
-                'no_paslon'   => $_POST['no_paslon'] ?? '',
+                'no_kandidat'   => $_POST['no_kandidat'] ?? '',
                 'visi'        => $_POST['visi'] ?? '',
                 'misi'        => $_POST['misi'] ?? ''
             ];

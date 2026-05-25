@@ -30,14 +30,35 @@ class KepengurusanModel {
     }
 
     // Ambil semua data
-   public function getAll(){
-    $stmt = $this->conn->prepare("
-        SELECT k.*, p.nama_lengkap
+  public function getAll($periode = null){
+
+    $query = "
+        SELECT 
+            k.*,
+            p.nama_lengkap,
+            v.periode
         FROM kepengurusan k
-        JOIN pengguna p ON k.id_pengguna = p.id_pengguna
-        ORDER BY k.masa_awal_jabatan DESC
-    ");
-    $stmt->execute();
+        JOIN pengguna p 
+            ON k.id_pengguna = p.id_pengguna
+        LEFT JOIN voting v 
+            ON k.id_voting = v.id_voting
+    ";
+
+    // FILTER PERIODE
+    if($periode){
+        $query .= " WHERE v.periode = ?";
+    }
+
+    $query .= " ORDER BY k.masa_awal_jabatan DESC";
+
+    $stmt = $this->conn->prepare($query);
+
+    if($periode){
+        $stmt->execute([$periode]);
+    } else {
+        $stmt->execute();
+    }
+
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
@@ -87,6 +108,19 @@ public function turunkanPengurusLama($jabatan, $id_pemenang){
         WHERE jabatan = ? AND id_pengguna != ?
     ");
     return $stmt->execute([$jabatan, $id_pemenang]);
+}
+
+public function getPeriodeList(){
+
+    $stmt = $this->conn->prepare("
+        SELECT DISTINCT periode
+        FROM voting
+        ORDER BY periode DESC
+    ");
+
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 }

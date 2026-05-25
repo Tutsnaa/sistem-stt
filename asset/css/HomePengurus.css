@@ -1,0 +1,75 @@
+/* ================= FINANCE CARD WRAPPER ================= */
+.finance-card-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
+/* ================= FINANCE CARD ================= */
+.finance-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  background: #fff;
+  border-radius: 14px;
+  padding: 20px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: 0.3s ease;
+}
+
+.finance-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* ICON */
+.finance-card .card-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 20px;
+  color: #fff;
+}
+
+/* TEXT */
+.finance-card .card-text h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #555;
+}
+
+.finance-card .card-amount {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+/* WARNA TIAP CARD */
+.finance-card.pemasukan .card-icon {
+  background: #28a745;
+}
+
+.finance-card.pengeluaran .card-icon {
+  background: #dc3545;
+}
+
+.finance-card.kas .card-icon {
+  background: #007bff;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+  .finance-card-wrapper {
+    grid-template-columns: 1fr;
+  }
+}

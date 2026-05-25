@@ -9,36 +9,43 @@ $votingModel = new VotingModel();
 $suaraModel  = new SuaraModel();
 $kepengurusanModel = new KepengurusanModel();
 
-// 🔥 AUTO UPDATE STATUS
-$votingModel->autoUpdateStatus();
-// 🔥 AUTO MASUK KE KEPENGURUSAN
-$votingList = $votingModel->getAllVoting();
+$action = $_GET['action'] ?? null;
+$page   = $_GET['page'] ?? null;
+function autoProcessVoting($votingModel, $kepengurusanModel){
 
-foreach($votingList as $v){
+    $votingModel->autoUpdateStatus();
 
-    if($v['status'] == 'selesai'){
+    $votingList = $votingModel->getAllVoting();
 
-        // cek sudah diproses atau belum
-        $cek = $kepengurusanModel->cekVotingSelesai($v['id_voting']);
+    foreach($votingList as $v){
 
-        if(!$cek){
-    $dataPemenang = $votingModel->getPemenangPerJabatan($v['id_voting']);
-    if(!empty($dataPemenang)){
-        prosesPemenang($votingModel, $kepengurusanModel, $v['id_voting']);
-    } else {
-        // jangan die, log saja
-        error_log("Voting ID {$v['id_voting']} selesai tapi belum ada suara.");
+        if($v['status'] == 'selesai'){
+
+            $cek = $kepengurusanModel->cekVotingSelesai($v['id_voting']);
+
+            if(!$cek){
+
+                $dataPemenang = $votingModel->getPemenangPerJabatan($v['id_voting']);
+
+                if(!empty($dataPemenang)){
+                    prosesPemenang($votingModel, $kepengurusanModel, $v['id_voting']);
+                }
+            }
+        }
     }
 }
-    }
-}
+
 
 if(!isset($_SESSION['user'])){
     header("Location: ../../public/login.php");
     exit;
 }
 
-$action = $_GET['action'] ?? null;
+$page = $_GET['page'] ?? null;
+
+if($page === 'voting'){
+    autoProcessVoting($votingModel, $kepengurusanModel);
+}
 
 try {
     if($action === "vote"){

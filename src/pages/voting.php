@@ -1,9 +1,11 @@
 <?php
-$tab = $_GET['tab'] ?? 'voting';
+
+$tab = $_GET['tab'] ?? 'agenda';
 
 // cegah warning variable undefined
-$voting = $voting ?? [];
+$agenda = $agenda ?? [];
 $kandidat = $kandidat ?? [];
+$voting = $voting ?? [];
 $anggota = $anggota ?? [];
 $user = $user ?? [];
 ?>
@@ -12,20 +14,23 @@ $user = $user ?? [];
 
     <!-- ================= SUBMENU ================= -->
     <div class="submenu">
-        <button class="submenu-btn <?= ($tab == 'voting') ? 'active' : '' ?>"
-            onclick="showTab(this, 'voting')">Voting</button>
+        <button class="submenu-btn <?= ($tab == 'agenda') ? 'active' : '' ?>"
+            onclick="showTab(this, 'agenda')">Agenda</button>
 
         <button class="submenu-btn <?= ($tab == 'kandidat') ? 'active' : '' ?>"
             onclick="showTab(this, 'kandidat')">Kandidat</button>
+
+        <button class="submenu-btn <?= ($tab == 'voting') ? 'active' : '' ?>"
+            onclick="showTab(this, 'voting')">voting</button>
 
         <button class="submenu-btn <?= ($tab == 'rekap') ? 'active' : '' ?>"
             onclick="showTab(this, 'rekap')">Rekap</button>
     </div>
 
-    <!-- ================= TAB VOTING ================= -->
-    <div id="tab-voting" class="tab-content <?= ($tab == 'voting') ? 'active' : '' ?>">
+    <!-- ================= TAB AGENDA ================= -->
+    <div id="tab-agenda" class="tab-content <?= ($tab == 'agenda') ? 'active' : '' ?>">
         <div class="header-voting">
-            <h2>Kelola Voting</h2>
+            <h2>Kelola Agenda</h2>
             <?php 
 if (
     isset($_SESSION['user']) && 
@@ -34,7 +39,7 @@ if (
     $_SESSION['user']['jabatan'] != 'bendahara 2'
 ) { 
 ?>
-            <button class="btn btn-tambah" onclick="openVotingPopup()">+ Tambah Voting</button>
+            <button class="btn btn-tambah" onclick="openVotingPopup()">+ Tambah Agenda</button>
             <?php } ?>
         </div>
 
@@ -136,7 +141,6 @@ if (
                         <th>Visi</th>
                         <th>Misi</th>
                         <th>Aksi</th>
-                        <th>Vote</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -146,14 +150,14 @@ if (
                         <td><?= $row['judul'] ?></td>
                         <td><?= $row['nama_lengkap'] ?></td>
                         <td class="text-center"><?= $row['jabatan'] ?></td>
-                        <td class="text-center"><?= $row['no_paslon'] ?></td>
+                        <td class="text-center"><?= $row['no_kandidat'] ?></td>
                         <td><?= $row['visi'] ?></td>
                         <td><?= $row['misi'] ?></td>
                         <td>
                             <!-- DETAIL -->
                             <button class="btn btn-detail" data-nama="<?= $row['nama_lengkap'] ?>"
                                 data-voting="<?= $row['judul'] ?>" data-jabatan="<?= $row['jabatan'] ?>"
-                                data-no="<?= $row['no_paslon'] ?>" data-visi="<?= $row['visi'] ?>"
+                                data-no="<?= $row['no_kandidat'] ?>" data-visi="<?= $row['visi'] ?>"
                                 data-misi="<?= $row['misi'] ?>" onclick="openDetailKandidat(this)">
                                 <i class="fa fa-eye"></i>
                             </button>
@@ -170,7 +174,7 @@ if (
                             <!-- Ubah -->
                             <button class="btn btn-ubah-kandidat" data-id="<?= $row['id_calon'] ?>"
                                 data-id_voting="<?= $row['id_voting'] ?>" data-id_pengguna="<?= $row['id_pengguna'] ?>"
-                                data-jabatan="<?= $row['jabatan'] ?>" data-no_paslon="<?= $row['no_paslon'] ?>"
+                                data-jabatan="<?= $row['jabatan'] ?>" data-no_kandidat="<?= $row['no_kandidat'] ?>"
                                 data-visi="<?= $row['visi'] ?>" data-misi="<?= $row['misi'] ?>">
                                 <i class="fa fa-pen-to-square"></i>
                             </button>
@@ -180,14 +184,6 @@ if (
                                 <i class="fa fa-trash"></i>
                             </a>
                             <?php } ?>
-                        </td>
-                        <td>
-                            <?php if($row['status']=='dibuka'): ?>
-                            <a href="../src/controllers/VotingController.php?action=vote&id_calon=<?= $row['id_calon'] ?>"
-                                class="btn btn-vote">Vote</a>
-                            <?php else: ?>
-                            <button class="btn btn-ditutup" disabled><i class="fa-solid fa-lock"></i></button>
-                            <?php endif; ?>
                         </td>
                     </tr>
                     <?php endforeach; ?>
@@ -237,12 +233,138 @@ if (
         </div>
     </div>
 
+    <!-- ================= TAB VOTING ================= -->
+    <div id="tab-voting" class="tab-content <?= ($tab == 'voting') ? 'active' : '' ?>">
+
+        <?php if (!empty($votings)) : ?>
+        <?php foreach ($votings as $v) : ?>
+
+        <!-- ================= INFO VOTING ================= -->
+        <div class="voting-info">
+            <h3 class="voting-title">
+                <?= htmlspecialchars($v['judul']) ?>
+            </h3>
+
+            <p>
+                Periode: <?= htmlspecialchars($v['periode']) ?><br>
+                Masa Jabatan: <?= $v['masa_awal_jabatan'] ?> - <?= $v['masa_akhir_jabatan'] ?><br>
+                Dibuka: <?= $v['tanggal_buka'] ?> | Ditutup: <?= $v['tanggal_tutup'] ?><br>
+                Status: <b><?= strtoupper($v['status']) ?></b>
+            </p>
+        </div>
+
+        <!-- ================= CALON KANDIDAT ================= -->
+        <?php if ($v['status'] == 'dibuka') : ?>
+
+        <div class="calon-wrapper">
+
+            <?php if (!empty($v['calon'])) : ?>
+
+            <?php
+                    // 🔥 GROUPING BERDASARKAN JABATAN
+                    $grouped = [];
+                    foreach ($v['calon'] as $c) {
+                        $grouped[$c['jabatan']][] = $c;
+                    }
+                    ?>
+
+            <?php foreach ($grouped as $jabatanCalon => $listCalon) : ?>
+
+            <h3 class="kategori-title">
+                Calon <?= ucfirst($jabatanCalon) ?>
+            </h3>
+
+            <?php foreach ($listCalon as $c) : ?>
+
+            <div class="calon-card">
+
+                <!-- FOTO -->
+                <div class="calon-foto">
+                    <img src="../uploads/<?= htmlspecialchars($c['foto']) ?>" class="foto-kandidat">
+                </div>
+
+                <!-- CONTENT -->
+                <div class="calon-content">
+
+                    <div>
+                        <strong><?= htmlspecialchars($c['nama_lengkap']) ?></strong>
+
+                        <small>No Kandidat: <?= htmlspecialchars($c['no_kandidat']) ?></small>
+                        <small>Jabatan: <?= htmlspecialchars($c['jabatan']) ?></small>
+
+                        <div class="calon-visi">
+                            <b>Visi:</b><br>
+                            <?= nl2br(htmlspecialchars($c['visi'])) ?>
+                        </div>
+
+                        <div class="calon-misi">
+                            <b>Misi:</b><br>
+                            <?= nl2br(htmlspecialchars($c['misi'])) ?>
+                        </div>
+                    </div>
+
+                    <!-- BUTTON VOTE -->
+                    <div class="card-action">
+
+                        <?php if ($v['status'] !== 'dibuka') : ?>
+
+                        <span class="btn-vote disabled">
+                            Voting Ditutup
+                        </span>
+
+                        <?php else : ?>
+
+                        <a href="../src/controllers/VotingController.php?action=vote&id_calon=<?= $c['id_calon'] ?>&tab=voting"
+                            onclick="return confirm('Yakin memilih kandidat ini?')" class="btn-vote">
+                            Vote
+                        </a>
+
+                        <?php endif; ?>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <?php endforeach; ?>
+
+            <?php endforeach; ?>
+
+            <?php else : ?>
+            <p class="no-calon">Belum ada kandidat</p>
+            <?php endif; ?>
+
+        </div>
+
+        <?php elseif ($v['status'] == 'draft') : ?>
+
+        <p style="text-align:center;color:#888;margin:20px 0;">
+            Voting belum dibuka
+        </p>
+
+        <?php endif; ?>
+
+        <?php endforeach; ?>
+
+        <?php else : ?>
+        <p style="text-align:center;color:#888;">
+            Tidak ada voting yang sedang dibuka
+        </p>
+        <?php endif; ?>
+
+    </div>
+
+
     <!-- ================= TAB REKAP ================= -->
+    <?php if (!empty($votings) && $votings[0]['status'] == 'selesai') : ?>
+
     <div id="tab-rekap" class="tab-content <?= ($tab == 'rekap') ? 'active' : '' ?>">
 
         <div class="header-voting">
             <h2>Rekap Suara</h2>
         </div>
+
         <div class="table-wrapper-voting">
             <div class="table-voting">
                 <table class="pages-voting-table">
@@ -252,36 +374,41 @@ if (
                             <th>Voting</th>
                             <th>Nama</th>
                             <th>Jabatan</th>
-                            <th>No</th>
+                            <th>No Kandidat</th>
                             <th>Total</th>
                         </tr>
                     </thead>
+
                     <tbody>
-                        <?php $no=1; foreach($kandidat as $row): ?>
+                        <?php $no = 1; foreach($kandidat as $row): ?>
                         <tr>
                             <td class="text-center"><?= $no++; ?></td>
-                            <td><?= $row['judul'] ?></td>
-                            <td><?= $row['nama_lengkap'] ?></td>
-                            <td class="text-center"><?= $row['jabatan'] ?></td>
-                            <td class="text-center"><?= $row['no_paslon'] ?></td>
+                            <td><?= htmlspecialchars($row['judul']) ?></td>
+                            <td><?= htmlspecialchars($row['nama_lengkap']) ?></td>
+                            <td class="text-center"><?= htmlspecialchars($row['jabatan']) ?></td>
+                            <td class="text-center"><?= htmlspecialchars($row['no_kandidat']) ?></td>
                             <td class="total-suara">
                                 <?= $votingModel->countSuara($row['id_calon']) ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
+
                 </table>
             </div>
         </div>
+
     </div>
+
+    <?php endif; ?>
 
 </div>
 
-<!-- ================= Popup Ubah Voting ================= -->
+<!-- ================= Popup Ubah Agenda ================= -->
 <div id="modalEdit" class="popup popup-voting">
     <div class="popup-content popup-voting-content">
         <span class="popup-close">&times;</span>
-        <h3>Ubah Voting</h3>
+        <h3>Ubah Agenda</h3>
 
         <form class="form-voting" action="../src/controllers/VotingController.php?action=updateVoting" method="POST">
             <input type="hidden" name="id_voting" id="edit_id">
@@ -330,7 +457,7 @@ if (
             <label>Jabatan</label>
             <input type="text" name="jabatan" id="editKandidat_jabatan" required>
             <label>No Paslon</label>
-            <input type="text" name="no_paslon" id="editKandidat_no_paslon" required>
+            <input type="text" name="no_kandidat" id="editKandidat_no_kandidat" required>
             <label>Visi</label>
             <input type="text" name="visi" id="editKandidat_visi" required>
             <label>Misi</label>
@@ -340,11 +467,11 @@ if (
     </div>
 </div>
 
-<!-- ================= Popup Tambah Voting ================= -->
+<!-- ================= Popup Tambah Agenda ================= -->
 <div id="popupVoting" class="popup popup-voting">
     <div class="popup-content popup-voting-content">
         <span class="popup-close" onclick="closeVotingPopup()">&times;</span>
-        <h3>Tambah Voting</h3>
+        <h3>Tambah Agenda</h3>
 
         <form class="form-voting" action="../src/controllers/VotingController.php?action=createVoting" method="POST">
             <input type="hidden" name="id_pengguna" value="<?= $user['id_pengguna'] ?>">
@@ -418,7 +545,7 @@ if (
                     Anggota</option>
             </select>
             <label>No Paslon</label>
-            <input type="text" name="no_paslon" required>
+            <input type="text" name="no_kandidat" required>
             <label>Visi</label>
             <input name="visi" required></input>
             <label>Misi</label>
@@ -476,7 +603,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let tab = params.get("tab");
 
     if (!tab) {
-        tab = "voting";
+        tab = "agenda";
     }
 
     const btn = document.querySelector(`.submenu-btn[onclick*="${tab}"]`);
@@ -573,7 +700,7 @@ document.querySelectorAll(".btn-ubah-kandidat").forEach(btn => {
         document.getElementById("editKandidat_id_voting").value = btn.dataset.id_voting;
         document.getElementById("editKandidat_id_pengguna").value = btn.dataset.id_pengguna;
         document.getElementById("editKandidat_jabatan").value = btn.dataset.jabatan;
-        document.getElementById("editKandidat_no_paslon").value = btn.dataset.no_paslon;
+        document.getElementById("editKandidat_no_kandidat").value = btn.dataset.no_kandidat;
         document.getElementById("editKandidat_visi").value = btn.dataset.visi;
         document.getElementById("editKandidat_misi").value = btn.dataset.misi;
 

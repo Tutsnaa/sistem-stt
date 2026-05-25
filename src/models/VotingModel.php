@@ -159,4 +159,73 @@ public function getCalonById($id_calon)
 
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
+public function getVotingByStatus($status){
+    $stmt = $this->conn->prepare("SELECT * FROM voting WHERE status = ?");
+    $stmt->execute([$status]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+    public function getCalonByVoting($id_voting){
+    $stmt = $this->conn->prepare("
+        SELECT 
+            c.id_calon,
+            c.id_pengguna,
+            c.id_voting,
+            c.jabatan,
+            c.no_kandidat,
+            c.visi,
+            c.misi,
+            u.nama_lengkap,
+            u.foto
+        FROM calon_kandidat c
+        JOIN pengguna u ON u.id_pengguna = c.id_pengguna
+        WHERE c.id_voting = ?
+        ORDER BY c.no_kandidat ASC
+    ");
+
+    $stmt->execute([$id_voting]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function getPemenangVoting($id_voting){
+
+    $stmt = $this->conn->prepare("
+        SELECT 
+            c.id_calon,
+            c.jabatan,
+            c.no_kandidat,
+            c.visi,
+            c.misi,
+            u.nama_lengkap,
+            u.foto,
+            COUNT(s.id_suara) as total_suara
+        FROM calon_kandidat c
+        JOIN pengguna u 
+            ON u.id_pengguna = c.id_pengguna
+        LEFT JOIN suara_voting s 
+            ON s.id_calon = c.id_calon
+        WHERE c.id_voting = ?
+        GROUP BY c.id_calon
+        ORDER BY c.jabatan ASC, total_suara DESC
+    ");
+
+    $stmt->execute([$id_voting]);
+
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // AMBIL SUARA TERBANYAK PER JABATAN
+    $pemenang = [];
+
+    foreach($data as $row){
+
+        if(!isset($pemenang[$row['jabatan']])){
+
+            $pemenang[$row['jabatan']] = $row;
+
+        }
+    }
+
+    return $pemenang;
+}
 }

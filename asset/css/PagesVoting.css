@@ -51,6 +51,8 @@
 ============================== */
 .tab-content {
   display: none;
+  position: relative;
+  z-index: 1;
 }
 
 #tab-rekap h2 {
@@ -59,6 +61,8 @@
 
 .tab-content.active {
   display: block;
+  position: relative;
+  z-index: 1;
 }
 
 /* ==============================

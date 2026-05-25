@@ -1,0 +1,298 @@
+/* ================= INFO VOTING ================= */
+.voting-info {
+  background-color: #fff3e0;
+  padding: 20px 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.voting-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ff9644;
+  margin-bottom: 12px;
+}
+
+.voting-info p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  margin: 0;
+}
+
+/* ================= KATEGORI ================= */
+.kategori-title {
+  text-align: center;
+  font-size: 28px;
+  margin: 50px 0 20px;
+  color: #ff9644;
+  font-weight: bold;
+}
+
+.card-kategori-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ================= CARD CONTAINER ================= */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ================= CARD KANDIDAT HORIZONTAL ================= */
+.card-kandidat {
+  display: flex;
+  flex-direction: row;
+  height: 450px;
+  /* tinggi card tetap */
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.card-kandidat:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* FOTO KANDIDAT DI KIRI */
+.foto-kandidat {
+  width: 500px;
+  height: 100%;
+  object-fit: cover;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+}
+
+/* INFO DI KANAN */
+.card-info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.card-info h1,
+.card-info h2,
+.card-info h3 {
+  margin: 0;
+}
+
+/* VISI & MISI */
+.visi,
+.misi {
+  margin: 5px 0;
+  padding: 5px;
+  background: #f9fafb;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.4;
+  overflow-y: auto;
+}
+
+/* BUTTON VOTE */
+.card-action {
+  margin-top: 5px;
+  text-align: right;
+}
+
+.btn-vote {
+  padding: 6px 12px;
+  background: #007bff;
+  color: #fff;
+  border-radius: 6px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.btn-vote:hover {
+  background: #0056b3;
+}
+
+/* Jika tidak ada kandidat */
+.no-voting {
+  text-align: center;
+  font-size: 16px;
+  color: #888;
+  padding: 50px 0;
+  font-weight: bold;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 1300px) {
+  .card-container {
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .card-kandidat {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .foto-kandidat {
+    width: 100%;
+    height: 200px;
+  }
+
+  .card-info {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 500px) {
+  .card-container {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}
+
+/* ================= CALON WRAPPER ================= */
+.calon-wrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin: 30px auto;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+  gap: 20px;
+}
+
+/* ================= CARD CALON ================= */
+.calon-card {
+  display: flex;
+  flex-direction: row;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+
+  height: auto; /* penting */
+  min-height: 380px; /* biar tetap rapi */
+}
+
+.calon-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ================= FOTO ================= */
+.calon-foto {
+  width: 400px;
+  height: 100%;
+  flex-shrink: 0;
+  overflow: hidden; /* penting supaya gambar tidak keluar */
+}
+
+.calon-foto img {
+  width: 10 0%;
+  height: 100%;
+  object-fit: cover; /* biar tidak gepeng */
+  display: block;
+}
+
+.foto-kandidat {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ================= CONTENT ================= */
+.calon-content {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.calon-content strong {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.calon-content small {
+  color: #666;
+  display: block;
+  margin-bottom: 3px;
+}
+
+/* ================= VISI MISI (FIX CONFLICT) ================= */
+.calon-visi,
+.calon-misi {
+  margin-top: 8px;
+  padding: 8px;
+  background: #f9fafb;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.4;
+  max-height: 90px;
+  overflow-y: auto;
+}
+
+/* ================= ACTION ================= */
+.card-action {
+  text-align: right;
+  margin-top: 10px;
+}
+
+.btn-vote {
+  padding: 8px 14px;
+  background: #007bff;
+  color: #fff;
+  border-radius: 6px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: 0.3s;
+  display: inline-block;
+}
+
+.btn-vote:hover {
+  background: #0056b3;
+}
+
+/* ================= EMPTY ================= */
+.no-calon {
+  text-align: center;
+  font-size: 16px;
+  color: #888;
+  padding: 40px 0;
+  font-weight: bold;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .calon-card {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .calon-foto {
+    width: 100%;
+    height: 220px;
+  }
+}
+
+@media (max-width: 500px) {
+  .calon-wrapper {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}

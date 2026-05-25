@@ -1,11 +1,14 @@
 <?php
 session_start();
+
 // ================================
 // NOTIFIKASI
 // ================================
 require_once __DIR__ . '/../src/view/flash_message.php';
 
-// Cek login & pastikan sebagai anggota
+// ================================
+// CEK LOGIN
+// ================================
 if (!isset($_SESSION['user']) || $_SESSION['user']['jabatan'] !== 'anggota') {
     header("Location: dashboard_umum.php");
     exit();
@@ -14,53 +17,57 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['jabatan'] !== 'anggota') {
 $user = $_SESSION['user'];
 $page = $_GET['page'] ?? 'dashboard';
 
-// panggil model untuk menampilkan data pengguna
+// ================================
+// MODEL PENGGUNA
+// ================================
 require_once __DIR__ . '/../src/models/PenggunaModel.php';
-
-
 $model = new PenggunaModel();
 
-// ambil kata pencarian
-$search = isset($_GET['search']) ? $_GET['search'] : null;
-
-// ambil data anggota
+$search = $_GET['search'] ?? null;
 $dataAnggota = $model->getAll($search);
 
+// ================================
+// KEUANGAN
+// ================================
 require_once __DIR__ . '/../src/models/KeuanganModel.php';
-
 $keuanganModel = new KeuanganModel();
 
 $totalPemasukan = $keuanganModel->getTotalPemasukan();
 $totalPengeluaran = $keuanganModel->getTotalPengeluaran();
 $uangKas = $totalPemasukan - $totalPengeluaran;
 
+// ================================
+// PENGUMUMAN
+// ================================
 require_once __DIR__ . '/../src/models/PengumumanModel.php';
-
 $pengumumanModel = new PengumumanModel();
 
-// ambil jabatan user login
 $jabatan = $_SESSION['user']['jabatan'];
-
-// ambil data pengumuman
 $dataPengumuman = $pengumumanModel->getAllPengumuman($jabatan);
 
+// ================================
+// VOTING
+// ================================
 require_once __DIR__ . '/../src/models/VotingModel.php';
 require_once __DIR__ . '/../src/models/KandidatModel.php';
 
-
 $votingModel = new VotingModel();
-$votingModel->autoUpdateStatus();
 $kandidatModel = new KandidatModel();
 
-// Ambil semua voting
-$votingList = array_filter($votingModel->getAllVoting(), function($v){
-    return $v['status'] === 'dibuka';
-});
+// update status voting (draft/dibuka/selesai)
+$votingModel->autoUpdateStatus();
 
+// ambil voting yang masih dibuka
+$votings = $votingModel->getVotingByStatus('dibuka');
 
-// Ambil semua kandidat
+// isi calon per voting
+foreach ($votings as &$v) {
+    $v['calon'] = $votingModel->getCalonByVoting($v['id_voting']);
+}
+unset($v);
+
+// kandidat (opsional, kalau masih dipakai di rekap)
 $kandidat = $kandidatModel->getAllKandidat();
-
 ?>
 
 <!DOCTYPE html>
