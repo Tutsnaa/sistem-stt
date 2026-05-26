@@ -232,25 +232,49 @@ if (
             </div>
         </div>
     </div>
-
     <!-- ================= TAB VOTING ================= -->
     <div id="tab-voting" class="tab-content <?= ($tab == 'voting') ? 'active' : '' ?>">
+
+        <?php
+    $adaVoting = false;
+    ?>
 
         <?php if (!empty($votings)) : ?>
         <?php foreach ($votings as $v) : ?>
 
+        <?php if($v['status'] != 'selesai') : ?>
+
+        <?php $adaVoting = true; ?>
+
         <!-- ================= INFO VOTING ================= -->
         <div class="voting-info">
+
             <h3 class="voting-title">
                 <?= htmlspecialchars($v['judul']) ?>
             </h3>
 
             <p>
                 Periode: <?= htmlspecialchars($v['periode']) ?><br>
-                Masa Jabatan: <?= $v['masa_awal_jabatan'] ?> - <?= $v['masa_akhir_jabatan'] ?><br>
-                Dibuka: <?= $v['tanggal_buka'] ?> | Ditutup: <?= $v['tanggal_tutup'] ?><br>
-                Status: <b><?= strtoupper($v['status']) ?></b>
+
+                Masa Jabatan:
+                <?= $v['masa_awal_jabatan'] ?>
+                -
+                <?= $v['masa_akhir_jabatan'] ?>
+                <br>
+
+                Dibuka:
+                <?= $v['tanggal_buka'] ?>
+
+                |
+
+                Ditutup:
+                <?= $v['tanggal_tutup'] ?>
+                <br>
+
+                Status:
+                <b><?= strtoupper($v['status']) ?></b>
             </p>
+
         </div>
 
         <!-- ================= CALON KANDIDAT ================= -->
@@ -261,12 +285,13 @@ if (
             <?php if (!empty($v['calon'])) : ?>
 
             <?php
-                    // 🔥 GROUPING BERDASARKAN JABATAN
-                    $grouped = [];
-                    foreach ($v['calon'] as $c) {
-                        $grouped[$c['jabatan']][] = $c;
-                    }
-                    ?>
+        // 🔥 GROUPING BERDASARKAN JABATAN
+        $grouped = [];
+
+        foreach ($v['calon'] as $c) {
+            $grouped[$c['jabatan']][] = $c;
+        }
+        ?>
 
             <?php foreach ($grouped as $jabatanCalon => $listCalon) : ?>
 
@@ -280,27 +305,46 @@ if (
 
                 <!-- FOTO -->
                 <div class="calon-foto">
+
                     <img src="../uploads/<?= htmlspecialchars($c['foto']) ?>" class="foto-kandidat">
+
                 </div>
 
                 <!-- CONTENT -->
                 <div class="calon-content">
 
                     <div>
-                        <strong><?= htmlspecialchars($c['nama_lengkap']) ?></strong>
 
-                        <small>No Kandidat: <?= htmlspecialchars($c['no_kandidat']) ?></small>
-                        <small>Jabatan: <?= htmlspecialchars($c['jabatan']) ?></small>
+                        <strong>
+                            <?= htmlspecialchars($c['nama_lengkap']) ?>
+                        </strong>
+
+                        <small>
+                            No Kandidat:
+                            <?= htmlspecialchars($c['no_kandidat']) ?>
+                        </small>
+
+                        <small>
+                            Jabatan:
+                            <?= htmlspecialchars($c['jabatan']) ?>
+                        </small>
 
                         <div class="calon-visi">
+
                             <b>Visi:</b><br>
+
                             <?= nl2br(htmlspecialchars($c['visi'])) ?>
+
                         </div>
 
                         <div class="calon-misi">
+
                             <b>Misi:</b><br>
+
                             <?= nl2br(htmlspecialchars($c['misi'])) ?>
+
                         </div>
+
                     </div>
 
                     <!-- BUTTON VOTE -->
@@ -316,7 +360,9 @@ if (
 
                         <a href="../src/controllers/VotingController.php?action=vote&id_calon=<?= $c['id_calon'] ?>&tab=voting"
                             onclick="return confirm('Yakin memilih kandidat ini?')" class="btn-vote">
+
                             Vote
+
                         </a>
 
                         <?php endif; ?>
@@ -328,11 +374,14 @@ if (
             </div>
 
             <?php endforeach; ?>
-
             <?php endforeach; ?>
 
             <?php else : ?>
-            <p class="no-calon">Belum ada kandidat</p>
+
+            <p class="no-calon">
+                Belum ada kandidat
+            </p>
+
             <?php endif; ?>
 
         </div>
@@ -344,13 +393,24 @@ if (
         </p>
 
         <?php endif; ?>
+        <?php endif; ?>
 
         <?php endforeach; ?>
 
-        <?php else : ?>
+        <?php if(!$adaVoting): ?>
+
         <p style="text-align:center;color:#888;">
-            Tidak ada voting yang sedang dibuka
+            Tidak ada voting
         </p>
+
+        <?php endif; ?>
+
+        <?php else : ?>
+
+        <p style="text-align:center;color:#888;">
+            Tidak ada voting
+        </p>
+
         <?php endif; ?>
 
     </div>
@@ -380,7 +440,19 @@ if (
                     </thead>
 
                     <tbody>
-                        <?php $no = 1; foreach($kandidat as $row): ?>
+                        <?php
+$no = 1;
+
+/* AMBIL ID VOTING TERBARU */
+$latestVotingId = end($votings)['id_voting'];
+
+foreach($kandidat as $row):
+
+/* HANYA TAMPILKAN REKAP VOTING TERBARU */
+if($row['id_voting'] != $latestVotingId){
+    continue;
+}
+?>
                         <tr>
                             <td class="text-center"><?= $no++; ?></td>
                             <td><?= htmlspecialchars($row['judul']) ?></td>

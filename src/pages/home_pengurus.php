@@ -7,16 +7,19 @@ $kandidat = $kandidat ?? [];
 <div class="home-content">
 
     <div class="main-content-header">
+
         <h2>Informasi Keuangan</h2>
 
         <!-- ===== FILTER ===== -->
         <div class="filter-box">
+
             <form method="GET" action="dashboard_pengurus.php">
 
                 <input type="hidden" name="page" value="home_pengurus">
 
                 <select name="bulan">
                     <option value="">-- Pilih Bulan --</option>
+
                     <option value="1" <?= ($_GET['bulan'] ?? '') == 1 ? 'selected' : '' ?>>Januari</option>
                     <option value="2" <?= ($_GET['bulan'] ?? '') == 2 ? 'selected' : '' ?>>Februari</option>
                     <option value="3" <?= ($_GET['bulan'] ?? '') == 3 ? 'selected' : '' ?>>Maret</option>
@@ -32,86 +35,147 @@ $kandidat = $kandidat ?? [];
                 </select>
 
                 <select name="tahun">
+
                     <option value="">-- Pilih Tahun --</option>
 
                     <?php for($i = 2026; $i <= date('Y'); $i++): ?>
+
                     <option value="<?= $i ?>" <?= (isset($_GET['tahun']) && $_GET['tahun'] == $i) ? 'selected' : '' ?>>
+
                         <?= $i ?>
+
                     </option>
+
                     <?php endfor; ?>
+
                 </select>
 
                 <button type="submit">Filter</button>
-                <a href="dashboard_pengurus.php?page=home_pengurus" class="btn-reset-pengurus">Reset</a>
+
+                <a href="dashboard_pengurus.php?page=home_pengurus" class="btn-reset-pengurus">
+
+                    Reset
+
+                </a>
 
             </form>
+
         </div>
+        <!-- ===== END FILTER ===== -->
 
         <!-- ===== CARD ===== -->
         <div class="finance-card-wrapper">
 
+            <!-- PEMASUKAN -->
             <div class="finance-card pemasukan">
+
                 <div class="card-icon">
                     <i class="fa-solid fa-arrow-down"></i>
                 </div>
+
                 <div class="card-text">
+
                     <h3>Pemasukan</h3>
+
                     <div class="card-amount">
                         Rp <?= number_format($totalPemasukan,0,',','.'); ?>
                     </div>
+
                 </div>
+
             </div>
 
+            <!-- PENGELUARAN -->
             <div class="finance-card pengeluaran">
+
                 <div class="card-icon">
                     <i class="fa-solid fa-arrow-up"></i>
                 </div>
+
                 <div class="card-text">
+
                     <h3>Pengeluaran</h3>
+
                     <div class="card-amount">
                         Rp <?= number_format($totalPengeluaran,0,',','.'); ?>
                     </div>
+
                 </div>
+
             </div>
 
+            <!-- UANG KAS -->
             <div class="finance-card kas">
+
                 <div class="card-icon">
                     <i class="fa-solid fa-wallet"></i>
                 </div>
+
                 <div class="card-text">
+
                     <h3>Uang Kas</h3>
+
                     <div class="card-amount">
                         Rp <?= number_format($uangKas,0,',','.'); ?>
                     </div>
+
                 </div>
+
             </div>
 
         </div>
+        <!-- ===== END CARD ===== -->
 
     </div>
 
     <?php if (!empty($voting)): ?>
 
     <!-- =========================
-     CALON KANDIDAT
-========================= -->
+         CALON KANDIDAT
+    ========================= -->
     <div class="rekap-wrapper">
 
         <?php if (!empty($votings)) : ?>
         <?php foreach ($votings as $v) : ?>
 
+        <?php if($v['status'] != 'selesai') : ?>
         <!-- ================= INFO VOTING ================= -->
         <div class="voting-info">
+
             <h3 class="voting-title">
                 <?= htmlspecialchars($v['judul']) ?>
             </h3>
 
             <p>
-                Periode: <?= htmlspecialchars($v['periode']) ?><br>
-                Masa Jabatan: <?= $v['masa_awal_jabatan'] ?> - <?= $v['masa_akhir_jabatan'] ?><br>
-                Dibuka: <?= $v['tanggal_buka'] ?> | Ditutup: <?= $v['tanggal_tutup'] ?><br>
-                Status: <b><?= strtoupper($v['status']) ?></b>
+
+                Periode:
+                <?= htmlspecialchars($v['periode']) ?>
+                <br>
+
+                Masa Jabatan:
+                <?= $v['masa_awal_jabatan'] ?>
+                -
+                <?= $v['masa_akhir_jabatan'] ?>
+                <br>
+
+                <?php if($v['status'] == 'dibuka' || $v['status'] == 'ditutup') : ?>
+
+                Dibuka:
+                <?= $v['tanggal_buka'] ?>
+
+                |
+
+                Ditutup:
+                <?= $v['tanggal_tutup'] ?>
+                <br>
+
+                <?php endif; ?>
+
+                Status:
+                <b><?= strtoupper($v['status']) ?></b>
+
             </p>
+
         </div>
 
         <!-- ================= CALON KANDIDAT ================= -->
@@ -122,12 +186,13 @@ $kandidat = $kandidat ?? [];
             <?php if (!empty($v['calon'])) : ?>
 
             <?php
-                    // 🔥 GROUPING BERDASARKAN JABATAN
-                    $grouped = [];
-                    foreach ($v['calon'] as $c) {
-                        $grouped[$c['jabatan']][] = $c;
-                    }
-                    ?>
+            // 🔥 GROUPING BERDASARKAN JABATAN
+            $grouped = [];
+
+            foreach ($v['calon'] as $c) {
+                $grouped[$c['jabatan']][] = $c;
+            }
+            ?>
 
             <?php foreach ($grouped as $jabatanCalon => $listCalon) : ?>
 
@@ -141,27 +206,46 @@ $kandidat = $kandidat ?? [];
 
                 <!-- FOTO -->
                 <div class="calon-foto">
+
                     <img src="../uploads/<?= htmlspecialchars($c['foto']) ?>" class="foto-kandidat">
+
                 </div>
 
                 <!-- CONTENT -->
                 <div class="calon-content">
 
                     <div>
-                        <strong><?= htmlspecialchars($c['nama_lengkap']) ?></strong>
 
-                        <small>No Kandidat: <?= htmlspecialchars($c['no_kandidat']) ?></small>
-                        <small>Jabatan: <?= htmlspecialchars($c['jabatan']) ?></small>
+                        <strong>
+                            <?= htmlspecialchars($c['nama_lengkap']) ?>
+                        </strong>
+
+                        <small>
+                            No Kandidat:
+                            <?= htmlspecialchars($c['no_kandidat']) ?>
+                        </small>
+
+                        <small>
+                            Jabatan:
+                            <?= htmlspecialchars($c['jabatan']) ?>
+                        </small>
 
                         <div class="calon-visi">
+
                             <b>Visi:</b><br>
+
                             <?= nl2br(htmlspecialchars($c['visi'])) ?>
+
                         </div>
 
                         <div class="calon-misi">
+
                             <b>Misi:</b><br>
+
                             <?= nl2br(htmlspecialchars($c['misi'])) ?>
+
                         </div>
+
                     </div>
 
                     <!-- BUTTON VOTE -->
@@ -176,7 +260,11 @@ $kandidat = $kandidat ?? [];
                         <?php else : ?>
 
                         <a href="../src/controllers/VotingController.php?action=vote&id_calon=<?= $c['id_calon'] ?>"
-                            onclick="return confirm('Yakin memilih kandidat ini?')" class="btn-vote">Vote</a>
+                            onclick="return confirm('Yakin memilih kandidat ini?')" class="btn-vote">
+
+                            Vote
+
+                        </a>
 
                         <?php endif; ?>
 
@@ -187,11 +275,14 @@ $kandidat = $kandidat ?? [];
             </div>
 
             <?php endforeach; ?>
-
             <?php endforeach; ?>
 
             <?php else : ?>
-            <p class="no-calon">Belum ada kandidat</p>
+
+            <p class="no-calon">
+                Belum ada kandidat
+            </p>
+
             <?php endif; ?>
 
         </div>
@@ -204,28 +295,44 @@ $kandidat = $kandidat ?? [];
 
         <?php endif; ?>
 
+        <?php endif; ?>
         <?php endforeach; ?>
 
         <?php else : ?>
+
         <p style="text-align:center;color:#888;">
             Tidak ada voting yang sedang dibuka
         </p>
+
         <?php endif; ?>
 
-        <!-- PANGGIL PEMENANG -->
+        <!-- =========================
+     PEMENANG
+========================= -->
+
         <?php
 $pemenang = $votingModel->getPemenangVoting($v['id_voting']);
+
+/* batas tampil 7 hari setelah voting selesai */
+$tanggalSelesai = strtotime($v['tanggal_tutup']);
+$batasTampil = strtotime('+7 days', $tanggalSelesai);
+$sekarang = time();
 ?>
 
+        <?php if($v['status'] == 'selesai' && $sekarang <= $batasTampil): ?>
+
         <?php foreach($pemenang as $row): ?>
+
+        <!-- JUDUL VOTING -->
+        <h2 style="text-align:center;" class="judul-voting-pemenang">
+            Pemenang <?= htmlspecialchars($v['judul']) ?>
+        </h2>
 
         <div class="pemenang-card">
 
             <img src="../uploads/<?= htmlspecialchars($row['foto']) ?>" width="120">
 
-            <h3>
-                <?= htmlspecialchars($row['nama_lengkap']) ?>
-            </h3>
+            <h3><?= htmlspecialchars($row['nama_lengkap']) ?></h3>
 
             <p>
                 Jabatan:
@@ -246,16 +353,19 @@ $pemenang = $votingModel->getPemenangVoting($v['id_voting']);
 
         <?php endforeach; ?>
 
+        <?php endif; ?>
     </div>
 
     <?php endif; ?>
 
     <!-- =========================
-     SECTION PENGUMUMAN PENGURUS
-========================= -->
+         SECTION PENGUMUMAN PENGURUS
+    ========================= -->
     <div id="pengumuman" class="pengurus-pengumuman-section">
 
-        <h2 class="pengurus-title">Pengumuman</h2>
+        <h2 class="pengurus-title">
+            Pengumuman
+        </h2>
 
         <div class="pengurus-pengumuman-list">
 
@@ -266,58 +376,86 @@ $pemenang = $votingModel->getPemenangVoting($v['id_voting']);
 
             <div class="pengurus-pengumuman-card">
 
-                <h3 class="pengurus-judul"><?= htmlspecialchars($p['judul']) ?></h3>
+                <h3 class="pengurus-judul">
+                    <?= htmlspecialchars($p['judul']) ?>
+                </h3>
 
-                <p class="pengurus-isi"><?= nl2br(htmlspecialchars($p['isi'])) ?></p>
+                <p class="pengurus-isi">
+                    <?= nl2br(htmlspecialchars($p['isi'])) ?>
+                </p>
 
-                <?php 
-                $fileUrl = '';
-                ?>
+                <?php $fileUrl = ''; ?>
 
                 <?php if($p['file']): ?>
 
-                <?php 
+                <?php
                 $ext = strtolower(pathinfo($p['file'], PATHINFO_EXTENSION));
                 $fileUrl = "../uploads/".$p['file'];
                 ?>
 
                 <!-- GAMBAR -->
                 <?php if(in_array($ext, ['jpg','jpeg','png','gif'])): ?>
+
                 <img src="<?= $fileUrl ?>" class="pengurus-img">
 
                 <!-- PDF -->
                 <?php elseif($ext === 'pdf'): ?>
+
                 <div class="file-card" onclick="window.open('<?= $fileUrl ?>', '_blank')">
+
                     <div class="file-info">
+
                         <i class="fa-solid fa-file"></i>
-                        <span><?= basename($p['file']); ?></span>
+
+                        <span>
+                            <?= basename($p['file']); ?>
+                        </span>
+
                     </div>
+
                 </div>
 
                 <!-- OFFICE -->
                 <?php elseif(in_array($ext, ['doc','docx','xls','xlsx','ppt','pptx'])): ?>
+
                 <div class="file-card" onclick="window.open('<?= $fileUrl ?>', '_blank')">
+
                     <div class="file-info">
+
                         <i class="fa-solid fa-file"></i>
-                        <span><?= basename($p['file']); ?></span>
+
+                        <span>
+                            <?= basename($p['file']); ?>
+                        </span>
+
                     </div>
+
                 </div>
-                <?php endif; ?>
 
                 <?php endif; ?>
+                <?php endif; ?>
 
-                <!-- 🔥 FOOTER -->
+                <!-- FOOTER -->
                 <div class="pengurus-footer">
 
                     <?php if($p['file']): ?>
+
                     <a href="<?= $fileUrl ?>" download class="pengurus-btn">
+
                         Unduh
+
                     </a>
+
                     <?php endif; ?>
 
                     <small class="pengurus-info">
-                        Oleh: <?= $p['nama_lengkap'] ?><br>
+
+                        Oleh:
+                        <?= $p['nama_lengkap'] ?>
+                        <br>
+
                         <?= date('d M Y', strtotime($p['tanggal_dibuat'])) ?>
+
                     </small>
 
                 </div>
@@ -325,11 +463,13 @@ $pemenang = $votingModel->getPemenangVoting($v['id_voting']);
             </div>
 
             <?php endif; ?>
-
             <?php endforeach; ?>
+
             <?php else: ?>
 
-            <p class="pengurus-kosong">Tidak ada pengumuman.</p>
+            <p class="pengurus-kosong">
+                Tidak ada pengumuman.
+            </p>
 
             <?php endif; ?>
 
@@ -337,5 +477,4 @@ $pemenang = $votingModel->getPemenangVoting($v['id_voting']);
 
     </div>
 
-</div>
 </div>
