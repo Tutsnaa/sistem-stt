@@ -188,44 +188,48 @@ public function getVotingByStatus($status){
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-public function getPemenangVoting($id_voting){
-
+public function getPemenangVoting($id_voting)
+{
     $stmt = $this->conn->prepare("
         SELECT 
-            c.id_calon,
-            c.jabatan,
-            c.no_kandidat,
-            c.visi,
-            c.misi,
-            u.nama_lengkap,
-            u.foto,
-            COUNT(s.id_suara) as total_suara
-        FROM calon_kandidat c
-        JOIN pengguna u 
-            ON u.id_pengguna = c.id_pengguna
-        LEFT JOIN suara_voting s 
-            ON s.id_calon = c.id_calon
-        WHERE c.id_voting = ?
-        GROUP BY c.id_calon
-        ORDER BY c.jabatan ASC, total_suara DESC
+            x.id_calon,
+            x.jabatan,
+            x.no_kandidat,
+            x.visi,
+            x.misi,
+            x.nama_lengkap,
+            x.foto,
+            x.total_suara
+        FROM (
+            SELECT 
+                c.id_calon,
+                c.jabatan,
+                c.no_kandidat,
+                c.visi,
+                c.misi,
+                u.nama_lengkap,
+                u.foto,
+                COUNT(s.id_suara) AS total_suara,
+                
+                -- ranking per jabatan
+                ROW_NUMBER() OVER (
+                    PARTITION BY c.jabatan 
+                    ORDER BY COUNT(s.id_suara) DESC
+                ) AS rn
+
+            FROM calon_kandidat c
+            JOIN pengguna u 
+                ON u.id_pengguna = c.id_pengguna
+            LEFT JOIN suara_voting s 
+                ON s.id_calon = c.id_calon
+            WHERE c.id_voting = ?
+            GROUP BY c.id_calon
+        ) x
+        WHERE x.rn = 1
+        ORDER BY x.jabatan ASC
     ");
 
     $stmt->execute([$id_voting]);
-
-    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    // AMBIL SUARA TERBANYAK PER JABATAN
-    $pemenang = [];
-
-    foreach($data as $row){
-
-        if(!isset($pemenang[$row['jabatan']])){
-
-            $pemenang[$row['jabatan']] = $row;
-
-        }
-    }
-
-    return $pemenang;
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 }

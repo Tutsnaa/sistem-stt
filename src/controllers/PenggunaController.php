@@ -37,9 +37,9 @@ if ($action == "create") {
         'email'          => $_POST['email'],
         'no_hp'          => $_POST['no_hp'],
         'alamat'         => $_POST['alamat'],
-        'jabatan'        => $_POST['jabatan'],
         'nama_pengguna'  => $_POST['nama_pengguna'],
-        'kata_sandi'     => $_POST['kata_sandi']
+        'kata_sandi'     => $_POST['kata_sandi'],
+        'jabatan' => $_POST['jabatan'] ?? 'anggota'
     ];
 
     /*

@@ -26,7 +26,7 @@
                     <label>Alamat</label>
                     <input type="text" name="alamat" required>
 
-                    <label>Jabatan</label>
+                    <!-- <label>Jabatan</label>
                     <select name="jabatan" required>
                         <option value="">-- Pilih Jabatan --</option>
                         <option value="ketua">Ketua</option>
@@ -36,7 +36,7 @@
                         <option value="bendahara 1">Bendahara 1</option>
                         <option value="bendahara 2">Bendahara 2</option>
                         <option value="anggota">Anggota</option>
-                    </select>
+                    </select> -->
 
                     <label>Username</label>
                     <input type="text" name="nama_pengguna" required>
@@ -100,10 +100,7 @@ if (
                             <th>No</th>
                             <th>Foto</th>
                             <th>Nama Lengkap</th>
-                            <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
                             <th>No HP</th>
-                            <?php } ?>
-
                             <th>Jabatan</th>
                             <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
 
@@ -129,9 +126,9 @@ if (
                             </td>
                             <td><?= htmlspecialchars($row['nama_lengkap']); ?></td>
 
-                            <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
+
                             <td style="text-align: center;"><?= htmlspecialchars($row['no_hp']); ?></td>
-                            <?php } ?>
+
 
                             <td style="text-align: center;"><?= htmlspecialchars($row['jabatan']); ?></td>
                             <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
@@ -148,6 +145,7 @@ if (
                                     <button class="btn-detail"
                                         data-nama="<?= htmlspecialchars($row['nama_lengkap']); ?>"
                                         data-email="<?= htmlspecialchars($row['email']); ?>"
+                                        data-hp="<?= htmlspecialchars($row['no_hp']); ?>"
                                         data-alamat="<?= htmlspecialchars($row['alamat']); ?>"
                                         data-jabatan="<?= htmlspecialchars($row['jabatan']); ?>"
                                         data-nama_pengguna="<?= htmlspecialchars($row['nama_pengguna']); ?>"
@@ -222,7 +220,10 @@ if (
                         <!-- KANAN (DATA) -->
                         <div class="detail-right">
                             <p><b>Nama:</b> <span id="d_nama"></span></p>
+                            <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
                             <p><b>Email:</b> <span id="d_email"></span></p>
+                            <?php } ?>
+                            <p><b>No HP:</b> <span id="d_hp"></span></p>
                             <p><b>Alamat:</b> <span class="alamat-box" id="d_alamat"></span></p>
                             <p><b>Jabatan:</b> <span id="d_jabatan"></span></p>
                             <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
@@ -342,7 +343,7 @@ if (
         }
 
         function closeModalEdit() {
-            document.getElementById("editModal").style.display = "none";
+            document.getElementById("editModal").style.display = "flex";
         }
 
         // ================= MODAL TAMBAH =================
@@ -357,12 +358,18 @@ if (
         // ================= MODAL DETAIL =================
         function openDetailModal(btn) {
 
+            const isAdmin = document.getElementById("d_email") !== null;
+
             document.getElementById("d_nama").innerText = btn.dataset.nama;
-            document.getElementById("d_email").innerText = btn.dataset.email;
+            document.getElementById("d_hp").innerText = btn.dataset.hp;
             document.getElementById("d_alamat").innerText = btn.dataset.alamat;
             document.getElementById("d_jabatan").innerText = btn.dataset.jabatan;
 
-            // cek apakah elemen ada
+            // EMAIL hanya kalau elemen ada (admin/pengurus)
+            if (isAdmin) {
+                document.getElementById("d_email").innerText = btn.dataset.email;
+            }
+
             const namaPengguna = document.getElementById("d_nama_pengguna");
             const status = document.getElementById("d_status");
 
@@ -375,7 +382,6 @@ if (
             }
 
             const fotoEl = document.getElementById("d_foto");
-
             fotoEl.src = btn.dataset.foto ?
                 "../uploads/" + btn.dataset.foto :
                 "../asset/img/default.png";

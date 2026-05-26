@@ -138,7 +138,12 @@ if (isset($_GET['action']) && $_GET['action'] == "download") {
     <table border='0' width='2000'>
         <tr>
             <td colspan='6' style='text-align:center; font-size:26px; font-weight:bold;'>
-                DATA KEUANGAN SEKAA TRUNA
+                SEKAA TRUNA TRUNI GALUH MANTRI
+            </td>
+        </tr>
+        <tr>
+            <td colspan='6' style='text-align:center; font-size:20px;'>
+                 LAPORAN KEUANGAN
             </td>
         </tr>
         <tr>
@@ -304,7 +309,7 @@ if (isset($_GET['action']) && $_GET['action'] == "pdf") {
     // =========================
     // LOGO BASE64 (ANTI GAGAL 🔥)
     // =========================
-    $logoPath = realpath(__DIR__ . '/../../asset/img/LOGO.png');
+    $logoPath = realpath(__DIR__ . '/../../asset/img/LOGOSTT.png');
 
     $logoBase64 = '';
     if ($logoPath && file_exists($logoPath)) {
@@ -372,7 +377,7 @@ if (isset($_GET['action']) && $_GET['action'] == "pdf") {
                 </td>
 
                 <td class='kop-text'>
-                    <h2>SEKAA TRUNA TRUNI</h2>
+                    <h2>SEKAA TRUNA TRUNI GALUH MANTRI</h2>
                     <h4>LAPORAN KEUANGAN</h4>
                     <h4>Jenis: $jenisText</h4>
                     <h4>Tanggal: $periodeText</h4>
