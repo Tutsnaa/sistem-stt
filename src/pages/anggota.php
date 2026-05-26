@@ -55,7 +55,12 @@
         </div>
         <?php } ?>
 
-
+        <!-- Data admin tidak tampil -->
+        <?php
+$dataAnggotaFiltered = array_filter($dataAnggota, function($row) {
+    return strtolower($row['jabatan']) !== 'admin';
+});
+?>
         <!-- TABEL DATA ANGGOTA -->
         <div id="anggota" class="section-anggota">
 
@@ -112,8 +117,8 @@ if (
                     <tbody>
                         <?php
                 $no = 1;
-                if(!empty($dataAnggota)){
-                    foreach($dataAnggota as $row){
+                if(!empty($dataAnggotaFiltered)){
+    foreach($dataAnggotaFiltered as $row){
                 ?>
                         <tr>
                             <td><?= $no++; ?></td>
