@@ -161,7 +161,7 @@ function getDashboard() {
 
                 <a href="<?= getDashboard(); ?>?page=keuangan&filter=<?= $_GET['filter'] ?? 'all'; ?>"
                     class="btn-reset">
-                    Reset
+                    <i class="fa fa-rotate-right"></i>
                 </a>
             </form>
 
@@ -190,6 +190,8 @@ function getDashboard() {
         <?php 
 if (
     isset($_SESSION['user']) && 
+    $_SESSION['user']['jabatan'] != 'ketua' &&
+    $_SESSION['user']['jabatan'] != 'wakil' &&
     $_SESSION['user']['jabatan'] != 'anggota' &&
     $_SESSION['user']['jabatan'] != 'sekretaris 1' &&
     $_SESSION['user']['jabatan'] != 'sekretaris 2'
@@ -218,6 +220,8 @@ if (
                         <?php 
 if (
     isset($_SESSION['user']) && 
+    $_SESSION['user']['jabatan'] != 'ketua' &&
+    $_SESSION['user']['jabatan'] != 'wakil' &&
     $_SESSION['user']['jabatan'] != 'anggota' &&
     $_SESSION['user']['jabatan'] != 'sekretaris 1' &&
     $_SESSION['user']['jabatan'] != 'sekretaris 2'
@@ -291,6 +295,8 @@ foreach ($data as $row):
                         <?php 
 if (
     isset($_SESSION['user']) && 
+    $_SESSION['user']['jabatan'] != 'ketua' &&
+    $_SESSION['user']['jabatan'] != 'wakil' &&
     $_SESSION['user']['jabatan'] != 'anggota' &&
     $_SESSION['user']['jabatan'] != 'sekretaris 1' &&
     $_SESSION['user']['jabatan'] != 'sekretaris 2'

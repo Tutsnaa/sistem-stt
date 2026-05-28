@@ -67,6 +67,35 @@ public function emailExists($email, $id_pengguna = null){
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
+// Cek nama pengguna
+public function namaPenggunaExists($nama_pengguna, $id_pengguna = null)
+{
+    $query = "SELECT id_pengguna 
+              FROM pengguna 
+              WHERE nama_pengguna = :nama_pengguna";
+
+    // untuk update → abaikan id sendiri
+    if($id_pengguna){
+        $query .= " AND id_pengguna != :id_pengguna";
+    }
+
+    $query .= " LIMIT 1";
+
+    $stmt = $this->conn->prepare($query);
+
+    $params = [
+        ':nama_pengguna' => $nama_pengguna
+    ];
+
+    if($id_pengguna){
+        $params[':id_pengguna'] = $id_pengguna;
+    }
+
+    $stmt->execute($params);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
 // ===============================
 // Ambil berdasarkan jabatan
 // ===============================

@@ -77,7 +77,33 @@ if($model->emailExists($data['email'])){
     $_SESSION['flash_message'] = "Email sudah digunakan!";
     $_SESSION['flash_type'] = "danger";
 
-    header("Location: ../../public/dashboard_pengurus.php?page=anggota");
+   $_SESSION['old_input'] = [
+    'nama_lengkap' => $_POST['nama_lengkap'],
+    'email' => $_POST['email'],
+    'no_hp' => $_POST['no_hp'],
+    'alamat' => $_POST['alamat'],
+    'nama_pengguna' => $_POST['nama_pengguna']
+];
+
+header("Location: ../../public/dashboard_pengurus.php?page=anggota&modal=tambah");
+exit;
+}
+
+// cek nama pengguna duplicate
+if($model->namaPenggunaExists($data['nama_pengguna'])){
+
+    $_SESSION['flash_message'] = "Nama pengguna sudah digunakan!";
+    $_SESSION['flash_type'] = "danger";
+
+    $_SESSION['old_input'] = [
+        'nama_lengkap' => $_POST['nama_lengkap'],
+        'email' => $_POST['email'],
+        'no_hp' => $_POST['no_hp'],
+        'alamat' => $_POST['alamat'],
+        'nama_pengguna' => $_POST['nama_pengguna']
+    ];
+
+    header("Location: ../../public/dashboard_pengurus.php?page=anggota&modal=tambah");
     exit;
 }
 

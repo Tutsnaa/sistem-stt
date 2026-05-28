@@ -78,8 +78,6 @@ if (
                         <?php 
 if (
     isset($_SESSION['user']) && 
-    $_SESSION['user']['jabatan'] != 'ketua' &&
-    $_SESSION['user']['jabatan'] != 'wakil' &&
     $_SESSION['user']['jabatan'] != 'bendahara 1' &&
     $_SESSION['user']['jabatan'] != 'bendahara 2'
 ) { 
@@ -148,6 +146,7 @@ if (
 
                         <td class="aksi-status">
 
+
                             <?php if($p['status'] == 'Menunggu'): ?>
 
                             <a href="../src/controllers/PengumumanController.php?action=toggleStatus&id=<?= $p['id_pengumuman']; ?>&status=Disetujui"
@@ -179,7 +178,20 @@ if (
                         <?php endif; ?>
 
 
-                        <?php 
+
+                        <!-- Aksi -->
+                        <td>
+                            <div class="aksi-btn">
+                                <!-- tombol detail -->
+                                <button class="btn-detail" onclick="openDetailModal(
+    '<?= htmlspecialchars($p['judul'], ENT_QUOTES); ?>',
+    '<?= htmlspecialchars($p['isi'], ENT_QUOTES); ?>',
+    '<?= $p['status']; ?>',
+    '<?= $p['file']; ?>'
+)">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+                                <?php 
 if (
     isset($_SESSION['user']) && 
     $_SESSION['user']['jabatan'] != 'ketua' &&
@@ -188,9 +200,6 @@ if (
     $_SESSION['user']['jabatan'] != 'bendahara 2'
 ) { 
 ?>
-                        <!-- Aksi -->
-                        <td>
-                            <div class="aksi-btn">
 
                                 <!-- tombol edit -->
                                 <button class="btn-edit" onclick="openEditModal(
@@ -207,10 +216,11 @@ if (
                                 <button class="btn-hapus" onclick="confirmHapus(<?= $p['id_pengumuman']; ?>)">
                                     <i class="fa fa-trash"></i>
                                 </button>
+                                <?php } ?>
 
                             </div>
                         </td>
-                        <?php } ?>
+
 
                     </tr>
 
@@ -230,6 +240,37 @@ if (
                 </tbody>
 
             </table>
+        </div>
+    </div>
+
+    <!-- ================= MODAL DETAIL ================= -->
+    <div id="modalDetail" class="modal">
+        <div class="modal-content">
+
+            <span class="close" onclick="closeDetailModal()">&times;</span>
+
+            <h3>Detail Pengumuman</h3>
+
+            <div class="detail-group">
+                <label>Judul</label>
+                <p id="detail_judul"></p>
+            </div>
+
+            <div class="detail-group">
+                <label>Isi</label>
+                <p id="detail_isi"></p>
+            </div>
+
+            <div class="detail-group">
+                <label>Status</label>
+                <p id="detail_status"></p>
+            </div>
+
+            <div class="detail-group">
+                <label>File</label>
+                <div id="detail_file"></div>
+            </div>
+
         </div>
     </div>
 
@@ -348,5 +389,25 @@ function openEditModal(id, judul, isi, status, file) {
     document.getElementById("edit_status").value = status;
     document.getElementById("edit_file_lama").value = file;
 
+}
+
+function openDetailModal(judul, isi, status, file) {
+
+    document.getElementById("modalDetail").style.display = "flex";
+
+    document.getElementById("detail_judul").innerText = judul;
+    document.getElementById("detail_isi").innerText = isi;
+    document.getElementById("detail_status").innerText = status;
+
+    if (file && file !== '') {
+        document.getElementById("detail_file").innerHTML =
+            `<a href="../uploads/${file}" target="_blank">Lihat File</a>`;
+    } else {
+        document.getElementById("detail_file").innerHTML = "-";
+    }
+}
+
+function closeDetailModal() {
+    document.getElementById("modalDetail").style.display = "none";
 }
 </script>

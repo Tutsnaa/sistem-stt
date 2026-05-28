@@ -258,12 +258,17 @@ body {
 .btn-reset-pengurus {
   height: 32px;
   padding: 0 14px;
-  background: #ccc;
-  color: #333;
+  background: #aaa;
+  color: white;
   border-radius: 6px;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
+}
+
+.btn-reset-pengurus:hover {
+  background: #898989;
+  color: white;
 }
 
 /* ================= FILTER ================= */

@@ -54,7 +54,8 @@
 }
 
 .search-box .btn-reset:hover {
-  background: #888;
+  background: #898989;
+  color: white;
 }
 
 .btn-tambah {
@@ -794,4 +795,35 @@ table.anggota-table {
 
 #tambahModal .btn-save:hover {
   background: #e0852f;
+}
+
+.alert-error {
+  background: #ffe5e5;
+  color: #d8000c;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+/* STYLE UMUM STATUS */
+.status {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* STATUS AKTIF (hijau) */
+.status.aktif {
+  background: #d4edda;
+  color: #155724;
+}
+
+/* STATUS NONAKTIF (merah) */
+.status.nonaktif {
+  background: #f8d7da;
+  color: #721c24;
 }

@@ -54,7 +54,7 @@ $kandidat = $kandidat ?? [];
 
                 <a href="dashboard_pengurus.php?page=home_pengurus" class="btn-reset-pengurus">
 
-                    Reset
+                    <i class="fa fa-rotate-right"></i>
 
                 </a>
 

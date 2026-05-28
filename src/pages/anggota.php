@@ -4,6 +4,9 @@
         MODAL TAMBAH ANGGOTA
     ========================== -->
         <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
+        <?php
+$old = $_SESSION['old_input'] ?? [];
+?>
         <div id="tambahModal" class="modal">
             <div class="modal-content">
 
@@ -11,20 +14,29 @@
 
                 <h3>Tambah Anggota</h3>
 
+                <!-- PESAN ERROR -->
+                <?php if(isset($_SESSION['error_tambah'])): ?>
+                <div class="alert-error">
+                    <?= $_SESSION['error_tambah']; ?>
+                </div>
+                <?php unset($_SESSION['error_tambah']); ?>
+                <?php endif; ?>
+
                 <form class="form-anggota" action="../src/controllers/PenggunaController.php?action=create"
                     method="POST" enctype="multipart/form-data">
 
                     <label>Nama Lengkap</label>
-                    <input type="text" name="nama_lengkap" required>
+                    <input type="text" name="nama_lengkap" value="<?= htmlspecialchars($old['nama_lengkap'] ?? '') ?>"
+                        required>
 
                     <label>Email</label>
-                    <input type="email" name="email" required>
+                    <input type="email" name="email" value="<?= htmlspecialchars($old['email'] ?? '') ?>" required>
 
                     <label>No HP</label>
-                    <input type="text" name="no_hp" required>
+                    <input type="text" name="no_hp" value="<?= htmlspecialchars($old['no_hp'] ?? '') ?>" required>
 
                     <label>Alamat</label>
-                    <input type="text" name="alamat" required>
+                    <input type="text" name="alamat" value="<?= htmlspecialchars($old['alamat'] ?? '') ?>" required>
 
                     <!-- <label>Jabatan</label>
                     <select name="jabatan" required>
@@ -39,7 +51,8 @@
                     </select> -->
 
                     <label>Username</label>
-                    <input type="text" name="nama_pengguna" required>
+                    <input type="text" name="nama_pengguna" value="<?= htmlspecialchars($old['nama_pengguna'] ?? '') ?>"
+                        required>
 
                     <label>Password</label>
                     <input type="password" name="kata_sandi" required>
@@ -50,6 +63,8 @@
                     <button type="submit" class="btn-save">Simpan</button>
 
                 </form>
+
+                <?php unset($_SESSION['old_input']); ?>
 
             </div>
         </div>
@@ -75,7 +90,7 @@ $dataAnggotaFiltered = array_filter($dataAnggota, function($row) {
                 <a href="<?= ($_SESSION['user']['jabatan'] == 'anggota') 
             ? 'dashboard_anggota.php?page=anggota' 
             : 'dashboard_pengurus.php?page=anggota'; ?>" class="btn-reset">
-                    Tampilkan Semua
+                    <i class="fa fa-rotate-right"></i>
                 </a>
                 <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
                 <a href="../src/controllers/PenggunaController.php?action=download_excel" class="btn-download">
@@ -121,8 +136,8 @@ if (
     foreach($dataAnggotaFiltered as $row){
                 ?>
                         <tr>
-                            <td><?= $no++; ?></td>
-                            <td style="text-align: none;">
+                            <td style="text-align: center;"><?= $no++; ?></td>
+                            <td style="text-align: center;">
                                 <?php if(!empty($row['foto'])){ ?>
                                 <img src="../uploads/<?= $row['foto']; ?>" width="50" height="50">
                                 <?php } else { ?>
@@ -175,6 +190,7 @@ if (
                                         data-hp="<?= htmlspecialchars($row['no_hp']); ?>"
                                         data-alamat="<?= htmlspecialchars($row['alamat']); ?>"
                                         data-nama_pengguna="<?= htmlspecialchars($row['nama_pengguna']); ?>"
+                                        data-status="<?= htmlspecialchars($row['status']); ?>"
                                         data-foto="<?= htmlspecialchars($row['foto']); ?>"
                                         onclick="openEditModal(this)">
                                         <i class="fa fa-pen-to-square"></i>
@@ -342,13 +358,14 @@ if (
             document.getElementById("edit_hp").value = button.dataset.hp;
             document.getElementById("edit_alamat").value = button.dataset.alamat;
             document.getElementById("edit_nama_pengguna").value = button.dataset.nama_pengguna;
+            document.getElementById("edit_status").value = button.dataset.status;
 
             document.getElementById("preview_edit_foto").src =
                 "../uploads/" + (button.dataset.foto || "default.png");
         }
 
         function closeModalEdit() {
-            document.getElementById("editModal").style.display = "flex";
+            document.getElementById("editModal").style.display = "none";
         }
 
         // ================= MODAL TAMBAH =================
@@ -423,5 +440,17 @@ if (
             if (event.target === tambahModal) closeTambahModal();
             if (event.target === detailModal) closeDetailModal();
             if (event.target === fotoModal) closeFotoModal();
+        });
+
+
+
+        window.addEventListener("DOMContentLoaded", function() {
+
+            const params = new URLSearchParams(window.location.search);
+
+            if (params.get('modal') === 'tambah') {
+                openTambahModal();
+            }
+
         });
         </script>
