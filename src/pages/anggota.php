@@ -33,7 +33,9 @@ $old = $_SESSION['old_input'] ?? [];
                     <input type="email" name="email" value="<?= htmlspecialchars($old['email'] ?? '') ?>" required>
 
                     <label>No HP</label>
-                    <input type="text" name="no_hp" value="<?= htmlspecialchars($old['no_hp'] ?? '') ?>" required>
+                    <input type="text" name="no_hp" value="<?= htmlspecialchars($old['no_hp'] ?? '') ?>" maxlength="15"
+                        pattern="[0-9]+" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                        required>
 
                     <label>Alamat</label>
                     <input type="text" name="alamat" value="<?= htmlspecialchars($old['alamat'] ?? '') ?>" required>
@@ -50,11 +52,11 @@ $old = $_SESSION['old_input'] ?? [];
                         <option value="anggota">Anggota</option>
                     </select> -->
 
-                    <label>Username</label>
+                    <label>Nama Pengguna</label>
                     <input type="text" name="nama_pengguna" value="<?= htmlspecialchars($old['nama_pengguna'] ?? '') ?>"
                         required>
 
-                    <label>Password</label>
+                    <label>Kata Sandi</label>
                     <input type="password" name="kata_sandi" required>
 
                     <label>Foto</label>
@@ -264,6 +266,9 @@ if (
             </div>
 
             <?php if(isset($_SESSION['user']) && $_SESSION['user']['jabatan'] != 'anggota'){ ?>
+            <?php
+$oldEdit = $_SESSION['old_input_edit'] ?? [];
+?>
             <!-- =========================
             FORM UBAH DATA ANGGOTA
             ========================== -->
@@ -278,22 +283,29 @@ if (
                     <form action="../src/controllers/PenggunaController.php?action=update" method="POST"
                         enctype="multipart/form-data">
 
-                        <input type="hidden" name="id_pengguna" id="edit_id">
+                        <input type="hidden" name="id_pengguna" id="edit_id"
+                            value="<?= htmlspecialchars($oldEdit['id_pengguna'] ?? '') ?>">
 
                         <label>Nama Lengkap</label>
-                        <input type="text" name="nama_lengkap" id="edit_nama">
+                        <input type="text" name="nama_lengkap" id="edit_nama"
+                            value="<?= htmlspecialchars($oldEdit['nama_lengkap'] ?? '') ?>">
 
                         <label>Email</label>
-                        <input type="email" name="email" id="edit_email">
+                        <input type="email" name="email" id="edit_email"
+                            value="<?= htmlspecialchars($oldEdit['email'] ?? '') ?>">
 
                         <label>No HP</label>
-                        <input type="text" name="no_hp" id="edit_hp">
+                        <input type="text" name="no_hp" id="edit_hp"
+                            value="<?= htmlspecialchars($oldEdit['no_hp'] ?? '') ?>" maxlength="13" pattern="[0-9]+"
+                            inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')" required>
 
                         <label>Alamat</label>
-                        <input type="text" name="alamat" id="edit_alamat">
+                        <input type="text" name="alamat" id="edit_alamat"
+                            value="<?= htmlspecialchars($oldEdit['alamat'] ?? '') ?>">
 
                         <label>Nama Pengguna</label>
-                        <input type="text" name="nama_pengguna" id="edit_nama_pengguna">
+                        <input type="text" name="nama_pengguna" id="edit_nama_pengguna"
+                            value="<?= htmlspecialchars($oldEdit['nama_pengguna'] ?? '') ?>">
 
                         <label>Password Baru</label>
                         <input type="password" name="kata_sandi">
@@ -301,8 +313,14 @@ if (
 
                         <label>Status</label>
                         <select name="status" id="edit_status">
-                            <option value="aktif">Aktif</option>
-                            <option value="nonaktif">Nonaktif</option>
+                            <option value="aktif" <?= (($oldEdit['status'] ?? '') == 'aktif') ? 'selected' : '' ?>>
+                                Aktif
+                            </option>
+
+                            <option value="nonaktif"
+                                <?= (($oldEdit['status'] ?? '') == 'nonaktif') ? 'selected' : '' ?>>
+                                Nonaktif
+                            </option>
                         </select>
                         <!-- <label>Foto Saat Ini</label><br>
                         <img id="preview_edit_foto" src="" width="120" style="margin-bottom:10px;"><br> -->
@@ -318,6 +336,7 @@ if (
 
                 </div>
             </div>
+            <?php unset($_SESSION['old_input_edit']); ?>
             <?php } ?>
 
         </div>
@@ -374,6 +393,10 @@ if (
         }
 
         function closeTambahModal() {
+
+            // reset form ketika close
+            document.querySelector("#tambahModal form").reset();
+
             document.getElementById("tambahModal").style.display = "none";
         }
 
@@ -444,12 +467,26 @@ if (
 
 
 
+        // window.addEventListener("DOMContentLoaded", function() {
+
+        //     const params = new URLSearchParams(window.location.search);
+
+        //     if (params.get('modal') === 'tambah') {
+        //         openTambahModal();
+        //     }
+
+        // });
+
         window.addEventListener("DOMContentLoaded", function() {
 
             const params = new URLSearchParams(window.location.search);
 
             if (params.get('modal') === 'tambah') {
                 openTambahModal();
+            }
+
+            if (params.get('modal') === 'edit') {
+                document.getElementById("editModal").style.display = "flex";
             }
 
         });

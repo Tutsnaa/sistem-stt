@@ -183,16 +183,32 @@ elseif ($action == "update") {
         }
     }
 
-    // cek email duplicate selain dirinya sendiri
+// cek email duplicate selain dirinya sendiri
 if($model->emailExists($data['email'], $data['id_pengguna'])){
 
     $_SESSION['flash_message'] = "Email sudah digunakan!";
     $_SESSION['flash_type'] = "danger";
 
-    header("Location: ../../public/dashboard_pengurus.php?page=anggota");
+    $_SESSION['old_input_edit'] = $_POST;
+
+    header("Location: ../../public/dashboard_pengurus.php?page=anggota&modal=edit");
     exit;
 }
-    $update = $model->update($data);
+
+// cek nama pengguna duplicate selain dirinya sendiri
+if($model->namaPenggunaExists($data['nama_pengguna'], $data['id_pengguna'])){
+
+    $_SESSION['flash_message'] = "Nama pengguna sudah digunakan!";
+    $_SESSION['flash_type'] = "danger";
+
+    $_SESSION['old_input_edit'] = $_POST;
+
+    header("Location: ../../public/dashboard_pengurus.php?page=anggota&modal=edit");
+    exit;
+}
+
+// BARU update
+$update = $model->update($data);
 
     if ($update) {
 
@@ -200,7 +216,7 @@ if($model->emailExists($data['email'], $data['id_pengguna'])){
             |--------------------------------------------------------------------------
             | UPDATE SESSION USER
             |--------------------------------------------------------------------------
-            */
+            */  
             if ($_SESSION['user']['id_pengguna'] == $data['id_pengguna']) {
 
                 $_SESSION['user']['nama_lengkap']  = $data['nama_lengkap'];
