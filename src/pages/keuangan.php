@@ -4,7 +4,11 @@ if(session_status() === PHP_SESSION_NONE){
 }
 
 $user = $_SESSION['user'] ?? null;
+
+// Cek apakah pengguna adalah anggota
+$isAnggota = (isset($_SESSION['user']) && $_SESSION['user']['jabatan'] == 'anggota');
 ?>
+
 
 <div id="modalHapus" class="modal-hapus">
     <div class="modal-box">
@@ -139,7 +143,7 @@ $user = $_SESSION['user'] ?? null;
             <?php
 function getDashboard() {
     $jabatan = strtolower($_SESSION['user']['jabatan']);
-    $pengurus = ['ketua','wakil','sekretaris 1','sekretaris 2','bendahara 1','bendahara 2'];
+    $pengurus = ['admin','ketua','wakil','sekretaris 1','sekretaris 2','bendahara 1','bendahara 2'];
 
     return in_array($jabatan, $pengurus)
         ? 'dashboard_pengurus.php'
@@ -216,6 +220,9 @@ if (
                         <th>Keterangan</th>
                         <th>Jumlah</th>
                         <th>Bukti</th>
+                        <?php if(!$isAnggota){ ?>
+                        <th>Status</th>
+                        <?php } ?>
                         <th>Tanggal</th>
                         <?php 
 if (
@@ -276,7 +283,7 @@ foreach ($data as $row):
                         <td>Rp <?= number_format($row['jumlah'],0,',','.'); ?></td>
 
                         <!-- Bukti -->
-                        <td style="text-align: center;">
+                        <td class="td-lihat">
                             <?php if($row['file_bukti']){ ?>
                             <button class="btn-lihat" onclick="openBukti('<?= $row['file_bukti']; ?>')">
                                 Lihat
@@ -285,6 +292,72 @@ foreach ($data as $row):
                             -
                             <?php } ?>
                         </td>
+
+                        <?php 
+if (
+    isset($_SESSION['user']) && 
+    $_SESSION['user']['jabatan'] != 'ketua' &&
+    $_SESSION['user']['jabatan'] != 'admin' &&
+    $_SESSION['user']['jabatan'] != 'wakil' 
+) { 
+?>
+
+                        <!-- STATUS (untuk non anggota) -->
+                        <?php if(!$isAnggota){ ?>
+                        <td class="aksi-status">
+
+                            <?php if($row['status'] == 'menunggu'): ?>
+                            <span class="badge badge-menunggu">Menunggu</span>
+
+                            <?php elseif($row['status'] == 'disetujui'): ?>
+                            <span class="badge badge-disetujui">Disetujui</span>
+
+                            <?php elseif($row['status'] == 'ditolak'): ?>
+                            <span class="badge badge-ditolak">Ditolak</span>
+
+                            <?php else: ?>
+                            <span class="badge">tidak diketahui</span>
+                            <?php endif; ?>
+
+                        </td>
+                        <?php } ?>
+
+                        <?php } ?>
+
+
+                        <?php if (
+    $_SESSION['user']['jabatan'] == 'ketua' ||
+    $_SESSION['user']['jabatan'] == 'admin'
+): ?>
+
+                        <!-- AKSI KEUANGAN -->
+                        <td class="aksi-status">
+
+                            <?php if($row['status'] == 'menunggu'): ?>
+
+                            <a href="../src/controllers/KeuanganController.php?action=terima&id=<?= $row['id_keuangan']; ?>"
+                                class="btn-terima" onclick="return confirm('Terima transaksi ini?')">
+                                Terima
+                            </a>
+
+                            <a href="../src/controllers/KeuanganController.php?action=tolak&id=<?= $row['id_keuangan']; ?>"
+                                class="btn-tolak" onclick="return confirm('Tolak transaksi ini?')">
+                                Tolak
+                            </a>
+
+                            <?php elseif($row['status'] == 'disetujui'): ?>
+
+                            <span class="badge-disetujui">Disetujui</span>
+
+                            <?php elseif($row['status'] == 'ditolak'): ?>
+
+                            <span class="badge-ditolak">Ditolak</span>
+
+                            <?php endif; ?>
+
+                        </td>
+
+                        <?php endif; ?>
 
                         <!-- Tanggal -->
                         <td style="text-align: center;">
@@ -304,13 +377,15 @@ if (
 ?>
                         <td style="text-align: center;">
 
-                            <!-- Tombol edit -->
+                            <!-- ================= EDIT (TERKUNCI JIKA DISETUJUI) ================= -->
+                            <?php if($row['status'] != 'disetujui'): ?>
                             <button class="btn-ubah-keuangan" data-id="<?= $row['id_keuangan']; ?>"
                                 data-jenis="<?= $row['jenis']; ?>" data-keterangan="<?= $row['keterangan']; ?>"
                                 data-jumlah="<?= $row['jumlah']; ?>" data-file="<?= $row['file_bukti']; ?>"
                                 onclick="openEditModal(this)">
                                 <i class="fa fa-pen-to-square"></i>
                             </button>
+                            <?php endif; ?>
 
                             <a href="#" class="btn-hapus-keuangan"
                                 onclick="confirmHapus(<?= $row['id_keuangan']; ?>); return false;">

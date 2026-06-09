@@ -150,7 +150,7 @@ body {
 /* ================= HERO SECTION ================= */
 
 .hero-section {
-  margin-top: 30px;
+  margin-top: 50px;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -742,14 +742,35 @@ table.anggota-table td img {
   color: #555;
 }
 
+.td-lihat {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.btn-lihat {
+  display: inline-block;
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: none;
+  margin: 0 auto;
+}
+
 .btn-lihat {
   background: none;
   border: none;
-  color: #007bff; /* biru seperti link */
+  color: #007bff;
   cursor: pointer;
-  padding: 0;
   font-size: 14px;
-  text-decoration: none;
+  padding: 0;
+}
+
+/* hover effect */
+.btn-lihat:hover {
+  text-decoration: underline;
+  color: #0056b3;
 }
 
 /* ================= RESET ================= */

@@ -10,7 +10,7 @@ if (!isset($_SESSION['user'])) {
 
 $jabatan = strtolower($_SESSION['user']['jabatan']);
 
-$pengurus = ['ketua','wakil','sekretaris 1','sekretaris 2','bendahara 1','bendahara 2'];
+$pengurus = ['admin','ketua','wakil','sekretaris 1','sekretaris 2','bendahara 1','bendahara 2'];
 
 if (!in_array($jabatan, $pengurus)) {
     header("Location: ../../public/dashboard_anggota.php");
@@ -78,7 +78,8 @@ if (isset($_POST['action'])) {
             'jenis' => $_POST['jenis'],
             'keterangan' => $_POST['keterangan'],
             'jumlah' => $_POST['jumlah'],
-            'file_bukti' => $fileName
+            'file_bukti' => $fileName,
+            'status' => 'menunggu'
         ]);
 
         header("Location: ../../public/dashboard_pengurus.php?page=keuangan");
@@ -99,7 +100,8 @@ if (isset($_POST['action'])) {
             'jenis' => $_POST['jenis'],
             'keterangan' => $_POST['keterangan'],
             'jumlah' => $_POST['jumlah'],
-            'file_bukti' => $fileName
+            'file_bukti' => $fileName,
+            'status' => 'menunggu'
         ]);
 
         header("Location: ../../public/dashboard_pengurus.php?page=keuangan");
@@ -110,6 +112,22 @@ if (isset($_POST['action'])) {
 /* ================= DELETE ================= */
 if (isset($_GET['action']) && $_GET['action'] == "hapus") {
     $model->delete($_GET['id']);
+    header("Location: ../../public/dashboard_pengurus.php?page=keuangan");
+    exit();
+}
+
+if(isset($_GET['action']) && $_GET['action'] == "terima"){
+
+    $model->updateStatus($_GET['id'], 'disetujui');
+
+    header("Location: ../../public/dashboard_pengurus.php?page=keuangan");
+    exit();
+}
+
+if(isset($_GET['action']) && $_GET['action'] == "tolak"){
+
+    $model->updateStatus($_GET['id'], 'ditolak');
+
     header("Location: ../../public/dashboard_pengurus.php?page=keuangan");
     exit();
 }

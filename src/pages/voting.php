@@ -5,7 +5,6 @@ $tab = $_GET['tab'] ?? 'agenda';
 // cegah warning variable undefined
 $agenda = $agenda ?? [];
 $kandidat = $kandidat ?? [];
-$agenda = $agenda ?? [];
 $anggota = $anggota ?? [];
 $user = $user ?? [];
 ?>
@@ -82,7 +81,87 @@ if (
                             <td class="text-center"><?= $row['periode'] ?></td>
                             <td class="text-center"><?= $row['tanggal_buka'] ?></td>
                             <td class="text-center"><?= $row['tanggal_tutup'] ?></td>
-                            <td class="text-center"><?= $row['status'] ?></td>
+
+                            <?php 
+if (
+    isset($_SESSION['user']) && 
+    $_SESSION['user']['jabatan'] != 'ketua' &&
+    $_SESSION['user']['jabatan'] != 'admin' &&
+    $_SESSION['user']['jabatan'] != 'wakil'
+) { 
+?>
+                            <td class="text-center">
+                                <?php
+$status = strtolower($row['status']);
+
+if ($status == 'draft') {
+    echo "<span class='badge badge-draft'>Draft</span>";
+
+} elseif ($status == 'menunggu') {
+    echo "<span class='badge badge-menunggu'>Menunggu</span>";
+
+} elseif ($status == 'disetujui') {
+    echo "<span class='badge badge-dibuka'>Disetujui</span>";
+
+} elseif ($status == 'ditolak') {
+    echo "<span class='badge badge-ditolak'>Ditolak</span>";
+
+} elseif ($status == 'dibuka') {
+    echo "<span class='badge badge-dibuka'>Dibuka</span>";
+
+} elseif ($status == 'ditutup') {
+    echo "<span class='badge badge-ditutup'>Ditutup</span>";
+
+} elseif ($status == 'selesai') {
+    echo "<span class='badge badge-selesai'>Selesai</span>";
+
+} else {
+    echo "<span class='badge'>Unknown</span>";
+}
+?>
+                            </td>
+                            <?php } ?>
+
+                            <?php if (
+    $_SESSION['user']['jabatan'] == 'ketua' ||
+    $_SESSION['user']['jabatan'] == 'admin'
+): ?>
+
+                            <td class="aksi-status">
+
+                                <?php if($row['status'] == 'menunggu'): ?>
+
+                                <a href="../src/controllers/AgendaController.php?action=terima&id=<?= $row['id_agenda']; ?>"
+                                    class="btn-terima" onclick="return confirm('Terima agenda ini?')">
+                                    Terima
+                                </a>
+
+                                <a href="../src/controllers/AgendaController.php?action=tolak&id=<?= $row['id_agenda']; ?>"
+                                    class="btn-tolak" onclick="return confirm('Tolak agenda ini?')">
+                                    Tolak
+                                </a>
+
+                                <?php elseif($row['status'] == 'disetujui'): ?>
+
+                                <span class="badge badge-disetujui">Disetujui</span>
+
+                                <?php elseif($row['status'] == 'ditolak'): ?>
+
+                                <span class="badge badge-ditolak">Ditolak</span>
+
+                                <?php elseif($row['status'] == 'dibuka'): ?>
+
+                                <span class="badge badge-dibuka">Dibuka</span>
+
+                                <?php elseif($row['status'] == 'selesai'): ?>
+
+                                <span class="badge badge-selesai">Selesai</span>
+
+                                <?php endif; ?>
+
+                            </td>
+
+                            <?php endif; ?>
                             <?php 
 if (
     isset($_SESSION['user']) && 
@@ -94,6 +173,10 @@ if (
 ) { 
 ?>
                             <td>
+                                <?php
+$isLocked = ($row['status'] == 'selesai');
+?>
+                                <?php if(!$isLocked): ?>
                                 <button class="btn btn-ubah" data-id="<?= $row['id_agenda'] ?>"
                                     data-judul="<?= $row['judul'] ?>" data-periode="<?= $row['periode'] ?>"
                                     data-masa_awal="<?= $row['masa_awal_jabatan'] ?>"
@@ -103,6 +186,7 @@ if (
                                     data-status="<?= $row['status'] ?>">
                                     <i class="fa fa-pen-to-square"></i>
                                 </button>
+                                <?php endif; ?>
 
                                 <a href="#" class="btn-hapus"
                                     onclick="confirmHapus(<?= $row['id_agenda']; ?>); return false;">
@@ -170,16 +254,17 @@ if (
                                 <i class="fa fa-eye"></i>
                             </button>
 
-                            <?php 
-if (
-    isset($_SESSION['user']) && 
-    $_SESSION['user']['jabatan'] != 'anggota' &&
-    $_SESSION['user']['jabatan'] != 'ketua' &&
-    $_SESSION['user']['jabatan'] != 'wakil' &&
-    $_SESSION['user']['jabatan'] != 'bendahara 1' &&
-    $_SESSION['user']['jabatan'] != 'bendahara 2'
-) { 
-?>
+                            <?php
+    if (
+        isset($_SESSION['user']) &&
+        $_SESSION['user']['jabatan'] != 'anggota' &&
+        $_SESSION['user']['jabatan'] != 'ketua' &&
+        $_SESSION['user']['jabatan'] != 'wakil' &&
+        $_SESSION['user']['jabatan'] != 'bendahara 1' &&
+        $_SESSION['user']['jabatan'] != 'bendahara 2' &&
+        $row['status'] != 'selesai'
+    ) {
+    ?>
 
                             <!-- Ubah -->
                             <button class="btn btn-ubah-kandidat" data-id="<?= $row['id_calon'] ?>"
@@ -253,7 +338,7 @@ if (
         <?php if (!empty($agendas)) : ?>
         <?php foreach ($agendas as $v) : ?>
 
-        <?php if($v['status'] != 'selesai') : ?>
+        <?php if (!in_array($v['status'], ['selesai', 'disetujui', 'ditolak', 'draft'])) : ?>
 
         <?php $adaAgenda = true; ?>
 
@@ -514,13 +599,13 @@ if($row['id_agenda'] != $latestAgendaId){
             <label>Tanggal Tutup</label>
             <input type="date" name="tanggal_tutup" id="edit_tanggal_tutup" required>
 
-            <label>Status Agenda</label>
+            <!-- <label>Status Agenda</label>
             <select name="status" id="edit_status" required>
                 <option value="draft">Draft</option>
                 <option value="dibuka">Dibuka</option>
                 <option value="ditutup">Ditutup</option>
                 <option value="selesai">Selesai</option>
-            </select>
+            </select> -->
 
             <button type="submit">Simpan Perubahan</button>
         </form>
@@ -592,15 +677,27 @@ if($row['id_agenda'] != $latestAgendaId){
             <label>Agenda</label>
             <select name="id_agenda" required>
                 <option value="">-- Pilih Agenda --</option>
+
                 <?php foreach($agenda as $v): ?>
-                <option value="<?= $v['id_agenda'] ?>"><?= htmlspecialchars($v['judul']) ?></option>
+                <?php if ($v['status'] !== 'disetujui') continue; ?>
+
+                <option value="<?= $v['id_agenda'] ?>">
+                    <?= htmlspecialchars($v['judul']) ?>
+                </option>
                 <?php endforeach; ?>
+
             </select>
             <label>Nama Pengguna</label>
             <select name="id_pengguna" required>
                 <option value="">-- Pilih Anggota --</option>
+
+                <!-- admin tidak tampil -->
                 <?php foreach($anggota as $a): ?>
-                <option value="<?= $a['id_pengguna'] ?>"><?= htmlspecialchars($a['nama_lengkap']) ?></option>
+                <?php if (strtolower($a['jabatan']) === 'admin') continue; ?>
+
+                <option value="<?= $a['id_pengguna'] ?>">
+                    <?= htmlspecialchars($a['nama_lengkap']) ?>
+                </option>
                 <?php endforeach; ?>
             </select>
             <label>Jabatan</label>
@@ -760,9 +857,9 @@ document.querySelectorAll(".btn-ubah").forEach(btn => {
         document.getElementById("edit_tanggal_buka").value = btn.dataset.tanggal_buka;
         document.getElementById("edit_tanggal_tutup").value = btn.dataset.tanggal_tutup;
 
-        if (btn.dataset.status) {
-            document.getElementById("edit_status").value = btn.dataset.status;
-        }
+        // if (btn.dataset.status) {
+        //     document.getElementById("edit_status").value = btn.dataset.status;
+        // }
 
         modalEdit.style.display = "flex";
     });

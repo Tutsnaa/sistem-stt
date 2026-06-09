@@ -128,18 +128,18 @@ $kandidat = $kandidat ?? [];
 
     </div>
 
-    <?php if (!empty($voting)): ?>
+    <?php if (!empty($agenda)): ?>
 
     <!-- =========================
          CALON KANDIDAT
     ========================= -->
     <div class="rekap-wrapper">
 
-        <?php if (!empty($votings)) : ?>
-        <?php foreach ($votings as $v) : ?>
+        <?php if (!empty($agendas)) : ?>
+        <?php foreach ($agendas as $v) : ?>
 
-        <?php if($v['status'] != 'selesai') : ?>
-        <!-- ================= INFO VOTING ================= -->
+        <?php if (!in_array($v['status'], ['selesai', 'disetujui', 'ditolak'])) : ?>
+        <!-- ================= INFO agenda ================= -->
         <div class="voting-info">
 
             <h3 class="voting-title">
@@ -259,7 +259,7 @@ $kandidat = $kandidat ?? [];
 
                         <?php else : ?>
 
-                        <a href="../src/controllers/VotingController.php?action=vote&id_calon=<?= $c['id_calon'] ?>"
+                        <a href="../src/controllers/AgendaController.php?action=vote&id_calon=<?= $c['id_calon'] ?>"
                             onclick="return confirm('Yakin memilih kandidat ini?')" class="btn-vote">
 
                             Vote
@@ -290,7 +290,7 @@ $kandidat = $kandidat ?? [];
         <?php elseif ($v['status'] == 'draft') : ?>
 
         <p style="text-align:center;color:#888;margin:20px 0;">
-            Voting belum dibuka
+            Agenda belum dibuka
         </p>
 
         <?php endif; ?>
@@ -301,7 +301,7 @@ $kandidat = $kandidat ?? [];
         <?php else : ?>
 
         <p style="text-align:center;color:#888;">
-            Tidak ada voting yang sedang dibuka
+            Tidak ada Agenda yang sedang dibuka
         </p>
 
         <?php endif; ?>
@@ -311,9 +311,9 @@ $kandidat = $kandidat ?? [];
 ========================= -->
 
         <?php
-$pemenang = $votingModel->getPemenangVoting($v['id_voting']);
+$pemenang = $agendaModel->getPemenangAgenda($v['id_agenda']);
 
-/* batas tampil 7 hari setelah voting selesai */
+/* batas tampil 7 hari setelah agenda selesai */
 $tanggalSelesai = strtotime($v['tanggal_tutup']);
 $batasTampil = strtotime('+7 days', $tanggalSelesai);
 $sekarang = time();
@@ -323,7 +323,7 @@ $sekarang = time();
 
         <?php foreach($pemenang as $row): ?>
 
-        <!-- JUDUL VOTING -->
+        <!-- JUDUL agenda -->
         <h2 style="text-align:center;" class="judul-voting-pemenang">
             Pemenang <?= htmlspecialchars($v['judul']) ?>
         </h2>

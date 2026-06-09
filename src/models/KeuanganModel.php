@@ -21,20 +21,37 @@ class KeuanganModel {
 
     public function insert($data){
         $query = "INSERT INTO ".$this->table."
-        (id_pengguna, jenis, keterangan, jumlah, file_bukti)
+        (id_pengguna, jenis, keterangan, jumlah, file_bukti, status)
         VALUES
-        (:id_pengguna, :jenis, :keterangan, :jumlah, :file_bukti)";
+        (:id_pengguna, :jenis, :keterangan, :jumlah, :file_bukti, :status)";
 
         $stmt = $this->conn->prepare($query);
+        $status = $data['status'] ?? 'Menunggu';
 
         $stmt->bindParam(":id_pengguna", $data['id_pengguna']);
         $stmt->bindParam(":jenis", $data['jenis']);
         $stmt->bindParam(":keterangan", $data['keterangan']);
         $stmt->bindParam(":jumlah", $data['jumlah']);
         $stmt->bindParam(":file_bukti", $data['file_bukti']);
+        $stmt->bindParam(":status", $status);
 
         return $stmt->execute();
     }
+    
+
+    public function updateStatus($id, $status){
+
+    $query = "UPDATE keuangan
+              SET status = :status
+              WHERE id_keuangan = :id";
+
+    $stmt = $this->conn->prepare($query);
+
+    $stmt->bindParam(":status", $status);
+    $stmt->bindParam(":id", $id);
+
+    return $stmt->execute();
+}
 
     public function getById($id){
         $query = "SELECT * FROM keuangan WHERE id_keuangan = :id";
@@ -45,23 +62,25 @@ class KeuanganModel {
     }
 
     public function update($data){
-        $query = "UPDATE keuangan
-                  SET jenis=:jenis,
-                      keterangan=:keterangan,
-                      jumlah=:jumlah,
-                      file_bukti=:file_bukti
-                  WHERE id_keuangan=:id";
+    $query = "UPDATE keuangan
+              SET jenis=:jenis,
+                  keterangan=:keterangan,
+                  jumlah=:jumlah,
+                  file_bukti=:file_bukti,
+                  status=:status
+              WHERE id_keuangan=:id";
 
-        $stmt = $this->conn->prepare($query);
+    $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(":jenis",$data['jenis']);
-        $stmt->bindParam(":keterangan",$data['keterangan']);
-        $stmt->bindParam(":jumlah",$data['jumlah']);
-        $stmt->bindParam(":file_bukti",$data['file_bukti']);
-        $stmt->bindParam(":id",$data['id_keuangan']);
+    $stmt->bindParam(":jenis",$data['jenis']);
+    $stmt->bindParam(":keterangan",$data['keterangan']);
+    $stmt->bindParam(":jumlah",$data['jumlah']);
+    $stmt->bindParam(":file_bukti",$data['file_bukti']);
+     $stmt->bindParam(":status",$data['status']);
+    $stmt->bindParam(":id",$data['id_keuangan']);
 
-        return $stmt->execute();
-    }
+    return $stmt->execute();
+}
 
     public function delete($id){
         $query = "DELETE FROM keuangan WHERE id_keuangan=:id";

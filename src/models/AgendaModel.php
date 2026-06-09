@@ -42,7 +42,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 $data['periode'],
                 $data['tanggal_buka'],
                 $data['tanggal_tutup'],
-                'draft'
+                'menunggu'
             ]);
             return $this->conn->lastInsertId();
         } catch(PDOException $e){
@@ -51,6 +51,8 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         }
     }
 
+
+    
     // ================= UPDATE agenda =================
     public function updateAgenda($id_agenda, $data){
         try {
@@ -67,7 +69,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 $data['periode'],
                 $data['tanggal_buka'],
                 $data['tanggal_tutup'],
-                $data['status'],
+                'menunggu',
                 $id_agenda
             ]);
         } catch(PDOException $e){
@@ -101,10 +103,19 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // public function updateStatus($id_agenda, $status){
+    //     $stmt = $this->conn->prepare("UPDATE agenda SET status=? WHERE id_agenda=?");
+    //     return $stmt->execute([$status, $id_agenda]);
+    // }
+
     public function updateStatus($id_agenda, $status){
-        $stmt = $this->conn->prepare("UPDATE agenda SET status=? WHERE id_agenda=?");
-        return $stmt->execute([$status, $id_agenda]);
-    }
+    $stmt = $this->conn->prepare("
+        UPDATE agenda 
+        SET status = ? 
+        WHERE id_agenda = ?
+    ");
+    return $stmt->execute([$status, $id_agenda]);
+}
 
     // ================= AMBIL agenda BERDASARKAN CALON =================
     public function getAgendaByCalon($id_calon){
@@ -232,4 +243,6 @@ public function getPemenangAgenda($id_agenda)
     $stmt->execute([$id_agenda]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+
 }

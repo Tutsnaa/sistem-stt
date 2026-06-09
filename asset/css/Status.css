@@ -1,0 +1,46 @@
+/* ================= STATUS BADGE GLOBAL (SEMUA MODUL) ================= */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+/* ================= STATUS UMUM ================= */
+
+/* MENUNGGU / DRAFT */
+.badge-menunggu,
+.badge-draft {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffc107;
+}
+
+/* DISETUJUI / DIBUKA / DITERIMA */
+.badge-disetujui,
+.badge-dibuka {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #28a745;
+}
+
+/* DITOLAK */
+.badge-ditolak {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #dc3545;
+}
+
+/* SELESAI / CLOSED */
+.badge-selesai,
+.badge-ditutup {
+  background: #e2e3e5;
+  color: #383d41;
+  border: 1px solid #6c757d;
+}

@@ -117,6 +117,7 @@ if($action == 'createAgenda') {
     'masa_awal_jabatan' => $_POST['masa_awal_jabatan'],
     'masa_akhir_jabatan' => $_POST['masa_akhir_jabatan'],
     'periode' => $_POST['periode'],
+    'status' => 'menunggu',
     'tanggal_buka' => $_POST['tanggal_buka'],
     'tanggal_tutup' => $_POST['tanggal_tutup']
     
@@ -144,7 +145,7 @@ if($action == 'updateAgenda') {
         'periode' => $_POST['periode'],
         'tanggal_buka' => $_POST['tanggal_buka'],
         'tanggal_tutup' => $_POST['tanggal_tutup'],
-        'status' => $_POST['status']
+        'status' => 'menunggu'
     ];
     $agendaModel->updateAgenda($id, $data);
     $_SESSION['flash_message'] = "agenda berhasil diperbarui";
@@ -204,6 +205,46 @@ function prosesPemenang($agendaModel, $kepengurusanModel, $id_agenda){
     }
 
     
+}
+
+if($action === "terima"){
+
+    $id = $_GET['id'] ?? null;
+
+    if(!$id){
+        $_SESSION['flash_message'] = "ID tidak valid!";
+        $_SESSION['flash_type'] = "danger";
+        header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=agenda");
+        exit;
+    }
+
+    $agendaModel->updateStatus($id, 'disetujui');
+
+    $_SESSION['flash_message'] = "Agenda disetujui!";
+    $_SESSION['flash_type'] = "success";
+
+    header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=agenda");
+    exit;
+}
+
+if($action === "tolak"){
+
+    $id = $_GET['id'] ?? null;
+
+    if(!$id){
+        $_SESSION['flash_message'] = "ID tidak valid!";
+        $_SESSION['flash_type'] = "danger";
+        header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=agenda");
+        exit;
+    }
+
+    $agendaModel->updateStatus($id, 'ditolak');
+
+    $_SESSION['flash_message'] = "Agenda ditolak!";
+    $_SESSION['flash_type'] = "danger";
+
+    header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=agenda");
+    exit;
 }
 
 // ================= HAPUS agenda =================

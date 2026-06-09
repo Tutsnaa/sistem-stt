@@ -8,7 +8,7 @@ $model = new PengumumanModel();
 $userRole = $_SESSION['user']['jabatan'];
 
 // Daftar semua jabatan yang termasuk pengurus
-$pengurusRoles = ['ketua', 'wakil', 'sekretaris 1', 'sekretaris 2', 'bendahara 1', 'bendahara 2'];
+$pengurusRoles = ['admin', 'ketua', 'wakil', 'sekretaris 1', 'sekretaris 2', 'bendahara 1', 'bendahara 2'];
 
 $dashboardPage = in_array($userRole, $pengurusRoles) 
     ? '../../public/dashboard_pengurus.php?page=pengumuman'

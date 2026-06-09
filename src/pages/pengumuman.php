@@ -110,6 +110,7 @@ if (
 if (
     isset($_SESSION['user']) && 
     $_SESSION['user']['jabatan'] != 'ketua' &&
+    $_SESSION['user']['jabatan'] != 'admin' &&
     $_SESSION['user']['jabatan'] != 'wakil'
 ) { 
 ?>
@@ -135,7 +136,10 @@ if (
                         </td>
                         <?php } ?>
 
-                        <?php if($_SESSION['user']['jabatan'] == 'ketua'): ?>
+                        <?php if (
+    $_SESSION['user']['jabatan'] == 'ketua' ||
+    $_SESSION['user']['jabatan'] == 'admin'
+): ?>
 
                         <td class="aksi-status">
 

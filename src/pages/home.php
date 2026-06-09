@@ -37,6 +37,7 @@ $page = $page ?? 'home';
 <?php
 // daftar jabatan pengurus
 $pengurusList = [
+    'admin',
     'ketua',
     'wakil',
     'sekretaris 1',

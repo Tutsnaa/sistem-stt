@@ -28,9 +28,9 @@ class AuthController {
 
             // redirect sesuai jabatan
             if($result['data']['jabatan'] == "anggota"){
-                header("Location: ../../public/dashboard_anggota.php");
+                header("Location: ../../public/dashboard_anggota.php?page=home");
             } else {
-                header("Location: ../../public/dashboard_pengurus.php");
+                header("Location: ../../public/dashboard_pengurus.php?page=home_pengurus");
             }
 
             exit;
