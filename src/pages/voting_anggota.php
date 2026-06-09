@@ -2,48 +2,48 @@
 $kandidat = $kandidat ?? [];
 
 /* ===============================
-   AMBIL VOTING (HANYA DIBUKA)
+   AMBIL agenda (HANYA DIBUKA)
 =============================== */
-$votings = array_values(array_filter(
-    $votingModel->getAllVoting(),
+$agendas = array_values(array_filter(
+    $agendaModel->getAllAgenda(),
     fn($v) => $v['status'] === 'dibuka'
 ));
 
 /* ===============================
-   AMBIL VOTING TERBARU SELESAI
+   AMBIL agenda TERBARU SELESAI
 =============================== */
-$selesaiVoting = array_values(array_filter(
-    $votingModel->getAllVoting(),
+$selesaiAgenda = array_values(array_filter(
+    $agendaModel->getAllAgenda(),
     fn($v) => $v['status'] === 'selesai'
 ));
 
-usort($selesaiVoting, fn($a, $b) =>
+usort($selesaiAgenda, fn($a, $b) =>
     strtotime($b['tanggal_tutup']) <=> strtotime($a['tanggal_tutup'])
 );
 
-$latestVoting = $selesaiVoting[0] ?? null;
+$latestAgenda = $selesaiAgenda[0] ?? null;
 ?>
 
-<?php if (!empty($votings)): ?>
+<?php if (!empty($agendas)): ?>
 
-<?php foreach ($votings as $voting): ?>
+<?php foreach ($agendas as $agenda): ?>
 
-<!-- ================= INFO VOTING (HANYA DIBUKA) ================= -->
+<!-- ================= INFO agenda (HANYA DIBUKA) ================= -->
 <div class="voting-info">
     <h2 class="voting-title">
-        <?= htmlspecialchars($voting['judul'] ?? 'Voting tanpa judul') ?>
+        <?= htmlspecialchars($agenda['judul'] ?? 'Agenda tanpa judul') ?>
     </h2>
 
     <p>
-        Masa Jabatan: <?= htmlspecialchars($voting['masa_awal_jabatan'] ?? '-') ?>
-        s/d <?= htmlspecialchars($voting['masa_akhir_jabatan'] ?? '-') ?><br>
+        Masa Jabatan: <?= htmlspecialchars($agenda['masa_awal_jabatan'] ?? '-') ?>
+        s/d <?= htmlspecialchars($agenda['masa_akhir_jabatan'] ?? '-') ?><br>
 
-        Periode: <?= htmlspecialchars($voting['periode'] ?? '-') ?><br>
+        Periode: <?= htmlspecialchars($agenda['periode'] ?? '-') ?><br>
 
-        Tanggal Buka: <?= htmlspecialchars($voting['tanggal_buka'] ?? '-') ?> |
-        Tanggal Tutup: <?= htmlspecialchars($voting['tanggal_tutup'] ?? '-') ?><br>
+        Tanggal Buka: <?= htmlspecialchars($agenda['tanggal_buka'] ?? '-') ?> |
+        Tanggal Tutup: <?= htmlspecialchars($agenda['tanggal_tutup'] ?? '-') ?><br>
 
-        Status: <b><?= strtoupper($voting['status']) ?></b>
+        Status: <b><?= strtoupper($agenda['status']) ?></b>
     </p>
 </div>
 
@@ -56,9 +56,9 @@ $kategori = ['ketua', 'wakil', 'sekretaris', 'bendahara'];
     <?php foreach ($kategori as $jabatan): ?>
 
     <?php
-    $filtered = array_filter($kandidat, function($row) use ($jabatan, $voting) {
+    $filtered = array_filter($kandidat, function($row) use ($jabatan, $agenda) {
         return strtolower($row['jabatan']) === $jabatan
-            && $row['id_voting'] == $voting['id_voting'];
+            && $row['id_agenda'] == $agenda['id_agenda'];
     });
     ?>
 
@@ -93,7 +93,7 @@ $kategori = ['ketua', 'wakil', 'sekretaris', 'bendahara'];
 
                 <div class="card-action">
 
-                    <a href="../src/controllers/VotingController.php?action=vote&id_calon=<?= $row['id_calon'] ?>"
+                    <a href="../src/controllers/AgendaController.php?action=vote&id_calon=<?= $row['id_calon'] ?>"
                         onclick="return confirm('Yakin memilih kandidat ini?')" class="btn-vote">
                         Vote
                     </a>
@@ -118,12 +118,12 @@ $kategori = ['ketua', 'wakil', 'sekretaris', 'bendahara'];
 
 
 <!-- ================= PEMENANG (HANYA VOTING TERBARU SELESAI) ================= -->
-<?php if ($latestVoting): ?>
+<?php if ($latestAgenda): ?>
 
 <?php
-$pemenang = $votingModel->getPemenangVoting($latestVoting['id_voting']);
+$pemenang = $agendaModel->getPemenangAgenda($latestAgenda['id_agenda']);
 
-$tanggalSelesai = strtotime($latestVoting['tanggal_tutup']);
+$tanggalSelesai = strtotime($latestAgenda['tanggal_tutup']);
 $batasTampil = strtotime('+7 days', $tanggalSelesai);
 $sekarang = time();
 ?>
@@ -131,7 +131,7 @@ $sekarang = time();
 <?php if ($sekarang <= $batasTampil && !empty($pemenang)): ?>
 
 <h3 style="text-align:center;margin-top:90px;margin-bottom:20px;font-size:30px;" class="judul-voting-pemenang">
-    Pemenang <?= htmlspecialchars($latestVoting['judul']) ?>
+    Pemenang <?= htmlspecialchars($latestAgenda['judul']) ?>
 </h3>
 
 <div class="card-container">

@@ -11,7 +11,7 @@ if(isset($_GET['action'])){
         // ================= CREATE KANDIDAT
         if($action === "createKandidat" && $_SERVER['REQUEST_METHOD'] === 'POST'){
             $data = [
-                'id_voting'   => $_POST['id_voting'] ?? null,
+                'id_agenda'   => $_POST['id_agenda'] ?? null,
                 'id_pengguna' => $_POST['id_pengguna'] ?? null,
                 'jabatan'     => $_POST['jabatan'] ?? '',
                 'no_kandidat'   => $_POST['no_kandidat'] ?? '',
@@ -22,7 +22,7 @@ if(isset($_GET['action'])){
 
         $_SESSION['flash_message'] = "Data kandidat berhasil ditambahkan";
         $_SESSION['flash_type'] = "success";
-            // Redirect ke page voting agar kandidat muncul di tabel voting
+            // Redirect ke page agenda agar kandidat muncul di tabel agenda
             header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=kandidat");
             exit;
         }
@@ -31,7 +31,7 @@ if(isset($_GET['action'])){
         if($action === "updateKandidat" && $_SERVER['REQUEST_METHOD'] === 'POST'){
             $data = [
                 'id_calon'    => $_POST['id_calon'] ?? null,
-                'id_voting'   => $_POST['id_voting'] ?? null,
+                'id_agenda'   => $_POST['id_agenda'] ?? null,
                 'id_pengguna' => $_POST['id_pengguna'] ?? null,
                 'jabatan'     => $_POST['jabatan'] ?? '',
                 'no_kandidat'   => $_POST['no_kandidat'] ?? '',

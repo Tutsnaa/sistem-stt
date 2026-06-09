@@ -40,8 +40,8 @@ class KepengurusanModel {
         FROM kepengurusan k
         JOIN pengguna p 
             ON k.id_pengguna = p.id_pengguna
-        LEFT JOIN voting v 
-            ON k.id_voting = v.id_voting
+        LEFT JOIN agenda v 
+            ON k.id_agenda = v.id_agenda
     ";
 
     // FILTER PERIODE
@@ -62,12 +62,12 @@ class KepengurusanModel {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-    // CEK apakah voting sudah diproses
-public function cekVotingSelesai($id_voting){
+    // CEK apakah agenda sudah diproses
+public function cekAgendaSelesai($id_agenda){
     $stmt = $this->conn->prepare("
-        SELECT * FROM kepengurusan WHERE id_voting = ?
+        SELECT * FROM kepengurusan WHERE id_agenda = ?
     ");
-    $stmt->execute([$id_voting]);
+    $stmt->execute([$id_agenda]);
     return $stmt->fetch();
 }
 
@@ -75,7 +75,7 @@ public function cekVotingSelesai($id_voting){
 public function insertKepengurusan($data){
     $stmt = $this->conn->prepare("
         INSERT INTO kepengurusan 
-        (id_pengguna, masa_awal_jabatan, masa_akhir_jabatan, jabatan, id_voting)
+        (id_pengguna, masa_awal_jabatan, masa_akhir_jabatan, jabatan, id_agenda)
         VALUES (?, ?, ?, ?, ?)
     ");
     return $stmt->execute([
@@ -83,7 +83,7 @@ public function insertKepengurusan($data){
         $data['masa_awal'],
         $data['masa_akhir'],
         $data['jabatan'],
-        $data['id_voting']
+        $data['id_agenda']
     ]);
 }
 
@@ -114,7 +114,7 @@ public function getPeriodeList(){
 
     $stmt = $this->conn->prepare("
         SELECT DISTINCT periode
-        FROM voting
+        FROM agenda
         ORDER BY periode DESC
     ");
 

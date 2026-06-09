@@ -75,15 +75,8 @@ if (
                         <th>Isi</th>
                         <th>File</th>
                         <th>Status</th>
-                        <?php 
-if (
-    isset($_SESSION['user']) && 
-    $_SESSION['user']['jabatan'] != 'bendahara 1' &&
-    $_SESSION['user']['jabatan'] != 'bendahara 2'
-) { 
-?>
+
                         <th>Aksi</th>
-                        <?php } ?>
                     </tr>
                 </thead>
 

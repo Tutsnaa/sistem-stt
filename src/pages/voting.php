@@ -5,7 +5,7 @@ $tab = $_GET['tab'] ?? 'agenda';
 // cegah warning variable undefined
 $agenda = $agenda ?? [];
 $kandidat = $kandidat ?? [];
-$voting = $voting ?? [];
+$agenda = $agenda ?? [];
 $anggota = $anggota ?? [];
 $user = $user ?? [];
 ?>
@@ -28,18 +28,20 @@ $user = $user ?? [];
     </div>
 
     <!-- ================= TAB AGENDA ================= -->
-    <div id="tab-agenda" class="tab-content <?= ($tab == 'agenda') ? 'active' : '' ?>">
+    <div id="tab-agenda" class="tab-content <?= ($tab == 'voting') ? 'active' : '' ?>">
         <div class="header-voting">
             <h2>Kelola Agenda</h2>
             <?php 
 if (
     isset($_SESSION['user']) && 
     $_SESSION['user']['jabatan'] != 'anggota' &&
+    $_SESSION['user']['jabatan'] != 'ketua' &&
+    $_SESSION['user']['jabatan'] != 'wakil' &&
     $_SESSION['user']['jabatan'] != 'bendahara 1' &&
     $_SESSION['user']['jabatan'] != 'bendahara 2'
 ) { 
 ?>
-            <button class="btn btn-tambah" onclick="openVotingPopup()">+ Tambah Agenda</button>
+            <button class="btn btn-tambah" onclick="openAgendaPopup()">+ Tambah Agenda</button>
             <?php } ?>
         </div>
 
@@ -60,6 +62,8 @@ if (
 if (
     isset($_SESSION['user']) && 
     $_SESSION['user']['jabatan'] != 'anggota' &&
+    $_SESSION['user']['jabatan'] != 'ketua' &&
+    $_SESSION['user']['jabatan'] != 'wakil' &&
     $_SESSION['user']['jabatan'] != 'bendahara 1' &&
     $_SESSION['user']['jabatan'] != 'bendahara 2'
 ) { 
@@ -69,7 +73,7 @@ if (
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $no = 1; foreach($voting as $row): ?>
+                        <?php $no = 1; foreach($agenda as $row): ?>
                         <tr>
                             <td class="text-center"><?= $no++; ?></td>
                             <td><?= htmlspecialchars($row['judul']) ?></td>
@@ -83,12 +87,14 @@ if (
 if (
     isset($_SESSION['user']) && 
     $_SESSION['user']['jabatan'] != 'anggota' &&
+    $_SESSION['user']['jabatan'] != 'ketua' &&
+    $_SESSION['user']['jabatan'] != 'wakil' &&
     $_SESSION['user']['jabatan'] != 'bendahara 1' &&
     $_SESSION['user']['jabatan'] != 'bendahara 2'
 ) { 
 ?>
                             <td>
-                                <button class="btn btn-ubah" data-id="<?= $row['id_voting'] ?>"
+                                <button class="btn btn-ubah" data-id="<?= $row['id_agenda'] ?>"
                                     data-judul="<?= $row['judul'] ?>" data-periode="<?= $row['periode'] ?>"
                                     data-masa_awal="<?= $row['masa_awal_jabatan'] ?>"
                                     data-masa_akhir="<?= $row['masa_akhir_jabatan'] ?>"
@@ -99,7 +105,7 @@ if (
                                 </button>
 
                                 <a href="#" class="btn-hapus"
-                                    onclick="confirmHapus(<?= $row['id_voting']; ?>); return false;">
+                                    onclick="confirmHapus(<?= $row['id_agenda']; ?>); return false;">
                                     <i class="fa fa-trash"></i>
                                 </a>
                             </td>
@@ -122,6 +128,8 @@ if (
 if (
     isset($_SESSION['user']) && 
     $_SESSION['user']['jabatan'] != 'anggota' &&
+    $_SESSION['user']['jabatan'] != 'ketua' &&
+    $_SESSION['user']['jabatan'] != 'wakil' &&
     $_SESSION['user']['jabatan'] != 'bendahara 1' &&
     $_SESSION['user']['jabatan'] != 'bendahara 2'
 ) { 
@@ -156,7 +164,7 @@ if (
                         <td>
                             <!-- DETAIL -->
                             <button class="btn btn-detail" data-nama="<?= $row['nama_lengkap'] ?>"
-                                data-voting="<?= $row['judul'] ?>" data-jabatan="<?= $row['jabatan'] ?>"
+                                data-agenda="<?= $row['judul'] ?>" data-jabatan="<?= $row['jabatan'] ?>"
                                 data-no="<?= $row['no_kandidat'] ?>" data-visi="<?= $row['visi'] ?>"
                                 data-misi="<?= $row['misi'] ?>" onclick="openDetailKandidat(this)">
                                 <i class="fa fa-eye"></i>
@@ -166,6 +174,8 @@ if (
 if (
     isset($_SESSION['user']) && 
     $_SESSION['user']['jabatan'] != 'anggota' &&
+    $_SESSION['user']['jabatan'] != 'ketua' &&
+    $_SESSION['user']['jabatan'] != 'wakil' &&
     $_SESSION['user']['jabatan'] != 'bendahara 1' &&
     $_SESSION['user']['jabatan'] != 'bendahara 2'
 ) { 
@@ -173,7 +183,7 @@ if (
 
                             <!-- Ubah -->
                             <button class="btn btn-ubah-kandidat" data-id="<?= $row['id_calon'] ?>"
-                                data-id_voting="<?= $row['id_voting'] ?>" data-id_pengguna="<?= $row['id_pengguna'] ?>"
+                                data-id_agenda="<?= $row['id_agenda'] ?>" data-id_pengguna="<?= $row['id_pengguna'] ?>"
                                 data-jabatan="<?= $row['jabatan'] ?>" data-no_kandidat="<?= $row['no_kandidat'] ?>"
                                 data-visi="<?= $row['visi'] ?>" data-misi="<?= $row['misi'] ?>">
                                 <i class="fa fa-pen-to-square"></i>
@@ -208,7 +218,7 @@ if (
 
             <div class="dk-row">
                 <b>Voting</b>
-                <span id="dk_voting"></span>
+                <span id="dk_agenda"></span>
             </div>
 
             <div class="dk-row">
@@ -232,19 +242,20 @@ if (
             </div>
         </div>
     </div>
+
     <!-- ================= TAB VOTING ================= -->
     <div id="tab-voting" class="tab-content <?= ($tab == 'voting') ? 'active' : '' ?>">
 
         <?php
-    $adaVoting = false;
+    $adaAgenda = false;
     ?>
 
-        <?php if (!empty($votings)) : ?>
-        <?php foreach ($votings as $v) : ?>
+        <?php if (!empty($agendas)) : ?>
+        <?php foreach ($agendas as $v) : ?>
 
         <?php if($v['status'] != 'selesai') : ?>
 
-        <?php $adaVoting = true; ?>
+        <?php $adaAgenda = true; ?>
 
         <!-- ================= INFO VOTING ================= -->
         <div class="voting-info">
@@ -358,7 +369,7 @@ if (
 
                         <?php else : ?>
 
-                        <a href="../src/controllers/VotingController.php?action=vote&id_calon=<?= $c['id_calon'] ?>&tab=voting"
+                        <a href="../src/controllers/AgendaController.php?action=vote&id_calon=<?= $c['id_calon'] ?>&tab=voting"
                             onclick="return confirm('Yakin memilih kandidat ini?')" class="btn-vote">
 
                             Vote
@@ -397,10 +408,10 @@ if (
 
         <?php endforeach; ?>
 
-        <?php if(!$adaVoting): ?>
+        <?php if(!$adaAgenda): ?>
 
         <p style="text-align:center;color:#888;">
-            Tidak ada voting
+            Tidak ada Agenda
         </p>
 
         <?php endif; ?>
@@ -408,7 +419,7 @@ if (
         <?php else : ?>
 
         <p style="text-align:center;color:#888;">
-            Tidak ada voting
+            Tidak ada Agenda
         </p>
 
         <?php endif; ?>
@@ -417,7 +428,7 @@ if (
 
 
     <!-- ================= TAB REKAP ================= -->
-    <?php if (!empty($votings) && $votings[0]['status'] == 'selesai') : ?>
+    <?php if (!empty($agendas) && $agendas[0]['status'] == 'selesai') : ?>
 
     <div id="tab-rekap" class="tab-content <?= ($tab == 'rekap') ? 'active' : '' ?>">
 
@@ -444,12 +455,12 @@ if (
 $no = 1;
 
 /* AMBIL ID VOTING TERBARU */
-$latestVotingId = end($votings)['id_voting'];
+$latestAgendaId = end($agendas)['id_agenda'];
 
 foreach($kandidat as $row):
 
-/* HANYA TAMPILKAN REKAP VOTING TERBARU */
-if($row['id_voting'] != $latestVotingId){
+/* HANYA TAMPILKAN REKAP agenda TERBARU */
+if($row['id_agenda'] != $latestAgendaId){
     continue;
 }
 ?>
@@ -460,7 +471,7 @@ if($row['id_voting'] != $latestVotingId){
                             <td class="text-center"><?= htmlspecialchars($row['jabatan']) ?></td>
                             <td class="text-center"><?= htmlspecialchars($row['no_kandidat']) ?></td>
                             <td class="total-suara">
-                                <?= $votingModel->countSuara($row['id_calon']) ?>
+                                <?= $agendaModel->countSuara($row['id_calon']) ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -482,8 +493,8 @@ if($row['id_voting'] != $latestVotingId){
         <span class="popup-close">&times;</span>
         <h3>Ubah Agenda</h3>
 
-        <form class="form-voting" action="../src/controllers/VotingController.php?action=updateVoting" method="POST">
-            <input type="hidden" name="id_voting" id="edit_id">
+        <form class="form-voting" action="../src/controllers/AgendaController.php?action=updateAgenda" method="POST">
+            <input type="hidden" name="id_agenda" id="edit_id">
 
             <label>Judul Voting</label>
             <input type="text" name="judul" id="edit_judul" required>
@@ -503,7 +514,7 @@ if($row['id_voting'] != $latestVotingId){
             <label>Tanggal Tutup</label>
             <input type="date" name="tanggal_tutup" id="edit_tanggal_tutup" required>
 
-            <label>Status Voting</label>
+            <label>Status Agenda</label>
             <select name="status" id="edit_status" required>
                 <option value="draft">Draft</option>
                 <option value="dibuka">Dibuka</option>
@@ -524,7 +535,7 @@ if($row['id_voting'] != $latestVotingId){
         <form class="form-voting" action="../src/controllers/KandidatController.php?action=updateKandidat"
             method="POST">
             <input type="hidden" name="id_calon" id="editKandidat_id">
-            <input type="hidden" name="id_voting" id="editKandidat_id_voting">
+            <input type="hidden" name="id_agenda" id="editKandidat_id_agenda">
             <input type="hidden" name="id_pengguna" id="editKandidat_id_pengguna">
             <label>Jabatan</label>
             <input type="text" name="jabatan" id="editKandidat_jabatan" required>
@@ -540,15 +551,15 @@ if($row['id_voting'] != $latestVotingId){
 </div>
 
 <!-- ================= Popup Tambah Agenda ================= -->
-<div id="popupVoting" class="popup popup-voting">
+<div id="popupAgenda" class="popup popup-voting">
     <div class="popup-content popup-voting-content">
         <span class="popup-close" onclick="closeVotingPopup()">&times;</span>
         <h3>Tambah Agenda</h3>
 
-        <form class="form-voting" action="../src/controllers/VotingController.php?action=createVoting" method="POST">
+        <form class="form-voting" action="../src/controllers/AgendaController.php?action=createAgenda" method="POST">
             <input type="hidden" name="id_pengguna" value="<?= $user['id_pengguna'] ?>">
 
-            <label>Judul Voting</label>
+            <label>Judul Agenda</label>
             <input type="text" name="judul" required>
 
             <label>Masa Awal Jabatan</label>
@@ -578,11 +589,11 @@ if($row['id_voting'] != $latestVotingId){
         <h3>Tambah Kandidat</h3>
         <form class="form-voting" action="../src/controllers/KandidatController.php?action=createKandidat"
             method="POST">
-            <label>Voting</label>
-            <select name="id_voting" required>
-                <option value="">-- Pilih Voting --</option>
-                <?php foreach($voting as $v): ?>
-                <option value="<?= $v['id_voting'] ?>"><?= htmlspecialchars($v['judul']) ?></option>
+            <label>Agenda</label>
+            <select name="id_agenda" required>
+                <option value="">-- Pilih Agenda --</option>
+                <?php foreach($agenda as $v): ?>
+                <option value="<?= $v['id_agenda'] ?>"><?= htmlspecialchars($v['judul']) ?></option>
                 <?php endforeach; ?>
             </select>
             <label>Nama Pengguna</label>
@@ -630,7 +641,7 @@ if($row['id_voting'] != $latestVotingId){
 <div id="modalHapus" class="modal-hapus">
     <div class="modal-box">
         <h3>Konfirmasi Hapus</h3>
-        <p>Apakah kamu yakin ingin menghapus data voting ini?</p>
+        <p>Apakah kamu yakin ingin menghapus data agenda ini?</p>
 
         <div class="modal-actions">
             <button class="btn-batal" onclick="closeModalHapus()">Batal</button>
@@ -654,7 +665,7 @@ function openDetailKandidat(btn) {
     }
 
     document.getElementById("dk_nama").innerText = btn.dataset.nama || '-';
-    document.getElementById("dk_voting").innerText = btn.dataset.voting || '-';
+    document.getElementById("dk_agenda").innerText = btn.dataset.agenda || '-';
     document.getElementById("dk_jabatan").innerText = btn.dataset.jabatan || '-';
     document.getElementById("dk_no").innerText = btn.dataset.no || '-';
     document.getElementById("dk_visi").innerText = btn.dataset.visi || '-';
@@ -701,7 +712,7 @@ function confirmHapus(id) {
 
     // set link hapus
     document.getElementById("btnYaHapus").href =
-        "../src/controllers/VotingController.php?action=hapus&id=" + id;
+        "../src/controllers/agendaController.php?action=hapus&id=" + id;
 }
 
 function closeModalHapus() {
@@ -719,12 +730,12 @@ function confirmHapusKandidat(id) {
 }
 
 // ================= POPUP TAMBAH =================
-function openVotingPopup() {
-    document.getElementById("popupVoting").style.display = "flex";
+function openAgendaPopup() {
+    document.getElementById("popupAgenda").style.display = "flex";
 }
 
-function closeVotingPopup() {
-    document.getElementById("popupVoting").style.display = "none";
+function closeagendaPopup() {
+    document.getElementById("popupAgenda").style.display = "none";
 }
 
 function openKandidatPopup() {
@@ -736,7 +747,7 @@ function closeKandidatPopup() {
 }
 
 
-// ================= EDIT VOTING =================
+// ================= EDIT agenda =================
 const modalEdit = document.getElementById("modalEdit");
 
 document.querySelectorAll(".btn-ubah").forEach(btn => {
@@ -769,7 +780,7 @@ const modalEditKandidat = document.getElementById("modalEditKandidat");
 document.querySelectorAll(".btn-ubah-kandidat").forEach(btn => {
     btn.addEventListener("click", () => {
         document.getElementById("editKandidat_id").value = btn.dataset.id;
-        document.getElementById("editKandidat_id_voting").value = btn.dataset.id_voting;
+        document.getElementById("editKandidat_id_agenda").value = btn.dataset.id_agenda;
         document.getElementById("editKandidat_id_pengguna").value = btn.dataset.id_pengguna;
         document.getElementById("editKandidat_jabatan").value = btn.dataset.jabatan;
         document.getElementById("editKandidat_no_kandidat").value = btn.dataset.no_kandidat;
@@ -794,7 +805,7 @@ window.addEventListener("click", function(event) {
         modalHapus.style.display = "none";
     }
 
-    // klik luar modal edit voting
+    // klik luar modal edit agenda
     if (event.target === modalEdit) {
         modalEdit.style.display = "none";
     }

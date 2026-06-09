@@ -34,14 +34,14 @@ $search = $_GET['search'] ?? null;
 require_once __DIR__ . '/../src/models/PenggunaModel.php';
 require_once __DIR__ . '/../src/models/KeuanganModel.php';
 require_once __DIR__ . '/../src/models/PengumumanModel.php';
-require_once __DIR__ . '/../src/models/VotingModel.php';
+require_once __DIR__ . '/../src/models/AgendaModel.php';
 require_once __DIR__ . '/../src/models/KandidatModel.php';
 require_once __DIR__ . '/../src/models/KepengurusanModel.php';
 
 // ================================
 // LOAD CONTROLLER VOTING
 // ================================
-require_once __DIR__ . '/../src/controllers/VotingController.php';
+require_once __DIR__ . '/../src/controllers/AgendaController.php';
 
 // ================================
 // INISIALISASI MODEL
@@ -72,23 +72,23 @@ $pengumuman      = $pengumumanModel->getAllPengumuman($jabatan);
 $dataPengumuman  = $pengumuman;
 
 // ================================
-// AUTO UPDATE STATUS VOTING
+// AUTO UPDATE STATUS agenda
 // ================================
-$votingModel->autoUpdateStatus();
+$agendaModel->autoUpdateStatus();
 
 // ================================
-// DATA VOTING
+// DATA agenda
 // ================================
-$voting  = $votingModel->getAllVoting();
-$votings = $votingModel->getAllVoting();
+$agenda  = $agendaModel->getAllAgenda();
+$agendas = $agendaModel->getAllAgenda();
 
 // ================================
-// AMBIL KANDIDAT PER VOTING
+// AMBIL KANDIDAT PER agenda
 // ================================
-foreach ($votings as &$v) {
+foreach ($agendas as &$v) {
 
-    $v['calon'] = $votingModel->getCalonByVoting(
-        $v['id_voting']
+    $v['calon'] = $agendaModel->getCalonByAgenda(
+        $v['id_agenda']
     );
 }
 unset($v);

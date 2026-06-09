@@ -1,34 +1,34 @@
 <?php
 if(session_status() === PHP_SESSION_NONE) session_start();
 
-require_once __DIR__ . '/../models/VotingModel.php';
+require_once __DIR__ . '/../models/AgendaModel.php';
 require_once __DIR__ . '/../models/SuaraModel.php';
 require_once __DIR__ . '/../models/KepengurusanModel.php';
 
-$votingModel = new VotingModel();
+$agendaModel = new AgendaModel();
 $suaraModel  = new SuaraModel();
 $kepengurusanModel = new KepengurusanModel();
 
 $action = $_GET['action'] ?? null;
 $page   = $_GET['page'] ?? null;
-function autoProcessVoting($votingModel, $kepengurusanModel){
+function autoProcessAgenda($agendaModel, $kepengurusanModel){
 
-    $votingModel->autoUpdateStatus();
+    $agendaModel->autoUpdateStatus();
 
-    $votingList = $votingModel->getAllVoting();
+    $agendaList = $agendaModel->getAllagenda();
 
-    foreach($votingList as $v){
+    foreach($agendaList as $v){
 
         if($v['status'] == 'selesai'){
 
-            $cek = $kepengurusanModel->cekVotingSelesai($v['id_voting']);
+            $cek = $kepengurusanModel->cekagendaSelesai($v['id_agenda']);
 
             if(!$cek){
 
-                $dataPemenang = $votingModel->getPemenangPerJabatan($v['id_voting']);
+                $dataPemenang = $agendaModel->getPemenangPerJabatan($v['id_agenda']);
 
                 if(!empty($dataPemenang)){
-                    prosesPemenang($votingModel, $kepengurusanModel, $v['id_voting']);
+                    prosesPemenang($agendaModel, $kepengurusanModel, $v['id_agenda']);
                 }
             }
         }
@@ -44,7 +44,7 @@ if(!isset($_SESSION['user'])){
 $page = $_GET['page'] ?? null;
 
 if($page === 'voting'){
-    autoProcessVoting($votingModel, $kepengurusanModel);
+    autoProcessAgenda($agendaModel, $kepengurusanModel);
 }
 
 try {
@@ -55,7 +55,7 @@ try {
 
         $dashboard = ($jabatan === 'anggota') 
             ? '../../public/dashboard_anggota.php?page=voting_anggota' 
-            : '../../public/dashboard_pengurus.php?page=voting';
+            : '../../public/dashboard_pengurus.php?page=voting&tab=voting';
 
         if(!$id_calon){
             $_SESSION['error'] = "Kandidat tidak valid!";
@@ -63,15 +63,15 @@ try {
             exit;
         }
 
-        $voting = $votingModel->getVotingByCalon($id_calon);
+        $agenda = $agendaModel->getagendaByCalon($id_calon);
 
-        if(!$voting || $voting['status'] !== 'dibuka'){
-            $_SESSION['error'] = "Voting sudah ditutup!";
+        if(!$agenda || $agenda['status'] !== 'dibuka'){
+            $_SESSION['error'] = "agenda sudah ditutup!";
             header("Location: $dashboard");
             exit;
         }
 
-        $calon = $votingModel->getCalonById($id_calon);
+        $calon = $agendaModel->getCalonById($id_calon);
 
 if(!$calon){
     $_SESSION['flash_message'] = "Data calon tidak ditemukan!";
@@ -83,7 +83,7 @@ if(!$calon){
 if(!$suaraModel->cekSuaraPerJabatan(
     $id_pengguna,
     $calon['jabatan'],
-    $calon['id_voting']
+    $calon['id_agenda']
 )){
     
     $suaraModel->createSuara([
@@ -108,8 +108,8 @@ if(!$suaraModel->cekSuaraPerJabatan(
     header("Location: $dashboard");
     exit;
 }
-// ================= CREATE VOTING =================
-if($action == 'createVoting') {
+// ================= CREATE agenda =================
+if($action == 'createAgenda') {
 
     $data = [
     'id_pengguna' => $_POST['id_pengguna'],
@@ -122,23 +122,23 @@ if($action == 'createVoting') {
     
 ];
 
-    $result = $votingModel->createVoting($data);
-     $_SESSION['flash_message'] = " Voting berhasil ditambahkan";
+    $result = $agendaModel->createAgenda($data);
+     $_SESSION['flash_message'] = " agenda berhasil ditambahkan";
         $_SESSION['flash_type'] = "success";
 
     // if($result){
-    //     $_SESSION['success'] = "Voting berhasil ditambahkan!";
+    //     $_SESSION['success'] = "agenda berhasil ditambahkan!";
     // } else {
-    //     $_SESSION['error'] = "Gagal menambahkan voting!";
+    //     $_SESSION['error'] = "Gagal menambahkan agenda!";
     // }
 
-    header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=voting");
+    header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=agenda");
     exit;
 }
 
-// ================= UPDATE VOTING =================
-if($action == 'updateVoting') {
-    $id = $_POST['id_voting'];
+// ================= UPDATE agenda =================
+if($action == 'updateAgenda') {
+    $id = $_POST['id_agenda'];
     $data = [
         'judul' => $_POST['judul'],
         'periode' => $_POST['periode'],
@@ -146,18 +146,18 @@ if($action == 'updateVoting') {
         'tanggal_tutup' => $_POST['tanggal_tutup'],
         'status' => $_POST['status']
     ];
-    $votingModel->updateVoting($id, $data);
-    $_SESSION['flash_message'] = "Voting berhasil diperbarui";
+    $agendaModel->updateAgenda($id, $data);
+    $_SESSION['flash_message'] = "agenda berhasil diperbarui";
     $_SESSION['flash_type'] = "success";
-    header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=voting");
+    header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=agenda");
     exit;
 }
 
 // ================= AUTO PILIH PEMENANG =================
-function prosesPemenang($votingModel, $kepengurusanModel, $id_voting){
+function prosesPemenang($agendaModel, $kepengurusanModel, $id_agenda){
 
-    $data = $votingModel->getPemenangPerJabatan($id_voting);
-    $voting = $votingModel->getVotingById($id_voting);
+    $data = $agendaModel->getPemenangPerJabatan($id_agenda);
+    $agenda = $agendaModel->getAgendaById($id_agenda);
 
     // if(empty($data)){
     //     die("DATA PEMENANG KOSONG");
@@ -186,10 +186,10 @@ function prosesPemenang($votingModel, $kepengurusanModel, $id_voting){
         // 🔥 insert
         $result = $kepengurusanModel->insertKepengurusan([
             'id_pengguna' => $row['id_pengguna'],
-            'masa_awal' => $voting['masa_awal_jabatan'],
-            'masa_akhir' => $voting['masa_akhir_jabatan'],
+            'masa_awal' => $agenda['masa_awal_jabatan'],
+            'masa_akhir' => $agenda['masa_akhir_jabatan'],
             'jabatan' => $row['jabatan'],
-            'id_voting' => $id_voting
+            'id_agenda' => $id_agenda
         ]);
 
         if(!$result){
@@ -206,7 +206,7 @@ function prosesPemenang($votingModel, $kepengurusanModel, $id_voting){
     
 }
 
-// ================= HAPUS VOTING =================
+// ================= HAPUS agenda =================
 if($action == 'hapus') {
 
     $id = $_GET['id'] ?? null;
@@ -214,20 +214,20 @@ if($action == 'hapus') {
     if(!$id){
         $_SESSION['flash_message'] = "ID tidak valid!";
         $_SESSION['flash_type'] = "danger";
-        header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=voting");
+        header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=agenda");
     }
 
     // eksekusi hapus
-    $result = $votingModel->deleteVoting($id);
+    $result = $agendaModel->deleteAgenda($id);
 
     if($result){
-        $_SESSION['flash_message'] = "Voting berhasil dihapus!";
+        $_SESSION['flash_message'] = "agenda berhasil dihapus!";
         $_SESSION['flash_type'] = "success";
     } else {
-        $_SESSION['flash_message'] = "Gagal menghapus voting!";
+        $_SESSION['flash_message'] = "Gagal menghapus agenda!";
         $_SESSION['flash_type'] = "danger";
     }
 
-    header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=voting");
+    header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=agenda");
     exit;
 }

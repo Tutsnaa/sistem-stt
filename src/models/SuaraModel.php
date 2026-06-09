@@ -23,7 +23,7 @@ class SuaraModel {
     }
 
 //TAMBAHAN PENGECEKAN VOTING
-public function cekSuaraPerJabatan($id_pengguna, $jabatan, $id_voting)
+public function cekSuaraPerJabatan($id_pengguna, $jabatan, $id_agenda)
 {
     $stmt = $this->conn->prepare("
         SELECT COUNT(*) as jumlah
@@ -31,13 +31,13 @@ public function cekSuaraPerJabatan($id_pengguna, $jabatan, $id_voting)
         JOIN calon_kandidat ck ON sv.id_calon = ck.id_calon
         WHERE sv.id_pengguna = ?
         AND ck.jabatan = ?
-        AND ck.id_voting = ?
+        AND ck.id_agenda = ?
     ");
 
     $stmt->execute([
         $id_pengguna,
         $jabatan,
-        $id_voting
+        $id_agenda
     ]);
 
     $row = $stmt->fetch(PDO::FETCH_ASSOC);

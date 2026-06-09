@@ -46,23 +46,23 @@ $jabatan = $_SESSION['user']['jabatan'];
 $dataPengumuman = $pengumumanModel->getAllPengumuman($jabatan);
 
 // ================================
-// VOTING
+// agenda
 // ================================
-require_once __DIR__ . '/../src/models/VotingModel.php';
+require_once __DIR__ . '/../src/models/AgendaModel.php';
 require_once __DIR__ . '/../src/models/KandidatModel.php';
 
-$votingModel = new VotingModel();
+$agendaModel = new AgendaModel();
 $kandidatModel = new KandidatModel();
 
-// update status voting (draft/dibuka/selesai)
-$votingModel->autoUpdateStatus();
+// update status agenda (draft/dibuka/selesai)
+$agendaModel->autoUpdateStatus();
 
-// ambil voting yang masih dibuka
-$votings = $votingModel->getVotingByStatus('dibuka');
+// ambil agenda yang masih dibuka
+$agendas = $agendaModel->getAgendaByStatus('dibuka');
 
-// isi calon per voting
-foreach ($votings as &$v) {
-    $v['calon'] = $votingModel->getCalonByVoting($v['id_voting']);
+// isi calon per agenda
+foreach ($agendas as &$v) {
+    $v['calon'] = $agendaModel->getCalonByAgenda($v['id_agenda']);
 }
 unset($v);
 

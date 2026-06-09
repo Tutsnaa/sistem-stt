@@ -13,11 +13,11 @@ class KandidatModel {
     public function createKandidat($data){
         try {
             $query = "INSERT INTO calon_kandidat 
-                      (id_voting, id_pengguna, jabatan, no_kandidat, visi, misi)
+                      (id_agenda, id_pengguna, jabatan, no_kandidat, visi, misi)
                       VALUES (?, ?, ?, ?, ?, ?)";
             $stmt = $this->conn->prepare($query);
             return $stmt->execute([
-                $data['id_voting'],
+                $data['id_agenda'],
                 $data['id_pengguna'],
                 $data['jabatan'],
                 $data['no_kandidat'],
@@ -34,11 +34,11 @@ class KandidatModel {
     public function updateKandidat($data){
         try {
             $query = "UPDATE calon_kandidat 
-                      SET id_voting=?, id_pengguna=?, jabatan=?, no_kandidat=?, visi=?, misi=? 
+                      SET id_agenda=?, id_pengguna=?, jabatan=?, no_kandidat=?, visi=?, misi=? 
                       WHERE id_calon=?";
             $stmt = $this->conn->prepare($query);
             return $stmt->execute([
-                $data['id_voting'],
+                $data['id_agenda'],
                 $data['id_pengguna'],
                 $data['jabatan'],
                 $data['no_kandidat'],
@@ -74,7 +74,7 @@ class KandidatModel {
                         v.status
                       FROM calon_kandidat c
                       JOIN pengguna p ON c.id_pengguna = p.id_pengguna
-                      JOIN voting v ON c.id_voting = v.id_voting
+                      JOIN agenda v ON c.id_agenda = v.id_agenda
                       ORDER BY c.id_calon ASC";
 
             $stmt = $this->conn->prepare($query);

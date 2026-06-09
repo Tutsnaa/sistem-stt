@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../config/Database.php';
 
-class VotingModel {
+class AgendaModel {
     private $conn;
 
     public function __construct(){
@@ -12,7 +12,7 @@ class VotingModel {
     // ================= AUTO UPDATE STATUS =================
     public function autoUpdateStatus(){
     try {
-        $query = "UPDATE voting 
+        $query = "UPDATE agenda 
                   SET status = CASE
                       WHEN NOW() < tanggal_buka THEN 'draft'
                       WHEN NOW() BETWEEN tanggal_buka AND tanggal_tutup THEN 'dibuka'
@@ -26,11 +26,11 @@ class VotingModel {
     }
 }
 
-    // ================= CREATE VOTING =================
-    public function createVoting($data){
+    // ================= CREATE AGENDA =================
+    public function createAgenda($data){
         try {
             if(empty($data['id_pengguna'])) throw new Exception("ID Pengguna kosong");
-            $query = "INSERT INTO voting 
+            $query = "INSERT INTO agenda 
 (id_pengguna, judul, masa_awal_jabatan, masa_akhir_jabatan, periode, tanggal_buka, tanggal_tutup, status)
 VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $this->conn->prepare($query);
@@ -46,21 +46,21 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             ]);
             return $this->conn->lastInsertId();
         } catch(PDOException $e){
-            error_log("Create Voting Error: " . $e->getMessage());
+            error_log("Create Agenda Error: " . $e->getMessage());
             return false;
         }
     }
 
-    // ================= UPDATE VOTING =================
-    public function updateVoting($id_voting, $data){
+    // ================= UPDATE agenda =================
+    public function updateAgenda($id_agenda, $data){
         try {
-            $query = "UPDATE voting 
+            $query = "UPDATE agenda 
                       SET judul = ?, 
                           periode = ?, 
                           tanggal_buka = ?, 
                           tanggal_tutup = ?, 
                           status = ? 
-                      WHERE id_voting = ?";
+                      WHERE id_agenda = ?";
             $stmt = $this->conn->prepare($query);
             return $stmt->execute([
                 $data['judul'],
@@ -68,50 +68,50 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 $data['tanggal_buka'],
                 $data['tanggal_tutup'],
                 $data['status'],
-                $id_voting
+                $id_agenda
             ]);
         } catch(PDOException $e){
-            error_log("Update Voting Error: " . $e->getMessage());
+            error_log("Update agenda Error: " . $e->getMessage());
             return false;
         }
     }
 
-    // ================= DELETE VOTING =================
-    public function deleteVoting($id_voting){
+    // ================= DELETE agenda =================
+    public function deleteAgenda($id_agenda){
         try {
             $this->conn->beginTransaction();
-            $stmt = $this->conn->prepare("DELETE FROM suara_voting WHERE id_calon IN (SELECT id_calon FROM calon_kandidat WHERE id_voting=?)");
-            $stmt->execute([$id_voting]);
-            $stmt = $this->conn->prepare("DELETE FROM calon_kandidat WHERE id_voting=?");
-            $stmt->execute([$id_voting]);
-            $stmt = $this->conn->prepare("DELETE FROM voting WHERE id_voting=?");
-            $stmt->execute([$id_voting]);
+            $stmt = $this->conn->prepare("DELETE FROM suara_voting WHERE id_calon IN (SELECT id_calon FROM calon_kandidat WHERE id_agenda=?)");
+            $stmt->execute([$id_agenda]);
+            $stmt = $this->conn->prepare("DELETE FROM calon_kandidat WHERE id_agenda=?");
+            $stmt->execute([$id_agenda]);
+            $stmt = $this->conn->prepare("DELETE FROM agenda WHERE id_agenda=?");
+            $stmt->execute([$id_agenda]);
             $this->conn->commit();
             return true;
         } catch(PDOException $e){
             $this->conn->rollBack();
-            error_log("Delete Voting Error: " . $e->getMessage());
+            error_log("Delete Agenda Error: " . $e->getMessage());
             return false;
         }
     }
 
-    public function getAllVoting(){
-        $stmt = $this->conn->prepare("SELECT * FROM voting ORDER BY id_voting DESC");
+    public function getAllAgenda(){
+        $stmt = $this->conn->prepare("SELECT * FROM agenda ORDER BY id_agenda DESC");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function updateStatus($id_voting, $status){
-        $stmt = $this->conn->prepare("UPDATE voting SET status=? WHERE id_voting=?");
-        return $stmt->execute([$status, $id_voting]);
+    public function updateStatus($id_agenda, $status){
+        $stmt = $this->conn->prepare("UPDATE agenda SET status=? WHERE id_agenda=?");
+        return $stmt->execute([$status, $id_agenda]);
     }
 
-    // ================= AMBIL VOTING BERDASARKAN CALON =================
-    public function getVotingByCalon($id_calon){
+    // ================= AMBIL agenda BERDASARKAN CALON =================
+    public function getAgendaByCalon($id_calon){
         $stmt = $this->conn->prepare("
             SELECT v.* 
-            FROM voting v
-            JOIN calon_kandidat c ON c.id_voting = v.id_voting
+            FROM agenda v
+            JOIN calon_kandidat c ON c.id_agenda = v.id_agenda
             WHERE c.id_calon = ?
         ");
         $stmt->execute([$id_calon]);
@@ -126,7 +126,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         return $result ? (int)$result['total'] : 0;
     }
 
-    public function getPemenangPerJabatan($id_voting){
+    public function getPemenangPerJabatan($id_agenda){
     $stmt = $this->conn->prepare("
         SELECT 
             c.id_pengguna,
@@ -134,17 +134,17 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             COUNT(s.id_suara) as total_suara
         FROM calon_kandidat c
         LEFT JOIN suara_voting s ON s.id_calon = c.id_calon
-        WHERE c.id_voting = ?
+        WHERE c.id_agenda = ?
         GROUP BY c.jabatan, c.id_pengguna
         ORDER BY c.jabatan, total_suara DESC
     ");
-    $stmt->execute([$id_voting]);
+    $stmt->execute([$id_agenda]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-public function getVotingById($id_voting){
-    $stmt = $this->conn->prepare("SELECT * FROM voting WHERE id_voting=?");
-    $stmt->execute([$id_voting]);
+public function getAgendaById($id_agenda){
+    $stmt = $this->conn->prepare("SELECT * FROM agenda WHERE id_agenda=?");
+    $stmt->execute([$id_agenda]);
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
@@ -160,18 +160,18 @@ public function getCalonById($id_calon)
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-public function getVotingByStatus($status){
-    $stmt = $this->conn->prepare("SELECT * FROM voting WHERE status = ?");
+public function getAgendaByStatus($status){
+    $stmt = $this->conn->prepare("SELECT * FROM agenda WHERE status = ?");
     $stmt->execute([$status]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-    public function getCalonByVoting($id_voting){
+    public function getCalonByAgenda($id_agenda){
     $stmt = $this->conn->prepare("
         SELECT 
             c.id_calon,
             c.id_pengguna,
-            c.id_voting,
+            c.id_agenda,
             c.jabatan,
             c.no_kandidat,
             c.visi,
@@ -180,15 +180,15 @@ public function getVotingByStatus($status){
             u.foto
         FROM calon_kandidat c
         JOIN pengguna u ON u.id_pengguna = c.id_pengguna
-        WHERE c.id_voting = ?
+        WHERE c.id_agenda = ?
         ORDER BY c.no_kandidat ASC
     ");
 
-    $stmt->execute([$id_voting]);
+    $stmt->execute([$id_agenda]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-public function getPemenangVoting($id_voting)
+public function getPemenangAgenda($id_agenda)
 {
     $stmt = $this->conn->prepare("
         SELECT 
@@ -222,14 +222,14 @@ public function getPemenangVoting($id_voting)
                 ON u.id_pengguna = c.id_pengguna
             LEFT JOIN suara_voting s 
                 ON s.id_calon = c.id_calon
-            WHERE c.id_voting = ?
+            WHERE c.id_agenda = ?
             GROUP BY c.id_calon
         ) x
         WHERE x.rn = 1
         ORDER BY x.jabatan ASC
     ");
 
-    $stmt->execute([$id_voting]);
+    $stmt->execute([$id_agenda]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 }
