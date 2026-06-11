@@ -580,7 +580,53 @@ if (
         </p>
 
         <?php endif; ?>
+        <!-- =========================
+     SECTION PEMENANG (BISA DIPINDAH TAB)
+========================= -->
 
+        <div id="section-pemenang">
+
+            <?php
+$pemenang = $agendaModel->getPemenangAgenda($v['id_agenda']);
+
+/* batas tampil 7 hari setelah agenda selesai */
+$tanggalSelesai = strtotime($v['tanggal_tutup'] ?? '');
+$batasTampil = strtotime('+7 days', $tanggalSelesai);
+$sekarang = time();
+?>
+
+            <?php if($v['status'] == 'selesai' && $sekarang <= $batasTampil): ?>
+
+            <div class="pemenang-wrapper">
+
+                <h2 class="judul-voting-pemenang">
+                    Pemenang <?= htmlspecialchars($v['judul']) ?>
+                </h2>
+
+                <div class="pemenang-card-container">
+
+                    <?php foreach($pemenang as $row): ?>
+
+                    <div class="pemenang-card">
+
+                        <img src="../uploads/<?= htmlspecialchars($row['foto']) ?>">
+
+                        <h3><?= htmlspecialchars($row['nama_lengkap']) ?></h3>
+
+                        <p>Jabatan: <b><?= htmlspecialchars($row['jabatan']) ?></b></p>
+                        <p>No Kandidat: <b><?= htmlspecialchars($row['no_kandidat']) ?></b></p>
+                        <p>Total Suara: <b><?= $row['total_suara'] ?></b></p>
+
+                    </div>
+
+                    <?php endforeach; ?>
+
+                </div>
+
+            </div>
+
+            <?php endif; ?>
+        </div>
     </div>
 
 

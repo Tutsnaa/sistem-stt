@@ -94,60 +94,62 @@ class KeuanganModel {
     // =========================
     public function getTotalPemasukan($bulan = null, $tahun = null){
 
-        $query = "SELECT SUM(jumlah) as total 
-                  FROM keuangan 
-                  WHERE jenis='pemasukan'";
+    $query = "SELECT SUM(jumlah) as total 
+              FROM keuangan 
+              WHERE jenis='pemasukan' 
+              AND status='disetujui'";
 
-        if($bulan && $tahun){
-            $query .= " AND MONTH(tanggal_dibuat) = :bulan 
-                        AND YEAR(tanggal_dibuat) = :tahun";
-        } elseif($tahun){
-            $query .= " AND YEAR(tanggal_dibuat) = :tahun";
-        }
-
-        $stmt = $this->conn->prepare($query);
-
-        if($bulan && $tahun){
-            $stmt->bindParam(":bulan", $bulan);
-            $stmt->bindParam(":tahun", $tahun);
-        } elseif($tahun){
-            $stmt->bindParam(":tahun", $tahun);
-        }
-
-        $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $row['total'] ?? 0;
+    if($bulan && $tahun){
+        $query .= " AND MONTH(tanggal_dibuat) = :bulan 
+                    AND YEAR(tanggal_dibuat) = :tahun";
+    } elseif($tahun){
+        $query .= " AND YEAR(tanggal_dibuat) = :tahun";
     }
+
+    $stmt = $this->conn->prepare($query);
+
+    if($bulan && $tahun){
+        $stmt->bindParam(":bulan", $bulan);
+        $stmt->bindParam(":tahun", $tahun);
+    } elseif($tahun){
+        $stmt->bindParam(":tahun", $tahun);
+    }
+
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $row['total'] ?? 0;
+}
 
     // =========================
     // TOTAL PENGELUARAN (FILTER)
     // =========================
-    public function getTotalPengeluaran($bulan = null, $tahun = null){
+   public function getTotalPengeluaran($bulan = null, $tahun = null){
 
-        $query = "SELECT SUM(jumlah) as total 
-                  FROM keuangan 
-                  WHERE jenis='pengeluaran'";
+    $query = "SELECT SUM(jumlah) as total 
+              FROM keuangan 
+              WHERE jenis='pengeluaran'
+              AND status='disetujui'";
 
-        if($bulan && $tahun){
-            $query .= " AND MONTH(tanggal_dibuat) = :bulan 
-                        AND YEAR(tanggal_dibuat) = :tahun";
-        } elseif($tahun){
-            $query .= " AND YEAR(tanggal_dibuat) = :tahun";
-        }
-
-        $stmt = $this->conn->prepare($query);
-
-        if($bulan && $tahun){
-            $stmt->bindParam(":bulan", $bulan);
-            $stmt->bindParam(":tahun", $tahun);
-        } elseif($tahun){
-            $stmt->bindParam(":tahun", $tahun);
-        }
-
-        $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $row['total'] ?? 0;
+    if($bulan && $tahun){
+        $query .= " AND MONTH(tanggal_dibuat) = :bulan 
+                    AND YEAR(tanggal_dibuat) = :tahun";
+    } elseif($tahun){
+        $query .= " AND YEAR(tanggal_dibuat) = :tahun";
     }
+
+    $stmt = $this->conn->prepare($query);
+
+    if($bulan && $tahun){
+        $stmt->bindParam(":bulan", $bulan);
+        $stmt->bindParam(":tahun", $tahun);
+    } elseif($tahun){
+        $stmt->bindParam(":tahun", $tahun);
+    }
+
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $row['total'] ?? 0;
+}
 }

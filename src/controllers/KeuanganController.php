@@ -30,6 +30,8 @@ $filterJenis   = $_GET['filter'] ?? 'all';
 /* ================= FUNCTION FILTER 🔥 ================= */
 function filterData($row, $bulan, $tahun, $tanggalAwal, $tanggalAkhir, $filterJenis) {
 
+    if ($row['status'] !== 'disetujui') return false;
+
     $tanggalRow = date('Y-m-d', strtotime($row['tanggal_dibuat']));
     $rowBulan   = date('n', strtotime($row['tanggal_dibuat']));
     $rowTahun   = date('Y', strtotime($row['tanggal_dibuat']));
@@ -43,7 +45,6 @@ function filterData($row, $bulan, $tahun, $tanggalAwal, $tanggalAkhir, $filterJe
     return true;
 }
 
-/* ================= TOTAL ================= */
 $data = $model->getAll();
 
 $totalPemasukan = 0;

@@ -324,31 +324,31 @@ $sekarang = time();
 
         <?php foreach($pemenang as $row): ?>
 
-        <!-- JUDUL agenda -->
-        <h2 style="text-align:center;" class="judul-voting-pemenang">
-            Pemenang <?= htmlspecialchars($v['judul']) ?>
-        </h2>
+        <div class="pemenang-wrapper">
 
-        <div class="pemenang-card">
+            <h2 class="judul-voting-pemenang">
+                Pemenang <?= htmlspecialchars($v['judul']) ?>
+            </h2>
 
-            <img src="../uploads/<?= htmlspecialchars($row['foto']) ?>" width="120">
+            <div class="pemenang-card-container">
 
-            <h3><?= htmlspecialchars($row['nama_lengkap']) ?></h3>
+                <?php foreach($pemenang as $row): ?>
 
-            <p>
-                Jabatan:
-                <b><?= htmlspecialchars($row['jabatan']) ?></b>
-            </p>
+                <div class="pemenang-card">
 
-            <p>
-                No Kandidat:
-                <b><?= htmlspecialchars($row['no_kandidat']) ?></b>
-            </p>
+                    <img src="../uploads/<?= htmlspecialchars($row['foto']) ?>">
 
-            <p>
-                Total Suara:
-                <b><?= $row['total_suara'] ?></b>
-            </p>
+                    <h3><?= htmlspecialchars($row['nama_lengkap']) ?></h3>
+
+                    <p>Jabatan: <b><?= htmlspecialchars($row['jabatan']) ?></b></p>
+                    <p>No Kandidat: <b><?= htmlspecialchars($row['no_kandidat']) ?></b></p>
+                    <p>Total Suara: <b><?= $row['total_suara'] ?></b></p>
+
+                </div>
+
+                <?php endforeach; ?>
+
+            </div>
 
         </div>
 

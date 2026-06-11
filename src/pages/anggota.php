@@ -105,6 +105,8 @@ $dataAnggotaFiltered = array_filter($dataAnggota, function($row) {
 if (
     isset($_SESSION['user']) && 
     $_SESSION['user']['jabatan'] != 'anggota' &&
+    $_SESSION['user']['jabatan'] != 'ketua' &&
+    $_SESSION['user']['jabatan'] != 'wakil' &&
     $_SESSION['user']['jabatan'] != 'bendahara 1' &&
     $_SESSION['user']['jabatan'] != 'bendahara 2'
 ) { 
@@ -180,6 +182,8 @@ if (
 if (
     isset($_SESSION['user']) && 
     $_SESSION['user']['jabatan'] != 'anggota' &&
+    $_SESSION['user']['jabatan'] != 'ketua' &&
+    $_SESSION['user']['jabatan'] != 'wakil' &&
     $_SESSION['user']['jabatan'] != 'bendahara 1' &&
     $_SESSION['user']['jabatan'] != 'bendahara 2'
 ) { 
