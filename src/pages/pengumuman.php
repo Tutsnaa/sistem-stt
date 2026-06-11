@@ -146,13 +146,13 @@ if (
 
                             <?php if($p['status'] == 'Menunggu'): ?>
 
-                            <a href="../src/controllers/PengumumanController.php?action=toggleStatus&id=<?= $p['id_pengumuman']; ?>&status=Disetujui"
-                                class="btn-terima" onclick="return confirm('Terima pengumuman ini?')">
+                            <a href="javascript:void(0)" class="btn-terima"
+                                onclick="confirmSetujui('../src/controllers/PengumumanController.php?action=toggleStatus&id=<?= $p['id_pengumuman']; ?>&status=Disetujui')">
                                 Disetujui
                             </a>
 
-                            <a href="../src/controllers/PengumumanController.php?action=toggleStatus&id=<?= $p['id_pengumuman']; ?>&status=Ditolak"
-                                class="btn-tolak" onclick="return confirm('Tolak pengumuman ini?')">
+                            <a href="javascript:void(0)" class="btn-tolak"
+                                onclick="confirmTolak('../src/controllers/PengumumanController.php?action=toggleStatus&id=<?= $p['id_pengumuman']; ?>&status=Ditolak')">
                                 Ditolak
                             </a>
 
@@ -173,7 +173,6 @@ if (
                         </td>
 
                         <?php endif; ?>
-
 
 
                         <!-- Aksi -->

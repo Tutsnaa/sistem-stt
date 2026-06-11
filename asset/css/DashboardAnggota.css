@@ -865,38 +865,56 @@ table.anggota-table td img {
 
 /* CARD DIPAKSA TIDAK MELEBAR */
 .pemenang-card {
-  width: 100%;
-  max-width: 220px; /* kunci lebar card */
+  width: 500px;
+  max-width: 100%; /* kunci lebar card */
   margin: 0 auto; /* biar center */
-
+  margin-bottom: 50px;
+  height: 500px;
   background: #fff;
   border-radius: 14px;
-  padding: 15px;
-
+  padding: 30px;
   text-align: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  border-top: 4px solid #ff9644;
 }
 
-/* FOTO */
+.card-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.judul-voting-pemenang {
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  font-size: 30px;
+}
+
+.pemenang-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
 .pemenang-card img {
-  width: 85px;
-  height: 85px;
-  border-radius: 50%;
+  width: 220px;
+  height: 220px;
   object-fit: cover;
-  border: 3px solid #ff9644;
-  margin-bottom: 10px;
+  border-radius: 12px;
+  margin-bottom: 20px;
 }
 
-/* TEXT */
 .pemenang-card h3 {
-  font-size: 16px;
-  margin-bottom: 6px;
+  font-size: 20px;
+  margin-bottom: 15px;
 }
 
 .pemenang-card p {
-  font-size: 12px;
-  margin: 3px 0;
-  color: #555;
+  font-size: 20px;
+  margin: 8px 0;
 }
 
 /* MOBILE */

@@ -335,14 +335,14 @@ if (
 
                             <?php if($row['status'] == 'menunggu'): ?>
 
-                            <a href="../src/controllers/KeuanganController.php?action=terima&id=<?= $row['id_keuangan']; ?>"
-                                class="btn-terima" onclick="return confirm('Terima transaksi ini?')">
-                                Terima
+                            <a href="javascript:void(0)" class="btn-terima"
+                                onclick="confirmSetujui('../src/controllers/KeuanganController.php?action=terima&id=<?= $row['id_keuangan']; ?>')">
+                                Disetujui
                             </a>
 
-                            <a href="../src/controllers/KeuanganController.php?action=tolak&id=<?= $row['id_keuangan']; ?>"
-                                class="btn-tolak" onclick="return confirm('Tolak transaksi ini?')">
-                                Tolak
+                            <a href="javascript:void(0)" class="btn-tolak"
+                                onclick="confirmTolak('../src/controllers/KeuanganController.php?action=tolak&id=<?= $row['id_keuangan']; ?>')">
+                                Ditolak
                             </a>
 
                             <?php elseif($row['status'] == 'disetujui'): ?>

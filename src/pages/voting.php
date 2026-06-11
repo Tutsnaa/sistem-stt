@@ -131,14 +131,14 @@ if ($status == 'draft') {
 
                                 <?php if($row['status'] == 'menunggu'): ?>
 
-                                <a href="../src/controllers/AgendaController.php?action=terima&id=<?= $row['id_agenda']; ?>"
-                                    class="btn-terima" onclick="return confirm('Terima agenda ini?')">
-                                    Terima
+                                <a href="javascript:void(0)" class="btn-terima"
+                                    onclick="confirmSetujui('../src/controllers/AgendaController.php?action=terima&id=<?= $row['id_agenda']; ?>')">
+                                    Disetujui
                                 </a>
 
-                                <a href="../src/controllers/AgendaController.php?action=tolak&id=<?= $row['id_agenda']; ?>"
-                                    class="btn-tolak" onclick="return confirm('Tolak agenda ini?')">
-                                    Tolak
+                                <a href="javascript:void(0)" class="btn-tolak"
+                                    onclick="confirmTolak('../src/controllers/AgendaController.php?action=tolak&id=<?= $row['id_agenda']; ?>')">
+                                    Ditolak
                                 </a>
 
                                 <?php elseif($row['status'] == 'disetujui'): ?>
@@ -638,7 +638,7 @@ if($row['id_agenda'] != $latestAgendaId){
 <!-- ================= Popup Tambah Agenda ================= -->
 <div id="popupAgenda" class="popup popup-voting">
     <div class="popup-content popup-voting-content">
-        <span class="popup-close" onclick="closeVotingPopup()">&times;</span>
+        <span class="popup-close" onclick="closeAgendaPopup()">&times;</span>
         <h3>Tambah Agenda</h3>
 
         <form class="form-voting" action="../src/controllers/AgendaController.php?action=createAgenda" method="POST">
@@ -831,7 +831,7 @@ function openAgendaPopup() {
     document.getElementById("popupAgenda").style.display = "flex";
 }
 
-function closeagendaPopup() {
+function closeAgendaPopup() {
     document.getElementById("popupAgenda").style.display = "none";
 }
 

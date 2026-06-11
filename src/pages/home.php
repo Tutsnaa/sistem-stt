@@ -37,7 +37,6 @@ $page = $page ?? 'home';
 <?php
 // daftar jabatan pengurus
 $pengurusList = [
-    'admin',
     'ketua',
     'wakil',
     'sekretaris 1',
@@ -126,6 +125,120 @@ usort($pengurus, function($a, $b) use ($urutanJabatan) {
 </div>
 
 
+<?php
+
+$kandidat = $kandidat ?? [];
+
+// Cek apakah pengguna sudah login
+$isLogin = isset($_SESSION['user']);
+
+if ($isLogin) {
+
+    /* ===============================
+       AMBIL AGENDA TERBARU SELESAI
+    =============================== */
+    $selesaiAgenda = array_values(array_filter(
+        $agendaModel->getAllAgenda(),
+        fn($v) => $v['status'] === 'selesai'
+    ));
+
+    usort($selesaiAgenda, fn($a, $b) =>
+        strtotime($b['tanggal_tutup']) <=> strtotime($a['tanggal_tutup'])
+    );
+
+    $latestAgenda = $selesaiAgenda[0] ?? null;
+}
+?>
+
+
+<!-- ================= PEMENANG (HANYA VOTING TERBARU SELESAI) ================= -->
+<?php if ($isLogin && $latestAgenda): ?>
+
+<?php
+$pemenang = $agendaModel->getPemenangAgenda($latestAgenda['id_agenda']);
+
+$tanggalSelesai = strtotime($latestAgenda['tanggal_tutup']);
+$batasTampil = strtotime('+7 days', $tanggalSelesai);
+$sekarang = time();
+?>
+
+<?php if ($sekarang <= $batasTampil && !empty($pemenang)): ?>
+
+<h3 class="judul-voting-pemenang">
+    Pemenang <?= htmlspecialchars($latestAgenda['judul']) ?>
+</h3>
+
+<div class="card-container">
+
+    <?php foreach ($pemenang as $row): ?>
+    <div class="pemenang-card">
+
+        <img src="../uploads/<?= htmlspecialchars($row['foto'] ?? '') ?>" width="120">
+
+        <h3><?= htmlspecialchars($row['nama_lengkap'] ?? '-') ?></h3>
+        <p>Jabatan: <b><?= htmlspecialchars($row['jabatan'] ?? '-') ?></b></p>
+        <p>No Kandidat: <b><?= htmlspecialchars($row['no_kandidat'] ?? '-') ?></b></p>
+        <p>Total Suara: <b><?= $row['total_suara'] ?? 0 ?></b></p>
+
+    </div>
+    <?php endforeach; ?>
+
+</div>
+
+<?php endif; ?>
+
+<?php endif; ?>
+
+<style>
+/* ================= CARD PEMENANG ================= */
+.card-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.pemenang-card {
+    border-top: 4px solid #ff9644;
+    width: 500px;
+    max-width: 100%;
+    padding: 30px;
+    margin-bottom: 50px;
+    height: 500px;
+}
+
+.judul-voting-pemenang {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    font-size: 30px;
+}
+
+.pemenang-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.pemenang-card img {
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.pemenang-card h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.pemenang-card p {
+    font-size: 20px;
+    margin: 8px 0;
+}
+</style>
 
 <!-- =========================
      SECTION PENGUMUMAN

@@ -184,26 +184,34 @@ elseif ($action == "update") {
     }
 
 // cek email duplicate selain dirinya sendiri
-if($model->emailExists($data['email'], $data['id_pengguna'])){
+// CEK EMAIL DUPLIKAT (SEMUA UPDATE TERMASUK PROFIL)
+if ($model->emailExists($data['email'], $data['id_pengguna'])) {
 
     $_SESSION['flash_message'] = "Email sudah digunakan!";
     $_SESSION['flash_type'] = "danger";
-
     $_SESSION['old_input_edit'] = $_POST;
 
-    header("Location: ../../public/dashboard_pengurus.php?page=anggota&modal=edit");
+    // bedakan redirect kalau dari profil
+    if (isset($_POST['from']) && $_POST['from'] == "profil") {
+        header("Location: ../../public/dashboard_pengurus.php?page=profil");
+    } else {
+        header("Location: ../../public/dashboard_pengurus.php?page=anggota&modal=edit");
+    }
     exit;
 }
 
-// cek nama pengguna duplicate selain dirinya sendiri
-if($model->namaPenggunaExists($data['nama_pengguna'], $data['id_pengguna'])){
+// CEK USERNAME DUPLIKAT
+if ($model->namaPenggunaExists($data['nama_pengguna'], $data['id_pengguna'])) {
 
     $_SESSION['flash_message'] = "Nama pengguna sudah digunakan!";
     $_SESSION['flash_type'] = "danger";
-
     $_SESSION['old_input_edit'] = $_POST;
 
-    header("Location: ../../public/dashboard_pengurus.php?page=anggota&modal=edit");
+    if (isset($_POST['from']) && $_POST['from'] == "profil") {
+        header("Location: ../../public/dashboard_pengurus.php?page=profil");
+    } else {
+        header("Location: ../../public/dashboard_pengurus.php?page=anggota&modal=edit");
+    }
     exit;
 }
 
