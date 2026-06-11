@@ -188,7 +188,7 @@ public function getAgendaByStatus($status){
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-    public function getCalonByAgenda($id_agenda){
+   public function getCalonByAgenda($id_agenda){
     $stmt = $this->conn->prepare("
         SELECT 
             c.id_calon,
@@ -198,12 +198,14 @@ public function getAgendaByStatus($status){
             c.no_kandidat,
             c.visi,
             c.misi,
+            c.status,
             u.nama_lengkap,
             u.foto
         FROM calon_kandidat c
         JOIN pengguna u ON u.id_pengguna = c.id_pengguna
         WHERE c.id_agenda = ?
-        ORDER BY c.no_kandidat ASC
+        AND c.status != 'ditolak'
+        ORDER BY c.no_kandidat DESC
     ");
 
     $stmt->execute([$id_agenda]);

@@ -138,7 +138,7 @@ $kandidat = $kandidat ?? [];
         <?php if (!empty($agendas)) : ?>
         <?php foreach ($agendas as $v) : ?>
 
-        <?php if (!in_array($v['status'], ['selesai', 'disetujui', 'ditolak'])) : ?>
+        <?php if (!in_array($v['status'], ['selesai', 'menunggu', 'disetujui', 'ditolak'])) : ?>
         <!-- ================= INFO agenda ================= -->
         <div class="voting-info">
 
@@ -186,12 +186,13 @@ $kandidat = $kandidat ?? [];
             <?php if (!empty($v['calon'])) : ?>
 
             <?php
-            // 🔥 GROUPING BERDASARKAN JABATAN
-            $grouped = [];
-
             foreach ($v['calon'] as $c) {
-                $grouped[$c['jabatan']][] = $c;
-            }
+    if (!isset($c['status']) || $c['status'] != 'disetujui') {
+        continue;
+    }
+
+    $grouped[$c['jabatan']][] = $c;
+}
             ?>
 
             <?php foreach ($grouped as $jabatanCalon => $listCalon) : ?>

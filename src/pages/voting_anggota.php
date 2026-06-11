@@ -8,7 +8,6 @@ $agendas = array_values(array_filter(
     $agendaModel->getAllAgenda(),
     fn($v) => $v['status'] === 'dibuka'
 ));
-
 /* ===============================
    AMBIL agenda TERBARU SELESAI
 =============================== */
@@ -56,10 +55,15 @@ $kategori = ['ketua', 'wakil', 'sekretaris', 'bendahara'];
     <?php foreach ($kategori as $jabatan): ?>
 
     <?php
-    $filtered = array_filter($kandidat, function($row) use ($jabatan, $agenda) {
-        return strtolower($row['jabatan']) === $jabatan
-            && $row['id_agenda'] == $agenda['id_agenda'];
-    });
+   $filtered = array_filter($kandidat, function($row) use ($jabatan, $agenda) {
+    return strtolower($row['jabatan']) === strtolower($jabatan)
+        && $row['id_agenda'] == $agenda['id_agenda']
+        && strtolower($row['status']) === 'disetujui';
+});
+
+usort($filtered, function($a, $b) {
+    return (int)$a['no_kandidat'] <=> (int)$b['no_kandidat'];
+});
     ?>
 
     <?php if (!empty($filtered)): ?>

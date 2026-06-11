@@ -339,13 +339,14 @@ if (
     ) {
     ?>
 
-                            <!-- Ubah -->
+                            <?php if (!in_array($row['status'], ['disetujui'])) : ?>
                             <button class="btn btn-ubah-kandidat" data-id="<?= $row['id_calon'] ?>"
                                 data-id_agenda="<?= $row['id_agenda'] ?>" data-id_pengguna="<?= $row['id_pengguna'] ?>"
                                 data-jabatan="<?= $row['jabatan'] ?>" data-no_kandidat="<?= $row['no_kandidat'] ?>"
                                 data-visi="<?= $row['visi'] ?>" data-misi="<?= $row['misi'] ?>">
                                 <i class="fa fa-pen-to-square"></i>
                             </button>
+                            <?php endif; ?>
                             <!-- Hapus -->
                             <a href="#" class="btn btn-hapus"
                                 onclick="confirmHapusKandidat(<?= $row['id_calon']; ?>); return false;">
@@ -411,7 +412,7 @@ if (
         <?php if (!empty($agendas)) : ?>
         <?php foreach ($agendas as $v) : ?>
 
-        <?php if (!in_array($v['status'], ['selesai', 'disetujui', 'ditolak', 'draft'])) : ?>
+        <?php if (!in_array($v['status'], ['selesai', 'menunggu', 'disetujui', 'ditolak', 'draft'])) : ?>
 
         <?php $adaAgenda = true; ?>
 

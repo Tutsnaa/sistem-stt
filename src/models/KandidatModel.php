@@ -77,7 +77,7 @@ class KandidatModel {
                       FROM calon_kandidat c
                       JOIN pengguna p ON c.id_pengguna = p.id_pengguna
                       JOIN agenda v ON c.id_agenda = v.id_agenda
-                      ORDER BY c.id_calon ASC";
+                      ORDER BY c.id_calon DESC";
 
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
