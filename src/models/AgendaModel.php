@@ -205,7 +205,7 @@ public function getAgendaByStatus($status){
         JOIN pengguna u ON u.id_pengguna = c.id_pengguna
         WHERE c.id_agenda = ?
         AND c.status != 'ditolak'
-        ORDER BY c.no_kandidat DESC
+        ORDER BY c.no_kandidat ASC
     ");
 
     $stmt->execute([$id_agenda]);

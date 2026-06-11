@@ -230,8 +230,6 @@ if (
                         <th>Nama</th>
                         <th>Jabatan</th>
                         <th>No Paslon</th>
-                        <!-- <th>Visi</th>
-                        <th>Misi</th> -->
                         <th>Status</th>
                         <th>Aksi</th>
                     </tr>
@@ -253,7 +251,7 @@ if (
     $_SESSION['user']['jabatan'] != 'wakil'
 ) { 
 ?>
-                        <td class="status-cell">
+                        <td style="text-align: center;" class="status-cell">
 
                             <?php if($row['status'] == 'menunggu'): ?>
                             <span class="badge badge-menunggu">
@@ -455,7 +453,7 @@ if (
             <?php if (!empty($v['calon'])) : ?>
 
             <?php
-        // 🔥 GROUPING BERDASARKAN JABATAN
+        // GROUPING BERDASARKAN JABATAN
         $grouped = [];
 
         foreach ($v['calon'] as $c) {
@@ -587,7 +585,16 @@ if (
 
 
     <!-- ================= TAB REKAP ================= -->
-    <?php if (!empty($agendas) && $agendas[0]['status'] == 'selesai') : ?>
+    <?php $hasSelesai = false;
+foreach ($agendas as $a) {
+    if ($a['status'] === 'selesai') {
+        $hasSelesai = true;
+        break;
+    }
+}
+?>
+
+    <?php if ($hasSelesai): ?>
 
     <div id="tab-rekap" class="tab-content <?= ($tab == 'rekap') ? 'active' : '' ?>">
 

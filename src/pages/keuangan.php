@@ -251,13 +251,19 @@ $data = $keuanganModel->getAll();
 $no = 1;
 foreach ($data as $row):
 
+     // Jika yang login anggota, hanya tampilkan yang disetujui
+    if ($isAnggota && $row['status'] != 'disetujui') {
+        continue;
+    }
+
+
     $tanggalRow = date('Y-m-d', strtotime($row['tanggal_dibuat']));
 
-    // ================= FILTER =================
+    // FILTER JENIS
     if ($filter == 'pemasukan' && $row['jenis'] != 'pemasukan') continue;
     if ($filter == 'pengeluaran' && $row['jenis'] != 'pengeluaran') continue;
 
-    // 🔥 FILTER TANGGAL (INI YANG KURANG)
+    // FILTER TANGGAL
     if ($tanggalAwal && $tanggalRow < $tanggalAwal) continue;
     if ($tanggalAkhir && $tanggalRow > $tanggalAkhir) continue;
 ?>

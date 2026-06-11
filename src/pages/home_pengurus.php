@@ -186,13 +186,13 @@ $kandidat = $kandidat ?? [];
             <?php if (!empty($v['calon'])) : ?>
 
             <?php
-            foreach ($v['calon'] as $c) {
-    if (!isset($c['status']) || $c['status'] != 'disetujui') {
-        continue;
-    }
+            // 🔥 GROUPING BERDASARKAN JABATAN
+            $grouped = [];
+            
 
-    $grouped[$c['jabatan']][] = $c;
-}
+            foreach ($v['calon'] as $c) {
+                $grouped[$c['jabatan']][] = $c;
+            }
             ?>
 
             <?php foreach ($grouped as $jabatanCalon => $listCalon) : ?>
