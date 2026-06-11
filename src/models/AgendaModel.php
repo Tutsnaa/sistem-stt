@@ -12,17 +12,28 @@ class AgendaModel {
     // ================= AUTO UPDATE STATUS =================
     public function autoUpdateStatus(){
     try {
-        $query = "UPDATE agenda 
-                  SET status = CASE
-                      WHEN NOW() < tanggal_buka THEN 'draft'
-                      WHEN NOW() BETWEEN tanggal_buka AND tanggal_tutup THEN 'dibuka'
-                      WHEN NOW() > tanggal_tutup THEN 'selesai'
-                  END
-                  WHERE status IN ('draft', 'dibuka')"; // Hanya update status aktif
+        $query = "
+            UPDATE agenda
+            SET status = CASE
+                WHEN status = 'disetujui'
+                     AND NOW() >= tanggal_buka
+                     AND NOW() <= tanggal_tutup
+                THEN 'dibuka'
+
+                WHEN status = 'dibuka'
+                     AND NOW() > tanggal_tutup
+                THEN 'selesai'
+
+                ELSE status
+            END
+            WHERE status IN ('disetujui', 'dibuka')
+        ";
+
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
+
     } catch(PDOException $e){
-        error_log("Auto Update Status Error: " . $e->getMessage());
+        error_log('Auto Update Status Error: ' . $e->getMessage());
     }
 }
 

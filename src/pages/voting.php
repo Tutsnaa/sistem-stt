@@ -230,8 +230,9 @@ if (
                         <th>Nama</th>
                         <th>Jabatan</th>
                         <th>No Paslon</th>
-                        <th>Visi</th>
-                        <th>Misi</th>
+                        <!-- <th>Visi</th>
+                        <th>Misi</th> -->
+                        <th>Status</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -243,8 +244,80 @@ if (
                         <td><?= $row['nama_lengkap'] ?></td>
                         <td class="text-center"><?= $row['jabatan'] ?></td>
                         <td class="text-center"><?= $row['no_kandidat'] ?></td>
-                        <td><?= $row['visi'] ?></td>
-                        <td><?= $row['misi'] ?></td>
+
+                        <?php 
+if (
+    isset($_SESSION['user']) && 
+    $_SESSION['user']['jabatan'] != 'ketua' &&
+    $_SESSION['user']['jabatan'] != 'admin' &&
+    $_SESSION['user']['jabatan'] != 'wakil'
+) { 
+?>
+                        <td class="status-cell">
+
+                            <?php if($row['status'] == 'menunggu'): ?>
+                            <span class="badge badge-menunggu">
+                                Menunggu
+                            </span>
+
+                            <?php elseif($row['status'] == 'disetujui'): ?>
+                            <span class="badge badge-disetujui">
+                                Disetujui
+                            </span>
+
+                            <?php elseif($row['status'] == 'ditolak'): ?>
+                            <span class="badge badge-ditolak">
+                                Ditolak
+                            </span>
+
+                            <?php else: ?>
+                            <span class="badge">
+                                -
+                            </span>
+                            <?php endif; ?>
+
+                        </td>
+                        <?php } ?>
+
+                        <!-- AKSI TERIMA TOLAK START-->
+                        <?php if (
+    $_SESSION['user']['jabatan'] == 'ketua' ||
+    $_SESSION['user']['jabatan'] == 'admin'
+): ?>
+
+                        <td class="aksi-status">
+
+                            <?php if($row['status'] == 'menunggu'): ?>
+
+                            <a href="javascript:void(0)" class="btn-terima"
+                                onclick="confirmSetujui('../src/controllers/KandidatController.php?action=toggleStatus&id=<?= $row['id_calon']; ?>&status=disetujui')">
+                                Disetujui
+                            </a>
+
+                            <a href="javascript:void(0)" class="btn-tolak"
+                                onclick="confirmTolak('../src/controllers/KandidatController.php?action=toggleStatus&id=<?= $row['id_calon']; ?>&status=ditolak')">
+                                Ditolak
+                            </a>
+
+                            <?php elseif($row['status'] == 'disetujui'): ?>
+
+                            <span class="badge badge-disetujui">
+                                Disetujui
+                            </span>
+
+                            <?php elseif($row['status'] == 'ditolak'): ?>
+
+                            <span class="badge badge-ditolak">
+                                Ditolak
+                            </span>
+
+                            <?php endif; ?>
+
+                        </td>
+
+                        <?php endif; ?>
+                        <!-- AKSI TERIMA TOLAK END -->
+
                         <td>
                             <!-- DETAIL -->
                             <button class="btn btn-detail" data-nama="<?= $row['nama_lengkap'] ?>"

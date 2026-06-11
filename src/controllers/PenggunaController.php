@@ -183,8 +183,7 @@ elseif ($action == "update") {
         }
     }
 
-// cek email duplicate selain dirinya sendiri
-// CEK EMAIL DUPLIKAT (SEMUA UPDATE TERMASUK PROFIL)
+    // CEK EMAIL DUPLIKAT (SEMUA UPDATE TERMASUK PROFIL)
 if ($model->emailExists($data['email'], $data['id_pengguna'])) {
 
     $_SESSION['flash_message'] = "Email sudah digunakan!";

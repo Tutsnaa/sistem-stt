@@ -197,7 +197,8 @@ if (
 ) { 
 ?>
 
-                                <!-- tombol edit -->
+                                <!-- tombol ubah -->
+                                <?php if ($p['status'] != 'Disetujui'): ?>
                                 <button class="btn-edit" onclick="openEditModal(
                                         '<?= $p['id_pengumuman']; ?>',
                                         '<?= htmlspecialchars($p['judul'], ENT_QUOTES); ?>',
@@ -207,6 +208,7 @@ if (
                                     )">
                                     <i class="fa fa-pen-to-square"></i>
                                 </button>
+                                <?php endif; ?>
 
                                 <!-- tombol hapus -->
                                 <button class="btn-hapus" onclick="confirmHapus(<?= $p['id_pengumuman']; ?>)">

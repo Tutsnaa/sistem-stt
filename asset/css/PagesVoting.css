@@ -135,6 +135,13 @@
 .pages-voting-table td:last-child {
   text-align: center;
 }
+.pages-voting-table td:nth-child(1),
+.pages-voting-table th:nth-child(1) {
+  padding-left: 8px;
+  padding-right: 8px;
+  text-align: center;
+  width: 50px;
+}
 
 /* Kolom Visi misi (ke-6 dan 7) */
 .pages-voting-table td:nth-child(7),

@@ -56,6 +56,16 @@ try {
         $dashboard = ($jabatan === 'anggota') 
             ? '../../public/dashboard_anggota.php?page=voting_anggota' 
             : '../../public/dashboard_pengurus.php?page=voting&tab=voting';
+    
+        // admin tidak bisa vote
+        if ($_SESSION['user']['jabatan'] === 'admin') {
+        $_SESSION['flash_message'] = "Admin tidak diperbolehkan melakukan voting.";
+        $_SESSION['flash_type'] = "danger";
+
+        header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=voting");
+        exit;
+    }
+
 
         if(!$id_calon){
             $_SESSION['error'] = "Kandidat tidak valid!";

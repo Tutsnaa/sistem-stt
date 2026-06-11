@@ -13,8 +13,8 @@ class KandidatModel {
     public function createKandidat($data){
         try {
             $query = "INSERT INTO calon_kandidat 
-                      (id_agenda, id_pengguna, jabatan, no_kandidat, visi, misi)
-                      VALUES (?, ?, ?, ?, ?, ?)";
+                      (id_agenda, id_pengguna, jabatan, no_kandidat, visi, misi, status)
+                      VALUES (?, ?, ?, ?, ?, ?, ?)";
             $stmt = $this->conn->prepare($query);
             return $stmt->execute([
                 $data['id_agenda'],
@@ -22,7 +22,8 @@ class KandidatModel {
                 $data['jabatan'],
                 $data['no_kandidat'],
                 $data['visi'],
-                $data['misi']
+                $data['misi'],
+                $data['status']
             ]);
         } catch(PDOException $e){
             error_log("Create Kandidat Error: " . $e->getMessage());
@@ -34,8 +35,8 @@ class KandidatModel {
     public function updateKandidat($data){
         try {
             $query = "UPDATE calon_kandidat 
-                      SET id_agenda=?, id_pengguna=?, jabatan=?, no_kandidat=?, visi=?, misi=? 
-                      WHERE id_calon=?";
+                    SET id_agenda=?, id_pengguna=?, jabatan=?, no_kandidat=?, visi=?, misi=?, status=? 
+                    WHERE id_calon=?";
             $stmt = $this->conn->prepare($query);
             return $stmt->execute([
                 $data['id_agenda'],
@@ -44,6 +45,7 @@ class KandidatModel {
                 $data['no_kandidat'],
                 $data['visi'],
                 $data['misi'],
+                $data['status'],
                 $data['id_calon']
             ]);
         } catch(PDOException $e){
@@ -71,7 +73,7 @@ class KandidatModel {
                         p.nama_lengkap,
                         p.foto, 
                         v.judul,
-                        v.status
+                        v.status AS status_agenda
                       FROM calon_kandidat c
                       JOIN pengguna p ON c.id_pengguna = p.id_pengguna
                       JOIN agenda v ON c.id_agenda = v.id_agenda
@@ -86,4 +88,21 @@ class KandidatModel {
             return [];
         }
     }
+
+ public function updateStatus($id, $status)
+{
+    try {
+        $stmt = $this->conn->prepare("
+            UPDATE calon_kandidat
+            SET status = ?
+            WHERE id_calon = ?
+        ");
+
+        return $stmt->execute([$status, $id]);
+    } catch (PDOException $e) {
+        error_log("Update Status Kandidat Error: " . $e->getMessage());
+        return false;
+    }
+}
+
 }

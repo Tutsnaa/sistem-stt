@@ -14,9 +14,10 @@ if(isset($_GET['action'])){
                 'id_agenda'   => $_POST['id_agenda'] ?? null,
                 'id_pengguna' => $_POST['id_pengguna'] ?? null,
                 'jabatan'     => $_POST['jabatan'] ?? '',
-                'no_kandidat'   => $_POST['no_kandidat'] ?? '',
+                'no_kandidat' => $_POST['no_kandidat'] ?? '',
                 'visi'        => $_POST['visi'] ?? '',
-                'misi'        => $_POST['misi'] ?? ''
+                'misi'        => $_POST['misi'] ?? '',
+                'status'      => 'menunggu'
             ];
             $kandidatModel->createKandidat($data);
 
@@ -36,7 +37,8 @@ if(isset($_GET['action'])){
                 'jabatan'     => $_POST['jabatan'] ?? '',
                 'no_kandidat'   => $_POST['no_kandidat'] ?? '',
                 'visi'        => $_POST['visi'] ?? '',
-                'misi'        => $_POST['misi'] ?? ''
+                'misi'        => $_POST['misi'] ?? '',
+                'status' => $_POST['status'] ?? 'menunggu'
             ];
             $kandidatModel->updateKandidat($data);
 
@@ -68,4 +70,22 @@ if(isset($_GET['action'])){
         header("Location: ../../public/dashboard_pengurus.php?page=voting&error=1");
         exit;
     }
+
+    // ================= TOGGLE STATUS KANDIDAT =================
+if ($action === "toggleStatus") {
+
+    $id = $_GET['id'] ?? null;
+    $status = $_GET['status'] ?? null;
+
+    if ($id && in_array($status, ['disetujui', 'ditolak'])) {
+
+        $kandidatModel->updateStatus($id, $status);
+
+        $_SESSION['flash_message'] = "Status kandidat berhasil diperbarui";
+        $_SESSION['flash_type'] = "success";
+    }
+
+    header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=kandidat");
+    exit;
+}
 }
