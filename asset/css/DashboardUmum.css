@@ -323,13 +323,13 @@ body {
 .section-pengumuman {
   width: 100%;
   padding: 80px 10%;
-  background: #f7f7f7;
+  background: #fff;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .section-pengumuman h2 {
   text-align: center;
-  font-size: 40px;
+  font-size: 30px;
   font-weight: 700;
   margin-bottom: 50px;
   color: #333;
@@ -366,7 +366,7 @@ body {
   font-size: 22px;
   font-weight: bold;
   color: #333;
-  border-bottom: 2px solid #ff9644;
+  /* border-bottom: 2px solid #ff9644; */
   padding-bottom: 8px;
   margin-bottom: 15px;
 }

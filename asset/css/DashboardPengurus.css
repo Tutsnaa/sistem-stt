@@ -64,8 +64,8 @@ body {
   text-align: center;
   font-size: 20px;
   font-weight: bold;
-  color: #333;
-  border-bottom: 2px solid #ff9644;
+  color: #ff9644;
+  /* border-bottom: 2px solid #ff9644; */
   padding-bottom: 8px;
   margin-bottom: 15px;
 }
