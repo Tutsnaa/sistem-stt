@@ -63,6 +63,34 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     }
 
 
+   public function cekJudul($judul)
+{
+    $stmt = $this->conn->prepare("SELECT * FROM agenda WHERE judul = ?");
+    $stmt->execute([trim($judul)]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+public function cekPeriode($periode)
+{
+    $stmt = $this->conn->prepare("SELECT * FROM agenda WHERE periode = ?");
+    $stmt->execute([trim($periode)]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+public function cekMasaAwal($masaAwal)
+{
+    $stmt = $this->conn->prepare("SELECT * FROM agenda WHERE masa_awal_jabatan = ?");
+    $stmt->execute([$masaAwal]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+public function cekMasaAkhir($masaAkhir)
+{
+    $stmt = $this->conn->prepare("SELECT * FROM agenda WHERE masa_akhir_jabatan = ?");
+    $stmt->execute([$masaAkhir]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
     
     // ================= UPDATE agenda =================
     public function updateAgenda($id_agenda, $data){
@@ -88,6 +116,30 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             return false;
         }
     }
+
+  public function cekAgendaUpdate($idAgenda, $judul, $masaAwal, $masaAkhir, $periode)
+{
+    $query = "SELECT *
+              FROM agenda
+              WHERE (
+                    judul = ?
+                 OR masa_awal_jabatan = ?
+                 OR masa_akhir_jabatan = ?
+                 OR periode = ?
+              )
+              AND id_agenda <> ?";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute([
+        trim($judul),
+        $masaAwal,
+        $masaAkhir,
+        trim($periode),
+        $idAgenda
+    ]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
 
     // ================= DELETE agenda =================
     public function deleteAgenda($id_agenda){

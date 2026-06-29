@@ -118,6 +118,8 @@ if(!$suaraModel->cekSuaraPerJabatan(
     header("Location: $dashboard");
     exit;
 }
+
+
 // ================= CREATE agenda =================
 if($action == 'createAgenda') {
 
@@ -133,8 +135,68 @@ if($action == 'createAgenda') {
     
 ];
 
+ // Validasi masa jabatan
+    if ($_POST['masa_akhir_jabatan'] < $_POST['masa_awal_jabatan']) {
+
+        $_SESSION['flash_message'] = "Masa akhir jabatan tidak boleh lebih awal dari masa awal jabatan.";
+        $_SESSION['flash_type'] = "danger";
+        $_SESSION['open_agenda_popup'] = true;
+        $_SESSION['old'] = $_POST;
+
+        header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=agenda");
+        exit;
+    }
+
+// Validasi judul
+if ($agendaModel->cekJudul($_POST['judul'])) {
+
+    $_SESSION['flash_message'] = "Judul agenda sudah digunakan.";
+    $_SESSION['flash_type'] = "danger";
+    $_SESSION['open_agenda_popup'] = true;
+    $_SESSION['old'] = $_POST;
+
+    header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=agenda");
+    exit;
+}
+
+// Validasi periode
+if ($agendaModel->cekPeriode($_POST['periode'])) {
+
+    $_SESSION['flash_message'] = "Periode sudah digunakan.";
+    $_SESSION['flash_type'] = "danger";
+    $_SESSION['open_agenda_popup'] = true;
+    $_SESSION['old'] = $_POST;
+
+    header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=agenda");
+    exit;
+}
+
+// Validasi masa awal jabatan
+if ($agendaModel->cekMasaAwal($_POST['masa_awal_jabatan'])) {
+
+    $_SESSION['flash_message'] = "Masa awal jabatan sudah digunakan.";
+    $_SESSION['flash_type'] = "danger";
+    $_SESSION['open_agenda_popup'] = true;
+    $_SESSION['old'] = $_POST;
+
+    header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=agenda");
+    exit;
+}
+
+// Validasi masa akhir jabatan
+if ($agendaModel->cekMasaAkhir($_POST['masa_akhir_jabatan'])) {
+
+    $_SESSION['flash_message'] = "Masa akhir jabatan sudah digunakan.";
+    $_SESSION['flash_type'] = "danger";
+    $_SESSION['open_agenda_popup'] = true;
+    $_SESSION['old'] = $_POST;
+
+    header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=agenda");
+    exit;
+}
+
     $result = $agendaModel->createAgenda($data);
-     $_SESSION['flash_message'] = " agenda berhasil ditambahkan";
+     $_SESSION['flash_message'] = " Agenda berhasil ditambahkan";
         $_SESSION['flash_type'] = "success";
 
     // if($result){
@@ -150,6 +212,35 @@ if($action == 'createAgenda') {
 // ================= UPDATE agenda =================
 if($action == 'updateAgenda') {
     $id = $_POST['id_agenda'];
+
+$cek = $agendaModel->cekAgendaUpdate(
+    $id,
+    $_POST['judul'],
+    $_POST['masa_awal_jabatan'],
+    $_POST['masa_akhir_jabatan'],
+    $_POST['periode']
+);
+
+if ($cek) {
+
+    if ($cek['judul'] == $_POST['judul']) {
+        $_SESSION['flash_message'] = "Judul agenda sudah digunakan.";
+    } elseif ($cek['periode'] == $_POST['periode']) {
+        $_SESSION['flash_message'] = "Periode sudah digunakan.";
+    } elseif ($cek['masa_awal_jabatan'] == $_POST['masa_awal_jabatan']) {
+        $_SESSION['flash_message'] = "Masa awal jabatan sudah digunakan.";
+    } elseif ($cek['masa_akhir_jabatan'] == $_POST['masa_akhir_jabatan']) {
+        $_SESSION['flash_message'] = "Masa akhir jabatan sudah digunakan.";
+    }
+
+    $_SESSION['flash_type'] = "danger";
+    $_SESSION['open_edit_popup'] = true;
+    $_SESSION['old_edit'] = $_POST;
+
+    header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=agenda");
+    exit;
+}
+
     $data = [
         'judul' => $_POST['judul'],
         'periode' => $_POST['periode'],
@@ -158,7 +249,7 @@ if($action == 'updateAgenda') {
         'status' => 'menunggu'
     ];
     $agendaModel->updateAgenda($id, $data);
-    $_SESSION['flash_message'] = "agenda berhasil diperbarui";
+    $_SESSION['flash_message'] = "Agenda berhasil diperbarui";
     $_SESSION['flash_type'] = "success";
     header("Location: ../../public/dashboard_pengurus.php?page=voting&tab=agenda");
     exit;

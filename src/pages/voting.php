@@ -26,7 +26,7 @@ $user = $user ?? [];
             onclick="showTab(this, 'rekap')">Rekap</button>
     </div>
 
-    <!-- ================= TAB AGENDA ================= -->
+    <!-- ================= TAB AGENDA START ================= -->
     <div id="tab-agenda" class="tab-content <?= ($tab == 'voting') ? 'active' : '' ?>">
         <div class="header-voting">
             <h2>Kelola Agenda</h2>
@@ -202,8 +202,10 @@ $isLocked = ($row['status'] == 'selesai');
             </div>
         </div>
     </div>
+    <!-- ================= TAB AGENDA END ================= -->
 
-    <!-- ================= TAB KANDIDAT ================= -->
+
+    <!-- ================= TAB KANDIDAT START ================= -->
     <div id="tab-kandidat" class="tab-content <?= ($tab == 'kandidat') ? 'active' : '' ?>">
 
         <div class="header-kandidat">
@@ -359,10 +361,11 @@ if (
 
         </div>
     </div>
+    <!-- ================= TAB KANDIDAT END ================= -->
 
     <!-- =========================
-   POPUP DETAIL KANDIDAT
-========================= -->
+        POPUP DETAIL KANDIDAT
+    ========================= -->
     <div id="detailKandidatModal" class="dk-modal">
         <div class="dk-box">
             <span class="dk-close" onclick="closeDetailKandidat()">&times;</span>
@@ -400,7 +403,7 @@ if (
         </div>
     </div>
 
-    <!-- ================= TAB VOTING ================= -->
+    <!-- ================= TAB VOTING START ================= -->
     <div id="tab-voting" class="tab-content <?= ($tab == 'voting') ? 'active' : '' ?>">
 
         <?php
@@ -699,7 +702,11 @@ if($row['id_agenda'] != $latestAgendaId){
 
 </div>
 
-<!-- ================= Popup Ubah Agenda ================= -->
+<!-- ================= Popup Ubah Agenda START ================= -->
+<?php
+$oldEdit = $_SESSION['old_edit'] ?? [];
+unset($_SESSION['old_edit']);
+?>
 <div id="modalEdit" class="popup popup-voting">
     <div class="popup-content popup-voting-content">
         <span class="popup-close">&times;</span>
@@ -709,16 +716,21 @@ if($row['id_agenda'] != $latestAgendaId){
             <input type="hidden" name="id_agenda" id="edit_id">
 
             <label>Judul Voting</label>
-            <input type="text" name="judul" id="edit_judul" required>
+            <input type="text" name="judul" id="edit_judul" value="<?= htmlspecialchars($oldEdit['judul'] ?? '') ?>"
+                required>
 
-            <label>Periode</label>
-            <input type="text" name="periode" id="edit_periode" required>
 
             <label>Masa Awal Jabatan</label>
-            <input type="date" name="masa_awal_jabatan" id="edit_masa_awal" required>
+            <input type="date" name="masa_awal_jabatan" id="edit_masa_awal"
+                value="<?= htmlspecialchars($oldEdit['masa_awal_jabatan'] ?? '') ?>" required>
 
             <label>Masa Akhir Jabatan</label>
-            <input type="date" name="masa_akhir_jabatan" id="edit_masa_akhir" required>
+            <input type="date" name="masa_akhir_jabatan" id="edit_masa_akhir"
+                value="<?= htmlspecialchars($oldEdit['masa_akhir_jabatan'] ?? '') ?>" required>
+
+            <label>Periode</label>
+            <input type="text" name="periode" id="edit_periode"
+                value="<?= htmlspecialchars($oldEdit['periode'] ?? '') ?>" required>
 
             <label>Tanggal Buka</label>
             <input type="date" name="tanggal_buka" id="edit_tanggal_buka" required>
@@ -738,6 +750,31 @@ if($row['id_agenda'] != $latestAgendaId){
         </form>
     </div>
 </div>
+<!-- ================= POPUP BUKA OTOMATIS JIKA TERJADI KESALAHAN DATA ================= -->
+<?php if (isset($_SESSION['open_edit_popup'])): ?>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+    document.getElementById("edit_id").value = "<?= htmlspecialchars($oldEdit['id_agenda'] ?? '') ?>";
+    document.getElementById("edit_judul").value = "<?= htmlspecialchars($oldEdit['judul'] ?? '') ?>";
+    document.getElementById("edit_masa_awal").value =
+        "<?= htmlspecialchars($oldEdit['masa_awal_jabatan'] ?? '') ?>";
+    document.getElementById("edit_masa_akhir").value =
+        "<?= htmlspecialchars($oldEdit['masa_akhir_jabatan'] ?? '') ?>";
+    document.getElementById("edit_periode").value = "<?= htmlspecialchars($oldEdit['periode'] ?? '') ?>";
+    document.getElementById("edit_tanggal_buka").value =
+        "<?= htmlspecialchars($oldEdit['tanggal_buka'] ?? '') ?>";
+    document.getElementById("edit_tanggal_tutup").value =
+        "<?= htmlspecialchars($oldEdit['tanggal_tutup'] ?? '') ?>";
+
+    document.getElementById("modalEdit").style.display = "flex";
+});
+</script>
+<?php
+unset($_SESSION['open_edit_popup']);
+endif;
+?>
+<!-- ================= Popup Ubah Agenda END ================= -->
 
 <!-- ================= Popup Ubah Kandidat ================= -->
 <div id="modalEditKandidat" class="popup" style="display:none;">
@@ -762,7 +799,12 @@ if($row['id_agenda'] != $latestAgendaId){
     </div>
 </div>
 
-<!-- ================= Popup Tambah Agenda ================= -->
+
+<!-- ================= Popup Tambah Agenda START ================= -->
+<?php
+$old = $_SESSION['old'] ?? [];
+unset($_SESSION['old']);
+?>
 <div id="popupAgenda" class="popup popup-voting">
     <div class="popup-content popup-voting-content">
         <span class="popup-close" onclick="closeAgendaPopup()">&times;</span>
@@ -772,27 +814,43 @@ if($row['id_agenda'] != $latestAgendaId){
             <input type="hidden" name="id_pengguna" value="<?= $user['id_pengguna'] ?>">
 
             <label>Judul Agenda</label>
-            <input type="text" name="judul" required>
+            <input type="text" name="judul" value="<?= htmlspecialchars($old['judul'] ?? '') ?>" required>
 
             <label>Masa Awal Jabatan</label>
-            <input type="date" name="masa_awal_jabatan" required>
+            <input type="date" name="masa_awal_jabatan" value="<?= htmlspecialchars($old['masa_awal_jabatan'] ?? '') ?>"
+                required>
 
             <label>Masa Akhir Jabatan</label>
-            <input type="date" name="masa_akhir_jabatan" required>
+            <input type="date" name="masa_akhir_jabatan"
+                value="<?= htmlspecialchars($old['masa_akhir_jabatan'] ?? '') ?>" required>
 
             <label>Periode</label>
-            <input type="text" name="periode" required>
+            <input type="text" name="periode" value="<?= htmlspecialchars($old['periode'] ?? '') ?>" required>
 
             <label>Tanggal Buka</label>
-            <input type="date" name="tanggal_buka" required>
+            <input type="date" name="tanggal_buka" value="<?= htmlspecialchars($old['tanggal_buka'] ?? '') ?>" required>
 
             <label>Tanggal Tutup</label>
-            <input type="date" name="tanggal_tutup" required>
+            <input type="date" name="tanggal_tutup" value="<?= htmlspecialchars($old['tanggal_tutup'] ?? '') ?>"
+                required>
 
             <button type="submit">Simpan</button>
         </form>
     </div>
 </div>
+<!-- ================= POPUP BUKA OTOMATI JIKA TERJADI KESALAHAN DATA ================= -->
+<?php if (isset($_SESSION['open_agenda_popup'])) : ?>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    openAgendaPopup();
+});
+</script>
+<?php
+unset($_SESSION['open_agenda_popup']);
+endif;
+?>
+<!-- ================= Popup Tambah Agenda END ================= -->
+
 
 <!-- ================= Popup Tambah Kandidat ================= -->
 <div id="popupKandidat" class="popup" style="display:none;">
