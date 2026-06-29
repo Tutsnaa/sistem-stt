@@ -292,9 +292,8 @@ body {
 .pemenang-wrapper {
   width: 100%;
   max-width: 1000px;
-  margin: 40px auto;
+  margin: 0 auto;
   padding: 0 15px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -304,7 +303,7 @@ body {
 .judul-voting-pemenang {
   width: 100%;
   text-align: center;
-  margin: 40px 0 20px;
+  margin-bottom: 20px;
   font-size: 26px;
 }
 

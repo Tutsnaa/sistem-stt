@@ -174,7 +174,7 @@ if (
 ?>
                             <td>
                                 <?php
-$isLocked = ($row['status'] == 'selesai');
+$isLocked = in_array($row['status'], ['dibuka', 'ditutup', 'selesai']);
 ?>
                                 <?php if(!$isLocked): ?>
                                 <button class="btn btn-ubah" data-id="<?= $row['id_agenda'] ?>"
@@ -570,10 +570,6 @@ if (
 
         <?php if(!$adaAgenda): ?>
 
-        <p style="text-align:center;color:#888;">
-            Tidak ada Agenda
-        </p>
-
         <?php endif; ?>
 
         <?php else : ?>
@@ -633,7 +629,7 @@ $sekarang = time();
     </div>
 
 
-    <!-- ================= TAB REKAP ================= -->
+    <!-- ================= TAB REKAP START================= -->
     <?php $hasSelesai = false;
 foreach ($agendas as $a) {
     if ($a['status'] === 'selesai') {
@@ -701,6 +697,7 @@ if($row['id_agenda'] != $latestAgendaId){
     <?php endif; ?>
 
 </div>
+<!-- ================= TAB REKAP END ================= -->
 
 <!-- ================= Popup Ubah Agenda START ================= -->
 <?php
