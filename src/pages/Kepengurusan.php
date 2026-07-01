@@ -62,7 +62,7 @@ $kepengurusan = $kepengurusan ?? [];
 
                         <!-- PERIODE -->
                         <td class="text-center">
-                            <?= htmlspecialchars($k['periode'] ?? '-') ?>
+                            <?= htmlspecialchars($p['periode'] ?? '-') ?>
                         </td>
 
                         <!-- MASA AWAL -->

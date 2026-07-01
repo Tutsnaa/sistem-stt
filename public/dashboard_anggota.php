@@ -46,7 +46,7 @@ $jabatan = $_SESSION['user']['jabatan'];
 $dataPengumuman = $pengumumanModel->getAllPengumuman($jabatan);
 
 // ================================
-// agenda
+// AGENDA
 // ================================
 require_once __DIR__ . '/../src/models/AgendaModel.php';
 require_once __DIR__ . '/../src/models/KandidatModel.php';
@@ -97,7 +97,9 @@ $kandidat = $kandidatModel->getAllKandidat();
 
 <body class="body-bg">
 
-    <!-- ================= NAVBAR ================= -->
+    <!-- ================= 
+            NAVBAR 
+     ================= -->
     <div class="navbar">
 
         <div class="navbar-title">
@@ -187,51 +189,8 @@ switch ($page) {
     case 'voting_anggota':
         include '../src/pages/voting_anggota.php';
         break;
-
-    // default:
-    //     include '../src/pages/dashboard.php';
 }
 ?>
-
-    </div>
-
-
-
-    <!-- ================= OVERLAY ================= -->
-    <div id="overlay" class="overlay" onclick="closeLogin()"></div>
-
-    <!-- ================= POPUP LOGIN ================= -->
-    <div id="loginPopup" class="login-container">
-
-        <span class="close-btn" onclick="closeLogin()">&times;</span>
-
-        <h2>Masuk ke Sistem STT</h2>
-
-        <?php
-        if(isset($_SESSION['error'])){
-        echo "<p class='error'>".$_SESSION['error']."</p>";
-        unset($_SESSION['error']);
-
-        echo "<script>
-        window.onload = function(){
-        openLogin();
-        }
-        </script>";
-        }
-        ?>
-
-        <!-- ================= FORM LOGIN ================= -->
-        <form action="../src/controllers/AuthController.php?action=login" method="POST">
-
-            <label>Nama Pengguna</label>
-            <input type="text" name="nama_pengguna" required>
-
-            <label>Kata Sandi</label>
-            <input type="password" name="kata_sandi" required>
-
-            <button type="submit">Masuk</button>
-
-        </form>
 
     </div>
 

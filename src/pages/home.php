@@ -349,7 +349,6 @@ $sekarang = time();
     </div>
 
 </div>
-
 <!-- ================= FOOTER ================= -->
 <footer id="kontak" class="footer">
 

@@ -557,6 +557,55 @@
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
 
+.aksi-status {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-terima-agenda {
+  background: #28a745;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.3s;
+  margin-top: 5.1px;
+  margin-bottom: 5.1px;
+}
+
+.btn-terima-agenda:hover {
+  background: #218838;
+}
+
+.btn-tolak-agenda {
+  background: #dc3545;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-tolak-agenda:hover {
+  background: #c82333;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
 /* ==============================
    POPUP AGENDA
 ============================== */
@@ -567,4 +616,63 @@
 #modalEdit {
   position: fixed;
   z-index: 1000;
+}
+
+/* ==========================
+   MODAL KONFIRMASI VOTE
+========================== */
+
+.modal-vote {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+.modal-vote-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 350px;
+  text-align: center;
+}
+
+.modal-vote-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-vote-batal {
+  background: #ccc;
+  color: #333;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.btn-vote-batal:hover {
+  background: #b5b5b5;
+}
+
+.btn-vote-yes {
+  background: #28a745;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.btn-vote-yes:hover {
+  background: #218838;
 }

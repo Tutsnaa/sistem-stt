@@ -96,12 +96,9 @@ usort($filtered, function($a, $b) {
                 </div>
 
                 <div class="card-action">
-
-                    <a href="../src/controllers/AgendaController.php?action=vote&id_calon=<?= $row['id_calon'] ?>"
-                        onclick="return confirm('Yakin memilih kandidat ini?')" class="btn-vote">
+                    <a href="javascript:void(0)" class="btn-vote" onclick="confirmVote(<?= $row['id_calon']; ?>)">
                         Vote
                     </a>
-
                 </div>
 
             </div>
@@ -159,12 +156,26 @@ $sekarang = time();
 
 <?php endif; ?>
 
+<!-- ========================= MODAL VOTE START ========================= -->
+<div id="modalVote" class="modal-hapus">
+    <div class="modal-box">
+        <h3>Konfirmasi Vote</h3>
+        <p>Apakah kamu yakin ingin memilih kandidat ini?</p>
+
+        <div class="modal-actions">
+            <button class="btn-batal" onclick="closeModalVote()">Batal</button>
+            <a id="btnYaVote" class="btn-hapus-yes">Ya, Vote</a>
+        </div>
+    </div>
+</div>
+<!-- ========================= MODAL VOTE END ========================= -->
+
 <style>
 /* ================= INFO VOTING ================= */
 .voting-info {
     width: 100%;
     max-width: 1200px;
-    margin: 80px auto 30px auto;
+    margin: 80px auto 10px auto;
     background-color: #fff3e0;
     padding: 20px 25px;
     border-radius: 12px;
@@ -191,7 +202,7 @@ $sekarang = time();
 .kategori-title {
     text-align: center;
     font-size: 28px;
-    margin: 50px 0 20px;
+    margin: 20px 0 30px;
     color: #ff9644;
     font-weight: bold;
 }
@@ -325,4 +336,84 @@ $sekarang = time();
         gap: 15px;
     }
 }
+
+/* ==========================
+   MODAL KONFIRMASI VOTE
+========================== */
+
+.modal-vote {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.modal-vote-box {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 350px;
+    text-align: center;
+}
+
+.modal-vote-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-vote-batal {
+    background: #ccc;
+    color: #333;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.btn-vote-batal:hover {
+    background: #b5b5b5;
+}
+
+.btn-vote-yes {
+    background: #28a745;
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.btn-vote-yes:hover {
+    background: #218838;
+}
 </style>
+
+<script>
+function confirmVote(idCalon) {
+    const modal = document.getElementById("modalVote");
+    modal.style.display = "block";
+
+    document.getElementById("btnYaVote").href =
+        "../src/controllers/AgendaController.php?action=vote&id_calon=" + idCalon;
+}
+
+function closeModalVote() {
+    document.getElementById("modalVote").style.display = "none";
+}
+
+window.onclick = function(event) {
+    const modal = document.getElementById("modalVote");
+    if (event.target === modal) {
+        closeModalVote();
+    }
+};
+</script>

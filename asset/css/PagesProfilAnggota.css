@@ -2,7 +2,7 @@
 .profil-container {
   width: 100%;
   min-height: 100vh;
-  background: #f4f6f9;
+  background: white;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,7 +17,7 @@
 }
 
 .profil-box h2 {
-  font-size: 40px;
+  font-size: 36px;
   margin-top: 40px;
   margin-bottom: 5px;
   text-align: center;

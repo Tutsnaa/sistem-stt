@@ -30,30 +30,26 @@ class KepengurusanModel {
     }
 
     // Ambil semua data
-  public function getAll($periode = null){
-
+public function getAll($periode = null)
+{
     $query = "
-        SELECT 
+        SELECT
             k.*,
-            p.nama_lengkap,
-            v.periode
+            p.nama_lengkap
         FROM kepengurusan k
-        JOIN pengguna p 
+        JOIN pengguna p
             ON k.id_pengguna = p.id_pengguna
-        LEFT JOIN agenda v 
-            ON k.id_agenda = v.id_agenda
     ";
 
-    // FILTER PERIODE
-    if($periode){
-        $query .= " WHERE v.periode = ?";
+    if ($periode) {
+        $query .= " WHERE YEAR(k.masa_awal_jabatan) = ?";
     }
 
     $query .= " ORDER BY k.masa_awal_jabatan DESC";
 
     $stmt = $this->conn->prepare($query);
 
-    if($periode){
+    if ($periode) {
         $stmt->execute([$periode]);
     } else {
         $stmt->execute();
@@ -110,12 +106,18 @@ public function turunkanPengurusLama($jabatan, $id_pemenang){
     return $stmt->execute([$jabatan, $id_pemenang]);
 }
 
-public function getPeriodeList(){
-
+public function getPeriodeList()
+{
     $stmt = $this->conn->prepare("
-        SELECT DISTINCT periode
-        FROM agenda
-        ORDER BY periode DESC
+        SELECT DISTINCT
+            YEAR(masa_awal_jabatan) AS tahun_awal,
+            CONCAT(
+                YEAR(masa_awal_jabatan),
+                ' - ',
+                YEAR(masa_akhir_jabatan)
+            ) AS periode
+        FROM kepengurusan
+        ORDER BY tahun_awal DESC
     ");
 
     $stmt->execute();

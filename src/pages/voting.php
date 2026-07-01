@@ -26,20 +26,22 @@ $user = $user ?? [];
             onclick="showTab(this, 'rekap')">Rekap</button>
     </div>
 
-    <!-- ================= TAB AGENDA START ================= -->
+    <!-- ================= 
+     TAB AGENDA START 
+     ================= -->
     <div id="tab-agenda" class="tab-content <?= ($tab == 'voting') ? 'active' : '' ?>">
         <div class="header-voting">
             <h2>Kelola Agenda</h2>
             <?php 
-if (
-    isset($_SESSION['user']) && 
-    $_SESSION['user']['jabatan'] != 'anggota' &&
-    $_SESSION['user']['jabatan'] != 'ketua' &&
-    $_SESSION['user']['jabatan'] != 'wakil' &&
-    $_SESSION['user']['jabatan'] != 'bendahara 1' &&
-    $_SESSION['user']['jabatan'] != 'bendahara 2'
-) { 
-?>
+            if (
+                isset($_SESSION['user']) && 
+                $_SESSION['user']['jabatan'] != 'anggota' &&
+                $_SESSION['user']['jabatan'] != 'ketua' &&
+                $_SESSION['user']['jabatan'] != 'wakil' &&
+                $_SESSION['user']['jabatan'] != 'bendahara 1' &&
+                $_SESSION['user']['jabatan'] != 'bendahara 2'
+            ) { 
+            ?>
             <button class="btn btn-tambah" onclick="openAgendaPopup()">+ Tambah Agenda</button>
             <?php } ?>
         </div>
@@ -58,15 +60,15 @@ if (
                             <th>Tgl Tutup</th>
                             <th>Status</th>
                             <?php 
-if (
-    isset($_SESSION['user']) && 
-    $_SESSION['user']['jabatan'] != 'anggota' &&
-    $_SESSION['user']['jabatan'] != 'ketua' &&
-    $_SESSION['user']['jabatan'] != 'wakil' &&
-    $_SESSION['user']['jabatan'] != 'bendahara 1' &&
-    $_SESSION['user']['jabatan'] != 'bendahara 2'
-) { 
-?>
+                            if (
+                                isset($_SESSION['user']) && 
+                                $_SESSION['user']['jabatan'] != 'anggota' &&
+                                $_SESSION['user']['jabatan'] != 'ketua' &&
+                                $_SESSION['user']['jabatan'] != 'wakil' &&
+                                $_SESSION['user']['jabatan'] != 'bendahara 1' &&
+                                $_SESSION['user']['jabatan'] != 'bendahara 2'
+                            ) { 
+                            ?>
                             <th>Aksi</th>
                             <?php } ?>
                         </tr>
@@ -83,60 +85,60 @@ if (
                             <td class="text-center"><?= $row['tanggal_tutup'] ?></td>
 
                             <?php 
-if (
-    isset($_SESSION['user']) && 
-    $_SESSION['user']['jabatan'] != 'ketua' &&
-    $_SESSION['user']['jabatan'] != 'admin' &&
-    $_SESSION['user']['jabatan'] != 'wakil'
-) { 
-?>
+                            if (
+                                isset($_SESSION['user']) && 
+                                $_SESSION['user']['jabatan'] != 'ketua' &&
+                                $_SESSION['user']['jabatan'] != 'admin' &&
+                                $_SESSION['user']['jabatan'] != 'wakil'
+                            ) { 
+                            ?>
                             <td class="text-center">
                                 <?php
-$status = strtolower($row['status']);
+                                $status = strtolower($row['status']);
 
-if ($status == 'draft') {
-    echo "<span class='badge badge-draft'>Draft</span>";
+                                if ($status == 'draft') {
+                                    echo "<span class='badge badge-draft'>Draft</span>";
 
-} elseif ($status == 'menunggu') {
-    echo "<span class='badge badge-menunggu'>Menunggu</span>";
+                                } elseif ($status == 'menunggu') {
+                                    echo "<span class='badge badge-menunggu'>Menunggu</span>";
 
-} elseif ($status == 'disetujui') {
-    echo "<span class='badge badge-dibuka'>Disetujui</span>";
+                                } elseif ($status == 'disetujui') {
+                                    echo "<span class='badge badge-dibuka'>Disetujui</span>";
 
-} elseif ($status == 'ditolak') {
-    echo "<span class='badge badge-ditolak'>Ditolak</span>";
+                                } elseif ($status == 'ditolak') {
+                                    echo "<span class='badge badge-ditolak'>Ditolak</span>";
 
-} elseif ($status == 'dibuka') {
-    echo "<span class='badge badge-dibuka'>Dibuka</span>";
+                                } elseif ($status == 'dibuka') {
+                                    echo "<span class='badge badge-dibuka'>Dibuka</span>";
 
-} elseif ($status == 'ditutup') {
-    echo "<span class='badge badge-ditutup'>Ditutup</span>";
+                                } elseif ($status == 'ditutup') {
+                                    echo "<span class='badge badge-ditutup'>Ditutup</span>";
 
-} elseif ($status == 'selesai') {
-    echo "<span class='badge badge-selesai'>Selesai</span>";
+                                } elseif ($status == 'selesai') {
+                                    echo "<span class='badge badge-selesai'>Selesai</span>";
 
-} else {
-    echo "<span class='badge'>Unknown</span>";
-}
-?>
+                                } else {
+                                    echo "<span class='badge'>Unknown</span>";
+                                }
+                                ?>
                             </td>
                             <?php } ?>
 
                             <?php if (
-    $_SESSION['user']['jabatan'] == 'ketua' ||
-    $_SESSION['user']['jabatan'] == 'admin'
-): ?>
+                                $_SESSION['user']['jabatan'] == 'ketua' ||
+                                $_SESSION['user']['jabatan'] == 'admin'
+                            ): ?>
 
                             <td class="aksi-status">
 
                                 <?php if($row['status'] == 'menunggu'): ?>
 
-                                <a href="javascript:void(0)" class="btn-terima"
+                                <a href="javascript:void(0)" class="btn-terima-agenda"
                                     onclick="confirmSetujui('../src/controllers/AgendaController.php?action=terima&id=<?= $row['id_agenda']; ?>')">
                                     Disetujui
                                 </a>
 
-                                <a href="javascript:void(0)" class="btn-tolak"
+                                <a href="javascript:void(0)" class="btn-tolak-agenda"
                                     onclick="confirmTolak('../src/controllers/AgendaController.php?action=tolak&id=<?= $row['id_agenda']; ?>')">
                                     Ditolak
                                 </a>
@@ -163,19 +165,19 @@ if ($status == 'draft') {
 
                             <?php endif; ?>
                             <?php 
-if (
-    isset($_SESSION['user']) && 
-    $_SESSION['user']['jabatan'] != 'anggota' &&
-    $_SESSION['user']['jabatan'] != 'ketua' &&
-    $_SESSION['user']['jabatan'] != 'wakil' &&
-    $_SESSION['user']['jabatan'] != 'bendahara 1' &&
-    $_SESSION['user']['jabatan'] != 'bendahara 2'
-) { 
-?>
+                            if (
+                                isset($_SESSION['user']) && 
+                                $_SESSION['user']['jabatan'] != 'anggota' &&
+                                $_SESSION['user']['jabatan'] != 'ketua' &&
+                                $_SESSION['user']['jabatan'] != 'wakil' &&
+                                $_SESSION['user']['jabatan'] != 'bendahara 1' &&
+                                $_SESSION['user']['jabatan'] != 'bendahara 2'
+                            ) { 
+                            ?>
                             <td>
                                 <?php
-$isLocked = in_array($row['status'], ['dibuka', 'ditutup', 'selesai']);
-?>
+                                $isLocked = in_array($row['status'], ['dibuka', 'ditutup', 'selesai']);
+                                ?>
                                 <?php if(!$isLocked): ?>
                                 <button class="btn btn-ubah" data-id="<?= $row['id_agenda'] ?>"
                                     data-judul="<?= $row['judul'] ?>" data-periode="<?= $row['periode'] ?>"
@@ -529,11 +531,8 @@ if (
 
                         <?php else : ?>
 
-                        <a href="../src/controllers/AgendaController.php?action=vote&id_calon=<?= $c['id_calon'] ?>&tab=voting"
-                            onclick="return confirm('Yakin memilih kandidat ini?')" class="btn-vote">
-
+                        <a href="javascript:void(0)" class="btn-vote" onclick="confirmVote(<?= $c['id_calon']; ?>)">
                             Vote
-
                         </a>
 
                         <?php endif; ?>
@@ -579,9 +578,10 @@ if (
         </p>
 
         <?php endif; ?>
+
         <!-- =========================
      SECTION PEMENANG (BISA DIPINDAH TAB)
-========================= -->
+    ========================= -->
 
         <div id="section-pemenang">
 
@@ -917,6 +917,7 @@ endif;
     </div>
 </div>
 
+<!-- ========================= MODAL HAPUS START ========================= -->
 <div id="modalHapus" class="modal-hapus">
     <div class="modal-box">
         <h3>Konfirmasi Hapus</h3>
@@ -928,9 +929,43 @@ endif;
         </div>
     </div>
 </div>
+<!-- ========================= MODAL HAPUS END ========================= -->
+
+<!-- ========================= MODAL VOTE START ========================= -->
+<div id="modalVote" class="modal-hapus">
+    <div class="modal-box">
+        <h3>Konfirmasi Vote</h3>
+        <p>Apakah kamu yakin ingin memilih kandidat ini?</p>
+
+        <div class="modal-actions">
+            <button class="btn-batal" onclick="closeModalVote()">Batal</button>
+            <a id="btnYaVote" class="btn-hapus-yes">Ya, Vote</a>
+        </div>
+    </div>
+</div>
+<!-- ========================= MODAL VOTE END ========================= -->
 
 
 <script>
+function confirmVote(idCalon) {
+    const modal = document.getElementById("modalVote");
+    modal.style.display = "block";
+
+    document.getElementById("btnYaVote").href =
+        "../src/controllers/AgendaController.php?action=vote&id_calon=" + idCalon;
+}
+
+function closeModalVote() {
+    document.getElementById("modalVote").style.display = "none";
+}
+
+window.onclick = function(event) {
+    const modal = document.getElementById("modalVote");
+    if (event.target === modal) {
+        closeModalVote();
+    }
+};
+
 // ================= DETAIL KANDIDAT =================
 function openDetailKandidat(btn) {
 

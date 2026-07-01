@@ -26,7 +26,7 @@
 .kategori-title {
   text-align: center;
   font-size: 28px;
-  margin: 50px 0 20px;
+  margin: 20px 0 20px;
   color: #ff9644;
   font-weight: bold;
 }
@@ -165,7 +165,7 @@
 .calon-wrapper {
   width: 100%;
   max-width: 1200px;
-  margin: 30px auto;
+  margin: 10px auto;
 
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
