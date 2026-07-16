@@ -127,7 +127,7 @@ $kandidat = $kandidatModel->getAllKandidat();
                     </a></li>
                 <li><a href="dashboard_anggota.php?page=voting_anggota"
                         class="<?php echo ($page == 'voting_anggota') ? 'active' : ''; ?>">
-                        voting
+                        Voting
                     </a></li>
                 <li><a href="dashboard_anggota.php?page=home&section=kontak#kontak"
                         class="<?php echo (isset($_GET['section']) && $_GET['section'] == 'kontak') ? 'active' : ''; ?>">

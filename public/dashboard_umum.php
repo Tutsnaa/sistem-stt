@@ -27,6 +27,13 @@ $search = $_GET['search'] ?? null;
 
 // ambil data anggota
 $dataAnggota = $model->getAll($search);
+
+require_once '../src/models/AgendaModel.php';
+require_once '../src/models/PengumumanModel.php';
+
+$agendaModel = new AgendaModel();
+$pengumumanModel = new PengumumanModel();
+
 ?>
 
 <!DOCTYPE html>
@@ -103,7 +110,7 @@ switch ($page) {
         include '../src/pages/profil.php';
         break;
 
-    case 'profil':
+    case 'pengumuman':
         include '../src/pages/pengumuman.php';
         break;
 
@@ -119,16 +126,9 @@ switch ($page) {
         include '../src/pages/keuangan.php';
         break;
 
-    case 'pengumuman':
-        include '../src/pages/pengumuman.php';
-        break;
-
     case 'voting':
         include '../src/pages/voting.php';
         break;
-
-    // default:
-    //     include '../src/pages/dashboard.php';
 }
 ?>
 

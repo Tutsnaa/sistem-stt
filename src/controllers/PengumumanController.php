@@ -33,6 +33,41 @@ switch($action) {
                 'status' =>'Menunggu'
             ];
 
+// KHUSUS Cek judul dan isi
+// if ($model->cekJudul($_POST['judul'])) {
+
+//     $_SESSION['flash_message'] = "Judul pengumuman sudah digunakan.";
+//     $_SESSION['flash_type'] = "danger";
+//     $_SESSION['open_pengumuman_popup'] = true;
+//     $_SESSION['old'] = $_POST;
+
+//     header("Location: $dashboardPage");
+//     exit;
+// }
+
+// if ($model->cekIsi($_POST['isi'])) {
+
+//     $_SESSION['flash_message'] = "Isi pengumuman sudah digunakan.";
+//     $_SESSION['flash_type'] = "danger";
+//     $_SESSION['open_pengumuman_popup'] = true;
+//     $_SESSION['old'] = $_POST;
+
+//     header("Location: $dashboardPage");
+//     exit;
+// }
+
+// Cek kesamaan judul dan isi
+    if ($model->cekPengumuman($_POST['judul'], $_POST['isi'])) {
+
+    $_SESSION['flash_message'] = "Pengumuman dengan judul dan isi yang sama sudah ada.";
+    $_SESSION['flash_type'] = "danger";
+    $_SESSION['open_pengumuman_popup'] = true;
+    $_SESSION['old'] = $_POST;
+
+    header("Location: $dashboardPage");
+    exit;
+}
+
             $model->tambahPengumuman($data);
             $_SESSION['flash_message'] = "Pengumuman berhasil ditambahkan";
             header("Location: $dashboardPage");
@@ -67,6 +102,20 @@ case 'update':
             'file' => $file,
             'status' => 'Menunggu'
         ];
+
+        $id = $_POST['id_pengumuman'];
+
+        // Cek kesamaan judul dan isi
+if ($model->cekPengumumanUpdate($id, $_POST['judul'], $_POST['isi'])) {
+
+    $_SESSION['flash_message'] = "Pengumuman dengan judul dan isi yang sama sudah ada.";
+    $_SESSION['flash_type'] = "danger";
+    $_SESSION['open_pengumuman_popup'] = true;
+    $_SESSION['old'] = $_POST;
+
+    header("Location: $dashboardPage");
+    exit;
+}
 
         $model->updatePengumuman($id, $data);
 

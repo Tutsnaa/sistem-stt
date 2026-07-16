@@ -666,7 +666,7 @@ foreach ($agendas as $a) {
 $no = 1;
 
 /* AMBIL ID VOTING TERBARU */
-$latestAgendaId = end($agendas)['id_agenda'];
+$latestAgendaId = reset($agendas)['id_agenda'];
 
 foreach($kandidat as $row):
 

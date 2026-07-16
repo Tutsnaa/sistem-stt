@@ -53,7 +53,7 @@ $isAnggota = (isset($_SESSION['user']) && $_SESSION['user']['jabatan'] == 'anggo
 
                 <div class="form-group">
                     <label>Jumlah</label>
-                    <input type="text" name="jumlah" required>
+                    <input type="text" name="jumlah" id="jumlah" required>
                 </div>
 
                 <div class="form-group">
@@ -513,6 +513,38 @@ if (
 
 <!-- ================= SCRIPT ================= -->
 <script>
+// Format Jumlah
+const jumlah = document.getElementById('jumlah');
+
+jumlah.addEventListener('input', function() {
+
+    // Hapus semua karakter selain angka
+    let angka = this.value.replace(/\D/g, '');
+
+    // Tambahkan titik sebagai pemisah ribuan
+    this.value = angka.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+    function formatRupiah(input) {
+        input.addEventListener('input', function() {
+            let angka = this.value.replace(/\D/g, '');
+            this.value = angka.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        });
+    }
+
+    // Form tambah
+    const jumlah = document.getElementById('jumlah');
+    if (jumlah) {
+        formatRupiah(jumlah);
+    }
+
+    // Form edit
+    const editJumlah = document.getElementById('edit_jumlah');
+    if (editJumlah) {
+        formatRupiah(editJumlah);
+    }
+});
+
+
 // Lihat Bukti
 function openBukti(file) {
     let modal = document.getElementById("modalBukti");

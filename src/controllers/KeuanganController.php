@@ -67,47 +67,73 @@ if (isset($_POST['action'])) {
 
     if ($_POST['action'] == "simpan") {
 
-        $fileName = null;
+    if ($model->cekKeterangan($_POST['keterangan'])) {
 
-        if (!empty($_FILES['file_bukti']['name'])) {
-            $fileName = time() . "_" . $_FILES['file_bukti']['name'];
-            move_uploaded_file($_FILES['file_bukti']['tmp_name'],"../../uploads/".$fileName);
-        }
-
-        $model->insert([
-            'id_pengguna' => $_POST['id_pengguna'],
-            'jenis' => $_POST['jenis'],
-            'keterangan' => $_POST['keterangan'],
-            'jumlah' => $_POST['jumlah'],
-            'file_bukti' => $fileName,
-            'status' => 'menunggu'
-        ]);
+        $_SESSION['flash_message'] = "Keterangan keuangan sudah digunakan.";
+        $_SESSION['flash_type'] = "danger";
+        $_SESSION['open_keuangan_popup'] = true;
+        $_SESSION['old'] = $_POST;
 
         header("Location: ../../public/dashboard_pengurus.php?page=keuangan");
-        exit();
+        exit;
     }
+
+    $fileName = null;
+
+    if (!empty($_FILES['file_bukti']['name'])) {
+        $fileName = time() . "_" . $_FILES['file_bukti']['name'];
+        move_uploaded_file($_FILES['file_bukti']['tmp_name'], "../../uploads/" . $fileName);
+    }
+
+    $model->insert([
+        'id_pengguna' => $_POST['id_pengguna'],
+        'jenis' => $_POST['jenis'],
+        'keterangan' => $_POST['keterangan'],
+        'jumlah' => $_POST['jumlah'],
+        'file_bukti' => $fileName,
+        'status' => 'menunggu'
+    ]);
+
+    header("Location: ../../public/dashboard_pengurus.php?page=keuangan");
+    exit();
+}
 
     if ($_POST['action'] == "update") {
 
-        $fileName = $_POST['file_lama'];
+    $fileName = $_POST['file_lama'];
 
-        if (!empty($_FILES['file_bukti']['name'])) {
-            $fileName = time() . "_" . $_FILES['file_bukti']['name'];
-            move_uploaded_file($_FILES['file_bukti']['tmp_name'],"../../uploads/".$fileName);
-        }
+    // Cek apakah keterangan sudah digunakan oleh data lain
+    if ($model->cekKeteranganUpdate($_POST['id_keuangan'], $_POST['keterangan'])) {
 
-        $model->update([
-            'id_keuangan' => $_POST['id_keuangan'],
-            'jenis' => $_POST['jenis'],
-            'keterangan' => $_POST['keterangan'],
-            'jumlah' => $_POST['jumlah'],
-            'file_bukti' => $fileName,
-            'status' => 'menunggu'
-        ]);
+        $_SESSION['flash_message'] = "Keterangan keuangan sudah digunakan.";
+        $_SESSION['flash_type'] = "danger";
+        $_SESSION['open_keuangan_popup'] = true;
+        $_SESSION['old'] = $_POST;
 
         header("Location: ../../public/dashboard_pengurus.php?page=keuangan");
-        exit();
+        exit;
     }
+
+    if (!empty($_FILES['file_bukti']['name'])) {
+        $fileName = time() . "_" . $_FILES['file_bukti']['name'];
+        move_uploaded_file(
+            $_FILES['file_bukti']['tmp_name'],
+            "../../uploads/" . $fileName
+        );
+    }
+
+    $model->update([
+        'id_keuangan' => $_POST['id_keuangan'],
+        'jenis' => $_POST['jenis'],
+        'keterangan' => $_POST['keterangan'],
+        'jumlah' => $_POST['jumlah'],
+        'file_bukti' => $fileName,
+        'status' => 'menunggu'
+    ]);
+
+    header("Location: ../../public/dashboard_pengurus.php?page=keuangan");
+    exit();
+}
 }
 
 /* ================= DELETE ================= */

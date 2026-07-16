@@ -161,8 +161,6 @@ $daftarPeriode = $kepengurusanModel->getPeriodeList();
             <h2>Sekaa Truna Truni</h2>
             <div class="sidebar-menu">
                 <ul>
-                    <!-- <h3 class="menu-title">Dashboard</h3> -->
-
                     <li>
                         <a href="dashboard_pengurus.php?page=home_pengurus"
                             class="<?php echo ($page == 'home_pengurus') ? 'active' : ''; ?>">
@@ -227,37 +225,36 @@ $daftarPeriode = $kepengurusanModel->getPeriodeList();
 
             <?php
 
-switch ($page) {
+            switch ($page) {
 
-    case 'profil':
-        include '../src/pages/profil.php';
-        break;
+                case 'profil':
+                    include '../src/pages/profil.php';
+                    break;
 
-    case 'pengumuman':
-        include '../src/pages/pengumuman.php';
-        break;
+                case 'pengumuman':
+                    include '../src/pages/pengumuman.php';
+                    break;
 
-    case 'anggota':
-        include '../src/pages/anggota.php';
-        break;
+                case 'anggota':
+                    include '../src/pages/anggota.php';
+                    break;
 
-    case 'kepengurusan':
-        include '../src/pages/kepengurusan.php';
-        break;
+                case 'kepengurusan':
+                    include '../src/pages/Kepengurusan.php';
+                    break;
 
-    case 'keuangan':
-        include '../src/pages/keuangan.php';
-        break;
+                case 'keuangan':
+                    include '../src/pages/keuangan.php';
+                    break;
 
-    case 'voting':
-        include '../src/pages/voting.php';
-        break;
+                case 'voting':
+                    include '../src/pages/voting.php';
+                    break;
 
-    default:
-        include '../src/pages/home_pengurus.php';
-}
-?>
-
+                default:
+                    include '../src/pages/home_pengurus.php';
+            }
+            ?>
         </div>
 
     </div>

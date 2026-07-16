@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/Database.php';
 
 class KeuanganModel {
 
@@ -37,7 +37,36 @@ class KeuanganModel {
 
         return $stmt->execute();
     }
+
+    public function cekKeterangan($keterangan)
+{
+    $stmt = $this->conn->prepare("
+        SELECT COUNT(*)
+        FROM keuangan
+        WHERE keterangan = ?
+    ");
+
+    $stmt->execute([trim($keterangan)]);
+
+    return $stmt->fetchColumn() > 0;
+}
     
+public function cekKeteranganUpdate($id, $keterangan)
+{
+    $stmt = $this->conn->prepare("
+        SELECT COUNT(*)
+        FROM keuangan
+        WHERE keterangan = ?
+        AND id_keuangan != ?
+    ");
+
+    $stmt->execute([
+        trim($keterangan),
+        $id
+    ]);
+
+    return $stmt->fetchColumn() > 0;
+}
 
     public function updateStatus($id, $status){
 

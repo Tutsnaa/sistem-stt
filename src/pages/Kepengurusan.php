@@ -62,9 +62,12 @@ $kepengurusan = $kepengurusan ?? [];
 
                         <!-- PERIODE -->
                         <td class="text-center">
-                            <?= htmlspecialchars($p['periode'] ?? '-') ?>
+                            <?=
+    !empty($k['masa_awal_jabatan']) && !empty($k['masa_akhir_jabatan'])
+        ? date('Y', strtotime($k['masa_awal_jabatan'])) . ' - ' . date('Y', strtotime($k['masa_akhir_jabatan']))
+        : '-'
+    ?>
                         </td>
-
                         <!-- MASA AWAL -->
                         <td class="text-center">
                             <?= !empty($k['masa_awal_jabatan']) 

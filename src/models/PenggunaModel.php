@@ -37,6 +37,37 @@ public function create($data){
 }
 
 // ===============================
+// Cek nama lengkap
+// ===============================
+public function namaLengkapExists($nama_lengkap, $id_pengguna = null)
+{
+    $query = "SELECT id_pengguna
+              FROM pengguna
+              WHERE nama_lengkap = :nama_lengkap";
+
+    // Untuk update → abaikan id sendiri
+    if ($id_pengguna) {
+        $query .= " AND id_pengguna != :id_pengguna";
+    }
+
+    $query .= " LIMIT 1";
+
+    $stmt = $this->conn->prepare($query);
+
+    $params = [
+        ':nama_lengkap' => trim($nama_lengkap)
+    ];
+
+    if ($id_pengguna) {
+        $params[':id_pengguna'] = $id_pengguna;
+    }
+
+    $stmt->execute($params);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+// ===============================
 // Cek email sudah ada
 // ===============================
 public function emailExists($email, $id_pengguna = null){

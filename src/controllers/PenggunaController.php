@@ -71,6 +71,24 @@ if ($action == "create") {
         }
     }
 
+// cek nama lengkap duplicate
+if ($model->namaLengkapExists($data['nama_lengkap'])) {
+
+    $_SESSION['flash_message'] = "Nama lengkap sudah digunakan!";
+    $_SESSION['flash_type'] = "danger";
+
+    $_SESSION['old_input'] = [
+        'nama_lengkap' => $_POST['nama_lengkap'],
+        'email' => $_POST['email'],
+        'no_hp' => $_POST['no_hp'],
+        'alamat' => $_POST['alamat'],
+        'nama_pengguna' => $_POST['nama_pengguna']
+    ];
+
+    header("Location: ../../public/dashboard_pengurus.php?page=anggota&modal=tambah");
+    exit;
+}
+
     // cek email duplicate
 if($model->emailExists($data['email'])){
 
@@ -182,6 +200,23 @@ elseif ($action == "update") {
             }
         }
     }
+
+    // CEK NAMA LENGKAP DUPLIKAT (SEMUA UPDATE TERMASUK PROFIL)
+if ($model->namaLengkapExists($data['nama_lengkap'], $data['id_pengguna'])) {
+
+    $_SESSION['flash_message'] = "Nama lengkap sudah digunakan!";
+    $_SESSION['flash_type'] = "danger";
+    $_SESSION['old_input_edit'] = $_POST;
+
+    // bedakan redirect kalau dari profil
+    if (isset($_POST['from']) && $_POST['from'] == "profil") {
+        header("Location: ../../public/dashboard_pengurus.php?page=profil");
+    } else {
+        header("Location: ../../public/dashboard_pengurus.php?page=anggota&modal=edit");
+    }
+
+    exit;
+}
 
     // CEK EMAIL DUPLIKAT (SEMUA UPDATE TERMASUK PROFIL)
 if ($model->emailExists($data['email'], $data['id_pengguna'])) {

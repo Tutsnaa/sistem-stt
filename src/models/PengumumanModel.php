@@ -58,6 +58,38 @@ class PengumumanModel {
         ]);
     }
 
+    // Khusus cek judul dan isi
+//     public function cekJudul($judul)
+// {
+//     $stmt = $this->db->prepare("SELECT COUNT(*) FROM pengumuman WHERE judul = ?");
+//     $stmt->execute([trim($judul)]);
+//     return $stmt->fetchColumn() > 0;
+// }
+
+// public function cekIsi($isi)
+// {
+//     $stmt = $this->db->prepare("SELECT COUNT(*) FROM pengumuman WHERE isi = ?");
+//     $stmt->execute([trim($isi)]);
+//     return $stmt->fetchColumn() > 0;
+// }
+
+// Cek kesamaan judul dan isi
+    public function cekPengumuman($judul, $isi)
+{
+    $stmt = $this->db->prepare("
+        SELECT COUNT(*)
+        FROM pengumuman
+        WHERE judul = ? AND isi = ?
+    ");
+
+    $stmt->execute([
+        trim($judul),
+        trim($isi)
+    ]);
+
+    return $stmt->fetchColumn() > 0;
+}
+
     // Update pengumuman
    public function updatePengumuman($id, $data) {
 
@@ -73,6 +105,26 @@ class PengumumanModel {
         $data['file'],
         $id
     ]);
+}
+
+// Cek kesamaan judul dan isi
+public function cekPengumumanUpdate($id, $judul, $isi)
+{
+    $stmt = $this->db->prepare("
+        SELECT COUNT(*)
+        FROM pengumuman
+        WHERE judul = ?
+          AND isi = ?
+          AND id_pengumuman != ?
+    ");
+
+    $stmt->execute([
+        trim($judul),
+        trim($isi),
+        $id
+    ]);
+
+    return $stmt->fetchColumn() > 0;
 }
 
     // Update status pengumuman
